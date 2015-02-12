@@ -1,63 +1,62 @@
 package net.validcat.fishing;
 
-import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends ListActivity {
+	MyListAdapter mAdapter;
+	private static final int ITEM_REQUEST = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+		
+		// создали адаптер
+		mAdapter = new MyListAdapter(getApplicationContext());
+		
+		// устнавливаем разделитель между списком и Футером
+		getListView().setFooterDividersEnabled(true);
+		
+		// свяжем футер с xml
+		LayoutInflater inflater = (LayoutInflater)getApplicationContext().
+		getSystemService (LAYOUT_INFLATER_SERVICE);
+		TextView footerView = (TextView)getLayoutInflater().inflate(R.layout.footer_view, null);
+		
+		// добавим футер в ListView
+		getListView().addFooterView(footerView);
+		
+		if (null == footerView) {
+			return;
+		}
+		
+		//реализуем нажатие на футер
+		footerView.setOnClickListener( new OnClickListener() {
 			
-			//TODO
-		}
+			public void onClick(View v){
+				Intent startNewActivity = new Intent (MainActivity.this,FishingList.class);
+				startActivityForResult (startNewActivity,ITEM_REQUEST);
+			}
+			
+		});
+		// присоединим адаптер к ListView
+		setListAdapter (mAdapter);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		// проверяем результат, добовляем данные пользователя в адаптер
+		if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST ){
+			ToDoItem toDo = new ToDoItem (data);
+			mAdapter.add(toDo);
+			
 		}
 	}
 }
+

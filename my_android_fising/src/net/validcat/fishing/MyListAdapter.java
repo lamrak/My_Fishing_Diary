@@ -3,6 +3,7 @@ package net.validcat.fishing;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,10 +52,9 @@ public class MyListAdapter extends BaseAdapter {
 		FrameLayout itemLayout = (FrameLayout) mInflater.inflate(R.layout.main,  parent, false);
 		//находим элемент
 		final TextView place = (TextView)itemLayout.findViewById(R.id.place);
-		place.setText(toDoItem.getPlace());
-		
 		final TextView date = (TextView)itemLayout.findViewById(R.id.date);
-		place.setText(toDoItem.getDate());
+		place.setText(toDoItem.getPlace());
+		date.setText(toDoItem.getDate());
 		
 		return itemLayout;
 	}

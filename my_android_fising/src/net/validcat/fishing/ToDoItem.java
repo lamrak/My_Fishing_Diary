@@ -22,7 +22,6 @@ public class ToDoItem {
 		// получаем данные из intent (пришол из MainActivity)
 		mPlace = intent.getStringExtra(ToDoItem.PLACE);
 		mDate = intent.getStringExtra(ToDoItem.DATE);
-
 	}
 
 	public static void packageIntent(Intent intent, String place, String date) {

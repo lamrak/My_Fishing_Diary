@@ -28,19 +28,14 @@ public class FishingList extends Activity {
 			@Override
 			public void onClick(View v) {
 				// cобираем информацию для отправки
-				String place = getPlaceText();
-				String date = getDateText();
-
 				// отправляем информацию
 				Intent data = new Intent();
-				ToDoItem.packageIntent(data, place, date);
+				ToDoItem.packageIntent(data, getPlaceText(),  getDateText());
 
 				// отправляем контейнер
 				setResult(RESULT_OK, data);
 				finish();
-
 			}
-
 		});
 
 	}

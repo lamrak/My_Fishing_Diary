@@ -15,23 +15,23 @@ import android.widget.TextView;
 
 public class MyListAdapter extends BaseAdapter {
 	
-	private final List<ToDoItem> mItems = new ArrayList<ToDoItem>();
+	private final List<Conteyner> mItems = new ArrayList<Conteyner>();
 	private final Context mContext;
 
 	public MyListAdapter(Context context) {
 		mContext = context;
 	}
-
+// колличество элементов
 	@Override
 	public int getCount() {
 		return mItems.size();
 	}
-
+// элемент по позиции
 	@Override
 	public Object getItem(int pos) {
 		return mItems.get(pos);
 	}
-
+// id по позиции
 	@Override
 	public long getItemId(int pos) {
 		// TODO Auto-generated method stub
@@ -42,28 +42,29 @@ public class MyListAdapter extends BaseAdapter {
 	// получаем и отображаем данные
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		// создаем пользовательский Контейнер (ToDoItem)
+		// создаем пользовательский Контейнер conteyner)
 		// получаем данные по позиции (id)
-		final ToDoItem toDoItem =  (ToDoItem) getItem (position);
+		final Conteyner conteyner =  (Conteyner) getItem (position);
 		
-		// cвязываем View нашего контейнера с main.xml
+		// создаем View нашего контейнера из main.xml
 		LayoutInflater mInflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		FrameLayout itemLayout = (FrameLayout) mInflater.inflate(R.layout.main,  parent, false);
 		//находим элемент
 		final TextView place = (TextView)itemLayout.findViewById(R.id.place);
 		final TextView date = (TextView)itemLayout.findViewById(R.id.date);
-		place.setText(toDoItem.getPlace());
-		date.setText(toDoItem.getDate());
+		place.setText(conteyner.getPlace());
+		date.setText(conteyner.getDate());
 		
 		return itemLayout;
 	}
 
-	public void add(ToDoItem item) {
+	public void add(Conteyner item) {
 		// добавили данные в массив (список)
 		mItems.add(item);
 		// сообщает соседям действительны или недействительны данные
 		notifyDataSetChanged();
 	}
-
+	
+	
 }

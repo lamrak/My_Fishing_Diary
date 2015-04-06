@@ -30,7 +30,7 @@ public class FishingList extends Activity {
 				// cобираем информацию для отправки
 				// отправляем информацию
 				Intent data = new Intent();
-				ToDoItem.packageIntent(data, getPlaceText(),  getDateText());
+				Conteyner.packageIntent(data, getPlaceText(),  getDateText());
 
 				// отправляем контейнер
 				setResult(RESULT_OK, data);

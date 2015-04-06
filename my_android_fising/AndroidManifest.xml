@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name="FishingList"></activity>
+        <activity android:name="DetailsFishing"></activity>
     </application>
 
 </manifest>

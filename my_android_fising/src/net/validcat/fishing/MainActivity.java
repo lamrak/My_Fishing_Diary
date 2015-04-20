@@ -18,24 +18,20 @@ public class MainActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// создали адаптер
+		// Г±Г®Г§Г¤Г Г«ГЁ Г Г¤Г ГЇГІГҐГ° //TODO russian comment
 		adapter = new MyListAdapter(getApplicationContext());
-		
-		// устнавливаем разделитель между списком и Футером
+		// ГіГ±ГІГ­Г ГўГ«ГЁГўГ ГҐГ¬ Г°Г Г§Г¤ГҐГ«ГЁГІГҐГ«Гј Г¬ГҐГ¦Г¤Гі Г±ГЇГЁГ±ГЄГ®Г¬ ГЁ Г”ГіГІГҐГ°Г®Г¬
 		getListView().setFooterDividersEnabled(true);
-		
-		//создадим Футер (из Layout файла сделаем View элемент)
-
+		//Г±Г®Г§Г¤Г Г¤ГЁГ¬ Г”ГіГІГҐГ° (ГЁГ§ Layout ГґГ Г©Г«Г  Г±Г¤ГҐГ«Г ГҐГ¬ View ГЅГ«ГҐГ¬ГҐГ­ГІ)
 		TextView footerView = (TextView)getLayoutInflater().inflate(R.layout.footer_view, null);
-		
-		// добавим футер в ListView
+		// Г¤Г®ГЎГ ГўГЁГ¬ ГґГіГІГҐГ° Гў ListView
 		getListView().addFooterView(footerView);
 		
 		if (null == footerView) {
 			return;
 		}
 		
-		//реализуем нажатие на футер
+		//Г°ГҐГ Г«ГЁГ§ГіГҐГ¬ Г­Г Г¦Г ГІГЁГҐ Г­Г  ГґГіГІГҐГ°
 		footerView.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v){
@@ -44,12 +40,10 @@ public class MainActivity extends ListActivity {
 			}
 			
 		});
-		// присоединим адаптер к ListView
+		// ГЇГ°ГЁГ±Г®ГҐГ¤ГЁГ­ГЁГ¬ Г Г¤Г ГЇГІГҐГ° ГЄ ListView
 		setListAdapter (adapter);
 		
-		
-		
-		
+	//TODO enters
 	}
 	 @Override
 	    protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -58,9 +52,9 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// проверяем результат, добовляем данные пользователя в адаптер
+		// ГЇГ°Г®ГўГҐГ°ГїГҐГ¬ Г°ГҐГ§ГіГ«ГјГІГ ГІ, Г¤Г®ГЎГ®ГўГ«ГїГҐГ¬ Г¤Г Г­Г­Г»ГҐ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї Гў Г Г¤Г ГЇГІГҐГ°
 		if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST ){
-			Conteyner toDo = new Conteyner(data);
+			Conteyner toDo = new Conteyner(data); //TODO Conteyner
 			adapter.add(toDo);
 		}
 	}

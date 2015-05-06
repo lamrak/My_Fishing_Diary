@@ -22,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="FishingList"></activity>
-        <activity android:name="DetailsFishing"></activity>
+        <activity android:name="AddNewFishing"></activity>
+        <activity android:name="DetailedFishing"></activity>
     </application>
 
 </manifest>

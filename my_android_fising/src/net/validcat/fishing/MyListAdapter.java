@@ -15,23 +15,23 @@ import android.widget.TextView;
 
 public class MyListAdapter extends BaseAdapter {
 	
-	private final List<Conteyner> mItems = new ArrayList<Conteyner>();
+	private final List<Containe> mItems = new ArrayList<Containe>();
 	private final Context mContext;
 
 	public MyListAdapter(Context context) {
 		mContext = context;
 	}
-// колличество элементов
+// amount elements
 	@Override
 	public int getCount() {
 		return mItems.size();
 	}
-// элемент по позиции
+// position elements
 	@Override
 	public Object getItem(int pos) {
 		return mItems.get(pos);
 	}
-// id по позиции
+// id on position
 	@Override
 	public long getItemId(int pos) {
 		// TODO Auto-generated method stub
@@ -39,18 +39,18 @@ public class MyListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	// получаем и отображаем данные
+	// We receive and display data
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		// создаем пользовательский Контейнер conteyner)
-		// получаем данные по позиции (id)
-		final Conteyner conteyner =  (Conteyner) getItem (position);
+		// create users Containe)
+		// get data on position (id)
+		final Containe conteyner =  (Containe) getItem (position);
 		
-		// создаем View нашего контейнера из main.xml
+		// create View Containe on main.xml
 		LayoutInflater mInflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		FrameLayout itemLayout = (FrameLayout) mInflater.inflate(R.layout.main,  parent, false);
-		//находим элемент
+		//find elements
 		final TextView place = (TextView)itemLayout.findViewById(R.id.place);
 		final TextView date = (TextView)itemLayout.findViewById(R.id.date);
 		place.setText(conteyner.getPlace());
@@ -59,10 +59,10 @@ public class MyListAdapter extends BaseAdapter {
 		return itemLayout;
 	}
 
-	public void add(Conteyner item) {
-		// добавили данные в массив (список)
+	public void add(Containe item) {
+		// add data in array 
 		mItems.add(item);
-		// сообщает соседям действительны или недействительны данные
+		// According to neighbors, valid or invalid data
 		notifyDataSetChanged();
 	}
 	

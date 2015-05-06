@@ -4,8 +4,12 @@
     <string name="app_name">MyFishing</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string android:id="@+id/string1" android:layout_height="wrap_content" android:layout_width="wrap_content" name="footer_string">Новая рыбалка</string>
-    <string android:layout_width="wrap_content" android:id="@+id/string1" android:layout_height="wrap_content" name="fishing_place">Место рыбалки:</string>
-    <string android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/string3" name="fishing_date">Дата:</string>
+    <string name="footer_string">Новая рыбалка</string>
+    <string name="fishing_place">Место рыбалки:</string>
+    <string name="fishing_date">Дата:</string>
+    <string name="fishing_weather">Погода:</string>
+    <string name="fishing_process">Способ рыбалки:</string>
+    <string name="fishing_catch">Улов:</string>
+    <string name="fishing_foto">Фото:</string>
 
 </resources>

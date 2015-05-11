@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class MyListAdapter extends BaseAdapter {
 	
-	private final List<Containe> mItems = new ArrayList<Containe>();
+	private final List<Container> mItems = new ArrayList<Container>();
 	private final Context mContext;
 
 	public MyListAdapter(Context context) {
@@ -44,7 +44,7 @@ public class MyListAdapter extends BaseAdapter {
 		
 		// create users Containe)
 		// get data on position (id)
-		final Containe conteyner =  (Containe) getItem (position);
+		final Container conteyner =  (Container) getItem (position);
 		
 		// create View Containe on main.xml
 		LayoutInflater mInflater = (LayoutInflater) mContext
@@ -59,7 +59,7 @@ public class MyListAdapter extends BaseAdapter {
 		return itemLayout;
 	}
 
-	public void add(Containe item) {
+	public void add(Container item) {
 		// add data in array 
 		mItems.add(item);
 		// According to neighbors, valid or invalid data

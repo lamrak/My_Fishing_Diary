@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,19 +17,14 @@ public class MainActivity extends ListActivity {
 	public static final String LOG_TAG = "myLogs";
 	DB db;
 	Cursor cursor;
-	String myWeather;
-	
+	int idIndex, placeIndex, dateIndex, weatherIndex, processIndex, catchIndex;
+	String dataPlace, dataDate, dataWeather, dataProcess, dataCatch;
+	long ID;
 
 	@SuppressLint("InflateParams")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// open a connection to the database
-		db = new DB(this);
-		db.open();
-
-	
 
 		adapter = new MyListAdapter(getApplicationContext());
 		getListView().setFooterDividersEnabled(true);
@@ -59,8 +53,44 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
+
+		// open a connection to the database
+		db = new DB(this);
+		db.open();
+
+		// read data from the database
+		cursor = db.getAllData();
+
+		if (cursor.moveToPosition((int) id)) {
+
+			idIndex = cursor.getColumnIndex(DB.COLUMN_ID);
+			placeIndex = cursor.getColumnIndex (DB.COLUMN_PLACE);
+			dateIndex = cursor.getColumnIndex(DB.COLUMN_DATE);
+			weatherIndex = cursor.getColumnIndex(DB.COLUMN_WEATHER);
+			processIndex = cursor.getColumnIndex(DB.COLUMN_PROCESS);
+			catchIndex = cursor.getColumnIndex(DB.COLUMN_CATCH);
+
+			// do {
+			// Log.d(LOG_TAG, " --- ID --- " + cursor.getInt(idIndex)
+			// + "--- WEATHER ---" + cursor.getString(weatherIndex));
+			// }while (cursor.moveToNext());
+			dataPlace = cursor.getString(placeIndex);
+			dataDate = cursor.getString(dateIndex);
+			dataWeather = cursor.getString(weatherIndex);
+			dataProcess = cursor.getString(processIndex);
+			dataCatch = cursor.getString(catchIndex);
+
+		} else
+			Log.d(LOG_TAG, " --- 0 rows --- ");
+		cursor.close();
+		db.close();
+
 		Intent intent = new Intent(MainActivity.this, DetailedFishing.class);
-		// intent.putExtra("keyWeather", myWeather);
+		intent.putExtra("keyPlace", dataPlace);
+		intent.putExtra("keyDate", dataDate);
+		intent.putExtra("keyWeather", dataWeather);
+		intent.putExtra("keyProcess", dataProcess);
+		intent.putExtra("keyCatch", dataCatch);
 		startActivity(intent);
 
 	}
@@ -69,7 +99,10 @@ public class MainActivity extends ListActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST) {
-			Containe toDo = new Containe(data);
+			ID = data.getLongExtra("id", ID);
+			Log.d(LOG_TAG, " --- FishingID --- " + ID);
+
+			Container toDo = new Container(data);
 			adapter.add(toDo);
 		}
 	}

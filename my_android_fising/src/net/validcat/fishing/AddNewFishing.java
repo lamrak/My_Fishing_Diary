@@ -26,7 +26,7 @@ public class AddNewFishing extends Activity {
 
 		// open a connection to the database
 		db = new DB(this);
-		db.open();
+		mDB = db.open();
 
 		// find items
 		etPlace = (EditText) findViewById(R.id.etPlace);
@@ -48,6 +48,13 @@ public class AddNewFishing extends Activity {
 				String myWeather = etWeather.getText().toString();
 				String myProcess = etProcess.getText().toString();
 				String myCatch = etCatch.getText().toString();
+				
+//				db.addRec(1, myPlace);
+//				db.addRec(2, myDate);
+//				db.addRec(3, myWeather);
+//				db.addRec(4, myProcess);
+//				db.addRec(5, myCatch);
+//				db.insertRec();
 
 				ContentValues cv = new ContentValues();
 				cv.put(DB.COLUMN_PLACE, myPlace);
@@ -56,7 +63,6 @@ public class AddNewFishing extends Activity {
 				cv.put(DB.COLUMN_PROCESS, myProcess);
 				cv.put(DB.COLUMN_CATCH, myCatch);
 				ID = mDB.insert(DB.DB_TABLE, null, cv);
-
 				// ID = db.getId();
 
 				// gat information

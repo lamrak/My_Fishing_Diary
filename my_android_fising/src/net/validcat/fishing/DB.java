@@ -24,23 +24,27 @@ public class DB {
 
 	private static final String DB_CREATE = "create table " + DB_TABLE + "("
 			+ COLUMN_ID + " integer primary key autoincrement, " + COLUMN_PLACE
-			+ " text" + COLUMN_DATE + "text" + COLUMN_WEATHER + "text"
-			+ COLUMN_PROCESS + "text" + COLUMN_CATCH + "text" + ");";
+			+ " text, " + COLUMN_DATE + " text, " + COLUMN_WEATHER + " text, "
+			+ COLUMN_PROCESS + " text, " + COLUMN_CATCH + " text" + ");";
 
 	private final Context mCtx;
 	private DBHelper mDBHelper;
 	public SQLiteDatabase mDB;
 	long ID;
+	
 
 	public DB(Context ctx) {
 		mCtx = ctx;
 	}
 
 	// open connection
-	public void open() {
+	public SQLiteDatabase open() {
 		mDBHelper = new DBHelper(mCtx, DATABASE_NAME, null, DB_VERSION);
 		mDB = mDBHelper.getWritableDatabase();
+		return mDB;
 	}
+	
+	
 
 	// close connection
 	public void close() {
@@ -55,25 +59,22 @@ public class DB {
 
 	// add data in DB_TABLE
 //	public void addRec(int i, String txt) {
-//		ContentValues cv = new ContentValues();
-//		if (i == 1) {
+//		 cv = new ContentValues();
+//		
+//		if (i==1)
 //			cv.put(COLUMN_PLACE, txt);
-//		}
-//		if (i == 2) {
+//		if (i==2)
 //			cv.put(COLUMN_DATE, txt);
-//		}
-//		if (i == 3) {
+//		if (i==3)
 //			cv.put(COLUMN_WEATHER, txt);
-//		}
-//		if (i == 4) {
+//		if (i==4)
 //			cv.put(COLUMN_PROCESS, txt);
-//		}
-//		if (i == 5) {
-//			cv.put(COLUMN_CATCH, txt);
-//		}
+//		if (i==5)
+//			cv.put(COLUMN_CATCH, txt);		 			
+//	}
+//	public void insertRec(){
 //		ID = mDB.insert(DB_TABLE, null, cv);
 //		Log.d(LOG_TAG, " --- DB ID --- " + ID);
-//
 //	}
 
 	// removes the entry from the table DB_TABLE
@@ -95,6 +96,7 @@ public class DB {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(DB_CREATE);
+			Log.d(LOG_TAG, " --- mytable --- " + DB_CREATE);
 
 		}
 

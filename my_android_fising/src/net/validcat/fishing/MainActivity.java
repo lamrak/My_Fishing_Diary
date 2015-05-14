@@ -53,14 +53,12 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-
 		// open a connection to the database
 		db = new DB(this);
 		db.open();
-
 		// read data from the database
 		cursor = db.getAllData();
-
+//		id = ID;
 		if (cursor.moveToPosition((int) id)) {
 
 			idIndex = cursor.getColumnIndex(DB.COLUMN_ID);
@@ -92,7 +90,6 @@ public class MainActivity extends ListActivity {
 		intent.putExtra("keyProcess", dataProcess);
 		intent.putExtra("keyCatch", dataCatch);
 		startActivity(intent);
-
 	}
 
 	@Override

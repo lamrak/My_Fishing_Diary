@@ -15,21 +15,27 @@ import android.widget.TextView;
 
 public class MyListAdapter extends BaseAdapter {
 	
-	private final List<Container> mItems = new ArrayList<Container>();
+	private final List<FishingItem> mItems = new ArrayList<FishingItem>();
 	private final Context mContext;
+	List<FishingItem> dbList;
+	FishingItem dbPlace;
+	
 
-	public MyListAdapter(Context context) {
+	public MyListAdapter(Context context, List<FishingItem> dbList) {
 		mContext = context;
+		this.dbList = dbList;
 	}
 // amount elements
 	@Override
 	public int getCount() {
-		return mItems.size();
+//		return mItems.size();
+		return dbList.size();
 	}
 // position elements
 	@Override
 	public Object getItem(int pos) {
-		return mItems.get(pos);
+//		return mItems.get(pos);
+		return dbList.get(pos);
 	}
 // id on position
 	@Override
@@ -39,12 +45,12 @@ public class MyListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	// We receive and display data
+	// element ListView
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		// create users Containe)
 		// get data on position (id)
-		final Container conteyner =  (Container) getItem (position);
+		final FishingItem conteyner =  (FishingItem) getItem (position);
 		
 		// create View Containe on main.xml
 		LayoutInflater mInflater = (LayoutInflater) mContext
@@ -53,18 +59,22 @@ public class MyListAdapter extends BaseAdapter {
 		//find elements
 		final TextView place = (TextView)itemLayout.findViewById(R.id.place);
 		final TextView date = (TextView)itemLayout.findViewById(R.id.date);
+		
 		place.setText(conteyner.getPlace());
-		date.setText(conteyner.getDate());
+		date.setText(conteyner.getDate());	
+	
 		
 		return itemLayout;
 	}
 
-	public void add(Container item) {
+	public void add(FishingItem item) {
 		// add data in array 
 		mItems.add(item);
+	
 		// According to neighbors, valid or invalid data
 		notifyDataSetChanged();
 	}
+	
 	
 	
 }

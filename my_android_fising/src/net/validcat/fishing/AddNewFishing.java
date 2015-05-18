@@ -16,7 +16,7 @@ public class AddNewFishing extends Activity {
 	private Button btnCreate;
 	DB db;
 	Cursor cursor;
-	long ID;
+
 	public SQLiteDatabase mDB;
 
 	@Override
@@ -47,14 +47,7 @@ public class AddNewFishing extends Activity {
 				String myDate = etDate.getText().toString();
 				String myWeather = etWeather.getText().toString();
 				String myProcess = etProcess.getText().toString();
-				String myCatch = etCatch.getText().toString();
-				
-//				db.addRec(1, myPlace);
-//				db.addRec(2, myDate);
-//				db.addRec(3, myWeather);
-//				db.addRec(4, myProcess);
-//				db.addRec(5, myCatch);
-//				db.insertRec();
+				String myCatch = etCatch.getText().toString();				
 
 				ContentValues cv = new ContentValues();
 				cv.put(DB.COLUMN_PLACE, myPlace);
@@ -62,13 +55,14 @@ public class AddNewFishing extends Activity {
 				cv.put(DB.COLUMN_WEATHER, myWeather);
 				cv.put(DB.COLUMN_PROCESS, myProcess);
 				cv.put(DB.COLUMN_CATCH, myCatch);
-				ID = mDB.insert(DB.DB_TABLE, null, cv);
+				 mDB.insert(DB.DB_TABLE, null, cv);
 				// ID = db.getId();
 
-				// gat information
+			
 				Intent data = new Intent();
-				Container.packageIntent(data, getPlaceText(), getDateText());
-				data.putExtra("id", ID);
+				// put data
+				FishingItem.packageIntent(data, getPlaceText(), getDateText());
+				
 
 				// send container
 				setResult(RESULT_OK, data);

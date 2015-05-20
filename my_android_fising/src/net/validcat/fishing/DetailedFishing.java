@@ -27,43 +27,46 @@ public class DetailedFishing extends Activity {
 		tvDetWeather = (TextView) findViewById(R.id.tvDetWeather);
 		tvDetProcess = (TextView) findViewById(R.id.tvDetProcess);
 		tvDetCatch = (TextView) findViewById(R.id.tvDetCatch);
-		
+
 		Intent intent = getIntent();
-		ID = intent.getIntExtra("id",0);
+		ID = intent.getIntExtra("id", 0);
 		Log.d(LOG_TAG, " --- id Item ListView --- " + ID);
-		
 		
 
 		db = new DB(this);
-		db.open();
-		
-		String sqlQuerry = "SELECT * FROM mytab WHERE id = ‘ id ‘;)";
+		mDB = db.open();
 
-		cursor = mDB.rawQuery(sqlQuerry, null);
+//		cursor = mDB.rawQuery("SELECT * FROM mytab WHERE _id = 'ID'", null);
+	
+		 cursor = db.getAllData();
+		 
+		if (cursor != null) {
+//			if (cursor.moveToFirst()) {
+		 if (cursor.moveToPosition(ID-1)) {
 
-		if (cursor.moveToPosition(ID)) {
+				idIndex = cursor.getColumnIndex(DB.COLUMN_ID);
+				placeIndex = cursor.getColumnIndex(DB.COLUMN_PLACE);
+				dateIndex = cursor.getColumnIndex(DB.COLUMN_DATE);
+				weatherIndex = cursor.getColumnIndex(DB.COLUMN_WEATHER);
+				processIndex = cursor.getColumnIndex(DB.COLUMN_PROCESS);
+				catchIndex = cursor.getColumnIndex(DB.COLUMN_CATCH);
 
-			idIndex = cursor.getColumnIndex(DB.COLUMN_ID);
-			placeIndex = cursor.getColumnIndex(DB.COLUMN_PLACE);
-			dateIndex = cursor.getColumnIndex(DB.COLUMN_DATE);
-			weatherIndex = cursor.getColumnIndex(DB.COLUMN_WEATHER);
-			processIndex = cursor.getColumnIndex(DB.COLUMN_PROCESS);
-			catchIndex = cursor.getColumnIndex(DB.COLUMN_CATCH);
+				dataPlace = cursor.getString(placeIndex);
+				dataDate = cursor.getString(dateIndex);
+				dataWeather = cursor.getString(weatherIndex);
+				dataProcess = cursor.getString(processIndex);
+				dataCatch = cursor.getString(catchIndex);
 
-			dataPlace = cursor.getString(placeIndex);
-			dataDate = cursor.getString(dateIndex);
-			dataWeather = cursor.getString(weatherIndex);
-			dataProcess = cursor.getString(processIndex);
-			dataCatch = cursor.getString(catchIndex);
-
-			tvDetPlace.setText("Место рыбалки: " + dataPlace);
-			tvDetDate.setText("Дата :" + dataDate);
-			tvDetWeather.setText("Погода: " + dataWeather);
-			tvDetProcess.setText("Способ рыбалки: " + dataProcess);
-			tvDetCatch.setText("Улов: " + dataCatch);
-
+				tvDetPlace.setText("Место рыбалки: " + dataPlace);
+				tvDetDate.setText("Дата :" + dataDate);
+				tvDetWeather.setText("Погода: " + dataWeather);
+				tvDetProcess.setText("Способ рыбалки: " + dataProcess);
+				tvDetCatch.setText("Улов: " + dataCatch);
+			
+			} else 
+				Log.d(LOG_TAG, " --- row 0 --- ");
 		} else
-			Log.d(LOG_TAG, " --- 0 rows --- ");
+			Log.d(LOG_TAG, " --- cursor = null --- ");
 		cursor.close();
 		db.close();
 

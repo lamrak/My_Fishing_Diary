@@ -59,7 +59,6 @@ public class MyListAdapter extends BaseAdapter {
 		//find elements
 		final TextView place = (TextView)itemLayout.findViewById(R.id.place);
 		final TextView date = (TextView)itemLayout.findViewById(R.id.date);
-		
 		place.setText(conteyner.getPlace());
 		date.setText(conteyner.getDate());	
 	
@@ -69,7 +68,7 @@ public class MyListAdapter extends BaseAdapter {
 
 	public void add(FishingItem item) {
 		// add data in array 
-		mItems.add(item);
+		dbList.add(item);
 	
 		// According to neighbors, valid or invalid data
 		notifyDataSetChanged();

@@ -34,8 +34,8 @@ public class FishingItem {
 	// constructor
 	public FishingItem(Intent intent) {
 		// obtain data in intent (come in MainActivity)
-		mPlace = intent.getStringExtra(FishingItem.PLACE);
-		mDate = intent.getStringExtra(FishingItem.DATE);
+		dbPlace = intent.getStringExtra(FishingItem.PLACE);
+		dbDate = intent.getStringExtra(FishingItem.DATE);
 	}
 
 	public static void packageIntent(Intent data, String place, String date) {

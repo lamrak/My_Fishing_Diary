@@ -34,19 +34,22 @@ public class MainActivity extends ListActivity {
 		db.open();
 		cursor = db.getAllData();
 
+		// ставим позицию курсора на первую строку выборки
 		if (cursor.moveToFirst()) {
+			// определяем номера столбцов по имени в выборке
 			int idBdKey = cursor.getColumnIndex(DB.COLUMN_ID);
 			int dbPlaceKey = cursor.getColumnIndex(DB.COLUMN_PLACE);
 			int dbDateKey = cursor.getColumnIndex(DB.COLUMN_DATE);
 
 			do {
+				// получаем данные по номерам столбцов и пишем все в лог
 				int idBd = cursor.getInt(idBdKey);
 				String dbPlace = cursor.getString(dbPlaceKey);
 				String dbDate = cursor.getString(dbDateKey);
-
+				
 				dbItem = new FishingItem(idBd, dbPlace, dbDate);
 				dbList.add(dbItem);
-				// Log.d(LOG_TAG, " --- dbList --- " + dbList);
+				 Log.d(LOG_TAG, " --- dbList --- " + dbList);
 			} while (cursor.moveToNext());
 		} else
 			cursor.close();
@@ -57,15 +60,12 @@ public class MainActivity extends ListActivity {
 		getListView().setFooterDividersEnabled(true);
 		TextView footerView = (TextView) getLayoutInflater().inflate(
 				R.layout.footer_view, null);
-
 		getListView().addFooterView(footerView);
-
 		if (null == footerView) {
 			return;
 		}
 
 		footerView.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View v) {
 				Intent startNewActivity = new Intent(MainActivity.this,
 						AddNewFishing.class);
@@ -103,7 +103,6 @@ public class MainActivity extends ListActivity {
 
 		if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST) {
 			FishingItem toDo = new FishingItem(data);
-
 			adapter.add(toDo);
 
 		}

@@ -14,6 +14,7 @@ import android.widget.EditText;
 public class AddNewFishing extends Activity {
 	private EditText etPlace, etDate, etWeather, etProcess, etCatch;
 	private Button btnCreate;
+	String myPlace, myDate;
 	DB db;
 	Cursor cursor;
 
@@ -43,11 +44,11 @@ public class AddNewFishing extends Activity {
 			@Override
 			public void onClick(View v) {
 				// save in data base
-				String myPlace = etPlace.getText().toString();
-				String myDate = etDate.getText().toString();
+				myPlace = etPlace.getText().toString();
+				myDate = etDate.getText().toString();
 				String myWeather = etWeather.getText().toString();
 				String myProcess = etProcess.getText().toString();
-				String myCatch = etCatch.getText().toString();				
+				String myCatch = etCatch.getText().toString();
 
 				ContentValues cv = new ContentValues();
 				cv.put(DB.COLUMN_PLACE, myPlace);
@@ -55,15 +56,13 @@ public class AddNewFishing extends Activity {
 				cv.put(DB.COLUMN_WEATHER, myWeather);
 				cv.put(DB.COLUMN_PROCESS, myProcess);
 				cv.put(DB.COLUMN_CATCH, myCatch);
-				 mDB.insert(DB.DB_TABLE, null, cv);
+				mDB.insert(DB.DB_TABLE, null, cv);
 				// ID = db.getId();
 
-			
 				Intent data = new Intent();
-				// put data
+				// data.putExtra("keyPlace", myPlace);
+				// data.putExtra("keyDate", myDate);
 				FishingItem.packageIntent(data, getPlaceText(), getDateText());
-				
-
 				// send container
 				setResult(RESULT_OK, data);
 				finish();
@@ -75,12 +74,13 @@ public class AddNewFishing extends Activity {
 
 	// read the user-entered text
 	private String getPlaceText() {
-		return etPlace.getText().toString();
+		// return etPlace.getText().toString();
+		return myPlace;
 	}
 
 	// read the user-entered text
 	private String getDateText() {
-		return etDate.getText().toString();
+		return myDate;
 	}
 
 }

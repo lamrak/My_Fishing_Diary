@@ -20,7 +20,8 @@ public class MainActivity extends ListActivity {
 	public static final String LOG_TAG = "myLogs";
 	DB db;
 	Cursor cursor;
-	int ID;
+	long iDLong;
+	int iD;
 	List<FishingItem> dbList = new ArrayList<FishingItem>();
 	FishingItem dbItem;
 	FishingItem item;
@@ -29,28 +30,11 @@ public class MainActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		db = new DB(this);
 		db.open();
 		cursor = db.getAllData();
-
-		// ставим позицию курсора на первую строку выборки
 		if (cursor.moveToFirst()) {
-			// определяем номера столбцов по имени в выборке
-			int idBdKey = cursor.getColumnIndex(DB.COLUMN_ID);
-			int dbPlaceKey = cursor.getColumnIndex(DB.COLUMN_PLACE);
-			int dbDateKey = cursor.getColumnIndex(DB.COLUMN_DATE);
-
-			do {
-				// получаем данные по номерам столбцов и пишем все в лог
-				int idBd = cursor.getInt(idBdKey);
-				String dbPlace = cursor.getString(dbPlaceKey);
-				String dbDate = cursor.getString(dbDateKey);
-				
-				dbItem = new FishingItem(idBd, dbPlace, dbDate);
-				dbList.add(dbItem);
-				 Log.d(LOG_TAG, " --- dbList --- " + dbList);
-			} while (cursor.moveToNext());
+			dbList = db.getData(dbList, cursor);
 		} else
 			cursor.close();
 		db.close();
@@ -66,6 +50,7 @@ public class MainActivity extends ListActivity {
 		}
 
 		footerView.setOnClickListener(new OnClickListener() {
+
 			public void onClick(View v) {
 				Intent startNewActivity = new Intent(MainActivity.this,
 						AddNewFishing.class);
@@ -82,20 +67,16 @@ public class MainActivity extends ListActivity {
 
 		item = dbList.get(position);
 		Log.d(LOG_TAG, " --- item --- " + item);
-		ID = item.getId();
-		Log.d(LOG_TAG, " --- ID --- " + ID);
+		iD = item.getId();
+		Log.d(LOG_TAG, " --- ID --- " + iD);
+
+		iDLong = item.getLongId();
+		Log.d(LOG_TAG, " --- longId --- " + iDLong);
 
 		Intent intent = new Intent(MainActivity.this, DetailedFishing.class);
-		intent.putExtra("id", ID);
+		intent.putExtra("id", iD);
+		intent.putExtra("iDLong", iDLong);
 		startActivity(intent);
-
-		// Intent intent = new Intent(MainActivity.this, DetailedFishing.class);
-		// intent.putExtra("keyPlace", dataPlace);
-		// intent.putExtra("keyDate", dataDate);
-		// intent.putExtra("keyWeather", dataWeather);
-		// intent.putExtra("keyProcess", dataProcess);
-		// intent.putExtra("keyCatch", dataCatch);
-		// startActivity(intent);
 	}
 
 	@Override

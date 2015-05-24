@@ -16,7 +16,11 @@ public class DetailedFishing extends Activity {
 	DB db;
 	Cursor cursor;
 	int ID;
+	long idLong;
 	SQLiteDatabase mDB;
+	private String[] allColumns = { DB.COLUMN_ID, DB.COLUMN_PLACE,
+			DB.COLUMN_DATE, DB.COLUMN_WEATHER, DB.COLUMN_PROCESS,
+			DB.COLUMN_CATCH };
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,18 +35,24 @@ public class DetailedFishing extends Activity {
 		Intent intent = getIntent();
 		ID = intent.getIntExtra("id", 0);
 		Log.d(LOG_TAG, " --- id Item ListView --- " + ID);
-		
+		idLong = intent.getLongExtra("iDLong", 0);
+		Log.d(LOG_TAG, " --- iDLong Item ListView --- " + idLong);
 
 		db = new DB(this);
 		mDB = db.open();
 
-//		cursor = mDB.rawQuery("SELECT * FROM mytab WHERE _id = 'ID'", null);
-	
-		 cursor = db.getAllData();
-		 
+		// cursor = mDB.rawQuery("SELECT * FROM mytab WHERE _id = 'ID'", null);
+		// cursor = db.getAllData();
+		if (ID > 0) {
+			cursor = mDB.query(DB.DB_TABLE, allColumns, DB.COLUMN_ID + " = "
+					+ ID, null, null, null, null);
+		} else
+			cursor = mDB.query(DB.DB_TABLE, allColumns, DB.COLUMN_ID + " = "
+					+ idLong, null, null, null, null);
+
 		if (cursor != null) {
-//			if (cursor.moveToFirst()) {
-		 if (cursor.moveToPosition(ID-1)) {
+			if (cursor.moveToFirst()) {
+				// if (cursor.moveToPosition(ID-1)) {
 
 				idIndex = cursor.getColumnIndex(DB.COLUMN_ID);
 				placeIndex = cursor.getColumnIndex(DB.COLUMN_PLACE);
@@ -62,22 +72,13 @@ public class DetailedFishing extends Activity {
 				tvDetWeather.setText("Погода: " + dataWeather);
 				tvDetProcess.setText("Способ рыбалки: " + dataProcess);
 				tvDetCatch.setText("Улов: " + dataCatch);
-			
-			} else 
+
+			} else
 				Log.d(LOG_TAG, " --- row 0 --- ");
 		} else
 			Log.d(LOG_TAG, " --- cursor = null --- ");
 		cursor.close();
 		db.close();
 
-		//
-		// Intent intent = getIntent();
-		// String myPlace = intent.getStringExtra("keyPlace");
-		// String myDate = intent.getStringExtra("keyDate");
-		// String myWeather = intent.getStringExtra("keyWeather");
-		// String myProcess = intent.getStringExtra("keyProcess");
-		// String myCatch = intent.getStringExtra("keyCatch");
-		//
 	}
-
 }

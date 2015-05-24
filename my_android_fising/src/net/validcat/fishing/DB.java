@@ -1,5 +1,7 @@
 package net.validcat.fishing;
 
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +33,7 @@ public class DB {
 	private DBHelper mDBHelper;
 	public SQLiteDatabase mDB;
 	long ID;
-	
+
 	public DB(Context ctx) {
 		mCtx = ctx;
 	}
@@ -41,7 +43,7 @@ public class DB {
 		mDBHelper = new DBHelper(mCtx, DATABASE_NAME, null, DB_VERSION);
 		mDB = mDBHelper.getWritableDatabase();
 		return mDB;
-	}	
+	}
 
 	// close connection
 	public void close() {
@@ -63,6 +65,26 @@ public class DB {
 		return ID;
 	}
 
+	public List<FishingItem> getData(List<FishingItem> dbInnerList,
+			Cursor cursor) {
+
+		int idBdKey = cursor.getColumnIndex(DB.COLUMN_ID);
+		int dbPlaceKey = cursor.getColumnIndex(DB.COLUMN_PLACE);
+		int dbDateKey = cursor.getColumnIndex(DB.COLUMN_DATE);
+
+		do {
+			int idBd = cursor.getInt(idBdKey);
+			String dbPlace = cursor.getString(dbPlaceKey);
+			String dbDate = cursor.getString(dbDateKey);
+
+			FishingItem dbItem = new FishingItem(idBd, dbPlace, dbDate);
+			dbInnerList.add(dbItem);
+			Log.d(LOG_TAG, " --- dbList --- " + dbInnerList);
+		} while (cursor.moveToNext());
+
+		return dbInnerList;
+	}
+
 	private class DBHelper extends SQLiteOpenHelper {
 		public DBHelper(Context context, String name, CursorFactory factory,
 				int version) {
@@ -81,4 +103,5 @@ public class DB {
 		}
 
 	}
+
 }

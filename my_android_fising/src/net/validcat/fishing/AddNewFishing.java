@@ -56,13 +56,11 @@ public class AddNewFishing extends Activity {
 				cv.put(DB.COLUMN_WEATHER, myWeather);
 				cv.put(DB.COLUMN_PROCESS, myProcess);
 				cv.put(DB.COLUMN_CATCH, myCatch);
-				mDB.insert(DB.DB_TABLE, null, cv);
-				// ID = db.getId();
+				long idLong = mDB.insert(DB.DB_TABLE, null, cv);
 
 				Intent data = new Intent();
-				// data.putExtra("keyPlace", myPlace);
-				// data.putExtra("keyDate", myDate);
-				FishingItem.packageIntent(data, getPlaceText(), getDateText());
+				FishingItem.packageIntent(data, getPlaceText(), getDateText(),
+						idLong);
 				// send container
 				setResult(RESULT_OK, data);
 				finish();

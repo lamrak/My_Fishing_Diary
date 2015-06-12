@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 public class DetailedFishing extends Activity {
 	public static final String LOG_TAG = "myLogs";
-		
+	// test develop commit
 	TextView tvDetPlace; 
 	TextView tvDetDate; 
 	TextView tvDetWeather; 

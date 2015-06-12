@@ -1,44 +1,44 @@
 package net.validcat.fishing;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 
 public class FishingItem {
-
 	public final static String PLACE = "place";
 	public final static String DATE = "date";
 	public final static String ID = "id";
-	int dbId;
-	String dbPlace;
-	String dbDate;
-	long idLong;
-
-	String mPlace = new String();
-	String mDate = new String();
+	
+	long id;
+	String place;
+	String date; //Date
+	//int weather 
+	String weather;
+	String description;
+	String catches; 
 
 	// constructor bdObject
 	public FishingItem(int id, String place, String date) {
-		this.dbId = id;
-		this.dbPlace = place;
-		this.dbDate = date;
+		this.id = id;
+		this.place = place;
+		this.date = date;
 	}
 
 	// constructor
 	public FishingItem(String place, String date) {
-
 		// We obtain data in FishingList and initialize the field
-		this.mPlace = place;
-		this.mDate = date;
+		this.place = place;
+		this.date = date;
 	}
 
 	// constructor
 	public FishingItem(Intent intent) {
 		// obtain data in intent (come in MainActivity)
-		dbPlace = intent.getStringExtra(FishingItem.PLACE);
-		dbDate = intent.getStringExtra(FishingItem.DATE);
-		idLong = intent.getLongExtra(FishingItem.ID, idLong);
+		place = intent.getStringExtra(FishingItem.PLACE);
+		date = intent.getStringExtra(FishingItem.DATE);
+		id = intent.getLongExtra(FishingItem.ID, -1L);
+	}
+
+	public FishingItem() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public static void packageIntent(Intent data, String place, String date,
@@ -51,25 +51,49 @@ public class FishingItem {
 
 	}
 
-	// data which are set in the formation of a list item
-	public String getPlace() {
-		// return mPlace;
-		return dbPlace;
+	// data which are set in the formation of a list item	
+	public long getId() {
+		return id;
 	}
-
+	
 	public String getDate() {
-		// return mDate;
-		return dbDate;
+		return date;
 	}
 
-	// id BD
-	public int getId() {
-		return dbId;
+	public String getPlace() {
+		return place;
+	}
+	
+	public String getWeather() {
+		return weather;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getCatch() {
+		return catches;
+	}	
+
+	public void setPlace(String place) {
+		this.place = place;
+	}	
+
+	public void setDate(String date) {
+		this.date = date;	
 	}
 
-	// id new point
-	public long getLongId() {
-		return idLong;
+	public void setWeather(String weather) {
+		this.weather = weather;		
 	}
+
+	public void setDescription(String description) {
+		this.description = description;		
+	}
+
+	public void setCatches(String catches) {
+		this.catches = catches;		
+	}	
 
 }

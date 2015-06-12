@@ -34,6 +34,10 @@ public class DB {
 	public SQLiteDatabase mDB;
 	long ID;
 
+	private String[] allColumns = { DB.COLUMN_ID, DB.COLUMN_PLACE,
+			DB.COLUMN_DATE, DB.COLUMN_WEATHER, DB.COLUMN_PROCESS,
+			DB.COLUMN_CATCH };
+
 	public DB(Context ctx) {
 		mCtx = ctx;
 	}
@@ -42,6 +46,7 @@ public class DB {
 	public SQLiteDatabase open() {
 		mDBHelper = new DBHelper(mCtx, DATABASE_NAME, null, DB_VERSION);
 		mDB = mDBHelper.getWritableDatabase();
+
 		return mDB;
 	}
 
@@ -102,6 +107,50 @@ public class DB {
 
 		}
 
+	}
+
+	public FishingItem getFishingItemById(long id) {
+		FishingItem item = new FishingItem();
+		Cursor cursor;
+		if (ID > 0) {
+			cursor = mDB.query(DB.DB_TABLE, allColumns, DB.COLUMN_ID + " = "
+					+ ID, null, null, null, null);
+		} else
+			cursor = mDB.query(DB.DB_TABLE, allColumns, DB.COLUMN_ID + " = "
+					+ id, null, null, null, null);
+
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				// if (cursor.moveToPosition(ID-1)) {
+				// TODO
+				item.setPlace(cursor.getString(cursor
+						.getColumnIndex(DB.COLUMN_PLACE)));
+				item.setDate(cursor.getString(cursor
+						.getColumnIndex(DB.COLUMN_DATE)));
+				item.setWeather(cursor.getString(cursor
+						.getColumnIndex(DB.COLUMN_WEATHER)));
+				item.setDescription(cursor.getString(cursor
+						.getColumnIndex(DB.COLUMN_PROCESS)));
+				item.setCatches(cursor.getString(cursor
+						.getColumnIndex(DB.COLUMN_CATCH)));
+				// TODO
+			} else
+				Log.d(LOG_TAG, " --- row 0 --- ");
+		} else
+			Log.d(LOG_TAG, " --- cursor = null --- ");
+		cursor.close();
+		return item; // item
+	}
+
+	public long saveFishingItem(FishingItem item) {
+		ContentValues cv = new ContentValues();
+		cv.put(DB.COLUMN_PLACE, item.getPlace());
+		cv.put(DB.COLUMN_DATE, item.getDate());
+		cv.put(DB.COLUMN_WEATHER, item.getWeather());
+		cv.put(DB.COLUMN_PROCESS, item.getDescription());
+		cv.put(DB.COLUMN_CATCH, item.getCatch());
+		// TODO
+		return mDB.insert(DB.DB_TABLE, null, cv);
 	}
 
 }

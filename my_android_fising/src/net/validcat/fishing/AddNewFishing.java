@@ -1,10 +1,7 @@
 package net.validcat.fishing;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,22 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class AddNewFishing extends Activity {
-	private EditText etPlace, etDate, etWeather, etProcess, etCatch;
+	private EditText etPlace; 
+	private EditText etDate;
+	private EditText etWeather;
+	private EditText etProcess;
+	private EditText etCatch;
 	private Button btnCreate;
-	String myPlace, myDate;
 	DB db;
-	Cursor cursor;
-
-	public SQLiteDatabase mDB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fishing_list);
-
-		// open a connection to the database
-		db = new DB(this);
-		mDB = db.open();
 
 		// find items
 		etPlace = (EditText) findViewById(R.id.etPlace);
@@ -44,41 +37,35 @@ public class AddNewFishing extends Activity {
 			@Override
 			public void onClick(View v) {
 				// save in data base
-				myPlace = etPlace.getText().toString();
-				myDate = etDate.getText().toString();
+				String myPlace = etPlace.getText().toString();
+				String myDate = etDate.getText().toString();
 				String myWeather = etWeather.getText().toString();
-				String myProcess = etProcess.getText().toString();
+				String myDescription = etProcess.getText().toString();
 				String myCatch = etCatch.getText().toString();
-
-				ContentValues cv = new ContentValues();
-				cv.put(DB.COLUMN_PLACE, myPlace);
-				cv.put(DB.COLUMN_DATE, myDate);
-				cv.put(DB.COLUMN_WEATHER, myWeather);
-				cv.put(DB.COLUMN_PROCESS, myProcess);
-				cv.put(DB.COLUMN_CATCH, myCatch);
-				long idLong = mDB.insert(DB.DB_TABLE, null, cv);
+				
+				FishingItem item = new FishingItem();
+				item.setPlace(myPlace);
+				item.setDate(myDate);
+				item.setWeather(myWeather);
+				item.setDescription(myDescription);
+				item.setCatches(myCatch);
+				//TODO other sets
+				
+				// open a connection to the database
+				db = new DB(AddNewFishing.this);
+				db.open();
+				long id = db.saveFishingItem(item);
+				db.close();
 
 				Intent data = new Intent();
-				FishingItem.packageIntent(data, getPlaceText(), getDateText(),
-						idLong);
+				FishingItem.packageIntent(data, myPlace, myDate, id);
 				// send container
 				setResult(RESULT_OK, data);
 				finish();
-				db.close();
 			}
 		});
 
 	}
 
-	// read the user-entered text
-	private String getPlaceText() {
-		// return etPlace.getText().toString();
-		return myPlace;
-	}
-
-	// read the user-entered text
-	private String getDateText() {
-		return myDate;
-	}
 
 }

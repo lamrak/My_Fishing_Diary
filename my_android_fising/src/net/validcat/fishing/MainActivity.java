@@ -15,16 +15,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends ListActivity {
-	MyListAdapter adapter;
-	private static final int ITEM_REQUEST = 0;
 	public static final String LOG_TAG = "myLogs";
+	private static final int ITEM_REQUEST = 0;
+	
+	MyListAdapter adapter;
+
 	DB db;
 	Cursor cursor;
-	long iDLong;
-	int iD;
-	List<FishingItem> dbList = new ArrayList<FishingItem>();
-	FishingItem dbItem;
-	FishingItem item;
+
+	List<FishingItem> itemsList = new ArrayList<FishingItem>();
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -32,14 +31,14 @@ public class MainActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		db = new DB(this);
 		db.open();
-		cursor = db.getAllData();
+		cursor = db.getAllData(); //TODO move this in DB
 		if (cursor.moveToFirst()) {
-			dbList = db.getData(dbList, cursor);
+			itemsList = db.getData(itemsList, cursor);
 		} else
 			cursor.close();
 		db.close();
 
-		adapter = new MyListAdapter(getApplicationContext(), dbList);
+		adapter = new MyListAdapter(getApplicationContext(), itemsList);
 
 		getListView().setFooterDividersEnabled(true);
 		TextView footerView = (TextView) getLayoutInflater().inflate(
@@ -64,24 +63,17 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-
-		item = dbList.get(position);
-		Log.d(LOG_TAG, " --- item --- " + item);
-		iD = item.getId();
-		Log.d(LOG_TAG, " --- ID --- " + iD);
-
-		iDLong = item.getLongId();
-		Log.d(LOG_TAG, " --- longId --- " + iDLong);
+		FishingItem item = itemsList.get(position);
+		id = item.getId();
+		Log.d(LOG_TAG, " --- ID --- " + id);
 
 		Intent intent = new Intent(MainActivity.this, DetailedFishing.class);
-		intent.putExtra("id", iD);
-		intent.putExtra("iDLong", iDLong);
+		intent.putExtra("id", id);
 		startActivity(intent);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 		if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST) {
 			FishingItem toDo = new FishingItem(data);
 			adapter.add(toDo);

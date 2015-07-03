@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.validcat.fishing.db.DB;
+
 public class DetailedFishing extends Activity {
 	public static final String LOG_TAG = "myLogs";
 	// test develop commit
@@ -41,15 +43,15 @@ public class DetailedFishing extends Activity {
 		// cursor = mDB.rawQuery("SELECT * FROM mytab WHERE _id = 'ID'", null);
 		// cursor = db.getAllData();
 
-		tvDetPlace.setText("Место рыбалки: " + item.getPlace());
-		tvDetDate.setText("Дата :" + item.getDate());
-		tvDetWeather.setText("Погода: " + item.getWeather());
-		tvDetDescription.setText("Способ рыбалки: " + item.getDescription());
-		tvDetCatch.setText("Улов: " + item.getCatch());
+		tvDetPlace.setText("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + item.getPlace());
+		tvDetDate.setText("пїЅпїЅпїЅпїЅ :" + item.getDate());
+		tvDetWeather.setText("пїЅпїЅпїЅпїЅпїЅпїЅ: " + item.getWeather());
+		tvDetDescription.setText("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + item.getDescription());
+		tvDetCatch.setText("пїЅпїЅпїЅпїЅ: " + item.getCatch());
 		
-//		tvDetDate.setText("Дата :" + dataDate);
-//		tvDetWeather.setText("Погода: " + dataWeather);
-//		tvDetProcess.setText("Способ рыбалки: " + dataProcess);
-//		tvDetCatch.setText("Улов: " + dataCatch);
+//		tvDetDate.setText("пїЅпїЅпїЅпїЅ :" + dataDate);
+//		tvDetWeather.setText("пїЅпїЅпїЅпїЅпїЅпїЅ: " + dataWeather);
+//		tvDetProcess.setText("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + dataProcess);
+//		tvDetCatch.setText("пїЅпїЅпїЅпїЅ: " + dataCatch);
 	}
 }

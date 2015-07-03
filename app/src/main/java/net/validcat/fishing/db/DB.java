@@ -1,15 +1,16 @@
-package net.validcat.fishing;
-
-import java.util.List;
+package net.validcat.fishing.db;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import net.validcat.fishing.FishingItem;
+
+import java.util.List;
 
 public class DB {
 	public static final String LOG_TAG = "myLogs";

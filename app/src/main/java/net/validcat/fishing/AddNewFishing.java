@@ -8,6 +8,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import net.validcat.fishing.db.DB;
+
 public class AddNewFishing extends Activity {
 	private EditText etPlace; 
 	private EditText etDate;

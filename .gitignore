@@ -24,3 +24,9 @@ proguard/
 
 # Log Files
 *.log
+.idea/encodings.xml
+.idea/runConfigurations.xml
+.idea/libraries/support_v4_21_0_0.xml
+.idea/misc.xml
+.idea/workspace.xml
+.idea/gradle.xml

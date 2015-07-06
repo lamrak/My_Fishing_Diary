@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.validcat.fishing.db.DB;
+
 public class DetailedFishing extends Activity {
 	public static final String LOG_TAG = "myLogs";
 	// test develop commit
@@ -40,16 +42,10 @@ public class DetailedFishing extends Activity {
 		db.close();
 		// cursor = mDB.rawQuery("SELECT * FROM mytab WHERE _id = 'ID'", null);
 		// cursor = db.getAllData();
-
 		tvDetPlace.setText("Place: " + item.getPlace());
 		tvDetDate.setText("Date:" + item.getDate());
 		tvDetWeather.setText("Weather: " + item.getWeather());
 		tvDetDescription.setText("Description: " + item.getDescription());
 		tvDetCatch.setText("Catch: " + item.getCatch());
-		
-//		tvDetDate.setText("���� :" + dataDate);
-//		tvDetWeather.setText("������: " + dataWeather);
-//		tvDetProcess.setText("������ �������: " + dataProcess);
-//		tvDetCatch.setText("����: " + dataCatch);
 	}
 }

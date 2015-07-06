@@ -16,6 +16,8 @@ import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import net.validcat.fishing.db.DB;
+
 public class MainActivity extends ListActivity {
     public static final String LOG_TAG = "myLogs";
     private static final int ITEM_REQUEST = 0;

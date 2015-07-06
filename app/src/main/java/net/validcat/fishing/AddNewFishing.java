@@ -12,9 +12,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import java.text.SimpleDateFormat;
+import net.validcat.fishing.db.DB;
 import java.util.Calendar;
-import java.util.Date;
 
 public class AddNewFishing extends Activity implements OnClickListener {
     public static final String LOG_TAG = "myLogs";
@@ -119,6 +118,4 @@ public class AddNewFishing extends Activity implements OnClickListener {
             etDate.setText(myDay + "." + myMonth + "." + myYear);
         }
     };
-
-
 }

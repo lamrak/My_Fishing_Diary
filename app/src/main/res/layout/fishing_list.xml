@@ -43,9 +43,16 @@
 
         <EditText
             android:id="@+id/etDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change"
+            android:id="@+id/btnChange"
+            android:singleLine="false" />
 
     </LinearLayout>
     
@@ -148,7 +155,7 @@
         android:id="@+id/llButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="160dp"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
@@ -158,7 +165,7 @@
             android:layout_height="wrap_content"
            
             android:minHeight="48dp"
-            android:text="Создать рыбалку" />
+            android:text="Create fishing" />
 
     </LinearLayout>
 

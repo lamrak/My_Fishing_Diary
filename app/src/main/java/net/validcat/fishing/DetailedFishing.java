@@ -41,15 +41,15 @@ public class DetailedFishing extends Activity {
 		// cursor = mDB.rawQuery("SELECT * FROM mytab WHERE _id = 'ID'", null);
 		// cursor = db.getAllData();
 
-		tvDetPlace.setText("Место рыбалки: " + item.getPlace());
-		tvDetDate.setText("Дата :" + item.getDate());
-		tvDetWeather.setText("Погода: " + item.getWeather());
-		tvDetDescription.setText("Способ рыбалки: " + item.getDescription());
-		tvDetCatch.setText("Улов: " + item.getCatch());
+		tvDetPlace.setText("Place: " + item.getPlace());
+		tvDetDate.setText("Date:" + item.getDate());
+		tvDetWeather.setText("Weather: " + item.getWeather());
+		tvDetDescription.setText("Description: " + item.getDescription());
+		tvDetCatch.setText("Catch: " + item.getCatch());
 		
-//		tvDetDate.setText("Дата :" + dataDate);
-//		tvDetWeather.setText("Погода: " + dataWeather);
-//		tvDetProcess.setText("Способ рыбалки: " + dataProcess);
-//		tvDetCatch.setText("Улов: " + dataCatch);
+//		tvDetDate.setText("пїЅпїЅпїЅпїЅ :" + dataDate);
+//		tvDetWeather.setText("пїЅпїЅпїЅпїЅпїЅпїЅ: " + dataWeather);
+//		tvDetProcess.setText("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + dataProcess);
+//		tvDetCatch.setText("пїЅпїЅпїЅпїЅ: " + dataCatch);
 	}
 }

@@ -1,6 +1,8 @@
 package net.validcat.fishing;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -15,70 +17,74 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends ListActivity {
-	public static final String LOG_TAG = "myLogs";
-	private static final int ITEM_REQUEST = 0;
-	
-	MyListAdapter adapter;
+    public static final String LOG_TAG = "myLogs";
+    private static final int ITEM_REQUEST = 0;
 
-	DB db;
-	Cursor cursor;
+    MyListAdapter adapter;
 
-	List<FishingItem> itemsList = new ArrayList<FishingItem>();
+    DB db;
+    Cursor cursor;
 
-	@SuppressLint("InflateParams")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		db = new DB(this);
-		db.open();
-		cursor = db.getAllData(); //TODO move this in DB
-		if (cursor.moveToFirst()) {
-			itemsList = db.getData(itemsList, cursor);
-		} else
-			cursor.close();
-		db.close();
+    List<FishingItem> itemsList = new ArrayList<FishingItem>();
 
-		adapter = new MyListAdapter(getApplicationContext(), itemsList);
+    @SuppressLint("InflateParams")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SimpleDateFormat sdf = new SimpleDateFormat ("dd.MM.yyyy");
+        final String date = sdf.format(new Date(System.currentTimeMillis()));
 
-		getListView().setFooterDividersEnabled(true);
-		TextView footerView = (TextView) getLayoutInflater().inflate(
-				R.layout.footer_view, null);
-		getListView().addFooterView(footerView);
-		if (null == footerView) {
-			return;
-		}
+        db = new DB(this);
+        db.open();
+        cursor = db.getAllData(); //TODO move this in DB
+        if (cursor.moveToFirst()) {
+            itemsList = db.getData(itemsList, cursor);
+        } else
+            cursor.close();
+        db.close();
 
-		footerView.setOnClickListener(new OnClickListener() {
+        adapter = new MyListAdapter(getApplicationContext(), itemsList);
 
-			public void onClick(View v) {
-				Intent startNewActivity = new Intent(MainActivity.this,
-						AddNewFishing.class);
-				startActivityForResult(startNewActivity, ITEM_REQUEST);
-			}
-		});
+        getListView().setFooterDividersEnabled(true);
+        TextView footerView = (TextView) getLayoutInflater().inflate(
+                R.layout.footer_view, null);
+        getListView().addFooterView(footerView);
+        if (null == footerView) {
+            return;
+        }
 
-		setListAdapter(adapter);
-		// TODO enters
-	}
+        footerView.setOnClickListener(new OnClickListener() {
 
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		FishingItem item = itemsList.get(position);
-		id = item.getId();
-		Log.d(LOG_TAG, " --- ID --- " + id);
+            public void onClick(View v) {
+                Intent startNewActivity = new Intent(MainActivity.this,
+                        AddNewFishing.class);
+                startNewActivity.putExtra("keyDate",date);
+                startActivityForResult(startNewActivity, ITEM_REQUEST);
+            }
+        });
 
-		Intent intent = new Intent(MainActivity.this, DetailedFishing.class);
-		intent.putExtra("id", id);
-		startActivity(intent);
-	}
+        setListAdapter(adapter);
+        // TODO enters
+    }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST) {
-			FishingItem toDo = new FishingItem(data);
-			adapter.add(toDo);
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        FishingItem item = itemsList.get(position);
+        id = item.getId();
+        Log.d(LOG_TAG, " --- ID --- " + id);
 
-		}
-	}
+        Intent intent = new Intent(MainActivity.this, DetailedFishing.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST) {
+            FishingItem toDo = new FishingItem(data);
+            adapter.add(toDo);
+
+        }
+    }
 
 }

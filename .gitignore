@@ -1,15 +1,8 @@
 
 # Log Files
 *.log
-.idea/encodings.xml
-.idea/runConfigurations.xml
-.idea/libraries/support_v4_21_0_0.xml
-.idea/misc.xml
-.idea/workspace.xml
-.idea/gradle.xml
-.idea/workspace.xml
-
 app/build/
 build/
 .gradle/
 local.properties
+.idea/

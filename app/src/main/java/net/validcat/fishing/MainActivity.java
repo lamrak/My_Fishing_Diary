@@ -1,31 +1,25 @@
 package net.validcat.fishing;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import net.validcat.fishing.db.DB;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.app.ListActivity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import net.validcat.fishing.db.DB;
-
-public class MainActivity extends ListActivity {
-    public static final String LOG_TAG = "myLogs";
+public class MainActivity extends Activity {
+    public static final String LOG_TAG = "FishingList";
     private static final int ITEM_REQUEST = 0;
-
-    MyListAdapter adapter;
-
-    DB db;
-    Cursor cursor;
+    private RecyclerView.Adapter adapter;
 
     List<FishingItem> itemsList = new ArrayList<FishingItem>();
 
@@ -33,59 +27,53 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SimpleDateFormat sdf = new SimpleDateFormat ("dd.MM.yyyy");
+        setContentView(R.layout.activity_main);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy"); //TODO http://prntscr.com/7prdux
         final String date = sdf.format(new Date(System.currentTimeMillis()));
 
-        db = new DB(this);
-        db.open();
-        cursor = db.getAllData(); //TODO move this in DB
-        if (cursor.moveToFirst()) {
-            itemsList = db.getData(itemsList, cursor);
-        } else
-            cursor.close();
-        db.close();
+        initDataBase();
+        initUI(date);
+    }
 
-        adapter = new MyListAdapter(getApplicationContext(), itemsList);
+    private void initUI(final String date) {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
 
-        getListView().setFooterDividersEnabled(true);
-        TextView footerView = (TextView) getLayoutInflater().inflate(
-                R.layout.footer_view, null);
-        getListView().addFooterView(footerView);
-        if (null == footerView) {
-            return;
-        }
+        // use a linear layout manager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-        footerView.setOnClickListener(new OnClickListener() {
+        // specify an adapter (see also next example)
+        adapter = new FishingAdapter(this, itemsList);
+        recyclerView.setAdapter(adapter);
 
+        findViewById(R.id.fab_add_fishing).setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 Intent startNewActivity = new Intent(MainActivity.this,
                         AddNewFishing.class);
-                startNewActivity.putExtra("keyDate",date);
+                startNewActivity.putExtra("keyDate", date);
                 startActivityForResult(startNewActivity, ITEM_REQUEST);
             }
         });
-
-        setListAdapter(adapter);
-        // TODO enters
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        FishingItem item = itemsList.get(position);
-        id = item.getId();
-        Log.d(LOG_TAG, " --- ID --- " + id);
-
-        Intent intent = new Intent(MainActivity.this, DetailedFishing.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
+    private void initDataBase() {
+        DB db = new DB(this);
+        db.open();
+        Cursor cursor = db.getAllData();
+        if (cursor.moveToFirst()) itemsList = db.getData(itemsList, cursor);
+        else cursor.close();
+        db.close();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == ITEM_REQUEST) {
-            FishingItem toDo = new FishingItem(data);
-            adapter.add(toDo);
-
+            FishingItem item = new FishingItem(data);
+            itemsList.add(item);
+            adapter.notifyDataSetChanged();
         }
     }
 

@@ -134,7 +134,8 @@
         android:id="@+id/llFoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/tvFoto"
@@ -144,18 +145,36 @@
             android:layout_marginTop="20dp"
             android:text="@string/fishing_foto" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Foto"
+            android:id="@+id/btnAddFoto"
+            android:layout_gravity="right"
+            android:layout_marginLeft="200dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llImage"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/ivFoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_width="100dp"
+            android:layout_height="122dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="100dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
@@ -163,7 +182,6 @@
             android:id="@+id/btnCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           
             android:minHeight="48dp"
             android:text="Create fishing" />
 

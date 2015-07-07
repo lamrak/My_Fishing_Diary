@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import net.validcat.fishing.db.DB;
 import java.util.Calendar;
@@ -24,6 +26,9 @@ public class AddNewFishing extends Activity implements OnClickListener {
     private EditText etCatch;
     private Button btnCreate;
     private Button btnChange;
+    private Button btnAddFoto;
+    private ImageView ivFoto;
+    private Bitmap myFoto;
     DB db;
     int DIALOG_DATE = 1;
     int myDay;
@@ -42,13 +47,16 @@ public class AddNewFishing extends Activity implements OnClickListener {
         etWeather = (EditText) findViewById(R.id.etWeather);
         etProcess = (EditText) findViewById(R.id.etProcess);
         etCatch = (EditText) findViewById(R.id.etCatch);
+        ivFoto = (ImageView)findViewById(R.id.ivFoto);
 
         btnCreate = (Button) findViewById(R.id.btnCreate);
         btnChange = (Button) findViewById(R.id.btnChange);
+        btnAddFoto = (Button) findViewById(R.id.btnAddFoto);
 
         // listener for the button
         btnCreate.setOnClickListener(this);
         btnChange.setOnClickListener(this);
+        btnAddFoto.setOnClickListener(this);
 
         Intent MyIntent = getIntent();
         String date = MyIntent.getStringExtra("keyDate");
@@ -94,8 +102,14 @@ public class AddNewFishing extends Activity implements OnClickListener {
                 break;
             case R.id.btnChange:
                 showDialog(DIALOG_DATE);
-        }
+                break;
+            case R.id.btnAddFoto:
+                Camera myCamera = new Camera();
+                myCamera.startIntent();
+                myFoto = myCamera.getFoto();
+                ivFoto.setImageBitmap(myFoto);
 
+        }
 
     }
 

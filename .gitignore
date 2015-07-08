@@ -6,3 +6,4 @@ build/
 .gradle/
 local.properties
 .idea/
+app/app.iml

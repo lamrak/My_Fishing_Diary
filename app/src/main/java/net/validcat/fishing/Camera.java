@@ -11,8 +11,16 @@ import java.io.File;
 
 /**
  * Created by Denis on 07.07.2015.
+ *
+ * <code>CameraManager</code> works with default device camera. Call method
+ * <code>startCameraForResult(Activity)</code> and when Camera call <code>Activity</code>'s method
+ * <code>onActivityResult</code> - pass result through the method
+ * <code>extractPhotoBitmapFromResult()</code>. If this method returns <code>null</code>,
+ * <code>onActivityResult</code>  was invoked not from camera. In other case you will receive
+ * <code>Bitmap</code>.
+ *
  */
-public class Camera extends Activity {
+public class Camera extends Activity { //TODO CameraManager, delete extends Activity
     public static final String LOG_TAG = "myLogs";
     private static final String FOLDER_NAME = "MyFishing";
     private static final String KEY_DATA = "data";
@@ -20,9 +28,9 @@ public class Camera extends Activity {
     private final int REQUEST_CODE_FOTO = 1;
     private File directory;
     private Uri mUri;
-    private Bitmap foto;
+    private Bitmap foto; //TODO this field not needed
 
-    public void startIntent() {
+    public void startIntent() { //TODO rename startCameraForResult(Activity)
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             createDirectoryFromCard();
 //				 else {
@@ -34,8 +42,8 @@ public class Camera extends Activity {
         startActivityForResult(intent, REQUEST_CODE_FOTO);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent intent) {
+    //TODO rename method extractPhotoBitmapFromResult()
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE_FOTO) {
             if (intent == null)
                 Log.d(LOG_TAG, "Intent is null");
@@ -43,6 +51,8 @@ public class Camera extends Activity {
         } else if (resultCode == RESULT_CANCELED) {
             Log.d(LOG_TAG, "Canceled");
         }
+
+        //TODO method returns Bitmap ot null (in case if this is not REQUEST_CODE_FOTO)
     }
 
     private Uri generateFileUri() {
@@ -59,6 +69,7 @@ public class Camera extends Activity {
             directory.mkdirs();
     }
 
+    //TODO this method not needed
     public Bitmap getFoto() {
         return foto;
     }

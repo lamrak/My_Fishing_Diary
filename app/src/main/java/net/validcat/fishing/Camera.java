@@ -20,7 +20,7 @@ import java.io.File;
  * <code>Bitmap</code>.
  *
  */
-public class Camera extends Activity { //TODO CameraManager, delete extends Activity
+public class Camera extends CameraManager { //TODO CameraManager, delete extends Activity
     public static final String LOG_TAG = "myLogs";
     private static final String FOLDER_NAME = "MyFishing";
     private static final String KEY_DATA = "data";
@@ -28,9 +28,9 @@ public class Camera extends Activity { //TODO CameraManager, delete extends Acti
     private final int REQUEST_CODE_FOTO = 1;
     private File directory;
     private Uri mUri;
-    private Bitmap foto; //TODO this field not needed
+    //TODO this field not needed
 
-    public void startIntent() { //TODO rename startCameraForResult(Activity)
+    public void startCameraForResult(Activity) { //TODO rename startCameraForResult(Activity)
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             createDirectoryFromCard();
 //				 else {
@@ -43,13 +43,15 @@ public class Camera extends Activity { //TODO CameraManager, delete extends Acti
     }
 
     //TODO rename method extractPhotoBitmapFromResult()
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    protected Bitmap extractPhotoBitmapFromResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE_FOTO) {
             if (intent == null)
                 Log.d(LOG_TAG, "Intent is null");
-            foto = (Bitmap) intent.getExtras().get(KEY_DATA);
+            Bitmap foto = (Bitmap) intent.getExtras().get(KEY_DATA);
+            return foto;
         } else if (resultCode == RESULT_CANCELED) {
             Log.d(LOG_TAG, "Canceled");
+            return null;
         }
 
         //TODO method returns Bitmap ot null (in case if this is not REQUEST_CODE_FOTO)
@@ -69,8 +71,4 @@ public class Camera extends Activity { //TODO CameraManager, delete extends Acti
             directory.mkdirs();
     }
 
-    //TODO this method not needed
-    public Bitmap getFoto() {
-        return foto;
-    }
-}
+

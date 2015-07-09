@@ -23,15 +23,15 @@ import butterknife.ButterKnife;
 public class AddNewFishing extends AppCompatActivity implements OnClickListener {
     public static final String LOG_TAG = AddNewFishing.class.getSimpleName();
 
-    @Bind(R.id.et_place) private EditText etPlace;
-    @Bind(R.id.etDate) private EditText etDate;
-    @Bind(R.id.et_weather) private EditText etWeather;
-    @Bind(R.id.et_process) private EditText etProcess;
-    @Bind(R.id.et_catch) private EditText etCatch;
-    @Bind(R.id.btn_create) private Button btnCreate;
-    @Bind(R.id.btn_change) private Button btnChange;
-    @Bind(R.id.btn_add_photo) private Button btnAddFoto;
-    @Bind(R.id.iv_photo) private ImageView ivPhoto;
+    @Bind(R.id.et_place) EditText etPlace;
+    @Bind(R.id.etDate) EditText etDate;
+    @Bind(R.id.et_weather) EditText etWeather;
+    @Bind(R.id.et_process) EditText etProcess;
+    @Bind(R.id.et_catch) EditText etCatch;
+    @Bind(R.id.btn_create) Button btnCreate;
+    @Bind(R.id.btn_change) Button btnChange;
+    @Bind(R.id.btn_add_photo) Button btnAddFoto;
+    @Bind(R.id.iv_photo) ImageView ivPhoto;
 
     private Bitmap bitmap;
     private DB db;
@@ -98,8 +98,8 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                 break;
             case R.id.btn_add_photo:
                 Camera myCamera = new Camera();
-                myCamera.startIntent();
-                bitmap = myCamera.getFoto();
+//                myCamera.startIntent();
+//                bitmap = myCamera.getFoto();
                 ivPhoto.setImageBitmap(bitmap);
         }
 

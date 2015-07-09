@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="21" />
+        android:targetSdkVersion="22" />
 
     <application
         android:allowBackup="true"
@@ -22,8 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="AddNewFishing"></activity>
-        <activity android:name="DetailedFishing"></activity>
+        <activity
+            android:name="AddNewFishing"
+            android:label="@string/title_add_new_fishing"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="DetailedFishing"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

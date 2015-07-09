@@ -1,32 +1,31 @@
 package net.validcat.fishing;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.validcat.fishing.db.DB;
 
-public class DetailedFishing extends Activity {
-	public static final String LOG_TAG = "myLogs";
-	// test develop commit
-	TextView tvDetPlace; 
-	TextView tvDetDate; 
-	TextView tvDetWeather; 
-	TextView tvDetDescription;
-	TextView tvDetCatch;
-	DB db;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class DetailedFishing extends AppCompatActivity {
+	public static final String LOG_TAG = DetailedFishing.class.getSimpleName();
+	@Bind(R.id.tv_place) TextView tvPlace;
+	@Bind(R.id.tv_date) TextView tvDate;
+	@Bind(R.id.tv_weather) TextView tvWeather;
+	@Bind(R.id.tv_description) TextView tvDescription;
+	@Bind(R.id.tv_catch) TextView tvCatch;
+	private DB db;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_list);
-		
-		tvDetPlace = (TextView) findViewById(R.id.tvDetPlace);
-		tvDetDate = (TextView) findViewById(R.id.tvDetDate);
-		tvDetWeather = (TextView) findViewById(R.id.tvDetWeather);
-		tvDetDescription = (TextView) findViewById(R.id.tvDetProcess);
-		tvDetCatch = (TextView) findViewById(R.id.tvDetCatch);
+		ButterKnife.bind(this);
 
 		Intent intent = getIntent();
 		long id = intent.getLongExtra("id", -1);
@@ -42,10 +41,30 @@ public class DetailedFishing extends Activity {
 		db.close();
 		// cursor = mDB.rawQuery("SELECT * FROM mytab WHERE _id = 'ID'", null);
 		// cursor = db.getAllData();
-		tvDetPlace.setText("Place: " + item.getPlace());
-		tvDetDate.setText("Date:" + item.getDate());
-		tvDetWeather.setText("Weather: " + item.getWeather());
-		tvDetDescription.setText("Description: " + item.getDescription());
-		tvDetCatch.setText("Catch: " + item.getCatch());
+		tvPlace.setText("Place: " + item.getPlace());
+		tvDate.setText("Date:" + item.getDate());
+		tvWeather.setText("Weather: " + item.getWeather());
+		tvDescription.setText("Description: " + item.getDescription());
+		tvCatch.setText("Catch: " + item.getCatch());
 	}
+
+	    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            startActivity(new Intent(this, SettingsActivity.class));
+//            return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

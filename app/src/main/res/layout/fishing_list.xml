@@ -17,7 +17,7 @@
             android:text="@string/fishing_place" />
 
         <EditText
-            android:id="@+id/etPlace"
+            android:id="@+id/et_place"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Change"
-            android:id="@+id/btnChange"
+            android:id="@+id/btn_change"
             android:singleLine="false" />
 
     </LinearLayout>
@@ -71,7 +71,7 @@
             android:text="@string/fishing_weather" />
 
         <EditText
-            android:id="@+id/etWeather"
+            android:id="@+id/et_weather"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -97,7 +97,7 @@
             android:text="@string/fishing_process" />
 
         <EditText
-            android:id="@+id/etProcess"
+            android:id="@+id/et_process"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -121,7 +121,7 @@
             android:text="@string/fishing_catch" />
 
         <EditText
-            android:id="@+id/etCatch"
+            android:id="@+id/et_catch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Foto"
-            android:id="@+id/btnAddFoto"
+            android:id="@+id/btn_add_photo"
             android:layout_gravity="right"
             android:layout_marginLeft="200dp"
             />
@@ -163,7 +163,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivFoto"
+            android:id="@+id/iv_photo"
             android:layout_width="100dp"
             android:layout_height="122dp"
             android:layout_gravity="center_horizontal"
@@ -179,7 +179,7 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/btnCreate"
+            android:id="@+id/btn_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="48dp"

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <string name="app_name">MyFishing</string>
+    <string name="app_name">My Fishing</string>
+    <string name="title_add_new_fishing">Add New Fishing</string>
+    <string name="title_fishing_details">Fishing Details</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="footer_string">New Fishing</string>
     <string name="fishing_place">Place:</string>
     <string name="fishing_date">Date:</string>
     <string name="fishing_weather">Weather:</string>
-    <string name="fishing_process">Discription:</string>
+    <string name="fishing_process">Description:</string>
     <string name="fishing_catch">Catch:</string>
     <string name="fishing_foto">Foto:</string>
 

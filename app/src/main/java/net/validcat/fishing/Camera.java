@@ -20,7 +20,7 @@ import java.io.File;
  * <code>Bitmap</code>.
  *
  */
-public class Camera extends CameraManager { //TODO CameraManager, delete extends Activity
+public class Camera { //TODO CameraManager is class name extends CameraManager
     public static final String LOG_TAG = "myLogs";
     private static final String FOLDER_NAME = "MyFishing";
     private static final String KEY_DATA = "data";
@@ -30,7 +30,7 @@ public class Camera extends CameraManager { //TODO CameraManager, delete extends
     private Uri mUri;
     //TODO this field not needed
 
-    public void startCameraForResult(Activity) { //TODO rename startCameraForResult(Activity)
+    public void startCameraForResult(Activity activity) { //TODO rename startCameraForResult(Activity)
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             createDirectoryFromCard();
 //				 else {
@@ -39,7 +39,7 @@ public class Camera extends CameraManager { //TODO CameraManager, delete extends
         mUri = generateFileUri();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(KEY_DATA, mUri);
-        startActivityForResult(intent, REQUEST_CODE_FOTO);
+        activity.startActivityForResult(intent, REQUEST_CODE_FOTO);
     }
 
     //TODO rename method extractPhotoBitmapFromResult()
@@ -49,18 +49,19 @@ public class Camera extends CameraManager { //TODO CameraManager, delete extends
                 Log.d(LOG_TAG, "Intent is null");
             Bitmap foto = (Bitmap) intent.getExtras().get(KEY_DATA);
             return foto;
-        } else if (resultCode == RESULT_CANCELED) {
+        } else if (resultCode == 1) { //TODO RESULT_CANCELED get from activity
             Log.d(LOG_TAG, "Canceled");
             return null;
         }
 
         //TODO method returns Bitmap ot null (in case if this is not REQUEST_CODE_FOTO)
+        return null;
     }
 
     private Uri generateFileUri() {
         if (directory == null) createDirectoryFromCard();
         return Uri.fromFile(
-                new File(directory.getPath()+ "/" + "photo_"
+                new File(directory.getPath() + "/" + "photo_"
                         + System.currentTimeMillis() + EXCTANTION_JPG));
     }
 
@@ -71,4 +72,4 @@ public class Camera extends CameraManager { //TODO CameraManager, delete extends
             directory.mkdirs();
     }
 
-
+}

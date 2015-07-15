@@ -23,15 +23,24 @@ import butterknife.ButterKnife;
 public class AddNewFishing extends AppCompatActivity implements OnClickListener {
     public static final String LOG_TAG = AddNewFishing.class.getSimpleName();
 
-    @Bind(R.id.et_place) EditText etPlace;
-    @Bind(R.id.etDate) EditText etDate;
-    @Bind(R.id.et_weather) EditText etWeather;
-    @Bind(R.id.et_process) EditText etProcess;
-    @Bind(R.id.et_catch) EditText etCatch;
-    @Bind(R.id.btn_create) Button btnCreate;
-    @Bind(R.id.btn_change) Button btnChange;
-    @Bind(R.id.btn_add_photo) Button btnAddFoto;
-    @Bind(R.id.iv_photo) ImageView ivPhoto;
+    @Bind(R.id.et_place)
+    EditText etPlace;
+    @Bind(R.id.etDate)
+    EditText etDate;
+    @Bind(R.id.et_weather)
+    EditText etWeather;
+    @Bind(R.id.et_process)
+    EditText etProcess;
+    @Bind(R.id.et_catch)
+    EditText etCatch;
+    @Bind(R.id.btn_create)
+    Button btnCreate;
+    @Bind(R.id.btn_change)
+    Button btnChange;
+    @Bind(R.id.btn_add_photo)
+    Button btnAddFoto;
+    @Bind(R.id.iv_photo)
+    ImageView ivPhoto;
 
     private Bitmap bitmap;
     private DB db;
@@ -39,6 +48,7 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
     private int day;
     private int month;
     private int year;
+    private CameraManager cm;
 
 
     @Override
@@ -60,7 +70,7 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
         Calendar c = Calendar.getInstance();
         day = c.get(Calendar.DAY_OF_MONTH);
         month = c.get(Calendar.MONTH);
-        year = c.get (Calendar.YEAR);
+        year = c.get(Calendar.YEAR);
     }
 
     @Override
@@ -97,10 +107,11 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                 showDialog(DIALOG_DATE);
                 break;
             case R.id.btn_add_photo:
-                Camera myCamera = new Camera();
-//                myCamera.startIntent();
-//                bitmap = myCamera.getFoto();
-                ivPhoto.setImageBitmap(bitmap);
+                cm = new CameraManager();
+                cm.startCameraForResult(this);
+//                myCameraManager.startIntent();
+//                bitmap = myCameraManager.getFoto();
+
         }
 
     }
@@ -123,4 +134,10 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
         return super.onCreateDialog(id);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap b = cm.checkResult(requestCode, resultCode, data);
+        if (b != null) {
+            ivPhoto.setImageBitmap(b);
+        }
+    }
 }

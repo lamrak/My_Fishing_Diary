@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -139,5 +140,11 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
         if (b != null) {
             ivPhoto.setImageBitmap(b);
         }
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.add_new_fishing_action_bar, menu);
+
+        return true;
     }
 }

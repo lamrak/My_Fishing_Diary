@@ -35,26 +35,32 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/vodobud" />
+        android:src="@drawable/vodobud"
+        />
 
     <net.validcat.fishing.ui.RoundedImageView
         android:id="@+id/imageView_weather"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginLeft="35dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/weather"
-        android:background="#ffffff"
+        android:layout_marginTop="54dp"
+        android:background="@drawable/weather_rev01"
         android:scaleType="center" />
+
+    <net.validcat.fishing.ui.Line
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/line_view"
+        android:layout_marginTop="96dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:autoText="false"
         android:elegantTextHeight="false"
         android:text="Vodobud"
@@ -68,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="54dp"
         android:text="Good weather and good fishing"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#9a9a9a"
@@ -80,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="12.06.2015"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#9a9a9a"
@@ -93,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="54dp"
         android:clickable="false"
         android:numStars="1" />
 

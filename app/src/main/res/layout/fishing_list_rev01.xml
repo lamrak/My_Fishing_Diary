@@ -9,7 +9,7 @@
         android:layout_marginRight="40dp"
         android:duplicateParentState="true"
         android:src="@drawable/fab_icons"
-        android:visibility="visible" />
+        />
 
     <net.validcat.fishing.ui.FloatingActionButton
         android:id="@+id/fab_add_fishing"

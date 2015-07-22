@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="@dimen/fab_icon_size"
+        android:layout_height="@dimen/fab_icon_size"
+        android:layout_gravity="bottom|center|right"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="40dp"
+        android:duplicateParentState="true"
+        android:src="@drawable/fab_icons"
+        android:visibility="visible" />
+
+    <net.validcat.fishing.ui.FloatingActionButton
+        android:id="@+id/fab_add_fishing"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/fab_background"
+        android:elevation="@dimen/fab_elevation" />
+
+    <net.validcat.fishing.ui.RoundedImageView
+        android:id="@+id/imageView_round"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/vodobud"
+        />
+
+    <net.validcat.fishing.ui.RoundedImageView
+        android:id="@+id/imageView_weather"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="54dp"
+        android:background="@drawable/weather_rev01"
+        android:scaleType="center" />
+
+    <net.validcat.fishing.ui.Line
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/line_view"
+        android:layout_marginTop="96dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="32dp"
+        android:autoText="false"
+        android:elegantTextHeight="false"
+        android:text="Vodobud"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#404040"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="54dp"
+        android:text="Good weather and good fishing"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#9a9a9a"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:text="12.06.2015"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#9a9a9a"
+        android:textSize="12dp" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="54dp"
+        android:clickable="false"
+        android:numStars="1" />
+
+</FrameLayout>
+

@@ -2,11 +2,15 @@ package net.validcat.fishing;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 
 import net.validcat.fishing.db.Constants;
 import net.validcat.fishing.db.DB;
@@ -21,6 +25,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "FishingList";
+    private ImageView imageViewRound;
+
     // findViewById
     @Bind(R.id.my_recycler_view)
     RecyclerView recyclerView;
@@ -34,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        //imageViewRound = (ImageView)findViewById(R.id.imageView_round);
+        //Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.vodobud);
+       // imageViewRound.setImageBitmap(icon);
+
 
         initDataBase();
         initUI();
@@ -82,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
+//         public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.main, menu);
 //

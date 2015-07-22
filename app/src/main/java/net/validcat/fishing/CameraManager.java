@@ -7,6 +7,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import net.validcat.fishing.db.Constants;
+
 import java.io.File;
 
 /**
@@ -20,18 +23,12 @@ import java.io.File;
  * <code>Bitmap</code>.
  *
  */
-public class CameraManager { //TODO CameraManager is class name extends CameraManager
-    public static final String LOG_TAG = "myLogs";
-    private static final String FOLDER_NAME = "MyFishing";
-    private static final String KEY_DATA = "data";
-    private static final String EXCTANTION_JPG = ".jpg";
-    private static final int REQUEST_CODE_FOTO = 1;
+public class CameraManager {
+    public static final String LOG_TAG = CameraManager.class.getSimpleName();
     private File directory;
     private Uri mUri;
 
-    //TODO this field not needed
-
-    public void startCameraForResult(Activity activity) { //TODO rename startCameraForResult(Activity)
+    public void startCameraForResult(Activity activity) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             createDirectoryFromCard();
 //				 else {
@@ -39,36 +36,31 @@ public class CameraManager { //TODO CameraManager is class name extends CameraMa
 //				}
         mUri = generateFileUri();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(KEY_DATA, mUri);
-        activity.startActivityForResult(intent, REQUEST_CODE_FOTO);
+        intent.putExtra(Constants.KEY_DATA, mUri);
+        activity.startActivityForResult(intent, Constants.REQUEST_CODE_PHOTO);
     }
 
-    //TODO rename method extractPhotoBitmapFromResult()
-    protected Bitmap checkResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == REQUEST_CODE_FOTO) {
+    protected Bitmap extractPhotoBitmapFromResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == Constants.REQUEST_CODE_PHOTO) {
             if (intent == null)
                 Log.d(LOG_TAG, "Intent is null");
-            Bitmap foto = (Bitmap) intent.getExtras().get(KEY_DATA);
-            return foto;
-        } else if (resultCode == 1) { //TODO RESULT_CANCELED get from activity
-            Log.d(LOG_TAG, "Canceled");
-            return null;
+            return (Bitmap) intent.getExtras().get(Constants.KEY_DATA);
+
         }
 
-        //TODO method returns Bitmap ot null (in case if this is not REQUEST_CODE_FOTO)
-       return null;
+        return null;
     }
 
     private Uri generateFileUri() {
         if (directory == null) createDirectoryFromCard();
         return Uri.fromFile(
                 new File(directory.getPath() + "/" + "photo_"
-                        + System.currentTimeMillis() + EXCTANTION_JPG));
+                        + System.currentTimeMillis() + Constants.EXTENSION_JPG));
     }
 
     private void createDirectoryFromCard() {
         directory = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), FOLDER_NAME);
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), Constants.FOLDER_NAME);
         if (!directory.exists())
             directory.mkdirs();
     }

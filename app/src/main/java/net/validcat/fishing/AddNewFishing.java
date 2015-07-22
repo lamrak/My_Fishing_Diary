@@ -136,7 +136,7 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap b = cm.checkResult(requestCode, resultCode, data);
+        Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
         if (b != null) {
             ivPhoto.setImageBitmap(b);
         }

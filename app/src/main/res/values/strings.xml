@@ -4,14 +4,17 @@
     <string name="app_name">My Fishing</string>
     <string name="title_add_new_fishing">Add New Fishing</string>
     <string name="title_fishing_details">Fishing Details</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="footer_string">New Fishing</string>
-    <string name="fishing_place">Place:</string>
-    <string name="fishing_date">Date:</string>
-    <string name="fishing_weather">Weather:</string>
-    <string name="fishing_process">Description:</string>
-    <string name="fishing_catch">Catch:</string>
-    <string name="fishing_foto">Foto:</string>
+    <string name="fishing_place">Fishing place</string>
+    <string name="fishing_date">Date</string>
+    <string name="fishing_weather">Weather</string>
+    <string name="fishing_details">Description</string>
+    <string name="fishing_catch">Catch</string>
+    <string name="fishing_photo">Photo</string>
+    <string name="fishing_price">Price</string>
+    <string name="price_value">0$</string>
+    <string name="image_descr">Default Description</string>
+    <string name="hint_fishing_place">Place of your fishing (ex. River)</string>
 
 </resources>

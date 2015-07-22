@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string name="app_name">Моя Рыбалка</string>
+    <string name="title_add_new_fishing">Добавить рыбалку</string>
+    <string name="title_fishing_details">Рыбалка </string>
+    <string name="action_settings">Настройки</string>
+    <string name="footer_string">Новая рыбалка</string>
+    <string name="fishing_place">Место рыбалки</string>
+    <string name="fishing_date">Дата</string>
+    <string name="fishing_weather">Погода</string>
+    <string name="fishing_details">Описание</string>
+    <string name="fishing_catch">Улов</string>
+    <string name="fishing_photo">Фотография</string>
+    <string name="fishing_price">Стоимость рыбалки</string>
+    <string name="price_value">0 грн</string>
+    <string name="hint_fishing_place">Место вашей рыбалки (Озеро, Река)</string>
+
+</resources>

@@ -16,7 +16,9 @@ import android.widget.ImageView;
 
 import net.validcat.fishing.db.DB;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,24 +26,15 @@ import butterknife.ButterKnife;
 public class AddNewFishing extends AppCompatActivity implements OnClickListener {
     public static final String LOG_TAG = AddNewFishing.class.getSimpleName();
 
-    @Bind(R.id.et_place)
-    EditText etPlace;
-    @Bind(R.id.etDate)
-    EditText etDate;
-    @Bind(R.id.et_weather)
-    EditText etWeather;
-    @Bind(R.id.et_process)
-    EditText etProcess;
-    @Bind(R.id.et_catch)
-    EditText etCatch;
-    @Bind(R.id.btn_create)
-    Button btnCreate;
-    @Bind(R.id.btn_change)
-    Button btnChange;
-    @Bind(R.id.btn_add_photo)
-    Button btnAddFoto;
-    @Bind(R.id.iv_photo)
-    ImageView ivPhoto;
+    @Bind(R.id.et_place) EditText etPlace;
+    @Bind(R.id.etDate) EditText etDate;
+    @Bind(R.id.et_weather) EditText etWeather;
+    @Bind(R.id.et_process) EditText etProcess;
+    @Bind(R.id.et_catch) EditText etCatch;
+    @Bind(R.id.btn_create) Button btnCreate;
+    @Bind(R.id.btn_change) Button btnChange;
+    @Bind(R.id.btn_add_photo) Button btnAddFoto;
+    @Bind(R.id.iv_photo) ImageView ivPhoto;
 
     private Bitmap bitmap;
     private DB db;
@@ -63,9 +56,9 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
         btnChange.setOnClickListener(this);
         btnAddFoto.setOnClickListener(this);
 
-        Intent MyIntent = getIntent();
-        String date = MyIntent.getStringExtra("keyDate");
-        // Log.d(LOG_TAG, " --- MyDate --- " + date);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        String date = sdf.format(new Date(System.currentTimeMillis()));
+
         etDate.setText(date);
 
         Calendar c = Calendar.getInstance();
@@ -112,7 +105,6 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                 cm.startCameraForResult(this);
 //                myCameraManager.startIntent();
 //                bitmap = myCameraManager.getFoto();
-
         }
 
     }
@@ -141,6 +133,7 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
             ivPhoto.setImageBitmap(b);
         }
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.add_new_fishing_action_bar, menu);

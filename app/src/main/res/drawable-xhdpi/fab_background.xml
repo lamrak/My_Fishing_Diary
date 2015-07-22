@@ -39,7 +39,7 @@
         <ripple android:color="@color/fab_color_1_muted">
             <item>
                 <shape>
-                    <solid android:color="@color/actionbar_color" />
+                    <solid android:color="@color/button_color" />
                 </shape>
             </item>
         </ripple>

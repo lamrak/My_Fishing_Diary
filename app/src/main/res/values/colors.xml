@@ -15,10 +15,11 @@
  limitations under the License.
 -->
 <resources>
-    <color name="fab_color_1">#ff5252</color>
-    <color name="fab_color_1_muted">#ff8080</color>
-    <color name="fab_color_2">#9c27b0</color>
-    <color name="fab_color_2_muted">#a56ab0</color>
-    <color name="actionbar_color">#43A047</color>
-    <color name="actionbar_text_color">#fff</color>
+    <!-- colors -->
+    <color name="color_green_forest">#43A047</color>
+
+    <!-- Theme scheme -->
+    <color name="actionbar_color">@color/color_green_forest</color>
+    <color name="button_color">@color/color_green_forest</color>
+    <color name="actionbar_text_color">@android:color/white</color>
 </resources>

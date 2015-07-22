@@ -2,22 +2,17 @@ package net.validcat.fishing;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
 import net.validcat.fishing.db.Constants;
 import net.validcat.fishing.db.DB;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -26,10 +21,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "FishingList";
     private ImageView imageViewRound;
-
-    // findViewById
-    @Bind(R.id.my_recycler_view)
-    RecyclerView recyclerView;
+    @Bind(R.id.my_recycler_view) RecyclerView recyclerView;
 
     private RecyclerView.Adapter adapter;
 
@@ -44,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         //imageViewRound = (ImageView)findViewById(R.id.imageView_round);
         //Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.vodobud);
        // imageViewRound.setImageBitmap(icon);
-
 
         initDataBase();
         initUI();
@@ -64,12 +55,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.fab_add_fishing).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startNewActivity = new Intent(MainActivity.this, AddNewFishing.class);
-                //TODO why do we do this here, in this class, not in AddNewFishing
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy"); //TODO http://prntscr.com/7prdux
-                final String date = sdf.format(new Date(System.currentTimeMillis()));
-                startNewActivity.putExtra("keyDate", date);
-                startActivityForResult(startNewActivity, Constants.ITEM_REQUEST);
+                startActivityForResult(new Intent(MainActivity.this, AddNewFishing.class), Constants.ITEM_REQUEST);
             }
         });
     }

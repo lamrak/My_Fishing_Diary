@@ -19,12 +19,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String LOG_TAG = "FishingList";
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ImageView imageViewRound;
     @Bind(R.id.my_recycler_view) RecyclerView recyclerView;
 
     private RecyclerView.Adapter adapter;
-
     List<FishingItem> itemsList = new ArrayList<FishingItem>();
 
     @Override
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         //imageViewRound = (ImageView)findViewById(R.id.imageView_round);
         //Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.vodobud);
        // imageViewRound.setImageBitmap(icon);
-
         initDataBase();
         initUI();
     }

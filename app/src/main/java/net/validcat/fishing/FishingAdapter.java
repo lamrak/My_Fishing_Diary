@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHolder> {
-	private static final String LOG_TAG = "FishingAdapter";
+	private static final String LOG_TAG = FishingAdapter.class.getSimpleName();
 	private List<FishingItem> items;
 	private Context context;
 

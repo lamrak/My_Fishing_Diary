@@ -18,6 +18,7 @@ package net.validcat.fishing.ui;
 
 import android.content.Context;
 import android.graphics.Outline;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
@@ -81,15 +82,16 @@ public class FloatingActionButton extends FrameLayout implements Checkable {
         // Set the outline provider for this view. The provider is given the outline which it can
         // then modify as needed. In this case we set the outline to be an oval fitting the height
         // and width.
-        setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setOval(0, 0, getWidth(), getHeight());
-            }
-        });
-
-        // Finally, enable clipping to the outline, using the provider we set above
-        setClipToOutline(true);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    outline.setOval(0, 0, getWidth(), getHeight());
+                    // Finally, enable clipping to the outline, using the provider we set above
+                    setClipToOutline(true);
+                }
+            });
+        }
     }
 
     /**
@@ -146,7 +148,9 @@ public class FloatingActionButton extends FrameLayout implements Checkable {
 
         // As we have changed size, we should invalidate the outline so that is the the
         // correct size
-        invalidateOutline();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            invalidateOutline();
+        }
     }
 
     @Override

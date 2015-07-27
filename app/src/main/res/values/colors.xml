@@ -17,9 +17,16 @@
 <resources>
     <!-- colors -->
     <color name="color_green_forest">#43A047</color>
+    <color name="color_light_gray">#e0e0e0</color>
+    <color name="color_dark_gray">#404040</color>
+    <color name="color_pale_gray">#9a9a9a</color>
 
     <!-- Theme scheme -->
     <color name="actionbar_color">@color/color_green_forest</color>
     <color name="button_color">@color/color_green_forest</color>
     <color name="actionbar_text_color">@android:color/white</color>
+    <color name="devider_color">@color/color_light_gray</color>
+    <color name="fishing_name_color">@color/color_dark_gray</color>
+    <color name="description_color">@color/color_pale_gray</color>
+    <color name="date_color">@color/color_pale_gray</color>
 </resources>

@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <string name="title_fishing_details">Fishing Details</string>
+
+    //android_manifest
     <string name="app_name">My Fishing</string>
     <string name="title_add_new_fishing">Add New Fishing</string>
-    <string name="title_fishing_details">Fishing Details</string>
+
+    //add_new_fishing_action_bar
     <string name="action_settings">Settings</string>
+
+    //footer_view.xml
     <string name="footer_string">New Fishing</string>
+
+    //activity_main_rev02
+    <string name="place_main">Vodobud</string>
+    <string name="description_main">Good weather and good fishing</string>
+    <string name="date_main">12.06.2015</string>
+    <string name="image_descr">Default Description</string>
+    <string name="string_fab_icon">plus</string>
+
+    // fishing_list_rev01
     <string name="fishing_place">Fishing place</string>
-    <string name="fishing_date">Date</string>
-    <string name="fishing_weather">Weather</string>
-    <string name="fishing_details">Description</string>
-    <string name="fishing_catch">Catch</string>
-    <string name="fishing_photo">Photo</string>
+    <string name="hint_fishing_place">Place of your fishing (ex. River)</string>
     <string name="fishing_price">Price</string>
     <string name="price_value">0$</string>
-    <string name="image_descr">Default Description</string>
-    <string name="hint_fishing_place">Place of your fishing (ex. River)</string>
+    <string name="fishing_details">Description</string>
+    <string name="fishing_date">Date</string>
+    <string name="fishing_weather">Weather</string>
+
+    //fishing_list
+    <string name="fishing_catch">Catch</string>
+    <string name="fishing_photo">Photo</string>
 
 </resources>

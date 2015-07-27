@@ -3,6 +3,7 @@ package net.validcat.fishing;
 import android.content.Intent;
 
 public class FishingItem {
+	public static final String LOG_TAG = FishingItem.class.getSimpleName();
 	public final static String PLACE = "place";
 	public final static String DATE = "date";
 	public final static String ID = "id";

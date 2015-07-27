@@ -13,7 +13,7 @@ import net.validcat.fishing.FishingItem;
 import java.util.List;
 
 public class DB {
-	public static final String LOG_TAG = "myLogs";
+	public static final String LOG_TAG = DB.class.getSimpleName();
 	private static final String DATABASE_NAME = "den_database1.db";
 	public static final String DB_TABLE = "mytab";
 	private static final int DB_VERSION = 1;

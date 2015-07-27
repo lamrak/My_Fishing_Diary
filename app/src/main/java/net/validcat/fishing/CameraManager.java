@@ -45,7 +45,6 @@ public class CameraManager {
             if (intent == null)
                 Log.d(LOG_TAG, "Intent is null");
             return (Bitmap) intent.getExtras().get(Constants.KEY_DATA);
-
         }
 
         return null;
@@ -64,6 +63,5 @@ public class CameraManager {
         if (!directory.exists())
             directory.mkdirs();
     }
-
 
 }

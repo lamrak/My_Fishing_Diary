@@ -92,7 +92,7 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                 db.close();
 
                 Intent data = new Intent();
-                FishingItem.packageIntent(data, myPlace, myDate, id);
+                FishingItem.packageIntent(data, myPlace, myDate, id, myDescription);
                 // send container
                 setResult(RESULT_OK, data);
                 finish();

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -63,8 +65,7 @@
         android:textSize="16sp"
         android:clickable="true"
         android:layout_alignTop="@+id/tv_weather"
-        android:layout_alignRight="@+id/fab_add_fishing"
-        android:layout_alignEnd="@+id/fab_add_fishing"/>
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -84,23 +85,21 @@
         android:layout_below="@+id/et_details"
         android:contentDescription="@string/image_descr"/>
 
-    <ImageView
-        android:layout_width="@dimen/fab_icon_size"
-        android:layout_height="@dimen/fab_icon_size"
-        android:layout_gravity="bottom|center|end"
-        android:duplicateParentState="true"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_fishing_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/fab_icons"
-        android:contentDescription="@string/image_descr" />
-
-    <net.validcat.fishing.ui.FloatingActionButton
-        android:id="@+id/fab_add_fishing"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
+        app:elevation="6dp"
+        app:borderWidth="10dp"
+        app:pressedTranslationZ="12dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/fab_background"
-        android:elevation="@dimen/fab_elevation" />
+        app:backgroundTint="@color/button_color"/>
+
+
 </RelativeLayout>

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.validcat.fishing.ui.RoundedImageView;
+
 import java.util.List;
 
 public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHolder> {
@@ -24,7 +26,7 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 	@Override
 	public FishingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
 		// create a new view and set the view's size, margins, paddings and layout parameters
-		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.main, parent, false));
+		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_for_adapter, parent, false));
 	}
 
 	@Override
@@ -33,6 +35,8 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
         viewHolder.view.setOnClickListener(viewHolder);
 		viewHolder.place.setText(item.getPlace());
 		viewHolder.date.setText(item.getDate());
+		viewHolder.discription.setText(item.getDescription());
+		
 	}
 
 	@Override
@@ -46,12 +50,18 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
         public View view;
 		public TextView place;
 		public TextView date;
+		public TextView discription;
+		public RoundedImageView foto_preview;
+		public RoundedImageView weather_preview;
 
 		public ViewHolder(View view) {
 			super(view);
             this.view = view;
-			place = (TextView) view.findViewById(R.id.place);
-			date = (TextView) view.findViewById(R.id.date);
+			place = (TextView) view.findViewById(R.id.tv_adapter_place);
+			date = (TextView) view.findViewById(R.id.tv_adapter_date);
+			discription = (TextView) view.findViewById(R.id.tv_adapter_description);
+			foto_preview = (RoundedImageView) view.findViewById(R.id.foto_preview);
+			weather_preview = (RoundedImageView) view.findViewById(R.id.weather_preview);
 		}
 
 		@Override

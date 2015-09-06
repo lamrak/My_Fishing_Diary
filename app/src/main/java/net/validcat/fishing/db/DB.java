@@ -77,13 +77,15 @@ public class DB {
 		int idBdKey = cursor.getColumnIndex(DB.COLUMN_ID);
 		int dbPlaceKey = cursor.getColumnIndex(DB.COLUMN_PLACE);
 		int dbDateKey = cursor.getColumnIndex(DB.COLUMN_DATE);
+		int dbDiscriptionKey = cursor.getColumnIndex(DB.COLUMN_PROCESS);
 
 		do {
 			int idBd = cursor.getInt(idBdKey);
 			String dbPlace = cursor.getString(dbPlaceKey);
 			String dbDate = cursor.getString(dbDateKey);
+			String dbDiscription = cursor.getString(dbDiscriptionKey);
 
-			FishingItem dbItem = new FishingItem(idBd, dbPlace, dbDate);
+			FishingItem dbItem = new FishingItem(idBd, dbPlace, dbDate, dbDiscription);
 			dbInnerList.add(dbItem);
 			Log.d(LOG_TAG, " --- dbList --- " + dbInnerList);
 		} while (cursor.moveToNext());

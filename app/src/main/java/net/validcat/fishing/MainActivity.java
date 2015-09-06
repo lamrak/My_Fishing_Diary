@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
        // imageViewRound.setImageBitmap(icon);
         initDataBase();
         initUI();
+
+//        AppCompatButton fab = (AppCompatButton) findViewById(R.id.fab_add_fishing);
+//        ColorStateList cs = new ColorStateList(new int[][]{new int[0]}, new int[]{0x43A047});
+//        fab.setSupportBackgroundTintList(cs);
     }
 
     private void initUI() {

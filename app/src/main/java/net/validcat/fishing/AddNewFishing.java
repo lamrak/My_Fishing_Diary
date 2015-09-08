@@ -5,14 +5,15 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.validcat.fishing.db.DB;
 
@@ -27,14 +28,15 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
     public static final String LOG_TAG = AddNewFishing.class.getSimpleName();
 
     @Bind(R.id.et_place) EditText etPlace;
-    @Bind(R.id.etDate) EditText etDate;
-    @Bind(R.id.et_weather) EditText etWeather;
-    @Bind(R.id.et_process) EditText etProcess;
-    @Bind(R.id.et_catch) EditText etCatch;
-    @Bind(R.id.btn_create) Button btnCreate;
-    @Bind(R.id.btn_change) Button btnChange;
-    @Bind(R.id.btn_add_photo) Button btnAddFoto;
+    @Bind(R.id.tv_date) TextView tvDate;
+    @Bind(R.id.tv_weather) TextView tvWeather;
+    @Bind(R.id.et_price) EditText etPrice;
+    @Bind(R.id.et_details) EditText etDetails;
+    @Bind (R.id.fab_add_fishing_list) FloatingActionButton fab_add_fishing_list;
     @Bind(R.id.iv_photo) ImageView ivPhoto;
+
+    //@Bind(R.id.btn_change) Button btnChange;
+    //@Bind(R.id.btn_add_photo) Button btnAddFoto;
 
     private Bitmap bitmap;
     private DB db;
@@ -48,18 +50,18 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fishing_list);
+        setContentView(R.layout.fishing_list_rev01);
         ButterKnife.bind(this);
 
         // listener for the button
-        btnCreate.setOnClickListener(this);
-        btnChange.setOnClickListener(this);
-        btnAddFoto.setOnClickListener(this);
+        fab_add_fishing_list.setOnClickListener(this);
+        tvDate.setOnClickListener(this);
+        ivPhoto.setOnClickListener(this);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         String date = sdf.format(new Date(System.currentTimeMillis()));
 
-        etDate.setText(date);
+        tvDate.setText(date);
 
         Calendar c = Calendar.getInstance();
         day = c.get(Calendar.DAY_OF_MONTH);
@@ -70,13 +72,13 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_create:
+            case R.id.fab_add_fishing_list:
                 // save in data base
                 String myPlace = etPlace.getText().toString();
-                String myDate = etDate.getText().toString();
-                String myWeather = etWeather.getText().toString();
-                String myDescription = etProcess.getText().toString();
-                String myCatch = etCatch.getText().toString();
+                String myDate = tvDate.getText().toString();
+                String myWeather = tvWeather.getText().toString();
+                String myDescription = etDetails.getText().toString();
+                String myCatch = etPrice.getText().toString();
 
                 FishingItem item = new FishingItem();
                 item.setPlace(myPlace);
@@ -97,10 +99,10 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                 setResult(RESULT_OK, data);
                 finish();
                 break;
-            case R.id.btn_change:
+            case R.id.tv_date:
                 showDialog(DIALOG_DATE);
                 break;
-            case R.id.btn_add_photo:
+            case R.id.iv_photo:
                 cm = new CameraManager();
                 cm.startCameraForResult(this);
 //                myCameraManager.startIntent();
@@ -117,7 +119,7 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                     AddNewFishing.this.year = year;
                     AddNewFishing.this.month = monthOfYear;
                     AddNewFishing.this.day = dayOfMonth;
-                    etDate.setText(AddNewFishing.this.day + "." + AddNewFishing.this.month + "." + AddNewFishing.this.year);
+                    tvDate.setText(AddNewFishing.this.day + "." + AddNewFishing.this.month + "." + AddNewFishing.this.year);
                 }
             }, year, month, day);
 

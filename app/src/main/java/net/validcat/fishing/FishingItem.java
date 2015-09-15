@@ -34,7 +34,7 @@ public class FishingItem {
 
     // constructor
     public FishingItem(Intent intent) {
-        // obtain data in intent (come in MainActivity)
+        // obtain data in intent (come in ListActivity)
         place = intent.getStringExtra(FishingItem.PLACE);
         date = intent.getStringExtra(FishingItem.DATE);
         id = intent.getLongExtra(FishingItem.ID, -1L);
@@ -53,7 +53,6 @@ public class FishingItem {
         data.putExtra(FishingItem.DATE, date);
         data.putExtra(FishingItem.ID, idLong);
         data.putExtra(FishingItem.DISCRIPTION, description);
-
     }
 
     // data which are set in the formation of a list item
@@ -77,7 +76,7 @@ public class FishingItem {
         return description;
     }
 
-    public String getCatch() {
+    public String getPrice() {
         return catches;
     }
 
@@ -97,7 +96,7 @@ public class FishingItem {
         this.description = description;
     }
 
-    public void setCatches(String catches) {
+    public void setPrice(String catches) {
         this.catches = catches;
     }
 

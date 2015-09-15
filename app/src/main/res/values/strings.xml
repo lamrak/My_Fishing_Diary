@@ -22,7 +22,7 @@
 
     // fishing_list_rev01
     <string name="fishing_place">Fishing place</string>
-    <string name="hint_fishing_place">Place of your fishing (ex. River)</string>
+    <string name="hint_fishing_place">Place of your fishing (Dnipro River)</string>
     <string name="fishing_price">Price</string>
     <string name="price_value">0$</string>
     <string name="fishing_details">Description</string>
@@ -32,5 +32,10 @@
     //fishing_list
     <string name="fishing_catch">Catch</string>
     <string name="fishing_photo">Photo</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_second_fragment">SecondFragment</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

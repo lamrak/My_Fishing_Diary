@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin">
+
+    <View
+        android:id="@+id/delimetr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/tv_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/fishing_place"
+        android:layout_gravity="start|top"
+        android:layout_marginTop="24dp"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:hint="@string/hint_fishing_place"
+        android:layout_marginTop="48dp"
+        android:textSize="16sp"
+        android:layout_alignRight="@+id/delimetr"
+        android:layout_alignEnd="@+id/delimetr" />
+
+    <EditText
+        android:id="@+id/et_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginTop="112dp"
+        android:hint="@string/fishing_price"
+        android:textSize="16sp"
+        android:text="@string/price_value"/>
+
+    <EditText
+        android:id="@+id/et_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:hint="@string/fishing_details"
+        android:layout_marginTop="160dp"
+        android:textSize="16sp"
+        android:layout_alignRight="@+id/delimetr"
+        android:layout_alignEnd="@+id/delimetr" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:hint="@string/fishing_price"
+        android:layout_gravity="start|top"
+        android:textSize="16sp"
+        android:layout_marginTop="96dp" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fishing_date"
+        android:layout_gravity="center_horizontal|top"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:layout_alignTop="@+id/tv_weather"
+        android:layout_alignRight="@+id/delimetr"
+        android:layout_alignEnd="@+id/delimetr" />
+
+    <TextView
+        android:id="@+id/tv_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fishing_weather"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_alignTop="@+id/et_price"
+        android:layout_toRightOf="@+id/tv_place"
+        android:layout_toEndOf="@+id/tv_place" />
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/image_descr"
+        android:layout_alignParentTop="false"
+        android:layout_alignLeft="@+id/delimetr"
+         />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_fishing_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fab_icons"
+        android:layout_gravity="bottom|end"
+        app:elevation="6dp"
+        app:borderWidth="10dp"
+        app:pressedTranslationZ="12dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="@color/button_color"/>
+
+
+</RelativeLayout>

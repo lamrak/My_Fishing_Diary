@@ -1,4 +1,4 @@
-package net.validcat.fishing;
+package net.validcat.fishing.tools;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,7 +40,7 @@ public class CameraManager {
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_PHOTO);
     }
 
-    protected Bitmap extractPhotoBitmapFromResult(int requestCode, int resultCode, Intent intent) {
+    public Bitmap extractPhotoBitmapFromResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == Constants.REQUEST_CODE_PHOTO) {
             if (intent == null)
                 Log.d(LOG_TAG, "Intent is null");

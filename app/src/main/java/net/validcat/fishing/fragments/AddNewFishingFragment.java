@@ -1,21 +1,24 @@
-package net.validcat.fishing;
+package net.validcat.fishing.fragments;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.DatePicker;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.validcat.fishing.FishingItem;
+import net.validcat.fishing.R;
 import net.validcat.fishing.db.DB;
+import net.validcat.fishing.tools.CameraManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,19 +27,28 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddNewFishing extends AppCompatActivity implements OnClickListener {
-    public static final String LOG_TAG = AddNewFishing.class.getSimpleName();
+/**
+ * Created by Denis on 11.09.2015.
+ */
+public class AddNewFishingFragment extends Fragment implements View.OnClickListener {
 
-    @Bind(R.id.et_place) EditText etPlace;
-    @Bind(R.id.tv_date) TextView tvDate;
-    @Bind(R.id.tv_weather) TextView tvWeather;
-    @Bind(R.id.et_price) EditText etPrice;
-    @Bind(R.id.et_details) EditText etDetails;
-    @Bind (R.id.fab_add_fishing_list) FloatingActionButton fab_add_fishing_list;
-    @Bind(R.id.iv_photo) ImageView ivPhoto;
+    public AddNewFishingFragment() {
+    }
 
-    //@Bind(R.id.btn_change) Button btnChange;
-    //@Bind(R.id.btn_add_photo) Button btnAddFoto;
+    @Bind(R.id.et_place)
+    EditText etPlace;
+    @Bind(R.id.tv_date)
+    TextView tvDate;
+    @Bind(R.id.tv_weather)
+    TextView tvWeather;
+    @Bind(R.id.et_price)
+    EditText etPrice;
+    @Bind(R.id.et_details)
+    EditText etDetails;
+    @Bind(R.id.fab_add_fishing_list)
+    FloatingActionButton fab_add_fishing_list;
+    @Bind(R.id.iv_photo)
+    ImageView ivPhoto;
 
     private Bitmap bitmap;
     private DB db;
@@ -47,13 +59,10 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
     private CameraManager cm;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fishing_list_rev01);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
+        ButterKnife.bind(this, addNewFragmentView);
 
-        // listener for the button
         fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
@@ -67,6 +76,8 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
         day = c.get(Calendar.DAY_OF_MONTH);
         month = c.get(Calendar.MONTH);
         year = c.get(Calendar.YEAR);
+
+        return addNewFragmentView;
     }
 
     @Override
@@ -78,17 +89,18 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                 String myDate = tvDate.getText().toString();
                 String myWeather = tvWeather.getText().toString();
                 String myDescription = etDetails.getText().toString();
-                String myCatch = etPrice.getText().toString();
+                String myPrice = etPrice.getText().toString();
 
                 FishingItem item = new FishingItem();
                 item.setPlace(myPlace);
                 item.setDate(myDate);
                 item.setWeather(myWeather);
                 item.setDescription(myDescription);
-                item.setCatches(myCatch);
+                item.setPrice(myPrice);
 
                 // open a connection to the database
-                db = new DB(AddNewFishing.this);
+
+                db = new DB(getActivity());
                 db.open();
                 long id = db.saveFishingItem(item);
                 db.close();
@@ -96,40 +108,38 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
                 Intent data = new Intent();
                 FishingItem.packageIntent(data, myPlace, myDate, id, myDescription);
                 // send container
-                setResult(RESULT_OK, data);
-                finish();
+                getActivity().setResult(Activity.RESULT_OK, data);
+                getActivity().finish();
                 break;
             case R.id.tv_date:
-                showDialog(DIALOG_DATE);
+                DialogFragment picker = new DatePickerFragment(tvDate);
+                picker.show(getFragmentManager(), "datePicker");
                 break;
             case R.id.iv_photo:
                 cm = new CameraManager();
-                cm.startCameraForResult(this);
-//                myCameraManager.startIntent();
-//                bitmap = myCameraManager.getFoto();
+                cm.startCameraForResult(getActivity());
+
         }
-
     }
+//    protected Dialog onCreateDialog(int id) {
+//        if (id == DIALOG_DATE) {
+//            DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+//                @Override
+//                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                    AddNewFishingFragment.this.year = year;
+//                    AddNewFishingFragment.this.month = monthOfYear;
+//                    AddNewFishingFragment.this.day = dayOfMonth;
+//                    tvDate.setText(AddNewFishingFragment.this.day + "." + AddNewFishingFragment.this.month + "." + AddNewFishingFragment.this.year);
+//                }
+//            }, year, month, day);
+//
+//            return dpd;
+//        }
+//
+//        return super.onCreateDialog(id);
+//    }
 
-    protected Dialog onCreateDialog(int id) {
-        if (id == DIALOG_DATE) {
-            DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    AddNewFishing.this.year = year;
-                    AddNewFishing.this.month = monthOfYear;
-                    AddNewFishing.this.day = dayOfMonth;
-                    tvDate.setText(AddNewFishing.this.day + "." + AddNewFishing.this.month + "." + AddNewFishing.this.year);
-                }
-            }, year, month, day);
-
-            return dpd;
-        }
-
-        return super.onCreateDialog(id);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
         if (b != null) {
             ivPhoto.setImageBitmap(b);
@@ -138,8 +148,7 @@ public class AddNewFishing extends AppCompatActivity implements OnClickListener 
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_new_fishing_action_bar, menu);
-
+       getActivity().getMenuInflater().inflate(R.menu.add_new_fishing_action_bar, menu);
         return true;
     }
 }

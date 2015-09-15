@@ -22,13 +22,13 @@ public class DB {
 	public static final String COLUMN_PLACE = "place";
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_WEATHER = "weather";
-	public static final String COLUMN_PROCESS = "process";
-	public static final String COLUMN_CATCH = "catch";
+	public static final String COLUMN_DESCRIPTION = "description";
+	public static final String COLUMN_PRICE = "price";
 
 	private static final String DB_CREATE = "create table " + DB_TABLE + "("
 			+ COLUMN_ID + " integer primary key autoincrement, " + COLUMN_PLACE
 			+ " text, " + COLUMN_DATE + " text, " + COLUMN_WEATHER + " text, "
-			+ COLUMN_PROCESS + " text, " + COLUMN_CATCH + " text" + ");";
+			+ COLUMN_DESCRIPTION + " text, " + COLUMN_PRICE + " text" + ");";
 
 	private final Context mCtx;
 	private DBHelper mDBHelper;
@@ -36,8 +36,8 @@ public class DB {
 	long ID;
 
 	private String[] allColumns = { DB.COLUMN_ID, DB.COLUMN_PLACE,
-			DB.COLUMN_DATE, DB.COLUMN_WEATHER, DB.COLUMN_PROCESS,
-			DB.COLUMN_CATCH };
+			DB.COLUMN_DATE, DB.COLUMN_WEATHER, DB.COLUMN_DESCRIPTION,
+			DB.COLUMN_PRICE};
 
 	public DB(Context ctx) {
 		mCtx = ctx;
@@ -77,7 +77,7 @@ public class DB {
 		int idBdKey = cursor.getColumnIndex(DB.COLUMN_ID);
 		int dbPlaceKey = cursor.getColumnIndex(DB.COLUMN_PLACE);
 		int dbDateKey = cursor.getColumnIndex(DB.COLUMN_DATE);
-		int dbDiscriptionKey = cursor.getColumnIndex(DB.COLUMN_PROCESS);
+		int dbDiscriptionKey = cursor.getColumnIndex(DB.COLUMN_DESCRIPTION);
 
 		do {
 			int idBd = cursor.getInt(idBdKey);
@@ -133,9 +133,9 @@ public class DB {
 				item.setWeather(cursor.getString(cursor
 						.getColumnIndex(DB.COLUMN_WEATHER)));
 				item.setDescription(cursor.getString(cursor
-						.getColumnIndex(DB.COLUMN_PROCESS)));
-				item.setCatches(cursor.getString(cursor
-						.getColumnIndex(DB.COLUMN_CATCH)));
+						.getColumnIndex(DB.COLUMN_DESCRIPTION)));
+				item.setPrice(cursor.getString(cursor
+						.getColumnIndex(DB.COLUMN_PRICE)));
 				// TODO
 			} else
 				Log.d(LOG_TAG, " --- row 0 --- ");
@@ -150,8 +150,8 @@ public class DB {
 		cv.put(DB.COLUMN_PLACE, item.getPlace());
 		cv.put(DB.COLUMN_DATE, item.getDate());
 		cv.put(DB.COLUMN_WEATHER, item.getWeather());
-		cv.put(DB.COLUMN_PROCESS, item.getDescription());
-		cv.put(DB.COLUMN_CATCH, item.getCatch());
+		cv.put(DB.COLUMN_DESCRIPTION, item.getDescription());
+		cv.put(DB.COLUMN_PRICE, item.getPrice());
 		// TODO
 		return mDB.insert(DB.DB_TABLE, null, cv);
 	}

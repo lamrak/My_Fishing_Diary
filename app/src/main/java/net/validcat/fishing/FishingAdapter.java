@@ -1,14 +1,13 @@
 package net.validcat.fishing;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.validcat.fishing.fragments.ListFragment;
 import net.validcat.fishing.ui.RoundedImageView;
 
 import java.util.List;
@@ -17,6 +16,7 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 	private static final String LOG_TAG = FishingAdapter.class.getSimpleName();
 	private List<FishingItem> items;
 	private Context context;
+	private ListFragment.IClickListener listener;
 
 	public FishingAdapter(Context context, List<FishingItem> items) {
 		this.context = context;
@@ -44,6 +44,10 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 		return items.size();
 	}
 
+	public void setIClickListener(ListFragment.IClickListener listener) {
+		this.listener = listener;
+	}
+
 	// Provide a reference to the views for each data item. Complex data items may need more than
 	// one view per item, and you provide access to all the views for a data item in a view holder
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -66,13 +70,7 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 
 		@Override
 		public void onClick(View v) {
-			int itemPosition = getPosition();
-			long id = items.get(itemPosition).getId();
-			Log.d(LOG_TAG, " --- ID --- " + id);
-
-			Intent intent = new Intent(context, DetailedFishing.class);
-			intent.putExtra("id", id);
-			context.startActivity(intent);
+			listener.onItemClicked(items.get(getPosition()).getId());
 		}
 	}
 

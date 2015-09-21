@@ -29,6 +29,11 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
+
+//        Intent intent = this.getIntent();
+//        long id = intent.getLongExtra("id", -1);
+//        DetailFragment df = new DetailFragment();
+//        df.updateUiByItemId(id);
     }
 }
 //		ButterKnife.bind(this);

@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/land_list_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,32 +24,42 @@
         android:layout_alignRight="@+id/delimetr"
         />
 
-    <fragment
-        android:id="@+id/detail_fragment"
+    <!--<fragment-->
+        <!--android:id="@+id/detail_fragment"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:name="net.validcat.fishing.fragments.DetailFragment"-->
+        <!--android:layout="@layout/detail_fragment"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_alignLeft="@+id/delimetr"/>-->
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="net.validcat.fishing.fragments.DetailFragment"
-        android:layout="@layout/detail_fragment"
         android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignLeft="@+id/delimetr"/>
+        android:layout_alignLeft="@+id/delimetr"
+    >
+
+</FrameLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_fishing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fab_icons"
-        android:layout_gravity="right"
-        app:elevation="6dp"
-        app:borderWidth="10dp"
-        app:pressedTranslationZ="12dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        app:backgroundTint="@color/button_color"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="53dp" />
+<android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab_add_fishing"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/fab_icons"
+    android:layout_gravity="right"
+    app:elevation="6dp"
+    app:borderWidth="10dp"
+    app:pressedTranslationZ="12dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginRight="16dp"
+    app:backgroundTint="@color/button_color"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="53dp" />
 
 </RelativeLayout>

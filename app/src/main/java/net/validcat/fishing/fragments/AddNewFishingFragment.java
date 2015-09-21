@@ -113,7 +113,12 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
                 break;
             case R.id.tv_date:
                 DialogFragment picker = new DatePickerFragment(tvDate);
-                picker.show(getFragmentManager(), "datePicker");
+                picker.show(getFragmentManager(),"datePicker");
+//                Bundle dialogArgs = new Bundle();
+//                dialogArgs.putString("dialogFragment", tvDate.getText().toString());
+//                DatePickerFragment dpf = new DatePickerFragment();
+//                dpf.setArguments(dialogArgs);
+//                dpf.show(getFragmentManager(),"datePicker");
                 break;
             case R.id.iv_photo:
                 cm = new CameraManager();

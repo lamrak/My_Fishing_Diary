@@ -17,6 +17,11 @@ public class DatePickerFragment extends DialogFragment
     TextView tvDate;
     String date;
 
+//    Bundle arguments = getArguments();
+//    String myDate = arguments.getString("datePicker");
+
+
+
     public DatePickerFragment(TextView tvDate) {
         this.tvDate = tvDate;
     }

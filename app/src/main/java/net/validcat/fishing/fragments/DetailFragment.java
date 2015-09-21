@@ -1,16 +1,16 @@
 package net.validcat.fishing.fragments;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.validcat.fishing.FishingItem;
+import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.db.DB;
 
@@ -34,23 +34,32 @@ public class DetailFragment extends Fragment {
     @Bind(R.id.tv_catch)
     TextView tvCatch;
     private DB db;
+    private boolean panel;
+
+    ListActivity la = new ListActivity();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View detailFragmentView = inflater.inflate(R.layout.detail_fragment, container, false);
         ButterKnife.bind(this, detailFragmentView);
-
-        Intent intent = getActivity().getIntent();
-        long id = intent.getLongExtra("id", -1);
-        if (id == -1) {
-            Toast.makeText(getActivity(), "Wrong id", Toast.LENGTH_SHORT).show();
-//            finish();
-//            return;
-        }
-        db = new DB(getActivity());
-        updateUiByItemId(id);
-
+//        panel = la.getPanelOrientation();
+//        if (panel) {
+            Intent intent = getActivity().getIntent();
+            long id = intent.getLongExtra("id", -1);
+            db = new DB(getActivity());
+            updateUiByItemId(id);
+//            if (id == -1) {
+//                Toast.makeText(getActivity(), "Wrong id", Toast.LENGTH_SHORT).show();
+//            }
+//        } else {
+            Bundle arguments = getArguments();
+            if (arguments != null) {
+                long landId = arguments.getLong("fragment");
+                db = new DB(getActivity());
+                updateUiByItemId(landId);
+            }
+//        }
         return detailFragmentView;
     }
 

@@ -5,10 +5,13 @@
 
     //android_manifest
     <string name="app_name">My Fishing</string>
-    <string name="title_add_new_fishing">Add New Fishing</string>
+    <string name="title_add_new_fishing">New Fishing</string>
 
     //add_new_fishing_action_bar
     <string name="action_settings">Settings</string>
+    <string name="action_camera">Camera</string>
+    <string name="action_send">Send</string>
+    <string name="action_back">Back</string>
 
     //footer_view.xml
     <string name="footer_string">New Fishing</string>
@@ -37,5 +40,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_second_fragment">SecondFragment</string>
     <string name="hello_world">Hello world!</string>
+
+    //list_activity
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>

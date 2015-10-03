@@ -36,7 +36,6 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 		viewHolder.place.setText(item.getPlace());
 		viewHolder.date.setText(item.getDate());
 		viewHolder.discription.setText(item.getDescription());
-		
 	}
 
 	@Override

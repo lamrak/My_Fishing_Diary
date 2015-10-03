@@ -1,21 +1,16 @@
 package net.validcat.fishing.fragments;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.db.DB;
 import net.validcat.fishing.tools.CameraManager;
@@ -35,18 +30,18 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     public AddNewFishingFragment() {
     }
 
-    @Bind(R.id.et_place)
-    EditText etPlace;
-    @Bind(R.id.tv_date)
-    TextView tvDate;
-    @Bind(R.id.tv_weather)
-    TextView tvWeather;
-    @Bind(R.id.et_price)
-    EditText etPrice;
-    @Bind(R.id.et_details)
-    EditText etDetails;
-    @Bind(R.id.fab_add_fishing_list)
-    FloatingActionButton fab_add_fishing_list;
+//    @Bind(R.id.et_place)
+//    EditText etPlace;
+      @Bind(R.id.tv_date)
+      TextView tvDate;
+//    @Bind(R.id.tv_weather)
+//    TextView tvWeather;
+//    @Bind(R.id.et_price)
+//    EditText etPrice;
+//    @Bind(R.id.et_details)
+//    EditText etDetails;
+//    @Bind(R.id.fab_add_fishing_list)
+//    FloatingActionButton fab_add_fishing_list;
     @Bind(R.id.iv_photo)
     ImageView ivPhoto;
 
@@ -63,7 +58,7 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
         ButterKnife.bind(this, addNewFragmentView);
 
-        fab_add_fishing_list.setOnClickListener(this);
+       // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
 
@@ -83,66 +78,42 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab_add_fishing_list:
-                // save in data base
-                String myPlace = etPlace.getText().toString();
-                String myDate = tvDate.getText().toString();
-                String myWeather = tvWeather.getText().toString();
-                String myDescription = etDetails.getText().toString();
-                String myPrice = etPrice.getText().toString();
-
-                FishingItem item = new FishingItem();
-                item.setPlace(myPlace);
-                item.setDate(myDate);
-                item.setWeather(myWeather);
-                item.setDescription(myDescription);
-                item.setPrice(myPrice);
-
-                // open a connection to the database
-
-                db = new DB(getActivity());
-                db.open();
-                long id = db.saveFishingItem(item);
-                db.close();
-
-                Intent data = new Intent();
-                FishingItem.packageIntent(data, myPlace, myDate, id, myDescription);
-                // send container
-                getActivity().setResult(Activity.RESULT_OK, data);
-                getActivity().finish();
-                break;
+//            case R.id.fab_add_fishing_list:
+//                // save in data base
+//                String myPlace = etPlace.getText().toString();
+//                String myDate = tvDate.getText().toString();
+//                String myWeather = tvWeather.getText().toString();
+//                String myDescription = etDetails.getText().toString();
+//                String myPrice = etPrice.getText().toString();
+//
+//                FishingItem item = new FishingItem();
+//                item.setPlace(myPlace);
+//                item.setDate(myDate);
+//                item.setWeather(myWeather);
+//                item.setDescription(myDescription);
+//                item.setPrice(myPrice);
+//
+//                // open a connection to the database
+//                db = new DB(getActivity());
+//                db.open();
+//                long id = db.saveFishingItem(item);
+//                db.close();
+//
+//                Intent data = new Intent();
+//                FishingItem.packageIntent(data, myPlace, myDate, id, myDescription);
+//                // send container
+//                getActivity().setResult(Activity.RESULT_OK, data);
+//                getActivity().finish();
+//                break;
             case R.id.tv_date:
                 DialogFragment picker = new DatePickerFragment(tvDate);
                 picker.show(getFragmentManager(),"datePicker");
-//                Bundle dialogArgs = new Bundle();
-//                dialogArgs.putString("dialogFragment", tvDate.getText().toString());
-//                DatePickerFragment dpf = new DatePickerFragment();
-//                dpf.setArguments(dialogArgs);
-//                dpf.show(getFragmentManager(),"datePicker");
                 break;
             case R.id.iv_photo:
                 cm = new CameraManager();
                 cm.startCameraForResult(getActivity());
-
         }
     }
-//    protected Dialog onCreateDialog(int id) {
-//        if (id == DIALOG_DATE) {
-//            DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-//                @Override
-//                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                    AddNewFishingFragment.this.year = year;
-//                    AddNewFishingFragment.this.month = monthOfYear;
-//                    AddNewFishingFragment.this.day = dayOfMonth;
-//                    tvDate.setText(AddNewFishingFragment.this.day + "." + AddNewFishingFragment.this.month + "." + AddNewFishingFragment.this.year);
-//                }
-//            }, year, month, day);
-//
-//            return dpd;
-//        }
-//
-//        return super.onCreateDialog(id);
-//    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
@@ -151,9 +122,5 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-       getActivity().getMenuInflater().inflate(R.menu.add_new_fishing_action_bar, menu);
-        return true;
-    }
+
 }

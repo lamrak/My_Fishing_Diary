@@ -26,11 +26,11 @@ public class FishingItem {
     }
 
     // constructor
-    public FishingItem(String place, String date) {
-        // We obtain data in FishingList and initialize the field
-        this.place = place;
-        this.date = date;
-    }
+//    public FishingItem(String place, String date) {
+//        // We obtain data in FishingList and initialize the field
+//        this.place = place;
+//        this.date = date;
+//    }
 
     // constructor
     public FishingItem(Intent intent) {

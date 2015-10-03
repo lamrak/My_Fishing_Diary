@@ -17,11 +17,6 @@ public class DatePickerFragment extends DialogFragment
     TextView tvDate;
     String date;
 
-//    Bundle arguments = getArguments();
-//    String myDate = arguments.getString("datePicker");
-
-
-
     public DatePickerFragment(TextView tvDate) {
         this.tvDate = tvDate;
     }
@@ -41,9 +36,7 @@ public class DatePickerFragment extends DialogFragment
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-
         date = Integer.toString(day) + "." + Integer.toString(month + 1) + "." + Integer.toString(year);
-        //SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         tvDate.setText(date);
     }
 }

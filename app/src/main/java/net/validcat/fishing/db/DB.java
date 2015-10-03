@@ -124,8 +124,6 @@ public class DB {
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
-				// if (cursor.moveToPosition(ID-1)) {
-				// TODO
 				item.setPlace(cursor.getString(cursor
 						.getColumnIndex(DB.COLUMN_PLACE)));
 				item.setDate(cursor.getString(cursor
@@ -136,12 +134,12 @@ public class DB {
 						.getColumnIndex(DB.COLUMN_DESCRIPTION)));
 				item.setPrice(cursor.getString(cursor
 						.getColumnIndex(DB.COLUMN_PRICE)));
-				// TODO
 			} else
 				Log.d(LOG_TAG, " --- row 0 --- ");
 		} else
 			Log.d(LOG_TAG, " --- cursor = null --- ");
 		cursor.close();
+
 		return item; // item
 	}
 
@@ -152,7 +150,7 @@ public class DB {
 		cv.put(DB.COLUMN_WEATHER, item.getWeather());
 		cv.put(DB.COLUMN_DESCRIPTION, item.getDescription());
 		cv.put(DB.COLUMN_PRICE, item.getPrice());
-		// TODO
+
 		return mDB.insert(DB.DB_TABLE, null, cv);
 	}
 

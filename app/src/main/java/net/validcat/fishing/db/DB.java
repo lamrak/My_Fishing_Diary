@@ -6,11 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import net.validcat.fishing.FishingItem;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 public class DB {
 	public static final String LOG_TAG = DB.class.getSimpleName();
@@ -24,11 +28,12 @@ public class DB {
 	public static final String COLUMN_WEATHER = "weather";
 	public static final String COLUMN_DESCRIPTION = "description";
 	public static final String COLUMN_PRICE = "price";
+	public static final String COLUMN_IMAGE = "photo";
 
 	private static final String DB_CREATE = "create table " + DB_TABLE + "("
 			+ COLUMN_ID + " integer primary key autoincrement, " + COLUMN_PLACE
 			+ " text, " + COLUMN_DATE + " text, " + COLUMN_WEATHER + " text, "
-			+ COLUMN_DESCRIPTION + " text, " + COLUMN_PRICE + " text" + ");";
+			+ COLUMN_DESCRIPTION + " text, " + COLUMN_PRICE + " text, " + COLUMN_IMAGE + " BLOB" + ");";
 
 	private final Context mCtx;
 	private DBHelper mDBHelper;
@@ -37,7 +42,7 @@ public class DB {
 
 	private String[] allColumns = { DB.COLUMN_ID, DB.COLUMN_PLACE,
 			DB.COLUMN_DATE, DB.COLUMN_WEATHER, DB.COLUMN_DESCRIPTION,
-			DB.COLUMN_PRICE};
+			DB.COLUMN_PRICE, DB.COLUMN_IMAGE};
 
 	public DB(Context ctx) {
 		mCtx = ctx;
@@ -78,14 +83,24 @@ public class DB {
 		int dbPlaceKey = cursor.getColumnIndex(DB.COLUMN_PLACE);
 		int dbDateKey = cursor.getColumnIndex(DB.COLUMN_DATE);
 		int dbDiscriptionKey = cursor.getColumnIndex(DB.COLUMN_DESCRIPTION);
+		int dbPhotoKey = cursor.getColumnIndex(DB.COLUMN_IMAGE);
 
 		do {
 			int idBd = cursor.getInt(idBdKey);
 			String dbPlace = cursor.getString(dbPlaceKey);
 			String dbDate = cursor.getString(dbDateKey);
 			String dbDiscription = cursor.getString(dbDiscriptionKey);
+			byte[] photo = cursor.getBlob(dbPhotoKey);
+			try {
+				FishingItem.decompress(photo);
+			}catch (IOException e){
+				e.printStackTrace();
+			}catch (DataFormatException e){
+				e.printStackTrace();
+			}
+			Bitmap dbPhoto = BitmapFactory.decodeByteArray(photo,0,photo.length);
 
-			FishingItem dbItem = new FishingItem(idBd, dbPlace, dbDate, dbDiscription);
+			FishingItem dbItem = new FishingItem(idBd, dbPlace, dbDate, dbDiscription, dbPhoto);
 			dbInnerList.add(dbItem);
 			Log.d(LOG_TAG, " --- dbList --- " + dbInnerList);
 		} while (cursor.moveToNext());
@@ -134,6 +149,7 @@ public class DB {
 						.getColumnIndex(DB.COLUMN_DESCRIPTION)));
 				item.setPrice(cursor.getString(cursor
 						.getColumnIndex(DB.COLUMN_PRICE)));
+				item.setPhoto(cursor.getBlob(cursor.getColumnIndex(DB.COLUMN_IMAGE)));
 			} else
 				Log.d(LOG_TAG, " --- row 0 --- ");
 		} else
@@ -150,6 +166,7 @@ public class DB {
 		cv.put(DB.COLUMN_WEATHER, item.getWeather());
 		cv.put(DB.COLUMN_DESCRIPTION, item.getDescription());
 		cv.put(DB.COLUMN_PRICE, item.getPrice());
+		cv.put(DB.COLUMN_IMAGE, item.getPhoto());
 
 		return mDB.insert(DB.DB_TABLE, null, cv);
 	}

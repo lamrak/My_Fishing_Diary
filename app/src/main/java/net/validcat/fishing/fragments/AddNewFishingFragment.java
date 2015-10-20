@@ -2,7 +2,6 @@ package net.validcat.fishing.fragments;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.db.DB;
-import net.validcat.fishing.tools.CameraManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,7 +49,7 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     private int day;
     private int month;
     private int year;
-    private CameraManager cm;
+    //private CameraManager cm;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,18 +107,19 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
                 DialogFragment picker = new DatePickerFragment(tvDate);
                 picker.show(getFragmentManager(),"datePicker");
                 break;
-            case R.id.iv_photo:
-                cm = new CameraManager();
-                cm.startCameraForResult(getActivity());
+//            case R.id.iv_photo:
+//                cm = new CameraManager();
+//                cm.startCameraForResult(getActivity());
+//                break;
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
-        if (b != null) {
-            ivPhoto.setImageBitmap(b);
-        }
-    }
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
+//        if (b != null) {
+//            ivPhoto.setImageBitmap(b);
+//        }
+//    }
 
 
 }

@@ -1,7 +1,10 @@
 package net.validcat.fishing;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,13 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 		viewHolder.place.setText(item.getPlace());
 		viewHolder.date.setText(item.getDate());
 		viewHolder.discription.setText(item.getDescription());
+		byte[] photo = item.getPhoto();
+		if(photo!= null) {
+			Bitmap dbPhoto = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+			viewHolder.foto_preview.setImageBitmap(dbPhoto);
+		}else {
+			Log.d(LOG_TAG,"byte[] photo =" +photo);
+		}
 	}
 
 	@Override

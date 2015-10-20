@@ -97,6 +97,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/image_descr"
         android:layout_alignParentTop="false"
+        android:src="@drawable/no_photo"
         android:layout_alignLeft="@+id/delimetr"
          />
 

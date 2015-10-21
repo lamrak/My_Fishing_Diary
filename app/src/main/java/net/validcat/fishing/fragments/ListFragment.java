@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import net.validcat.fishing.FishingAdapter;
 import net.validcat.fishing.FishingItem;
@@ -25,25 +24,17 @@ import butterknife.ButterKnife;
 
 public class ListFragment extends Fragment {
     public static final String LOG_TAG = ListActivity.class.getSimpleName();
-    // init ui with butterknife
-    private ImageView imageViewRound;
-    @Bind(R.id.my_recycler_view)
-    RecyclerView recyclerView;
+    @Bind(R.id.my_recycler_view) RecyclerView recyclerView;
+
     public static FishingAdapter adapter;
     public static List<FishingItem> itemsList;
-    private Intent data;
 
-
-    public ListFragment() {
-        itemsList = new ArrayList<>();
-        adapter = new FishingAdapter(getActivity(), itemsList);
-    }
+    public ListFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View listFragmentView = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, listFragmentView);
-        // itemsList = new ArrayList<>();
         initDataBase();
         initUI();
 
@@ -51,6 +42,8 @@ public class ListFragment extends Fragment {
     }
 
     private void initUI() {
+        adapter = new FishingAdapter(getActivity(), itemsList);
+
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -65,29 +58,23 @@ public class ListFragment extends Fragment {
         DB db = new DB(getActivity());
         db.open();
         Cursor cursor = db.getAllData();
-        if (cursor.moveToFirst()) itemsList = db.getData(itemsList, cursor);
-        else cursor.close();
+        if (cursor.moveToFirst())
+            itemsList = db.getData(new ArrayList<FishingItem>(), cursor);
+        else {
+            itemsList = new ArrayList<>(); // no items here, just add empty list
+            cursor.close();
+        }
         db.close();
     }
 
-    public void updateUI(Intent data) {
+    public void addNewItem(Intent data) {
         FishingItem item = new FishingItem(data);
         itemsList.add(item);
         adapter.notifyDataSetChanged();
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult( requestCode, resultCode,  data);
-//        if (resultCode == Activity.RESULT_OK && requestCode == Constants.ITEM_REQUEST) {
-//            FishingItem item = new FishingItem(data);
-//            itemsList.add(item);
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
-
     public interface IClickListener {
-        public void onItemClicked(long id);
+        void onItemClicked(long id);
     }
 
 }

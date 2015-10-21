@@ -76,7 +76,6 @@ public class DetailFragment extends Fragment {
         photo = item.getPhoto();
         myPhoto = BitmapFactory.decodeByteArray(photo,0,photo.length);
         ivPhoto.setImageBitmap(myPhoto);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -24,7 +24,7 @@ public class AddNewFishingActivity extends AppCompatActivity {
     private CameraManager cm;
     ImageView ivPhoto;
     byte[] photo;
-    int imageByte;
+    Bitmap myPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,30 +62,9 @@ public class AddNewFishingActivity extends AppCompatActivity {
                 String myPrice = etPrice.getText().toString();
 
                 BitmapDrawable drawable = (BitmapDrawable) ivPhoto.getDrawable();
-                Bitmap myPhoto = drawable.getBitmap();
+                myPhoto = drawable.getBitmap();
                 Log.d(LOG_TAG, "myPhoto =" + myPhoto);
                 photo = getByteArrayfromBitmap(myPhoto);
-
-//                String patch = cm.getPath();
-//                if (patch != null) {
-//                    Log.d(LOG_TAG, "Patch =" + patch);
-//                    try {
-//                        //FileInputStream - использовать для чтения байтов из файла.
-//                        FileInputStream fis = new FileInputStream(patch);
-//                        // available() - возвращает кол-во байтов ввода доступных в данный момент для чтения
-//                        photo = new byte[fis.available()];
-//                        // read(byte[] буфер ) - Пытается читать до колБайтов в буфер, возвращая
-//                        // количество успешно прочитанных байтов
-//                        imageByte = fis.read(photo);
-//                        fis.close();
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    Log.d(LOG_TAG, "Patch == null");
-//                }
-
 
                 FishingItem items = new FishingItem();
                 items.setPlace(myPlace);
@@ -108,7 +87,6 @@ public class AddNewFishingActivity extends AppCompatActivity {
                 Intent data = new Intent();
                 FishingItem.packageIntent(data, myPlace, myDate, id, myDescription, myPhoto);
                 // send container
-
                 setResult(RESULT_OK, data);
                 finish();
                 break;
@@ -122,11 +100,9 @@ public class AddNewFishingActivity extends AppCompatActivity {
         return super.
 
                 onOptionsItemSelected(item);
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Bitmap b = cm.extractPhotoBitmapFromResult(this, requestCode, resultCode, data);
         Bitmap b = cm.getCameraPhoto(this);
         b = cm.scaleDownBitmap(b,200,this);
         if (b != null) {

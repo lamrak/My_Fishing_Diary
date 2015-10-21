@@ -12,9 +12,7 @@ import android.util.Log;
 
 import net.validcat.fishing.FishingItem;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 public class DB {
 	public static final String LOG_TAG = DB.class.getSimpleName();
@@ -91,13 +89,13 @@ public class DB {
 			String dbDate = cursor.getString(dbDateKey);
 			String dbDiscription = cursor.getString(dbDiscriptionKey);
 			byte[] photo = cursor.getBlob(dbPhotoKey);
-			try {
-				FishingItem.decompress(photo);
-			}catch (IOException e){
-				e.printStackTrace();
-			}catch (DataFormatException e){
-				e.printStackTrace();
-			}
+//			try {
+//				FishingItem.decompress(photo);
+//			}catch (IOException e){
+//				e.printStackTrace();
+//			}catch (DataFormatException e){
+//				e.printStackTrace();
+//			}
 			Bitmap dbPhoto = BitmapFactory.decodeByteArray(photo,0,photo.length);
 
 			FishingItem dbItem = new FishingItem(idBd, dbPlace, dbDate, dbDiscription, dbPhoto);
@@ -122,9 +120,7 @@ public class DB {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
 		}
-
 	}
 
 	public FishingItem getFishingItemById(long id) {

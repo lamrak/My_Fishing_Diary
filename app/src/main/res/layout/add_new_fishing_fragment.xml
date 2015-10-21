@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/et_details"
-        android:src="@drawable/no_photo"
+        android:src="@drawable/ic_fish"
         android:contentDescription="@string/image_descr"/>
 
     <!--<android.support.design.widget.FloatingActionButton-->

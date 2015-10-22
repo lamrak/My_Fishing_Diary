@@ -52,8 +52,8 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 
             Fragment df = new DetailFragment();
             df.setArguments(args);
-            getSupportFragmentManager().beginTransaction().add(R.id.container, df, TAG).commit(); // add?
-          }
+            getSupportFragmentManager().beginTransaction().add(R.id.container, df, TAG).commit();
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

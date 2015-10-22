@@ -36,7 +36,7 @@ public class DB {
 	private final Context mCtx;
 	private DBHelper mDBHelper;
 	public SQLiteDatabase mDB;
-	long ID;
+//	long ID;
 
 	private String[] allColumns = { DB.COLUMN_ID, DB.COLUMN_PLACE,
 			DB.COLUMN_DATE, DB.COLUMN_WEATHER, DB.COLUMN_DESCRIPTION,
@@ -70,9 +70,9 @@ public class DB {
 		mDB.delete(DB_TABLE, COLUMN_ID + " = " + id, null);
 	}
 
-	public long getId() {
-		return ID;
-	}
+//	public long getId() {
+//		return ID;
+//	}
 
 	public List<FishingItem> getData(List<FishingItem> dbInnerList,
 			Cursor cursor) {
@@ -126,10 +126,10 @@ public class DB {
 	public FishingItem getFishingItemById(long id) {
 		FishingItem item = new FishingItem();
 		Cursor cursor;
-		if (ID > 0) {
-			cursor = mDB.query(DB.DB_TABLE, allColumns, DB.COLUMN_ID + " = "
-					+ ID, null, null, null, null);
-		} else
+//		if (ID > 0) {
+//			cursor = mDB.query(DB.DB_TABLE, allColumns, DB.COLUMN_ID + " = "
+//					+ ID, null, null, null, null);
+//		} else
 			cursor = mDB.query(DB.DB_TABLE, allColumns, DB.COLUMN_ID + " = "
 					+ id, null, null, null, null);
 

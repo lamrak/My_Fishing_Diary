@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import net.validcat.fishing.db.Constants;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -107,6 +108,13 @@ public class CameraManager {
         photo = Bitmap.createScaledBitmap(photo,w,h,true);
 
         return photo;
+    }
+
+    public static byte[] getByteArrayfromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bos);
+
+        return bos.toByteArray();
     }
 }
 

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,8 +34,6 @@ public class DetailFragment extends Fragment {
     ImageView ivPhoto;
 
     private DB db;
-//    private byte[] photo;
-//    private Bitmap myPhoto;
 
     public DetailFragment() {
     }
@@ -67,24 +63,30 @@ public class DetailFragment extends Fragment {
         db.open();
         FishingItem item = db.getFishingItemById(id);
         db.close();
-        tvPlace.setText("Place: " + item.getPlace());
-        tvDate.setText("Date: " + item.getDate());
-        tvWeather.setText("Weather: " + item.getWeather());
-        tvDescription.setText("Description: " + item.getDescription());
-        tvCatch.setText("Price: " + item.getPrice());
+
+        tvPlace.setText(getString(R.string.fishing_place, item.getPlace()));
+        tvPlace.setContentDescription(getString(R.string.fishing_place, item.getPlace()));
+        tvDate.setText(getString(R.string.fishing_date, item.getDate()));
+        tvDate.setContentDescription(getString(R.string.fishing_date, item.getDate()));
+        tvWeather.setText(getString(R.string.fishing_weather, item.getWeather()));
+        tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
+        tvDescription.setText(getString(R.string.fishing_description, item.getDescription()));
+        tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
+        tvCatch.setText(getString(R.string.fishing_price, item.getPrice()));
+        tvCatch.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
         byte[] photo = item.getPhoto();
         ivPhoto.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getActivity().getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getGroupId();
-        return super.onOptionsItemSelected(item);
-    }
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getActivity().getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getGroupId();
+//        return super.onOptionsItemSelected(item);
+//    }
 }

@@ -1,7 +1,6 @@
 package net.validcat.fishing.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,10 +21,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DetailFragment extends Fragment {
-
-    public DetailFragment() {
-    }
-
     public static final String LOG_TAG = DetailFragment.class.getSimpleName();
     @Bind(R.id.tv_place)
     TextView tvPlace;
@@ -39,9 +34,13 @@ public class DetailFragment extends Fragment {
     TextView tvCatch;
     @Bind(R.id.iv_photo)
     ImageView ivPhoto;
+
     private DB db;
-    private byte[] photo;
-    Bitmap myPhoto;
+//    private byte[] photo;
+//    private Bitmap myPhoto;
+
+    public DetailFragment() {
+    }
 
     @Nullable
     @Override
@@ -73,9 +72,8 @@ public class DetailFragment extends Fragment {
         tvWeather.setText("Weather: " + item.getWeather());
         tvDescription.setText("Description: " + item.getDescription());
         tvCatch.setText("Price: " + item.getPrice());
-        photo = item.getPhoto();
-        myPhoto = BitmapFactory.decodeByteArray(photo,0,photo.length);
-        ivPhoto.setImageBitmap(myPhoto);
+        byte[] photo = item.getPhoto();
+        ivPhoto.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

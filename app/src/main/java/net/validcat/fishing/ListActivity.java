@@ -20,7 +20,7 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
     public static final String LOG_TAG = ListActivity.class.getSimpleName();
     private static final String KEY_CLICKED_FRAGMENT = "clicked_fragment";
     @Bind(R.id.fab_add_fishing)
-    private FloatingActionButton fabAddFishing;
+    FloatingActionButton fabAddFishing;
 
     private boolean panel;
     private  static final String TAG = "detail_fragment";
@@ -52,7 +52,7 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 
             Fragment df = new DetailFragment();
             df.setArguments(args);
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, df, TAG).commit(); // add?
+            getSupportFragmentManager().beginTransaction().add(R.id.container, df, TAG).commit(); // add?
           }
     }
 

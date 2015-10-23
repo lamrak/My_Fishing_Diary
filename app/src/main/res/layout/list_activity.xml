@@ -19,15 +19,11 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_gravity="right"
+        android:layout_gravity="bottom|end"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="53dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/fab_icons"
-        app:backgroundTint="@color/button_color"
-        app:borderWidth="10dp"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp" />
+        android:src="@drawable/ic_add" />
 
     <!--<android.support.v4.widget.DrawerLayout-->
         <!--android:id="@+id/drawer_layout"-->

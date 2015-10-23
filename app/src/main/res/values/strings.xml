@@ -43,4 +43,7 @@
     <!--fishing_list-->
     <string name="fishing_catch">Catch</string>
     <string name="fishing_photo">Photo</string>
+    <string name="image_descr">User photo</string>
+    <string name="fishing_details">Details</string>
+    <string name="footer_string">New Fishing</string>
 </resources>

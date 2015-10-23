@@ -40,7 +40,7 @@
         android:layout_marginTop="24dp"
         android:autoText="false"
         android:elegantTextHeight="false"
-        android:text="@string/place_main"
+        android:text="@string/title_fishing_place"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/fishing_name_color"
         android:textSize="16sp"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="48dp"
-        android:text="@string/description_main"
+        android:text="@string/fishing_details"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/description_color"
         android:textSize="14sp" />
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginTop="24dp"
-        android:text="@string/date_main"
+        android:text="@string/title_fishing_date"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/date_color"
         android:textSize="12sp"
@@ -85,10 +85,6 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="88dp"
-        android:background="@color/devider_color"
-        android:contentDescription="@string/image_descr" />
-
-
-
+        android:background="@color/devider_color" />
 
 </RelativeLayout>

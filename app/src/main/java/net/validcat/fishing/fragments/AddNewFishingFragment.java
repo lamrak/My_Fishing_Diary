@@ -57,9 +57,6 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
         ButterKnife.bind(this, addNewFragmentView);
-
-
-
        // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
@@ -124,7 +121,7 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
             case R.id.action_camera:
                 cm = new CameraManager();
                 cm.startCameraForResult(getActivity());
-                
+
                 break;
         }
 
@@ -134,41 +131,10 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.fab_add_fishing_list:
-//                // save in data base
-//                String myPlace = etPlace.getText().toString();
-//                String myDate = tvDate.getText().toString();
-//                String myWeather = tvWeather.getText().toString();
-//                String myDescription = etDetails.getText().toString();
-//                String myPrice = etPrice.getText().toString();
-//
-//                FishingItem item = new FishingItem();
-//                item.setPlace(myPlace);
-//                item.setDate(myDate);
-//                item.setWeather(myWeather);
-//                item.setDescription(myDescription);
-//                item.setPrice(myPrice);
-//
-//                // open a connection to the database
-//                db = new DB(getActivity());
-//                db.open();
-//                long id = db.saveFishingItem(item);
-//                db.close();
-//
-//                Intent data = new Intent();
-//                FishingItem.packageIntent(data, myPlace, myDate, id, myDescription);
-//                // send container
-//                getActivity().setResult(Activity.RESULT_OK, data);
-//                getActivity().finish();
-//                break;
             case R.id.tv_date:
                 DialogFragment picker = new DatePickerFragment(tvDate);
                 picker.show(getFragmentManager(), "datePicker");
                 break;
-//            case R.id.iv_photo:
-//                cm = new CameraManager();
-//                cm.startCameraForResult(getActivity());
-//                break;
         }
     }
 
@@ -180,7 +146,7 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
         b = cm.scaleDownBitmap(b, 200, getActivity()); //TODO what is 200????
         if (b != null) {
             ivPhoto.setImageBitmap(b);
-            Log.d(LOG_TAG, "Intent data onActivityResult == " +b);
+            Log.d(LOG_TAG, "Intent data onActivityResult == " + b);
         } else {
             Log.d(LOG_TAG, "Intent data onActivityResult == null");
         }

@@ -48,7 +48,7 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 		if(item.getBitmap() != null) {
 			viewHolder.foto_preview.setImageBitmap(item.getBitmap());
 		}else{
-			Bitmap noPhoto = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_fish);
+			Bitmap noPhoto = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_no_photo);
 			viewHolder.foto_preview.setImageBitmap(noPhoto);
 		}
 	}

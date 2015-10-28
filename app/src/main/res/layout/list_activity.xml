@@ -23,7 +23,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="53dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_white_add" />
 
     <!--<android.support.v4.widget.DrawerLayout-->
         <!--android:id="@+id/drawer_layout"-->

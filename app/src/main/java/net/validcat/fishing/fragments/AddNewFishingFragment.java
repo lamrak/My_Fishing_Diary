@@ -113,9 +113,9 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
 
                 Intent data = new Intent();
                 FishingItem.packageIntent(data, myPlace, myDate, id, myDescription, b);
-                // send container
-//                setResult(RESULT_OK, data); //TODO
-//                finish();
+                 //send container
+               getActivity().setResult(getActivity().RESULT_OK, data); //TODO
+               getActivity().finish();
                 break;
 
             case R.id.action_camera:
@@ -143,8 +143,8 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
         Bitmap b = cm.getCameraPhoto(getActivity());
-        b = cm.scaleDownBitmap(b, 200, getActivity()); //TODO what is 200????
         if (b != null) {
+            b = cm.scaleDownBitmap(b, 200, getActivity()); //TODO what is 200????
             ivPhoto.setImageBitmap(b);
             Log.d(LOG_TAG, "Intent data onActivityResult == " + b);
         } else {

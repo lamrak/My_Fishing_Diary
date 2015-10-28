@@ -8,11 +8,11 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingEnd="@dimen/activity_horizontal_margin">
 
-    <View
-        android:id="@+id/delimetr"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerHorizontal="true"/>
+    <!--<View-->
+        <!--android:id="@+id/delimetr"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_centerHorizontal="true"/>-->
 
     <TextView
         android:id="@+id/tv_place"
@@ -67,8 +67,10 @@
         android:id="@+id/iv_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/no_photo"
+        android:src="@drawable/ic_no_photo"
         android:contentDescription="@string/image_descr"
-        android:layout_alignLeft="@+id/delimetr" />
+        android:layout_alignLeft="@+id/tv_catch"
+        android:layout_alignStart="@+id/tv_catch"
+        android:layout_below="@+id/tv_catch" />
 
 </RelativeLayout>

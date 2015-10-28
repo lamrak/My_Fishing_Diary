@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.validcat.fishing.FishingItem;
+import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.db.DB;
 
@@ -44,14 +46,16 @@ public class DetailFragment extends Fragment {
         View detailFragmentView = inflater.inflate(R.layout.detail_fragment, container, false);
         ButterKnife.bind(this, detailFragmentView);
 
+        Bundle arguments = getArguments();
+        if (arguments == null) {
             Intent intent = getActivity().getIntent();
             long id = intent.getLongExtra("id", -1);
             db = new DB(getActivity());
             updateUiByItemId(id);
 
-            Bundle arguments = getArguments();
-            if (arguments != null) {
-                long landId = arguments.getLong("fragment");
+        } else {
+                long landId = arguments.getLong(ListActivity.KEY_CLICKED_FRAGMENT);
+                Log.d(LOG_TAG, "landId = " + landId);
                 db = new DB(getActivity());
                 updateUiByItemId(landId);
             }
@@ -63,13 +67,13 @@ public class DetailFragment extends Fragment {
         db.open();
         FishingItem item = db.getFishingItemById(id);
         db.close();
-
         tvPlace.setText(getString(R.string.fishing_place, item.getPlace()));
         tvPlace.setContentDescription(getString(R.string.fishing_place, item.getPlace()));
         tvDate.setText(getString(R.string.fishing_date, item.getDate()));
         tvDate.setContentDescription(getString(R.string.fishing_date, item.getDate()));
-        tvWeather.setText(getString(R.string.fishing_weather, item.getWeather()));
-        tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
+        tvWeather.setText(item.getWeather());
+//        tvWeather.setText(getString(R.string.fishing_weather, item.getWeather()));
+//        tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
         tvDescription.setText(getString(R.string.fishing_description, item.getDescription()));
         tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
         tvCatch.setText(getString(R.string.fishing_price, item.getPrice()));

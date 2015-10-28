@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
 
 public class ListActivity extends AppCompatActivity implements ListFragment.IClickListener {
     public static final String LOG_TAG = ListActivity.class.getSimpleName();
-    private static final String KEY_CLICKED_FRAGMENT = "clicked_fragment";
+    public static final String KEY_CLICKED_FRAGMENT = "clicked_fragment";
     @Bind(R.id.fab_add_fishing)
     FloatingActionButton fabAddFishing;
 
-    private boolean panel;
+     boolean panel;
     private  static final String TAG = "detail_fragment";
 
     @Override
@@ -52,7 +52,7 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 
             Fragment df = new DetailFragment();
             df.setArguments(args);
-            getSupportFragmentManager().beginTransaction().add(R.id.container, df, TAG).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, df, TAG).commit();
         }
     }
 

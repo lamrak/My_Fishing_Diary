@@ -22,12 +22,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
+
 public class ListFragment extends Fragment {
     public static final String LOG_TAG = ListActivity.class.getSimpleName();
     @Bind(R.id.my_recycler_view) RecyclerView recyclerView;
 
     public static FishingAdapter adapter;
     public static List<FishingItem> itemsList;
+
 
     public ListFragment() {}
 

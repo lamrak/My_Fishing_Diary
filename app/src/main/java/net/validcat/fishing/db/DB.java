@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import net.validcat.fishing.FishingItem;
+import net.validcat.fishing.R;
 
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class DB {
 	private final Context mCtx;
 	private DBHelper mDBHelper;
 	public SQLiteDatabase mDB;
+	Bitmap dbPhoto;
+
 //	long ID;
 
 	private String[] allColumns = { DB.COLUMN_ID, DB.COLUMN_PLACE,
@@ -89,14 +92,12 @@ public class DB {
 			String dbDate = cursor.getString(dbDateKey);
 			String dbDiscription = cursor.getString(dbDiscriptionKey);
 			byte[] photo = cursor.getBlob(dbPhotoKey);
-//			try {
-//				FishingItem.decompress(photo);
-//			}catch (IOException e){
-//				e.printStackTrace();
-//			}catch (DataFormatException e){
-//				e.printStackTrace();
-//			}
-			Bitmap dbPhoto = BitmapFactory.decodeByteArray(photo,0,photo.length);
+			if(photo != null) {
+				dbPhoto = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+			}else{
+				Log.d(LOG_TAG,"dbPhoto == null");
+				dbPhoto = BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.ic_no_photo);
+			}
 
 			FishingItem dbItem = new FishingItem(idBd, dbPlace, dbDate, dbDiscription, dbPhoto);
 			dbInnerList.add(dbItem);

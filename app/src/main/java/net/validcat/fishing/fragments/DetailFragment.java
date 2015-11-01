@@ -1,6 +1,7 @@
 package net.validcat.fishing.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ public class DetailFragment extends Fragment {
     ImageView ivPhoto;
 
     private DB db;
+    Bitmap no_photo;
 
     public DetailFragment() {
     }
@@ -54,11 +56,11 @@ public class DetailFragment extends Fragment {
             updateUiByItemId(id);
 
         } else {
-                long landId = arguments.getLong(ListActivity.KEY_CLICKED_FRAGMENT);
-                Log.d(LOG_TAG, "landId = " + landId);
-                db = new DB(getActivity());
-                updateUiByItemId(landId);
-            }
+            long landId = arguments.getLong(ListActivity.KEY_CLICKED_FRAGMENT);
+            Log.d(LOG_TAG, "landId = " + landId);
+            db = new DB(getActivity());
+            updateUiByItemId(landId);
+        }
 
         return detailFragmentView;
     }
@@ -79,7 +81,14 @@ public class DetailFragment extends Fragment {
         tvCatch.setText(getString(R.string.fishing_price, item.getPrice()));
         tvCatch.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
         byte[] photo = item.getPhoto();
-        ivPhoto.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
+        if (photo != null) {
+            Log.d(LOG_TAG, "photo !=null " + photo);
+            ivPhoto.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
+        } else {
+            Log.d(LOG_TAG, "photo == null");
+            no_photo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);
+            ivPhoto.setImageBitmap(no_photo);
+        }
     }
 
 //    public boolean onCreateOptionsMenu(Menu menu) {

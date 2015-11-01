@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -90,20 +91,23 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
                 String myWeather = tvWeather.getText().toString();
                 String myDescription = etDetails.getText().toString();
                 String myPrice = etPrice.getText().toString();
-
-                Bitmap b = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
-                byte[] photo = CameraManager.getByteArrayfromBitmap(b);
+                Bitmap bitmap = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
+                Bitmap no_photo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);
 
                 FishingItem items = new FishingItem();
+                if (!bitmap.sameAs(no_photo) ) {
+                    Log.d(LOG_TAG, "bitmap != no_photo " + bitmap + no_photo);
+                    byte[] photo = CameraManager.getByteArrayfromBitmap(bitmap);
+                    if (photo != null) {
+                        items.setPhoto(photo);
+                    }else Log.d(LOG_TAG, "photo == null");
+                }else Log.d(LOG_TAG, "bitmap == no_photo");
+
                 items.setPlace(myPlace);
                 items.setDate(myDate);
                 items.setWeather(myWeather);
                 items.setDescription(myDescription);
                 items.setPrice(myPrice);
-
-                if (photo != null)
-                    items.setPhoto(photo);
-                else Log.d(LOG_TAG, "photo == null");
 
                 // open a connection to the database
                 db = new DB(getActivity());
@@ -112,7 +116,7 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
                 db.close();
 
                 Intent data = new Intent();
-                FishingItem.packageIntent(data, myPlace, myDate, id, myDescription, b);
+                FishingItem.packageIntent(data, myPlace, myDate, id, myDescription, bitmap);
                  //send container
                getActivity().setResult(getActivity().RESULT_OK, data); //TODO
                getActivity().finish();

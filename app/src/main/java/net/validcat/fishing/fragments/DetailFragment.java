@@ -16,23 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.db.DB;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DetailFragment extends Fragment {
 
-    public DetailFragment() {
-    }
+    public DetailFragment() {}
 
     public static final String LOG_TAG = DetailFragment.class.getSimpleName();
     @Bind(R.id.tv_place)
@@ -53,8 +49,8 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -63,18 +59,17 @@ public class DetailFragment extends Fragment {
         View detailFragmentView = inflater.inflate(R.layout.detail_fragment, container, false);
         ButterKnife.bind(this, detailFragmentView);
 
-            Intent intent = getActivity().getIntent();
-            long id = intent.getLongExtra("id", -1);
+        Intent intent = getActivity().getIntent();
+        long id = intent.getLongExtra("id", -1);
+        db = new DB(getActivity());
+        updateUiByItemId(id);
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            long landId = arguments.getLong("fragment");
             db = new DB(getActivity());
-            updateUiByItemId(id);
-
-            Bundle arguments = getArguments();
-            if (arguments != null) {
-                long landId = arguments.getLong("fragment");
-                db = new DB(getActivity());
-                updateUiByItemId(landId);
-            }
-
+            updateUiByItemId(landId);
+        }
         return detailFragmentView;
     }
 
@@ -90,7 +85,6 @@ public class DetailFragment extends Fragment {
         photo = item.getPhoto();
         myPhoto = BitmapFactory.decodeByteArray(photo,0,photo.length);
         ivPhoto.setImageBitmap(myPhoto);
-
     }
 
     @Override
@@ -108,16 +102,17 @@ public class DetailFragment extends Fragment {
 
     private void share() {
         // create Intent to share urlString
+        String massage = (String)null;
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT,
-                tvPlace.getText() + "\n"
-                        + tvDate.getText() + "\n"
-                        + tvWeather.getText() + "\n"
-                        + tvDescription.getText() + "\n"
-                        + tvCatch.getText() + "\n");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareMessage));
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_subject);
+        massage = tvPlace.getText() + "\n"
+                 + tvDate.getText() + "\n"
+                 + tvWeather.getText() + "\n"
+                 + tvDescription.getText() + "\n"
+                 + tvCatch.getText() + "\n";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, massage);
         Bitmap icon = myPhoto;
         shareIntent.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -133,6 +128,6 @@ public class DetailFragment extends Fragment {
         shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
 
         // display apps that can share text
-        startActivity(Intent.createChooser(shareIntent,getString(R.string.shareSearch)));
+        startActivity(Intent.createChooser(shareIntent,getString(R.string.share_search)));
     }
 }

@@ -46,8 +46,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     //sharing massage
-    <string name="shareSearch">Share my fishing to:</string>
-    <string name="shareMessage"></string>
-    <string name="shareSubject">From cool app !!!</string>
+    <string name="share_search">Share my fishing to:</string>
+    <string name="share_message">Fishing...</string>
+    <string name="share_subject">Fishing app</string>
 
 </resources>

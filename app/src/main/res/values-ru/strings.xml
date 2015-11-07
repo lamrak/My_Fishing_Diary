@@ -25,5 +25,6 @@
     <string name="title_fishing_place">Место рыбалки</string>
     <string name="title_fishing_price">Цена</string>
     <string name="title_fishing_weather">Погода</string>
+    <string name="menu_detail_item">Редактировать </string>
 
 </resources>

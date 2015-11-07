@@ -12,7 +12,7 @@ public class FishingItem {
     public final static String DISCRIPTION = "discription";
     public final static String PHOTO = "photo";
 
-    long id;
+    long id = -1;
     String place;
     String date; //Date
     //int weather
@@ -111,40 +111,7 @@ public class FishingItem {
     public void setPhoto(byte[] photo) {
         cameraPhoto = photo;}
 
-//    public static byte[] compress(byte[] data) throws IOException {
-//        Deflater deflater = new Deflater();
-//        deflater.setInput(data);
-//
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-//
-//        deflater.finish();
-//        byte[] buffer = new byte[1024];
-//        while (!deflater.finished()) {
-//            int count = deflater.deflate(buffer); // returns the generated code... index
-//            outputStream.write(buffer, 0, count);
-//        }
-//        outputStream.close();
-//        byte[] output = outputStream.toByteArray();
-//       // deflater.end();
-//
-//        return output;
-//    }
-//
-//    public static byte[] decompress(byte[] data) throws IOException, DataFormatException {
-//        Inflater inflater = new Inflater();
-//        inflater.setInput(data);
-//
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-//        byte[] buffer = new byte[1024];
-//        while (!inflater.finished()) {
-//            int count = inflater.inflate(buffer);
-//            outputStream.write(buffer, 0, count);
-//        }
-//        outputStream.close();
-//        byte[] output = outputStream.toByteArray();
-//       // inflater.end();
-//
-//        return output;
-//    }
-
+    public void setId(long id) {
+        this.id = id;
+    }
 }

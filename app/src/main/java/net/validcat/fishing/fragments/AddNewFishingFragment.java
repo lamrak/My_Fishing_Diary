@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
+import net.validcat.fishing.db.Constants;
 import net.validcat.fishing.db.DB;
 import net.validcat.fishing.tools.CameraManager;
 
@@ -54,10 +55,19 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     }
 
     private DB db;
+    long id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
         ButterKnife.bind(this, addNewFragmentView);
+
+        Intent intent = getActivity().getIntent();
+        id = intent.getLongExtra(Constants.DETAIL_KEY, -1);
+        db = new DB(getActivity());
+
+        if (id != -1)
+            updateUiByItemId();
+
        // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
@@ -103,6 +113,8 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
                     }else Log.d(LOG_TAG, "photo == null");
                 }else Log.d(LOG_TAG, "bitmap == no_photo");
 
+                items.setId(id);
+                //TODO
                 items.setPlace(myPlace);
                 items.setDate(myDate);
                 items.setWeather(myWeather);
@@ -118,8 +130,8 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
                 Intent data = new Intent();
                 FishingItem.packageIntent(data, myPlace, myDate, id, myDescription, bitmap);
                  //send container
-               getActivity().setResult(getActivity().RESULT_OK, data); //TODO
-               getActivity().finish();
+                getActivity().setResult(getActivity().RESULT_OK, data);
+                getActivity().finish();
                 break;
 
             case R.id.action_camera:
@@ -156,5 +168,11 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    public void updateUiByItemId() {
+        db.open();
+        FishingItem item = db.getFishingItemById(id);
+        db.close();
+        etPlace.setText( item.getPlace());
 
+    }
 }

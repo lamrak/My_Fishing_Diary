@@ -46,4 +46,8 @@
     <string name="image_descr">User photo</string>
     <string name="fishing_details">Details</string>
     <string name="footer_string">New Fishing</string>
+
+    <!--detail_action_bar-->
+    <string name="settings_button">Settings</string>
+    <string name="menu_detail_item">Edit</string>
 </resources>

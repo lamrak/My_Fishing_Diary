@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/land_list_activity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/land_list_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -16,70 +16,46 @@
 
     <fragment
         android:id="@+id/list_fragment"
+        android:name="net.validcat.fishing.fragments.ListFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="net.validcat.fishing.fragments.ListFragment"
-        android:layout="@layout/list_fragment"
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/delimetr"
+        android:layout="@layout/list_fragment"
         />
 
     <!--<fragment-->
-        <!--android:id="@+id/detail_fragment"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:name="net.validcat.fishing.fragments.DetailFragment"-->
-        <!--android:layout="@layout/detail_fragment"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_alignLeft="@+id/delimetr"/>-->
+    <!--android:id="@+id/detail_fragment"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:name="net.validcat.fishing.fragments.DetailFragment"-->
+    <!--android:layout="@layout/detail_fragment"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_alignLeft="@+id/delimetr"/>-->
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/delimetr"
         android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignLeft="@+id/delimetr"
-    >
+        >
 
-</FrameLayout>
+    </FrameLayout>
 
 
-<android.support.design.widget.FloatingActionButton
-    android:id="@+id/fab_add_fishing"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/fab_icons"
-    android:layout_gravity="right"
-    app:elevation="6dp"
-    app:borderWidth="10dp"
-    app:pressedTranslationZ="12dp"
-    android:layout_marginBottom="16dp"
-    android:layout_marginRight="16dp"
-    app:backgroundTint="@color/button_color"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginEnd="53dp" />
-
-    <!--<android.support.v4.widget.DrawerLayout-->
-        <!--android:id="@+id/drawer_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
-        <!--<FrameLayout-->
-            <!--android:id="@+id/container_land"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-        <!--</FrameLayout>-->
-
-        <!--<ListView-->
-            <!--android:id="@+id/lv_navigation_drawer"-->
-            <!--android:layout_width="240dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="start"-->
-            <!--android:background="@android:color/white">-->
-        <!--</ListView>-->
-    <!--</android.support.v4.widget.DrawerLayout>-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_fishing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_white_add" />
 
 </RelativeLayout>

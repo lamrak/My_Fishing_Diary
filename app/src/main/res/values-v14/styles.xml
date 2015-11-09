@@ -12,6 +12,8 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+        <item name="android:statusBarColor">@color/green10</item>
+        <item name="colorAccent">@color/green01</item>
     </style>
 
     <!-- Application theme. -->
@@ -19,6 +21,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle"   tools:ignore="NewApi">@style/FishingActionBar</item>
         <item name="actionBarStyle">@style/FishingActionBar</item>
+        <item name="colorAccent">@color/primary</item>
     </style>
 
     <style name="FishingActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">

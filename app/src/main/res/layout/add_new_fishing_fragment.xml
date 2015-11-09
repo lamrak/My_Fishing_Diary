@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/fishing_place"
+        android:text="@string/title_fishing_place"
         android:layout_gravity="start|top"
         android:layout_marginTop="24dp"
         android:textSize="16sp" />
@@ -33,9 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
         android:layout_marginTop="112dp"
-        android:hint="@string/fishing_price"
+        android:hint="@string/price_value"
         android:textSize="16sp"
-        android:text="@string/price_value"/>
+        />
 
     <EditText
         android:id="@+id/et_details"
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:hint="@string/fishing_price"
+        android:hint="@string/title_fishing_price"
         android:layout_gravity="start|top"
         android:textSize="16sp"
         android:layout_marginTop="96dp" />
@@ -60,7 +60,7 @@
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fishing_date"
+        android:text="@string/title_fishing_date"
         android:layout_gravity="center_horizontal|top"
         android:textSize="16sp"
         android:clickable="true"
@@ -71,7 +71,7 @@
         android:id="@+id/tv_weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fishing_weather"
+        android:text="@string/title_fishing_weather"
         android:layout_gravity="end|top"
         android:textSize="16sp"
         android:clickable="true"
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/et_details"
-        android:src="@drawable/no_photo"
+        android:src="@drawable/ic_no_photo"
         android:contentDescription="@string/image_descr"/>
 
     <!--<android.support.design.widget.FloatingActionButton-->

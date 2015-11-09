@@ -1,5 +1,8 @@
 package net.validcat.fishing.fragments;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Intent;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +29,7 @@ import net.validcat.fishing.db.DB;
 import net.validcat.fishing.tools.CameraManager;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.Bind;
@@ -33,29 +38,24 @@ import butterknife.ButterKnife;
 /**
  * Created by Denis on 11.09.2015.
  */
-public class AddNewFishingFragment extends Fragment implements View.OnClickListener {
+public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
-    @Bind(R.id.iv_photo)
-    ImageView ivPhoto;
-    @Bind(R.id.et_place)
-    EditText etPlace;
-    @Bind(R.id.tv_date)
-    TextView tvDate;
-    @Bind(R.id.tv_weather)
-    TextView tvWeather;
-    @Bind(R.id.et_price)
-    EditText etPrice;
-    @Bind(R.id.et_details)
-    EditText etDetails;
+    @Bind(R.id.iv_photo) ImageView ivPhoto;
+    @Bind(R.id.et_place) EditText etPlace;
+    @Bind(R.id.tv_date) TextView tvDate;
+    @Bind(R.id.tv_weather) TextView tvWeather;
+    @Bind(R.id.et_price) EditText etPrice;
+    @Bind(R.id.et_details) EditText etDetails;
 
     private CameraManager cm;
+    private DB db;
+    private long id;
+    private boolean userPhoto = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
     }
 
-    private DB db;
-    long id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
@@ -69,18 +69,28 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
             updateUiByItemId();
 
        // fab_add_fishing_list.setOnClickListener(this);
-        tvDate.setOnClickListener(this);
-        ivPhoto.setOnClickListener(this);
+        tvDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DialogFragment() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        String date = sdf.format(new Date(System.currentTimeMillis()));
+                    @Override
+                    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        tvDate.setText(date);
-//
-//        Calendar c = Calendar.getInstance();
-//        day = c.get(Calendar.DAY_OF_MONTH);
-//        month = c.get(Calendar.MONTH);
-//        year = c.get(Calendar.YEAR);
+                        // Use the current date as the default date in the picker
+                        final Calendar c = Calendar.getInstance();
+                        int year = c.get(Calendar.YEAR);
+                        int month = c.get(Calendar.MONTH);
+                        int day = c.get(Calendar.DAY_OF_MONTH);
+
+                        // Create a new instance of DatePickerDialog and return it
+                        return new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
+                    }
+                }.show(getFragmentManager(), "datePicker");
+            }
+        });
+
+        tvDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date(System.currentTimeMillis())));
 
         return addNewFragmentView;
     }
@@ -96,41 +106,31 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send:
-                String myPlace = etPlace.getText().toString();
-                String myDate = tvDate.getText().toString();
-                String myWeather = tvWeather.getText().toString();
-                String myDescription = etDetails.getText().toString();
-                String myPrice = etPrice.getText().toString();
-                Bitmap bitmap = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
-                Bitmap no_photo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);
-
                 FishingItem items = new FishingItem();
-                if (!bitmap.sameAs(no_photo) ) {
-                    Log.d(LOG_TAG, "bitmap != no_photo " + bitmap + no_photo);
-                    byte[] photo = CameraManager.getByteArrayfromBitmap(bitmap);
+                if (userPhoto) {
+                    byte[] photo = CameraManager.getByteArrayFromBitmap(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap());
                     if (photo != null) {
                         items.setPhoto(photo);
-                    }else Log.d(LOG_TAG, "photo == null");
-                }else Log.d(LOG_TAG, "bitmap == no_photo");
-
+                    }
+                }
                 items.setId(id);
-                //TODO
-                items.setPlace(myPlace);
-                items.setDate(myDate);
-                items.setWeather(myWeather);
-                items.setDescription(myDescription);
-                items.setPrice(myPrice);
+                items.setPlace(etPlace.getText().toString());
+                items.setDate(tvDate.getText().toString());
+                items.setWeather(tvWeather.getText().toString());
+                items.setDescription(etDetails.getText().toString());
+                items.setPrice(etPrice.getText().toString());
 
                 // open a connection to the database
                 db = new DB(getActivity());
                 db.open();
                 long id = db.saveFishingItem(items);
+                items.setId(id);
                 db.close();
 
                 Intent data = new Intent();
-                FishingItem.packageIntent(data, myPlace, myDate, id, myDescription, bitmap);
-                 //send container
-                getActivity().setResult(getActivity().RESULT_OK, data);
+                FishingItem.packageIntentFromItem(data, items);
+                //send container
+                getActivity().setResult(Activity.RESULT_OK, data);
                 getActivity().finish();
                 break;
 
@@ -144,25 +144,12 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_date:
-                DialogFragment picker = new DatePickerFragment(tvDate);
-                picker.show(getFragmentManager(), "datePicker");
-                break;
-        }
-    }
-
-
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
-        Bitmap b = cm.getCameraPhoto(getActivity());
+        Bitmap b = cm.getCameraPhoto();
         if (b != null) {
-            b = cm.scaleDownBitmap(b, 200, getActivity()); //TODO what is 200????
-            ivPhoto.setImageBitmap(b);
-            Log.d(LOG_TAG, "Intent data onActivityResult == " + b);
+            userPhoto = true;
+            ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(b, 200, getActivity())); //TODO what is 200????
         } else {
             Log.d(LOG_TAG, "Intent data onActivityResult == null");
         }
@@ -175,4 +162,10 @@ public class AddNewFishingFragment extends Fragment implements View.OnClickListe
         etPlace.setText( item.getPlace());
 
     }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        tvDate.setText(String.format("%d.%d.%d", dayOfMonth, ++monthOfYear, year));
+    }
+
 }

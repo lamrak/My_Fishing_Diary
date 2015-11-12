@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -122,7 +123,6 @@ public class DetailFragment extends Fragment {
                  + tvDescription.getText() + "\n"
                  + tvCatch.getText() + "\n";
         shareIntent.putExtra(Intent.EXTRA_TEXT, massage);
-
         shareIntent.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 //        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -142,16 +142,47 @@ public class DetailFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.share)
-            share();
-        else if (item.getItemId() == R.id.edit) {
-            Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
-            intent.putExtra(Constants.DETAIL_KEY, id);
-            startActivity(intent);
-        }
+//        switch (item.getItemId()) {
+//            case R.id.share:
+//                share();
+//            case R.id.edit:
+                View menuItemView = getActivity().findViewById(R.id.settings_buton);
+                PopupMenu popupMenu = new PopupMenu(getActivity(), menuItemView);
+                popupMenu.inflate(R.menu.item_detail);
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.edit:
+                                // Toast.makeText(getActivity(),"Вы выбрали Редактирование",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
+                                intent.putExtra(Constants.DETAIL_KEY, id);
+                                startActivity(intent);
+                                return true;
+                            case R.id.share:
+                                share();
+                            default:
+                                return false;
+                        }
+                    }
+                });
+//            }
+//        if (item.getItemId() == R.id.share)
+//            share();
+//        else if (item.getItemId() == R.id.edit) {
+//            Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
+//            intent.putExtra(Constants.DETAIL_KEY, id);
+//            startActivity(intent);
+//        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateUiByItemId(id);
     }
 
 }

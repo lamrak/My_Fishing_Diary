@@ -10,6 +10,7 @@ public class FishingItem {
     public final static String DESCRIPTION = "description";
     public final static String PHOTO = "photo";
 
+
     long id = -1;
     String place;
     String date; //Date
@@ -39,14 +40,14 @@ public class FishingItem {
         photoBitmap = intent.getParcelableExtra(FishingItem.PHOTO);
     }
 
-    public static void packageIntent(Intent data, String place, String date,
-                                     long id, String description, Bitmap myPhoto) {
-        data.putExtra(FishingItem.PLACE, place);
-        data.putExtra(FishingItem.DATE, date);
-        data.putExtra(FishingItem.ID, id);
-        data.putExtra(FishingItem.DESCRIPTION, description);
-        data.putExtra(FishingItem.PHOTO, myPhoto);
-    }
+//    public static void packageIntent(Intent data, String place, String date,
+//                                     long id, String description, Bitmap myPhoto) {
+//        data.putExtra(FishingItem.PLACE, place);
+//        data.putExtra(FishingItem.DATE, date);
+//        data.putExtra(FishingItem.ID, id);
+//        data.putExtra(FishingItem.DESCRIPTION, description);
+//        data.putExtra(FishingItem.PHOTO, myPhoto);
+//    }
 
     public static void packageIntentFromItem(Intent data, FishingItem item) {
         data.putExtra(FishingItem.PLACE, item.getPlace());
@@ -54,6 +55,7 @@ public class FishingItem {
         data.putExtra(FishingItem.ID, item.getId());
         data.putExtra(FishingItem.DESCRIPTION, item.getDescription());
 //        data.putExtra(FishingItem.PHOTO, item.getPhoto());
+
     }
 
     // data which are set in the formation of a list item
@@ -79,7 +81,11 @@ public class FishingItem {
 //        return cameraPhoto;
 //    }
     public Bitmap getBitmap(){
-        return photoBitmap;
+            return photoBitmap;
+    }
+    public byte[] getNull(){
+        byte [] bytes = null;
+        return bytes;
     }
     public void setPlace(String place) {
         this.place = place;
@@ -99,6 +105,9 @@ public class FishingItem {
 //    public void setPhoto(byte[] photo) {
 //        cameraPhoto = photo;
 //    }
+    public void setBitmap (Bitmap photo){
+        photoBitmap = photo;
+    }
     public void setId(long id) {
         this.id = id;
     }

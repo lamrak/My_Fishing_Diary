@@ -107,10 +107,16 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             case R.id.action_send:
                 FishingItem items = new FishingItem();
                 if (userPhoto) {
-                    byte[] photo = CameraManager.getByteArrayFromBitmap(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap());
-//                    if (photo != null) {
-//                        items.setPhoto(photo);
-//                    }
+//                    byte[] photo = BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap());
+                    Bitmap photo = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
+                   // if (photo != null) {
+                        items.setBitmap(photo);
+                   // }
+//                }else{
+//                     photo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);
+//                        ivPhoto.setImageBitmap(photo);
+//                }
+
                 }
                 items.setId(id);
                 items.setPlace(etPlace.getText().toString());
@@ -148,9 +154,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         Bitmap b = cm.getCameraPhoto();
         if (b != null) {
             userPhoto = true;
-            ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(b, 200, getActivity())); //TODO what is 200????
+            ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity())); //TODO what is 200????
         } else {
-            Log.d(LOG_TAG, "Intent data onActivityResult == null");
+           Log.d(LOG_TAG, "Intent data onActivityResult == null");
+//            userPhoto = false;
+//            b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);
+//            ivPhoto.setImageBitmap(b);
         }
     }
 
@@ -166,5 +175,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         tvDate.setText(String.format("%d.%d.%d", dayOfMonth, ++monthOfYear, year));
     }
+
 
 }

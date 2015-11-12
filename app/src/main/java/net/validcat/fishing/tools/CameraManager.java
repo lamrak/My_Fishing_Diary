@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import net.validcat.fishing.db.Constants;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,9 +28,11 @@ public class CameraManager {
     private Bitmap myPhoto;
     private String path;
 
+
     public void startCameraForResult(Activity activity) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             createDirectoryFromCard();
+
         mUri = generateFileUri();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // intent.putExtra(Constants.KEY_DATA, mUri);
@@ -109,10 +110,12 @@ public class CameraManager {
         return photo;
     }
 
-    public static byte[] getByteArrayFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bos);
+//    public static byte[] getByteArrayFromBitmap(Bitmap bitmap) {
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bos);
+//
+//        return bos.toByteArray();
+//    }
 
-        return bos.toByteArray();
-    }
+
 }

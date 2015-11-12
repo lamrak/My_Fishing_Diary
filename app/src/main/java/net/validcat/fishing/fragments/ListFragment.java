@@ -78,4 +78,11 @@ public class ListFragment extends Fragment {
         void onItemClicked(long id);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        initDataBase();
+        initUI();
+    }
+
 }

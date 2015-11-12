@@ -12,6 +12,7 @@ import android.util.Log;
 
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
+import net.validcat.fishing.tools.BitmapUtils;
 
 import java.util.List;
 
@@ -86,8 +87,12 @@ public class DB {
 
         do {
             byte[] photo = cursor.getBlob(dbPhotoKey);
-            Bitmap dbPhoto = (photo != null) ? BitmapFactory.decodeByteArray(photo, 0, photo.length)
+//            Bitmap dbPhoto = (photo != null) ? BitmapFactory.decodeByteArray(photo, 0, photo.length)
+//            : BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.ic_no_photo);
+
+            Bitmap dbPhoto = (photo != null) ? BitmapUtils.convertByteToBitmap(photo)
             : BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.ic_no_photo);
+
             FishingItem dbItem = new FishingItem(cursor.getInt(id), cursor.getString(dbPlaceKey),
                     cursor.getString(dbDateKey), cursor.getString(dbDescriptionKey), dbPhoto);
             dbInnerList.add(dbItem);
@@ -133,6 +138,12 @@ public class DB {
                 item.setDescription(cursor.getString(cursor.getColumnIndex(DB.COLUMN_DESCRIPTION)));
                 item.setPrice(cursor.getString(cursor.getColumnIndex(DB.COLUMN_PRICE)));
 //TODO                item.setPhoto(cursor.getBlob(cursor.getColumnIndex(DB.COLUMN_IMAGE)));
+                byte[]photo = cursor.getBlob(cursor.getColumnIndex(DB.COLUMN_IMAGE));
+                if (photo!=null) {
+                    item.setBitmap(BitmapUtils.convertByteToBitmap(photo));
+                }else{
+                    item.setBitmap(BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.ic_no_photo));
+                }
             } else
                 Log.d(LOG_TAG, " --- row 0 --- ");
         } else
@@ -152,7 +163,11 @@ public class DB {
         cv.put(DB.COLUMN_DESCRIPTION, item.getDescription());
         cv.put(DB.COLUMN_PRICE, item.getPrice());
 //TODO        cv.put(DB.COLUMN_IMAGE, item.getPhoto());
-
+        if (item.getBitmap()== null){
+            cv.put(DB.COLUMN_IMAGE, item.getNull());
+        }else {
+            cv.put(DB.COLUMN_IMAGE, BitmapUtils.convertBitmapToBiteArray(item.getBitmap()));
+        }
         long id;
         if (item.getId() == -1) {
             id = mDB.insert(DB.DB_TABLE, null, cv);

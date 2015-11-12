@@ -10,4 +10,5 @@ public class Constants {
     public static final String EXTENSION_JPG = ".jpg";
     public static final int REQUEST_CODE_PHOTO = 1;
     public static final String DETAIL_KEY = "detail_id";
+    public static final int HEIGHT_BITMAP = 200;
 }

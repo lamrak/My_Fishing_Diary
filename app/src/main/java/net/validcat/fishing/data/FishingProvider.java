@@ -23,9 +23,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 public class FishingProvider extends ContentProvider {
-
     // The URI Matcher used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private FishingDbHelper mOpenHelper;
@@ -33,6 +33,7 @@ public class FishingProvider extends ContentProvider {
     static final int WEATHER = 100;
     static final int WEATHER_WITH_LOCATION = 101;
     static final int WEATHER_WITH_LOCATION_AND_DATE = 102;
+    static final int FISHING = 200;
     static final int LOCATION = 300;
 
     private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
@@ -108,24 +109,18 @@ public class FishingProvider extends ContentProvider {
         );
     }
 
-    /*
-        Students: Here is where you need to create the UriMatcher. This UriMatcher will
-        match each URI to the WEATHER, WEATHER_WITH_LOCATION, WEATHER_WITH_LOCATION_AND_DATE,
-        and LOCATION integer constants defined above.  You can test this by uncommenting the
-        testUriMatcher test within TestUriMatcher.
-     */
     static UriMatcher buildUriMatcher() {
-        // 1) The code passed into the constructor represents the code to return for the root
-        // URI.  It's common to use NO_MATCH as the code for this case. Add the constructor below.
         UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        // 2) Use the addURI function to match each of the types.  Use the constants from
-        // FishingContract to help define the types to the UriMatcher.
+
+        //Weather
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_WEATHER, WEATHER);
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_WEATHER + "/*", WEATHER_WITH_LOCATION);
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_WEATHER + "/*/#", WEATHER_WITH_LOCATION_AND_DATE);
-
+        // Location
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_LOCATION, LOCATION);
-        // 3) Return the new matcher!
+        // Fishing
+        sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_FISHING, FISHING);
+
         return sUriMatcher;
     }
 
@@ -146,11 +141,7 @@ public class FishingProvider extends ContentProvider {
      */
     @Override
     public String getType(Uri uri) {
-
-        // Use the Uri Matcher to determine what kind of URI this is.
-        final int match = sUriMatcher.match(uri);
-
-        switch (match) {
+        switch (sUriMatcher.match(uri)) {
             // Student: Uncomment and fill out these two cases
             case WEATHER_WITH_LOCATION_AND_DATE:
                 return FishingContract.WeatherEntry.CONTENT_ITEM_TYPE;
@@ -159,6 +150,8 @@ public class FishingProvider extends ContentProvider {
             case WEATHER:
                 return FishingContract.WeatherEntry.CONTENT_TYPE;
             case LOCATION:
+                return FishingContract.LocationEntry.CONTENT_TYPE;
+            case FISHING:
                 return FishingContract.LocationEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -205,6 +198,18 @@ public class FishingProvider extends ContentProvider {
                         sortOrder);
                 break;
             }
+            // "FISHING"
+            case FISHING: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        FishingContract.FishingEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            }
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -217,7 +222,7 @@ public class FishingProvider extends ContentProvider {
         Student: Add the ability to insert Locations to the implementation of this function.
      */
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         Uri returnUri;
@@ -226,7 +231,7 @@ public class FishingProvider extends ContentProvider {
             case WEATHER: {
                 normalizeDate(values);
                 long _id = db.insert(FishingContract.WeatherEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = FishingContract.WeatherEntry.buildWeatherUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -234,8 +239,17 @@ public class FishingProvider extends ContentProvider {
             }
             case LOCATION: {
                 long _id = db.insert(FishingContract.LocationEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = FishingContract.LocationEntry.buildLocationUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+
+            case FISHING: {
+                long _id = db.insert(FishingContract.FishingEntry.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = FishingContract.FishingEntry.buildFishingUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -262,6 +276,10 @@ public class FishingProvider extends ContentProvider {
             }
             case LOCATION: {
                 deletedRows = db.delete(FishingContract.LocationEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
+            case FISHING: {
+                deletedRows = db.delete(FishingContract.FishingEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             }
             default:
@@ -295,6 +313,9 @@ public class FishingProvider extends ContentProvider {
             case LOCATION:
                 rowsUpdated = db.update(FishingContract.LocationEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
+            case FISHING:
+                rowsUpdated = db.update(FishingContract.FishingEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -305,7 +326,7 @@ public class FishingProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         switch (match) {

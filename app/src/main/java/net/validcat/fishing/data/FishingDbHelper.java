@@ -26,9 +26,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class FishingDbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
-    static final String DATABASE_NAME = "weather.db";
+    static final String DATABASE_NAME = "fishing.db";
 
     public FishingDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

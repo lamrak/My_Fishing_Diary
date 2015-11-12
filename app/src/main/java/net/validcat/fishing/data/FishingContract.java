@@ -42,6 +42,7 @@ public class FishingContract {
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
+    public static final String PATH_FISHING = "location";
 
     // To make it easy to query for the exact date, we normalize all dates that go into
     // the database to the start of the the Julian day at UTC.
@@ -117,11 +118,22 @@ public class FishingContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_IMAGE = "photo";
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_FISHING).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FISHING;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FISHING;
+
+        public static Uri buildFishingUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
+
     /*
         Inner class that defines the table contents of the location table
-        Students: This is where you will add the strings.  (Similar to what has been
-        done for WeatherEntry)
      */
     public static final class LocationEntry implements BaseColumns {
         public static final String TABLE_NAME = "location";

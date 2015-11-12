@@ -125,6 +125,7 @@ public class DetailFragment extends Fragment {
 
         shareIntent.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        //TODO get link to bitmap from fishing item
 //        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 //        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
 //        try {

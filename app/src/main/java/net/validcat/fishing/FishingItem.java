@@ -1,7 +1,12 @@
 package net.validcat.fishing;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import net.validcat.fishing.data.FishingContract;
 
 public class FishingItem {
     public final static String PLACE = "place";
@@ -10,6 +15,24 @@ public class FishingItem {
     public final static String DESCRIPTION = "description";
     public final static String PHOTO = "photo";
 
+    public static String[] COLUMNS = {
+        FishingContract.FishingEntry._ID,
+        FishingContract.FishingEntry.COLUMN_PLACE,
+        FishingContract.FishingEntry.COLUMN_DATE,
+        FishingContract.FishingEntry.COLUMN_WEATHER,
+        FishingContract.FishingEntry.COLUMN_DESCRIPTION,
+        FishingContract.FishingEntry.COLUMN_PRICE,
+        FishingContract.FishingEntry.COLUMN_IMAGE
+    };
+
+    public static final int COL_ID = 0;
+    public static final int COL_PLACE = 1;
+    public static final int COL_DATE = 2;
+    public static final int COL_WEATHER = 3;
+    public static final int COL_DESCRIPTION = 4;
+    public static final int COL_PRICE = 5;
+    public static final int COL_IMAGE = 6;
+
     long id = -1;
     String place;
     String date; //Date
@@ -17,6 +40,7 @@ public class FishingItem {
     String weather;
     String description;
     String catches;
+    String price;
 //    byte[] cameraPhoto;
     Bitmap photoBitmap;
 
@@ -78,7 +102,7 @@ public class FishingItem {
 //    public byte[] getPhoto(){
 //        return cameraPhoto;
 //    }
-    public Bitmap getBitmap(){
+    public Bitmap getPhotoBitmap(){
         return photoBitmap;
     }
     public void setPlace(String place) {
@@ -106,5 +130,24 @@ public class FishingItem {
     @Override
     public String toString() {
         return "Item[id:" + id + "]";
+    }
+
+    public static FishingItem createFishingItemFromCursor(Context context, Cursor data) {
+        FishingItem item = new FishingItem();
+        item.id = data.getLong(COL_ID);
+        item.place = data.getString(COL_PLACE);
+        item.date = data.getString(COL_DATE);
+        item.weather = data.getString(COL_WEATHER);
+        item.description = data.getString(COL_DESCRIPTION);
+        item.price = data.getString(COL_PRICE);
+        item.photoBitmap = convertBlobToPhotoBitmap(context, data.getBlob(COL_IMAGE));
+
+        return item;
+    }
+
+    private static Bitmap convertBlobToPhotoBitmap(Context context, byte[] byteArray) {
+        return (byteArray == null || byteArray.length == 0) ?
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_no_photo)
+                : BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
     }
 }

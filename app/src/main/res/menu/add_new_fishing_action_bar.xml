@@ -9,7 +9,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_send"
+        android:id="@+id/action_add_new_fishing"
         android:icon="@android:drawable/ic_menu_send"
         android:title="@string/action_send"
         app:showAsAction="always" />

@@ -42,7 +42,7 @@ public class FishingContract {
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
-    public static final String PATH_FISHING = "location";
+    public static final String PATH_FISHING = "fishing";
 
     // To make it easy to query for the exact date, we normalize all dates that go into
     // the database to the start of the the Julian day at UTC.
@@ -93,8 +93,7 @@ public class FishingContract {
                 LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL, " +
                 LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " +
                 LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
-                LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL " +
-                ");";
+                LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL " + ");";
     }
 
     public static String createFishingTable() {
@@ -129,6 +128,10 @@ public class FishingContract {
 
         public static Uri buildFishingUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static String getFishingIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
         }
     }
 

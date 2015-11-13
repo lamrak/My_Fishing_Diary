@@ -1,14 +1,16 @@
 package net.validcat.fishing.fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,8 +25,8 @@ import android.widget.TextView;
 
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
+import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.db.Constants;
-import net.validcat.fishing.db.DB;
 import net.validcat.fishing.tools.CameraManager;
 
 import java.text.SimpleDateFormat;
@@ -47,25 +49,25 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.et_details) EditText etDetails;
 
     private CameraManager cm;
-    private DB db;
-    private long id;
+    private Uri uri;
+    private FishingItem item;
     private boolean userPhoto = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
     }
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
         ButterKnife.bind(this, addNewFragmentView);
 
         Intent intent = getActivity().getIntent();
-        id = intent.getLongExtra(Constants.DETAIL_KEY, -1);
-        db = new DB(getActivity());
+        String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
 
-        if (id != -1)
+        if (!TextUtils.isEmpty(strUri)) {
+            uri = Uri.parse(strUri);
             updateUiByItemId();
+        }
 
        // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(new View.OnClickListener() {
@@ -102,34 +104,27 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_send:
-                FishingItem items = new FishingItem();
-                if (userPhoto) {
-                    byte[] photo = CameraManager.getByteArrayFromBitmap(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap());
-//                    if (photo != null) {
-//                        items.setPhoto(photo);
-//                    }
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.action_add_new_fishing:
+                ContentValues cv = new ContentValues();
+                if (this.item == null) {
+                    this.item = new FishingItem();
+                } else {
+                    cv.put(FishingContract.FishingEntry._ID, item.getId());
                 }
-                items.setId(id);
-                items.setPlace(etPlace.getText().toString());
-                items.setDate(tvDate.getText().toString());
-                items.setWeather(tvWeather.getText().toString());
-                items.setDescription(etDetails.getText().toString());
-                items.setPrice(etPrice.getText().toString());
+                cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
+                cv.put(FishingContract.FishingEntry.COLUMN_DATE, tvDate.getText().toString());
+                cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
+                cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
+                cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
+//                cv.put(FishingContract.FishingEntry.COLUMN_, );
+                if (userPhoto) {
+                    cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
+                            CameraManager.getByteArrayFromBitmap(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
+                }
 
-                // open a connection to the database
-                db = new DB(getActivity());
-                db.open();
-                long id = db.saveFishingItem(items);
-                items.setId(id);
-                db.close();
-
-                Intent data = new Intent();
-                FishingItem.packageIntentFromItem(data, items);
-                //send container
-                getActivity().setResult(Activity.RESULT_OK, data);
+                getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
                 getActivity().finish();
                 break;
 
@@ -140,7 +135,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(menuItem);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -155,11 +150,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void updateUiByItemId() {
-        db.open();
-        FishingItem item = db.getFishingItemById(id);
-        db.close();
-        etPlace.setText( item.getPlace());
-
+        item = (FishingItem) getActivity().getContentResolver().query(uri,
+                FishingItem.COLUMNS, null, null, null); //db.getFishingItemById(id);
+        etPlace.setText(item.getPlace());
     }
 
     @Override

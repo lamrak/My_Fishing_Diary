@@ -34,6 +34,7 @@ public class FishingProvider extends ContentProvider {
     static final int WEATHER_WITH_LOCATION = 101;
     static final int WEATHER_WITH_LOCATION_AND_DATE = 102;
     static final int FISHING = 200;
+    static final int FISHING_BY_ID = 201;
     static final int LOCATION = 300;
 
     private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
@@ -120,6 +121,7 @@ public class FishingProvider extends ContentProvider {
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_LOCATION, LOCATION);
         // Fishing
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_FISHING, FISHING);
+        sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_FISHING + "/#", FISHING_BY_ID);
 
         return sUriMatcher;
     }
@@ -152,7 +154,9 @@ public class FishingProvider extends ContentProvider {
             case LOCATION:
                 return FishingContract.LocationEntry.CONTENT_TYPE;
             case FISHING:
-                return FishingContract.LocationEntry.CONTENT_TYPE;
+                return FishingContract.FishingEntry.CONTENT_TYPE;
+            case FISHING_BY_ID:
+                return FishingContract.FishingEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -210,17 +214,26 @@ public class FishingProvider extends ContentProvider {
                         sortOrder);
                 break;
             }
-
+            case FISHING_BY_ID: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        FishingContract.FishingEntry.TABLE_NAME,
+                        projection,
+                        FishingContract.FishingEntry.TABLE_NAME +
+                                "." + FishingContract.FishingEntry._ID + " = ? ",
+                        new String[]{FishingContract.FishingEntry.getFishingIdFromUri(uri)},
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return retCursor;
     }
 
-    /*
-        Student: Add the ability to insert Locations to the implementation of this function.
-     */
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -245,7 +258,6 @@ public class FishingProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-
             case FISHING: {
                 long _id = db.insert(FishingContract.FishingEntry.TABLE_NAME, null, values);
                 if (_id > 0)
@@ -278,6 +290,7 @@ public class FishingProvider extends ContentProvider {
                 deletedRows = db.delete(FishingContract.LocationEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             }
+            case FISHING_BY_ID:
             case FISHING: {
                 deletedRows = db.delete(FishingContract.FishingEntry.TABLE_NAME, selection, selectionArgs);
                 break;
@@ -301,7 +314,7 @@ public class FishingProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         int rowsUpdated;
@@ -313,6 +326,7 @@ public class FishingProvider extends ContentProvider {
             case LOCATION:
                 rowsUpdated = db.update(FishingContract.LocationEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
+            case FISHING_BY_ID:
             case FISHING:
                 rowsUpdated = db.update(FishingContract.FishingEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;

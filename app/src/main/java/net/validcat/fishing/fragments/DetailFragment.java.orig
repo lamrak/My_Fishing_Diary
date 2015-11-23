@@ -8,10 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,6 +45,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private Uri uri;
     private FishingItem item;
+
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -127,7 +128,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                             case R.id.edit:
                                 // Toast.makeText(getActivity(),"Вы выбрали Редактирование",Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
-                                intent.putExtra(Constants.DETAIL_KEY, id);
+                                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
+                                Log.d(LOG_TAG,"uri = " +uri);
                                 startActivity(intent);
                                 return true;
                             case R.id.share:
@@ -146,10 +148,25 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 //            startActivity(intent);
 //        }
 
+//        if (item.getItemId() == R.id.share)
+//            share();
+//        else if (item.getItemId() == R.id.edit) {
+//            Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
+//            intent.putExtra(Constants.DETAIL_KEY, uri);
+//            startActivity(intent);
+//        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+
+//    public void onStart() {
+//        super.onStart();
+//        updateUiByItemId(id);
+//    }
+
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(LOG_TAG, "onCreateLoader");
         if (null == uri)

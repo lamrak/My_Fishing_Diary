@@ -40,11 +40,9 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 
     @Override
     public void onItemClicked(long clickedItemId) {
-        int orientation = getResources().getConfiguration().orientation;
-
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             panel = true;
-            startActivity(new Intent(ListActivity.this, DetailActivity.class).putExtra("id", clickedItemId));
+            startActivity(new Intent(ListActivity.this, DetailActivity.class).putExtra(Constants.DETAIL_KEY, clickedItemId));
         } else {
             panel = false;
             Bundle args = new Bundle();
@@ -62,12 +60,12 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
         return true;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == Constants.ITEM_REQUEST) {
-            ListFragment lf = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
-            if(lf != null)
-                lf.addNewItem(data);
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == RESULT_OK && requestCode == Constants.ITEM_REQUEST) {
+//            ListFragment lf = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
+//            if(lf != null)
+//                lf.addNewItem(data);
+//        }
+//    }
 }

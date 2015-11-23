@@ -15,6 +15,7 @@ public class FishingItem {
     public final static String DESCRIPTION = "description";
     public final static String PHOTO = "photo";
 
+
     public static String[] COLUMNS = {
         FishingContract.FishingEntry._ID,
         FishingContract.FishingEntry.COLUMN_PLACE,
@@ -32,6 +33,7 @@ public class FishingItem {
     public static final int COL_DESCRIPTION = 4;
     public static final int COL_PRICE = 5;
     public static final int COL_IMAGE = 6;
+
 
     long id = -1;
     String place;
@@ -63,14 +65,14 @@ public class FishingItem {
         photoBitmap = intent.getParcelableExtra(FishingItem.PHOTO);
     }
 
-    public static void packageIntent(Intent data, String place, String date,
-                                     long id, String description, Bitmap myPhoto) {
-        data.putExtra(FishingItem.PLACE, place);
-        data.putExtra(FishingItem.DATE, date);
-        data.putExtra(FishingItem.ID, id);
-        data.putExtra(FishingItem.DESCRIPTION, description);
-        data.putExtra(FishingItem.PHOTO, myPhoto);
-    }
+//    public static void packageIntent(Intent data, String place, String date,
+//                                     long id, String description, Bitmap myPhoto) {
+//        data.putExtra(FishingItem.PLACE, place);
+//        data.putExtra(FishingItem.DATE, date);
+//        data.putExtra(FishingItem.ID, id);
+//        data.putExtra(FishingItem.DESCRIPTION, description);
+//        data.putExtra(FishingItem.PHOTO, myPhoto);
+//    }
 
     public static void packageIntentFromItem(Intent data, FishingItem item) {
         data.putExtra(FishingItem.PLACE, item.getPlace());
@@ -103,12 +105,17 @@ public class FishingItem {
 //    public byte[] getPhoto(){
 //        return cameraPhoto;
 //    }
+
     public Bitmap getBitmap(){
-        return photoBitmap;
+            return photoBitmap;
     }
-    public byte[] getNull(){
-        byte [] bytes = null;
+    public byte[] getNull() {
+        byte[] bytes = null;
         return bytes;
+    }
+
+    public Bitmap getPhotoBitmap(){
+        return photoBitmap;
     }
     public void setPlace(String place) {
         this.place = place;

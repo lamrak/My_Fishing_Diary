@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rlLayout"
@@ -20,8 +19,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="24dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/photo_holder" />
+        android:adjustViewBounds="true" />
 
     <net.validcat.fishing.ui.RoundedImageView
         android:id="@+id/weather_preview"
@@ -29,7 +27,7 @@
         android:layout_height="22dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="45dp"
-        android:background="@drawable/weather_rev01"
+        android:background="@drawable/ic_no_weather"
         android:scaleType="center" />
 
     <TextView

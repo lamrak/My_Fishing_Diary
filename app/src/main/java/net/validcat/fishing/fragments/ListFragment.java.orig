@@ -1,6 +1,5 @@
 package net.validcat.fishing.fragments;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,10 +72,16 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         void onItemClicked(long id);
     }
 
-    @Override
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        initDataBase();
+//        initUI();
+
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(LOADER_ID, null, this);
+
     }
 
 }

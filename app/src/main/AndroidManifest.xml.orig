@@ -44,6 +44,7 @@
             <!--android:theme="@style/AppTheme.Main"-->
 <!--=======-->
 
+
         <provider
             android:name=".data.FishingProvider"
             android:authorities="net.validcat.fishing"

@@ -46,8 +46,8 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
 //		}else {
 //			Log.d(LOG_TAG,"byte[] photo =" +photo);
 //		}
-        if(item.getPhotoBitmap() != null) {
-            viewHolder.photoPreview.setImageBitmap(item.getPhotoBitmap());
+        if(item.getBitmap() != null) {
+            viewHolder.photoPreview.setImageBitmap(item.getBitmap());
         }else{
             Bitmap noPhoto = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_no_photo);
             viewHolder.photoPreview.setImageBitmap(noPhoto);

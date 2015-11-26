@@ -127,7 +127,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                             case R.id.edit:
                                 // Toast.makeText(getActivity(),"Вы выбрали Редактирование",Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
-                                intent.putExtra(Constants.DETAIL_KEY, id);
+                                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
                                 startActivity(intent);
                                 return true;
                             case R.id.share:
@@ -176,7 +176,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
             tvCatch.setText(getString(R.string.fishing_price, item.getPrice()));
             tvCatch.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
-            Bitmap photo = item.getPhotoBitmap();
+            Bitmap photo = item.getBitmap();
             if (photo != null) {
                 Log.d(LOG_TAG, "photo !=null " + photo);
                 ivPhoto.setImageBitmap(photo);

@@ -1,6 +1,5 @@
 package net.validcat.fishing.fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -124,7 +123,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //                    byte[] photo = BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap());
                     Bitmap photo = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
                    // if (photo != null) {
-                        items.setBitmap(photo);
+                        item.setBitmap(photo);
                    // }
 //                }else{
 //                     photo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);

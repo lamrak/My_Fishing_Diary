@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.db.Constants;
+import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.CameraManager;
 
 import java.text.SimpleDateFormat;
@@ -52,6 +54,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private Uri uri;
     private FishingItem item;
     private boolean userPhoto = false;
+    private boolean updateData = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -67,6 +70,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (!TextUtils.isEmpty(strUri)) {
             uri = Uri.parse(strUri);
             updateUiByItemId();
+
         }
 
        // fab_add_fishing_list.setOnClickListener(this);
@@ -113,33 +117,31 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 } else {
                     cv.put(FishingContract.FishingEntry._ID, item.getId());
                 }
+
                 cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_DATE, tvDate.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
-//                cv.put(FishingContract.FishingEntry.COLUMN_, );
-                if (userPhoto) {
-//                    byte[] photo = BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap());
-                    Bitmap photo = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
-                   // if (photo != null) {
-                        item.setBitmap(photo);
-                   // }
-//                }else{
-//                     photo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);
-//                        ivPhoto.setImageBitmap(photo);
-//                }
 
+                if (userPhoto) {
+                    Bitmap photo = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
+                    item.setBitmap(photo);
+                    cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
+                            BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
+                }
+                if (updateData){
+                    getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv,null,null);
+                }else {
+                    getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
                 }
 
-                getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
                 getActivity().finish();
                 break;
 
             case R.id.action_camera:
                 cm = new CameraManager();
                 cm.startCameraForResult(getActivity());
-
                 break;
         }
 
@@ -147,23 +149,26 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
         Bitmap b = cm.getCameraPhoto();
         if (b != null) {
             userPhoto = true;
-            ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity())); //TODO what is 200????
+            ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity()));
         } else {
            Log.d(LOG_TAG, "Intent data onActivityResult == null");
-//            userPhoto = false;
-//            b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo);
-//            ivPhoto.setImageBitmap(b);
         }
     }
 
     public void updateUiByItemId() {
-        item = (FishingItem) getActivity().getContentResolver().query(uri,
-                FishingItem.COLUMNS, null, null, null); //db.getFishingItemById(id);
-        etPlace.setText(item.getPlace());
+        Cursor cursor = getActivity().getContentResolver().query(uri,
+                FishingItem.COLUMNS, null, null, null);
+        if(cursor != null){
+            if (cursor.moveToFirst()) {
+                etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
+            }
+        }else{
+            cursor.close();
+        }
+        updateData = true;
     }
 
     @Override

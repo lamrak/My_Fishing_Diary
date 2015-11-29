@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -35,27 +37,9 @@ public class CameraManager {
 
         mUri = generateFileUri();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // intent.putExtra(Constants.KEY_DATA, mUri);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-        //  Log.d(LOG_TAG, "Uri = " + mUri);
-        //  Log.d(LOG_TAG, "Intent ==" + intent);
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_PHOTO);
     }
-
-//    public Bitmap extractPhotoBitmapFromResult(Activity activity, int requestCode, int resultCode, Intent intent) {
-//        if (resultCode == activity.RESULT_OK) {
-//            if (requestCode == Constants.REQUEST_CODE_PHOTO) {
-//                if (intent == null) {
-//                    Log.d(LOG_TAG, "Intent is null");
-//                } else {
-//                    return (Bitmap) intent.getExtras().get(Constants.KEY_DATA);
-//                    // return (Bitmap) intent.getExtras().get(MediaStore.EXTRA_OUTPUT);
-//                }
-//            }
-//        }
-//
-//        return null;
-//    }
 
     private Uri generateFileUri() {
         if (directory == null) createDirectoryFromCard();
@@ -105,17 +89,45 @@ public class CameraManager {
         final float densityMultiplier = context.getResources().getDisplayMetrics().density;
         int h = (int) (newHeight*densityMultiplier);
         int w = (int) (h*photo.getWidth()/((double)photo.getHeight()));
-        photo = Bitmap.createScaledBitmap(photo,w,h,true);
+        photo = Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
     }
 
-//    public static byte[] getByteArrayFromBitmap(Bitmap bitmap) {
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bos);
-//
-//        return bos.toByteArray();
-//    }
+
+    public  Bitmap rotateBitmap(Bitmap bitmap) {
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(0));
+            Matrix matrix = new Matrix();
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    matrix.postRotate(90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    matrix.postRotate(180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    matrix.postRotate(270);
+                    break;
+                case ExifInterface.ORIENTATION_UNDEFINED:
+                    matrix.postRotate(90);
+                    break;
+                default:
+                    break;
+            }
+            Bitmap rotateBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);
+
+            return rotateBitmap;
+
+    }
+
 
 
 }

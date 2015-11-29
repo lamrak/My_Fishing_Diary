@@ -149,12 +149,19 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap b = cm.getCameraPhoto();
-        if (b != null) {
-            userPhoto = true;
-            ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity()));
-        } else {
-           Log.d(LOG_TAG, "Intent data onActivityResult == null");
+        if (data == null) {
+            Bitmap b = cm.getCameraPhoto();
+            if (b != null) {
+                userPhoto = true;
+//              Bitmap rotate =  cm.rotateBitmap(b);
+//                ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(rotate, Constants.HEIGHT_BITMAP, getActivity()));
+                  b = CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity());
+               // int rotate = rotate();
+                  b = cm.rotateBitmap(b);
+                  ivPhoto.setImageBitmap(b);
+            } else {
+                Log.d(LOG_TAG, "Intent data onActivityResult == null");
+            }
         }
     }
 
@@ -176,5 +183,27 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvDate.setText(String.format("%d.%d.%d", dayOfMonth, ++monthOfYear, year));
     }
 
+//    private int rotate () {
+//        Camera.CameraInfo info = new Camera.CameraInfo();
+//        Camera.getCameraInfo(Camera.CameraInfo.CAMERA_FACING_BACK, info);
+//        int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+//        int degrees = 0;
+//        switch (rotation) {
+//            case Surface.ROTATION_0:
+//                degrees = 0;
+//                break; //Natural orientation
+//            case Surface.ROTATION_90:
+//                degrees = 90;
+//                break; //Landscape left
+//            case Surface.ROTATION_180:
+//                degrees = 180;
+//                break;//Upside down
+//            case Surface.ROTATION_270:
+//                degrees = 270;
+//                break;//Landscape right
+//        }
+//         int rotate = (info.orientation - degrees + 360) % 360;
+//         return degrees;
+//    }
 
 }

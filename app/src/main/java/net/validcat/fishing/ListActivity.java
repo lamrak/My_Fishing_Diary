@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 
-import net.validcat.fishing.db.Constants;
+import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.fragments.DetailFragment;
 import net.validcat.fishing.fragments.ListFragment;
 

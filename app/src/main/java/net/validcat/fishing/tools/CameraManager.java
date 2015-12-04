@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
-import net.validcat.fishing.db.Constants;
+import net.validcat.fishing.data.Constants;
 
 import java.io.BufferedInputStream;
 import java.io.File;

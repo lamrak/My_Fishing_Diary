@@ -27,7 +27,7 @@ import android.widget.TextView;
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.FishingContract;
-import net.validcat.fishing.db.Constants;
+import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.CameraManager;
 

@@ -26,7 +26,7 @@ import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.FishingContract;
-import net.validcat.fishing.db.Constants;
+import net.validcat.fishing.data.Constants;
 
 import java.io.ByteArrayOutputStream;
 

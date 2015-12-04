@@ -1,4 +1,4 @@
-package net.validcat.fishing.db;
+package net.validcat.fishing.data;
 
 /**
  * Created by Dobrunov on 09.07.2015.

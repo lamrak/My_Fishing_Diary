@@ -26,14 +26,15 @@ import android.widget.TextView;
 
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
-import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.data.Constants;
+import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.CameraManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -95,7 +96,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        tvDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date(System.currentTimeMillis())));
+        tvDate.setText(new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date(System.currentTimeMillis())));
 
         return addNewFragmentView;
     }
@@ -104,7 +105,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
             // Inflate the menu; this adds items to the action bar if it is present.
             inflater.inflate(R.menu.add_new_fishing_action_bar, menu);
-//            finishCreatingMenu(menu);
     }
 
     @Override
@@ -149,18 +149,15 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) {
-            Bitmap b = cm.getCameraPhoto();
+        if (resultCode == getActivity().RESULT_OK) {
+            Bitmap b = cm.getCameraPhoto(getActivity(), requestCode);
             if (b != null) {
                 userPhoto = true;
-//              Bitmap rotate =  cm.rotateBitmap(b);
 //                ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(rotate, Constants.HEIGHT_BITMAP, getActivity()));
                   b = CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity());
-               // int rotate = rotate();
-                  b = cm.rotateBitmap(b);
                   ivPhoto.setImageBitmap(b);
             } else {
-                Log.d(LOG_TAG, "Intent data onActivityResult == null");
+                Log.d(LOG_TAG, "onActivityResult returns result not OK");
             }
         }
     }
@@ -182,28 +179,5 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         tvDate.setText(String.format("%d.%d.%d", dayOfMonth, ++monthOfYear, year));
     }
-
-//    private int rotate () {
-//        Camera.CameraInfo info = new Camera.CameraInfo();
-//        Camera.getCameraInfo(Camera.CameraInfo.CAMERA_FACING_BACK, info);
-//        int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
-//        int degrees = 0;
-//        switch (rotation) {
-//            case Surface.ROTATION_0:
-//                degrees = 0;
-//                break; //Natural orientation
-//            case Surface.ROTATION_90:
-//                degrees = 90;
-//                break; //Landscape left
-//            case Surface.ROTATION_180:
-//                degrees = 180;
-//                break;//Upside down
-//            case Surface.ROTATION_270:
-//                degrees = 270;
-//                break;//Landscape right
-//        }
-//         int rotate = (info.orientation - degrees + 360) % 360;
-//         return degrees;
-//    }
 
 }

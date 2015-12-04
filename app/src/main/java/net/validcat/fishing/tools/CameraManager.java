@@ -4,85 +4,53 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
 import net.validcat.fishing.data.Constants;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by Denis on 07.07.2015.
  */
 public class CameraManager {
     public static final String LOG_TAG = CameraManager.class.getSimpleName();
-    private File directory;
-    private Uri mUri;
-    private Bitmap myPhoto;
-    private String path;
-
+//    private File directory;
+    private Uri imageUri;
 
     public void startCameraForResult(Activity activity) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-            createDirectoryFromCard();
-
-        mUri = generateFileUri();
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-        activity.startActivityForResult(intent, Constants.REQUEST_CODE_PHOTO);
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            imageUri = generateUriWithFileInStorage();
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            activity.startActivityForResult(intent, Constants.REQUEST_CODE_PHOTO);
+        }
     }
 
-    private Uri generateFileUri() {
-        if (directory == null) createDirectoryFromCard();
+    private Uri generateUriWithFileInStorage() {
+        File directory = new File(Environment
+                .getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), Constants.FOLDER_NAME);
+        if (!directory.exists())
+            directory.mkdirs();
+
         return Uri.fromFile(new File(directory.getPath() + "/" + "photo_"
                 + System.currentTimeMillis() + Constants.EXTENSION_JPG));
     }
 
-    private void createDirectoryFromCard() {
-        directory = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), Constants.FOLDER_NAME);
-        if (!directory.exists())
-            directory.mkdirs();
-    }
-
-    public Bitmap getCameraPhoto() {
-        InputStream is = null;
-        BufferedInputStream bis = null;
-        path = mUri.toString();
-        try {
-            URLConnection conn = new URL(path).openConnection();
-            conn.connect();
-            is = conn.getInputStream();
-            bis = new BufferedInputStream(is, 4096);
-            myPhoto = BitmapFactory.decodeStream(bis);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (bis != null) {
-                try {
-                    bis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    public Bitmap getCameraPhoto(Context context, int requestCode) {
+        if (requestCode == Constants.REQUEST_CODE_PHOTO) {
+            try {
+                return  MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return myPhoto;
+
+        return null;
     }
 
     public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context){
@@ -93,41 +61,5 @@ public class CameraManager {
 
         return photo;
     }
-
-
-    public  Bitmap rotateBitmap(Bitmap bitmap) {
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-       int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            exif.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(0));
-            Matrix matrix = new Matrix();
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    matrix.postRotate(90);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    matrix.postRotate(180);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    matrix.postRotate(270);
-                    break;
-                case ExifInterface.ORIENTATION_UNDEFINED:
-                    matrix.postRotate(90);
-                    break;
-                default:
-                    break;
-            }
-            Bitmap rotateBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                    bitmap.getHeight(), matrix, true);
-
-            return rotateBitmap;
-
-    }
-
-
 
 }

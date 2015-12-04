@@ -6,6 +6,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -39,20 +40,12 @@
             android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait"
             android:configChanges="orientation"/>
-<!--<<<<<<< HEAD-->
-       <!--< HEAD-->
-            <!--android:theme="@style/AppTheme.Main"-->
-<!--=======-->
-
         <provider
             android:name=".data.FishingProvider"
             android:authorities="net.validcat.fishing"
             android:enabled="true"
             android:exported="false" >
         </provider>
-<!--&gt;>>>>>> b37b68ce8a400d97e90da33c141cef9a49bbf2d7-->
-        <!--b37b68ce8a400d97e90da33c141cef9a49bbf2d7-->
-
     </application>
 
 </manifest>

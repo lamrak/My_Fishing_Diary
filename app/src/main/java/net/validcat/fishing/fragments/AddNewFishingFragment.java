@@ -192,6 +192,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == getActivity().RESULT_OK) {
+            userPhoto = true;
             cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
 //            Bitmap b = cm.getCameraPhoto(getActivity(), requestCode);
 //            if (b != null) {

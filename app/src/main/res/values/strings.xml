@@ -55,5 +55,6 @@
     <!--detail_action_bar-->
     <string name="settings_button">Settings</string>
     <string name="menu_detail_item">Edit</string>
+    <string name="menu_detail_share">Share</string>
 
 </resources>

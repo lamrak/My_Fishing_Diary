@@ -78,6 +78,7 @@ public class FishingItem {
         data.putExtra(FishingItem.ID, item.getId());
         data.putExtra(FishingItem.DESCRIPTION, item.getDescription());
 //        data.putExtra(FishingItem.PHOTO, item.getPhoto());
+
     }
 
     // data which are set in the formation of a list item
@@ -102,8 +103,12 @@ public class FishingItem {
 //    public byte[] getPhoto(){
 //        return cameraPhoto;
 //    }
-    public Bitmap getPhotoBitmap(){
+    public Bitmap getBitmap(){
         return photoBitmap;
+    }
+    public byte[] getNull(){
+        byte [] bytes = null;
+        return bytes;
     }
     public void setPlace(String place) {
         this.place = place;
@@ -123,6 +128,9 @@ public class FishingItem {
 //    public void setPhoto(byte[] photo) {
 //        cameraPhoto = photo;
 //    }
+    public void setBitmap (Bitmap photo){
+        photoBitmap = photo;
+    }
     public void setId(long id) {
         this.id = id;
     }

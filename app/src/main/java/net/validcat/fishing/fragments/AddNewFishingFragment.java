@@ -1,15 +1,20 @@
 package net.validcat.fishing.fragments;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,15 +28,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
+import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
-import net.validcat.fishing.db.Constants;
+import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.CameraManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +60,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private Uri uri;
     private FishingItem item;
     private boolean userPhoto = false;
+    private boolean updateData = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -67,6 +76,24 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (!TextUtils.isEmpty(strUri)) {
             uri = Uri.parse(strUri);
             updateUiByItemId();
+        }
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        AddNewFishingActivity.PERMISSIONS_REQUEST_WRITE_STORAGE);
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
         }
 
        // fab_add_fishing_list.setOnClickListener(this);
@@ -91,7 +118,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        tvDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date(System.currentTimeMillis())));
+        tvDate.setText(new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date(System.currentTimeMillis())));
 
         return addNewFragmentView;
     }
@@ -100,7 +127,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
             // Inflate the menu; this adds items to the action bar if it is present.
             inflater.inflate(R.menu.add_new_fishing_action_bar, menu);
-//            finishCreatingMenu(menu);
     }
 
     @Override
@@ -113,46 +139,84 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 } else {
                     cv.put(FishingContract.FishingEntry._ID, item.getId());
                 }
+
                 cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_DATE, tvDate.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
-//                cv.put(FishingContract.FishingEntry.COLUMN_, );
+
                 if (userPhoto) {
+                    Bitmap photo = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
+                    item.setBitmap(photo);
                     cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
-                            CameraManager.getByteArrayFromBitmap(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
+                            BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
+                }
+                if (updateData){
+                    getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv,null,null);
+                }else {
+                    getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
                 }
 
-                getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
                 getActivity().finish();
                 break;
 
             case R.id.action_camera:
-                cm = new CameraManager();
-                cm.startCameraForResult(getActivity());
-
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.CAMERA)) {
+                        // Show an expanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+                    } else {
+                        // No explanation needed, we can request the permission.
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.CAMERA},
+                                AddNewFishingActivity.PERMISSIONS_REQUEST_CAMERA);
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                } else runCamera();
                 break;
         }
 
         return super.onOptionsItemSelected(menuItem);
     }
 
+    public void runCamera() {
+        cm = new CameraManager();
+        cm.startCameraForResult(getActivity());
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Bitmap b = cm.extractPhotoBitmapFromResult(requestCode, resultCode, data);
-        Bitmap b = cm.getCameraPhoto();
-        if (b != null) {
+        if (resultCode == getActivity().RESULT_OK) {
             userPhoto = true;
-            ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(b, 200, getActivity())); //TODO what is 200????
+            cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+//            Bitmap b = cm.getCameraPhoto(getActivity(), requestCode);
+//            if (b != null) {
+//                userPhoto = true;
+////                ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(rotate, Constants.HEIGHT_BITMAP, getActivity()));
+//                  b = CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity());
+//                  ivPhoto.setImageBitmap(b);
+//            }
         } else {
-            Log.d(LOG_TAG, "Intent data onActivityResult == null");
+            Log.d(LOG_TAG, "onActivityResult returns result not OK");
         }
     }
 
     public void updateUiByItemId() {
-        item = (FishingItem) getActivity().getContentResolver().query(uri,
-                FishingItem.COLUMNS, null, null, null); //db.getFishingItemById(id);
-        etPlace.setText(item.getPlace());
+        Cursor cursor = getActivity().getContentResolver().query(uri,
+                FishingItem.COLUMNS, null, null, null);
+        if(cursor != null){
+            if (cursor.moveToFirst()) {
+                etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
+            }
+        }else{
+            cursor.close();
+        }
+        updateData = true;
     }
 
     @Override

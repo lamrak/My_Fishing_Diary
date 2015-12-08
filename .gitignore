@@ -1,6 +1,7 @@
 
 # Log Files
 *.log
+*.iml
 app/build/
 build/
 .gradle/

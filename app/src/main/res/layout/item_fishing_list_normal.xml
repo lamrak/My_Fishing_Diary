@@ -72,21 +72,21 @@
         android:layout_alignParentRight="true"/>
 
     <!--<RatingBar-->
-        <!--android:id="@+id/ratingBar"-->
-        <!--style="?android:attr/ratingBarStyleSmall"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="right"-->
-        <!--android:layout_marginTop="48dp"-->
-        <!--android:clickable="false"-->
-        <!--android:numStars="1"-->
-        <!--android:layout_alignParentRight="true" />-->
+    <!--android:id="@+id/ratingBar"-->
+    <!--style="?android:attr/ratingBarStyleSmall"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="right"-->
+    <!--android:layout_marginTop="48dp"-->
+    <!--android:clickable="false"-->
+    <!--android:numStars="1"-->
+    <!--android:layout_alignParentRight="true" />-->
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="88dp"
-        android:background="@color/devider_color" />
+        android:background="@color/divider_color" />
 
 </RelativeLayout>

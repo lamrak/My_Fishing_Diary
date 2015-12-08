@@ -27,5 +27,11 @@
     <string name="title_fishing_weather">Погода</string>
     <string name="menu_detail_item">Редактировать </string>
     <string name="menu_detail_share">Поделиться</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="settings_button">Настройки</string>
+    <string name="share_message">Поделиться</string>
+    <string name="share_search">Поделиться в:</string>
+    <string name="share_subject">Приложение: Моя Рыбалка</string>
 
 </resources>

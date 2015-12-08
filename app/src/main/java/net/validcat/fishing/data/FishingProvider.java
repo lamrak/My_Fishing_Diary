@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package net.validcat.fishing.data;
 
 import android.annotation.TargetApi;
@@ -242,7 +227,7 @@ public class FishingProvider extends ContentProvider {
 
         switch (match) {
             case WEATHER: {
-                normalizeDate(values);
+                normalizeDate(FishingContract.WeatherEntry.COLUMN_DATE, values);
                 long _id = db.insert(FishingContract.WeatherEntry.TABLE_NAME, null, values);
                 if (_id > 0)
                     returnUri = FishingContract.WeatherEntry.buildWeatherUri(_id);
@@ -259,6 +244,7 @@ public class FishingProvider extends ContentProvider {
                 break;
             }
             case FISHING: {
+                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
                 long _id = db.insert(FishingContract.FishingEntry.TABLE_NAME, null, values);
                 if (_id > 0)
                     returnUri = FishingContract.FishingEntry.buildFishingUri(_id);
@@ -305,11 +291,11 @@ public class FishingProvider extends ContentProvider {
         return deletedRows;
     }
 
-    private void normalizeDate(ContentValues values) {
+    private void normalizeDate(String key, ContentValues values) {
         // normalize the date value
-        if (values.containsKey(FishingContract.WeatherEntry.COLUMN_DATE)) {
-            long dateValue = values.getAsLong(FishingContract.WeatherEntry.COLUMN_DATE);
-            values.put(FishingContract.WeatherEntry.COLUMN_DATE, FishingContract.normalizeDate(dateValue));
+        if (values.containsKey(key)) {
+            long dateValue = values.getAsLong(key);
+            values.put(key, FishingContract.normalizeDate(dateValue));
         }
     }
 
@@ -320,7 +306,7 @@ public class FishingProvider extends ContentProvider {
         int rowsUpdated;
         switch (match) {
             case WEATHER:
-                normalizeDate(values);
+                normalizeDate(FishingContract.WeatherEntry.COLUMN_DATE, values);
                 rowsUpdated = db.update(FishingContract.WeatherEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             case LOCATION:
@@ -328,6 +314,7 @@ public class FishingProvider extends ContentProvider {
                 break;
             case FISHING_BY_ID:
             case FISHING:
+                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
                 rowsUpdated = db.update(FishingContract.FishingEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
@@ -349,7 +336,7 @@ public class FishingProvider extends ContentProvider {
                 int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        normalizeDate(value);
+                        normalizeDate(FishingContract.WeatherEntry.COLUMN_DATE, value);
                         long _id = db.insert(FishingContract.WeatherEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;

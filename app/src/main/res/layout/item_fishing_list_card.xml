@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:id="@+id/rlLayout"
+    card_view:cardElevation="2dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardBackgroundColor="@color/green13"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        android:id="@+id/imageView" />
+
+    <net.validcat.fishing.ui.RoundedImageView
+        android:id="@+id/foto_preview"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:adjustViewBounds="true" />
+
+    <net.validcat.fishing.ui.RoundedImageView
+        android:id="@+id/weather_preview"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ic_no_weather"
+        android:scaleType="center"
+        android:layout_below="@+id/foto_preview" />
+
+    <TextView
+        android:id="@+id/tv_adapter_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="24dp"
+        android:autoText="false"
+        android:elegantTextHeight="false"
+        android:text="@string/title_fishing_place"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/fishing_name_color"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/foto_preview" />
+
+    <TextView
+        android:id="@+id/tv_adapter_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fishing_details"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/description_color"
+        android:textSize="14sp"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/tv_adapter_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="24dp"
+        android:text="@string/title_fishing_date"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/date_color"
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/imageView" />
+
+    <!--<RatingBar-->
+        <!--android:id="@+id/ratingBar"-->
+        <!--style="?android:attr/ratingBarStyleSmall"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:layout_marginTop="48dp"-->
+        <!--android:clickable="false"-->
+        <!--android:numStars="1"-->
+        <!--android:layout_alignParentRight="true" />-->
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

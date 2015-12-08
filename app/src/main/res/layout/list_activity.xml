@@ -19,6 +19,8 @@
         android:layout_gravity="bottom|end"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_white_add" />
 

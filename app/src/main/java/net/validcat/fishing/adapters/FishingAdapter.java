@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.validcat.fishing.FishingItem;
+import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.fragments.ListFragment;
 import net.validcat.fishing.tools.DateUtils;

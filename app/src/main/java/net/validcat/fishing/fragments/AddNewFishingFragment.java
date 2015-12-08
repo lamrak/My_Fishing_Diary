@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.validcat.fishing.AddNewFishingActivity;
-import net.validcat.fishing.FishingItem;
+import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;

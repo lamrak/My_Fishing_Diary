@@ -1,4 +1,4 @@
-package net.validcat.fishing;
+package net.validcat.fishing.models;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import net.validcat.fishing.R;
 import net.validcat.fishing.data.FishingContract;
 
 public class FishingItem {

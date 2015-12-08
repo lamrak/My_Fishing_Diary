@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.validcat.fishing.FishingItem;
+import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.adapters.FishingAdapter;

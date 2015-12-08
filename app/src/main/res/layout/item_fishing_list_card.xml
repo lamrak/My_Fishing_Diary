@@ -23,7 +23,6 @@
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/cardview_bg"
         android:id="@+id/imageView" />
 
     <net.validcat.fishing.ui.RoundedImageView

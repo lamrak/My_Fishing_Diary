@@ -27,6 +27,7 @@ import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.data.Constants;
+import net.validcat.fishing.tools.DateUtils;
 
 import java.io.ByteArrayOutputStream;
 
@@ -167,7 +168,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             //TODO add content description for each TextView
             tvPlace.setText(getString(R.string.fishing_place, item.getPlace()));
             tvPlace.setContentDescription(getString(R.string.fishing_place, item.getPlace()));
-            tvDate.setText(getString(R.string.fishing_date, item.getDate()));
+            tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
+            //tvDate.setText(getString(R.string.fishing_date, item.getDate()));
             tvDate.setContentDescription(getString(R.string.fishing_date, item.getDate()));
             tvWeather.setText(item.getWeather());
 //        tvWeather.setText(getString(R.string.fishing_weather, item.getWeather()));

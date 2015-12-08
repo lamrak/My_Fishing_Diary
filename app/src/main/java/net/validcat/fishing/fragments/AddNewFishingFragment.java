@@ -35,11 +35,10 @@ import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.CameraManager;
+import net.validcat.fishing.tools.DateUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,6 +60,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private FishingItem item;
     private boolean userPhoto = false;
     private boolean updateData = false;
+
+    private long date = 0;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -118,7 +119,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        tvDate.setText(new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date(System.currentTimeMillis())));
+        date = System.currentTimeMillis();
+        tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
 
         return addNewFragmentView;
     }
@@ -141,7 +143,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 }
 
                 cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
-                cv.put(FishingContract.FishingEntry.COLUMN_DATE, tvDate.getText().toString());
+                cv.put(FishingContract.FishingEntry.COLUMN_DATE, date);
                 cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
                 cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
@@ -153,7 +155,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                             BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
                 }
                 if (updateData){
-                    getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv,null,null);
+                    getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
                 }else {
                     getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
                 }
@@ -221,7 +223,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        tvDate.setText(String.format("%d.%d.%d", dayOfMonth, ++monthOfYear, year));
+        date = new Date(year, monthOfYear, dayOfMonth).getTime();
+        tvDate.setText(DateUtils.getFormattedMonthDay(getActivity(), date));
     }
 
 }

@@ -35,7 +35,7 @@ public class FishingItem {
 
     long id = -1;
     String place;
-    String date; //Date
+    long date; //Date
     //int weather
     String weather;
     String description;
@@ -46,7 +46,7 @@ public class FishingItem {
 
     public FishingItem() {}
     // constructor bdObject
-    public FishingItem(int id, String place, String date, String description, Bitmap photoBitmap) {
+    public FishingItem(int id, String place, long date, String description, Bitmap photoBitmap) {
         this.id = id;
         this.place = place;
         this.date = date;
@@ -57,13 +57,13 @@ public class FishingItem {
     // constructor
     public FishingItem(Intent intent) {
         place = intent.getStringExtra(FishingItem.PLACE);
-        date = intent.getStringExtra(FishingItem.DATE);
+        date = intent.getLongExtra(FishingItem.DATE, 0);
         id = intent.getLongExtra(FishingItem.ID, -1L);
         description = intent.getStringExtra(FishingItem.DESCRIPTION);
         photoBitmap = intent.getParcelableExtra(FishingItem.PHOTO);
     }
 
-    public static void packageIntent(Intent data, String place, String date,
+    public static void packageIntent(Intent data, String place, long date,
                                      long id, String description, Bitmap myPhoto) {
         data.putExtra(FishingItem.PLACE, place);
         data.putExtra(FishingItem.DATE, date);
@@ -85,7 +85,7 @@ public class FishingItem {
     public long getId() {
         return id;
     }
-    public String getDate() {
+    public long getDate() {
         return date;
     }
     public String getPlace() {
@@ -100,20 +100,13 @@ public class FishingItem {
     public String getPrice() {
         return catches;
     }
-//    public byte[] getPhoto(){
-//        return cameraPhoto;
-//    }
     public Bitmap getBitmap(){
         return photoBitmap;
-    }
-    public byte[] getNull(){
-        byte [] bytes = null;
-        return bytes;
     }
     public void setPlace(String place) {
         this.place = place;
     }
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
     public void setWeather(String weather) {
@@ -144,7 +137,7 @@ public class FishingItem {
         FishingItem item = new FishingItem();
         item.id = data.getLong(COL_ID);
         item.place = data.getString(COL_PLACE);
-        item.date = data.getString(COL_DATE);
+        item.date = data.getLong(COL_DATE);
         item.weather = data.getString(COL_WEATHER);
         item.description = data.getString(COL_DESCRIPTION);
         item.price = data.getString(COL_PRICE);
@@ -158,4 +151,5 @@ public class FishingItem {
                 BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_no_photo)
                 : BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
     }
+
 }

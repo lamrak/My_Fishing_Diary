@@ -13,6 +13,7 @@ import android.widget.TextView;
 import net.validcat.fishing.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.fragments.ListFragment;
+import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.ui.RoundedImageView;
 
 public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.ViewHolder> { //RecyclerView.Adapter<FishingAdapter.ViewHolder> {
@@ -27,17 +28,16 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
 	@Override
 	public FishingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
 		// create a new view and set the view's size, margins, paddings and layout parameters
-		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_for_adapter, parent, false));
+		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fishing_list_normal, parent, false));
 	}
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         FishingItem item = FishingItem.createFishingItemFromCursor(context, cursor);
-
         viewHolder.id = item.getId();
         viewHolder.view.setOnClickListener(viewHolder);
         viewHolder.place.setText(item.getPlace());
-        viewHolder.date.setText(item.getDate());
+        viewHolder.date.setText(DateUtils.getFullFriendlyDayString(context, item.getDate()));
         viewHolder.description.setText(item.getDescription());
 //		byte[] photo = item.getPhoto();
 //		if(photo!= null) {

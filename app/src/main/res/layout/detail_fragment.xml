@@ -4,65 +4,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingEnd="@dimen/activity_horizontal_margin">
+    android:paddingStart="@dimen/activity_horizontal_margin">
 
-    <TextView
-        android:id="@+id/tv_place"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_below="@+id/tv_place"
-        android:layout_alignLeft="@+id/tv_place"
-        android:layout_alignStart="@+id/tv_place"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/tv_weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_below="@+id/tv_date"
-        android:layout_alignLeft="@+id/tv_date"
-        android:layout_alignStart="@+id/tv_date"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_below="@+id/tv_weather"
-        android:layout_alignLeft="@+id/tv_weather"
-        android:layout_alignStart="@+id/tv_weather"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/tv_catch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_below="@+id/tv_description"
-        android:layout_alignLeft="@+id/tv_description"
-        android:layout_alignStart="@+id/tv_description"
-        android:layout_marginTop="10dp" />
-
-    <ImageView
-        android:id="@+id/iv_photo"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/image_descr"
-        android:layout_below="@+id/tv_catch"
-        android:layout_alignLeft="@+id/tv_catch"
-        android:layout_alignStart="@+id/tv_catch" />
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/tv_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="TextView" />
+
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_place"
+                android:layout_alignStart="@+id/tv_place"
+                android:layout_below="@+id/tv_place"
+                android:layout_marginTop="10dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_date"
+                android:layout_alignStart="@+id/tv_date"
+                android:layout_below="@+id/tv_date"
+                android:layout_marginTop="10dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_weather"
+                android:layout_alignStart="@+id/tv_weather"
+                android:layout_below="@+id/tv_weather"
+                android:layout_marginTop="10dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tv_catch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_description"
+                android:layout_alignStart="@+id/tv_description"
+                android:layout_below="@+id/tv_description"
+                android:layout_marginTop="10dp"
+                android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignLeft="@+id/tv_catch"
+                android:layout_alignStart="@+id/tv_catch"
+                android:layout_below="@+id/tv_catch"
+                android:contentDescription="@string/image_descr"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

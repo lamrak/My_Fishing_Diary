@@ -29,16 +29,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.validcat.fishing.AddNewFishingActivity;
-import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.R;
+import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
+import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.BitmapUtils;
-import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.tools.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -119,7 +120,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        date = System.currentTimeMillis();
+        date = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
 
         return addNewFragmentView;

@@ -244,7 +244,7 @@ public class FishingProvider extends ContentProvider {
                 break;
             }
             case FISHING: {
-                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
+//                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
                 long _id = db.insert(FishingContract.FishingEntry.TABLE_NAME, null, values);
                 if (_id > 0)
                     returnUri = FishingContract.FishingEntry.buildFishingUri(_id);
@@ -314,7 +314,7 @@ public class FishingProvider extends ContentProvider {
                 break;
             case FISHING_BY_ID:
             case FISHING:
-                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
+//                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
                 rowsUpdated = db.update(FishingContract.FishingEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:

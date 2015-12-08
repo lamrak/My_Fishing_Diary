@@ -100,7 +100,7 @@ public class FishingContract {
         return "CREATE TABLE " + FishingEntry.TABLE_NAME + "("
                 + FishingEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 FishingEntry.COLUMN_PLACE + " TEXT UNIQUE NOT NULL, " +
-                FishingEntry.COLUMN_DATE + " TEXT NOT NULL, " +
+                FishingEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
                 FishingEntry.COLUMN_WEATHER + " TEXT NOT NULL, " +
                 FishingEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 FishingEntry.COLUMN_PRICE + " TEXT, " +

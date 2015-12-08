@@ -1,105 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingEnd="@dimen/activity_horizontal_margin">
+    android:paddingStart="@dimen/activity_horizontal_margin">
 
-    <TextView
-        android:id="@+id/tv_place"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/title_fishing_place"
-        android:layout_gravity="start|top"
-        android:layout_marginTop="24dp"
-        android:textSize="16sp" />
-
-    <EditText
-        android:id="@+id/et_place"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
-        android:hint="@string/hint_fishing_place"
-        android:layout_marginTop="48dp"
-        android:textSize="16sp" />
-
-    <EditText
-        android:id="@+id/et_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
-        android:layout_marginTop="112dp"
-        android:hint="@string/price_value"
-        android:textSize="16sp"
-        />
-
-    <EditText
-        android:id="@+id/et_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:hint="@string/fishing_details"
-        android:layout_marginTop="160dp"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tv_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:hint="@string/title_fishing_price"
-        android:layout_gravity="start|top"
-        android:textSize="16sp"
-        android:layout_marginTop="96dp" />
-
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_fishing_date"
-        android:layout_gravity="center_horizontal|top"
-        android:textSize="16sp"
-        android:clickable="true"
-        android:layout_alignTop="@+id/tv_weather"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:id="@+id/tv_weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_fishing_weather"
-        android:layout_gravity="end|top"
-        android:textSize="16sp"
-        android:clickable="true"
-        android:layout_below="@+id/tv_price"
-        android:layout_centerHorizontal="true"/>
-
-    <ImageView
-        android:id="@+id/iv_photo"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/et_details"
-        android:contentDescription="@string/image_descr"/>
+        android:fillViewport= "true"  >
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab_add_fishing_list"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/fab_icons"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--app:elevation="6dp"-->
-        <!--app:borderWidth="10dp"-->
-        <!--app:pressedTranslationZ="12dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignWithParentIfMissing="false"-->
-        <!--android:layout_alignParentBottom="true"-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
-        <!--android:layout_marginBottom="16dp"-->
-        <!--app:backgroundTint="@color/button_color"/>-->
+            <TextView
+                android:id="@+id/tv_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:layout_marginTop="24dp"
+                android:text="@string/title_fishing_place"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="16sp" />
 
+            <EditText
+                android:id="@+id/et_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:layout_marginTop="48dp"
+                android:hint="@string/hint_fishing_place"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:layout_marginTop="112dp"
+                android:hint="@string/price_value"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="160dp"
+                android:hint="@string/fishing_details"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:layout_marginTop="96dp"
+                android:hint="@string/title_fishing_price"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_weather"
+                android:layout_gravity="center_horizontal|top"
+                android:clickable="true"
+                android:text="@string/title_fishing_date"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_price"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="end|top"
+                android:clickable="true"
+                android:text="@string/title_fishing_weather"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/et_details"
+                android:contentDescription="@string/image_descr" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

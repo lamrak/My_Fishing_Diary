@@ -34,7 +34,7 @@ import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.tools.BitmapUtils;
-import net.validcat.fishing.tools.CameraManager;
+import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.tools.DateUtils;
 
 import java.util.Calendar;

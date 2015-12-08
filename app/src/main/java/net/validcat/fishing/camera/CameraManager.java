@@ -1,24 +1,24 @@
-package net.validcat.fishing.tools;
+package net.validcat.fishing.camera;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
-import net.validcat.fishing.camera.AlbumStorageDirFactory;
-import net.validcat.fishing.camera.BaseAlbumDirFactory;
-import net.validcat.fishing.camera.FroyoAlbumDirFactory;
 import net.validcat.fishing.data.Constants;
 
 import java.io.File;
@@ -60,7 +60,7 @@ public class CameraManager {
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = Constants.EXTENSION_JPG + timeStamp + "_";
+        String imageFileName = timeStamp + "_"; //Constants.EXTENSION_JPG +
         File albumF = getAlbumDir();
         File imageF = File.createTempFile(imageFileName, Constants.EXTENSION_JPG, albumF);
         return imageF;
@@ -158,9 +158,77 @@ public class CameraManager {
 		/* Decode the JPEG file into a Bitmap */
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 
-		/* Associate the Bitmap to the ImageView */
-        ivPhoto.setImageBitmap(bitmap);
-        ivPhoto.setVisibility(View.VISIBLE);
+        try {
+            ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            Log.d(LOG_TAG, "Orientaton = " + orientation);
+
+            int degree = 0;
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_NORMAL:
+                    degree = 0;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+                case ExifInterface.ORIENTATION_UNDEFINED:
+                    degree = 0;
+                    break;
+                default:
+                    degree = 90;
+            }
+
+            ivPhoto.setImageBitmap(rotateImageIfRequired(bitmap, degree));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Rotate an image if required.
+     * @param img
+     * @return
+     */
+    private static Bitmap rotateImageIfRequired(Bitmap img, int rotation) {
+        // Detect rotation
+        if (rotation != 0) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(rotation);
+            Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
+            img.recycle();
+
+            return rotatedImg;
+        } else {
+            return img;
+        }
+    }
+
+    /**
+     * Get the rotation of the last image added.
+     * @param context
+     * @return
+     */
+    private static int getRotation(Context context) {
+        int rotation =0;
+        ContentResolver content = context.getContentResolver();
+        Cursor mediaCursor = content.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { "orientation", "date_added" },null, null,"date_added desc");
+
+        if (mediaCursor != null && mediaCursor.getCount() !=0 ) {
+            while(mediaCursor.moveToNext()){
+                rotation = mediaCursor.getInt(0);
+                break;
+            }
+        }
+        mediaCursor.close();
+        return rotation;
     }
 
     private void galleryAddPic(Context context) {

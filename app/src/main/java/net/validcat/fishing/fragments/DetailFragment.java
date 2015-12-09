@@ -23,10 +23,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.validcat.fishing.AddNewFishingActivity;
-import net.validcat.fishing.models.FishingItem;
+import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
-import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.data.Constants;
+import net.validcat.fishing.data.FishingContract;
+import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -133,6 +134,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                                 return true;
                             case R.id.share:
                                 share();
+                            case R.id.delete:
+                                getActivity().getContentResolver().delete(uri, null,null);
+                                Intent back = new Intent(getActivity(), ListActivity.class);
+                                startActivity(back);
                             default:
                                 return false;
                         }

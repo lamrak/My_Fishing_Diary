@@ -33,5 +33,6 @@
     <string name="share_message">Поделиться</string>
     <string name="share_search">Поделиться в:</string>
     <string name="share_subject">Приложение: Моя Рыбалка</string>
+    <string name="menu_detail_delete">Удалить</string>
 
 </resources>

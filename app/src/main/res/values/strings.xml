@@ -56,6 +56,7 @@
     <string name="settings_button">Settings</string>
     <string name="menu_detail_item">Edit</string>
     <string name="menu_detail_share">Share</string>
+    <string name="menu_detail_delete">Delete</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="format_full_friendly_date" translatable="false"><xliff:g id="day">%1$s</xliff:g></string> <!-- <xliff:g id="month">%1$s</xliff:g>,  -->

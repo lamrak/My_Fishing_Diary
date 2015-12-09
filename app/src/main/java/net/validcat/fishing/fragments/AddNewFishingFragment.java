@@ -38,8 +38,7 @@ import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.DateUtils;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -120,7 +119,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        date = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        date = Calendar.getInstance().getTimeInMillis();
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
 
         return addNewFragmentView;
@@ -224,7 +223,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        date = new Date(year, monthOfYear, dayOfMonth).getTime();
+        Calendar c = Calendar.getInstance(Locale.getDefault());
+        c.set(year, monthOfYear, dayOfMonth);
+        date =  c.getTimeInMillis(); //(year, monthOfYear, dayOfMonth).getTime();
+        Log.d("TIME", "time=" + date);
         tvDate.setText(DateUtils.getFormattedMonthDay(getActivity(), date));
     }
 

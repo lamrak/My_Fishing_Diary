@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.FishingContract;
@@ -139,6 +140,7 @@ public class FishingItem {
         item.id = data.getLong(COL_ID);
         item.place = data.getString(COL_PLACE);
         item.date = data.getLong(COL_DATE);
+        Log.d("ITEMS", "ITEMS=" + item.place + "=" + item.date);
         item.weather = data.getString(COL_WEATHER);
         item.description = data.getString(COL_DESCRIPTION);
         item.price = data.getString(COL_PRICE);

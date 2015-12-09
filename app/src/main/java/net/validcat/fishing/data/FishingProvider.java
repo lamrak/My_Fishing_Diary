@@ -277,6 +277,10 @@ public class FishingProvider extends ContentProvider {
                 break;
             }
             case FISHING_BY_ID:
+                String id = uri.getLastPathSegment();
+                selection = FishingContract.FishingEntry._ID + " = " +id;
+                deletedRows = db.delete(FishingContract.FishingEntry.TABLE_NAME,selection,null);
+                break;
             case FISHING: {
                 deletedRows = db.delete(FishingContract.FishingEntry.TABLE_NAME, selection, selectionArgs);
                 break;

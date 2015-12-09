@@ -184,8 +184,10 @@ public class CameraManager {
                 default:
                     degree = 90;
             }
-
-            ivPhoto.setImageBitmap(rotateImageIfRequired(bitmap, degree));
+            Bitmap photo = rotateImageIfRequired(bitmap, degree);
+            photo = cropToSquare(photo);
+//            ivPhoto.setImageBitmap(rotateImageIfRequired(bitmap, degree));
+            ivPhoto.setImageBitmap(photo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -252,6 +254,20 @@ public class CameraManager {
         photo = Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
+    }
+
+    public static Bitmap cropToSquare (Bitmap bitmap){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int newWidth = (height > width)? width:height;
+        int newHeight = (height>width)?height - (height-width):height;
+        int cropW = (width-height)/2;
+        cropW = (cropW<0)?0:cropW;
+        int cropH = (height-width)/2;
+        cropH = (cropH<0)?0:cropH;
+        Bitmap cropImg = Bitmap.createBitmap(bitmap,cropW,cropH,newWidth,newHeight);
+
+        return cropImg;
     }
 
     //TODO add to activity

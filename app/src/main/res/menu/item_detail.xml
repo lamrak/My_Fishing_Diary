@@ -18,5 +18,13 @@
         app:showAsAction="always">
     </item>
 
+    <item
+        android:id="@+id/delete"
+        android:enabled="true"
+        android:title="@string/menu_detail_delete"
+        android:visible="true"
+        app:showAsAction="always">
+    </item>
+
 
 </menu>

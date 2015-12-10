@@ -135,32 +135,36 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_add_new_fishing:
-                ContentValues cv = new ContentValues();
-                if (this.item == null) {
-                    this.item = new FishingItem();
-                } else {
-                    cv.put(FishingContract.FishingEntry._ID, item.getId());
-                }
-
-                cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
-                cv.put(FishingContract.FishingEntry.COLUMN_DATE, date);
-                cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
-                cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
-                cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
-
-                if (userPhoto) {
-                    Bitmap photo = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
-                    item.setBitmap(photo);
-                    cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
-                            BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
-                }
-                if (updateData){
-                    getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
+                if (TextUtils.isEmpty(etPlace.getText().toString())) {
+                    etPlace.setError("Add your fishing place");
+                    break;
                 }else {
-                    getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
-                }
+                    ContentValues cv = new ContentValues();
+                    if (this.item == null) {
+                        this.item = new FishingItem();
+                    } else {
+                        cv.put(FishingContract.FishingEntry._ID, item.getId());
+                    }
+                    cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
+                    cv.put(FishingContract.FishingEntry.COLUMN_DATE, date);
+                    cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
+                    cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
+                    cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
 
-                getActivity().finish();
+                    if (userPhoto) {
+                        Bitmap photo = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
+                        item.setBitmap(photo);
+                        cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
+                                BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
+                    }
+                    if (updateData) {
+                        getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
+                    } else {
+                        getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
+                    }
+
+                    getActivity().finish();
+                }
                 break;
 
             case R.id.action_camera:
@@ -229,5 +233,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         Log.d("TIME", "time=" + date);
         tvDate.setText(DateUtils.getFormattedMonthDay(getActivity(), date));
     }
+
 
 }

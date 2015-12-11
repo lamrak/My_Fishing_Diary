@@ -11,4 +11,6 @@ public class Constants {
     public static final int REQUEST_CODE_PHOTO = 301;
     public static final String DETAIL_KEY = "detail_id";
     public static final int HEIGHT_BITMAP = 200;
+    public static final String DIALOG_KEY = "dialog";
+
 }

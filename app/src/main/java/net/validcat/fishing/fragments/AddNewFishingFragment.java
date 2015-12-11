@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -121,6 +122,15 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         date = Calendar.getInstance().getTimeInMillis();
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
+
+        tvWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity().getFragmentManager();
+                WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
+                weatherDialog.show(fm,Constants.DIALOG_KEY);
+            }
+        });
 
         return addNewFragmentView;
     }

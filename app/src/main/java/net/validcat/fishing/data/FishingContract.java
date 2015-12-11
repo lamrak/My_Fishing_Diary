@@ -240,4 +240,6 @@ public class FishingContract {
                 return 0;
         }
     }
+
+
 }

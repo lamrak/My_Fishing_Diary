@@ -1,6 +1,7 @@
 package net.validcat.fishing.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -207,7 +208,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == getActivity().RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             userPhoto = true;
             cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
 //            Bitmap b = cm.getCameraPhoto(getActivity(), requestCode);
@@ -230,7 +231,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
             }
         }else{
-            cursor.close();
+            if (cursor !=null)
+                cursor.close();
         }
         updateData = true;
     }

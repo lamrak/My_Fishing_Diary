@@ -13,6 +13,7 @@ public class Constants {
     public static final int HEIGHT_BITMAP = 200;
 
     public static final String DIALOG_KEY = "dialog";
+    public static final String DELETE = "delete";
 
 
     public static final String ACTION_DATA_UPDATED =

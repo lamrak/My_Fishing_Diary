@@ -61,12 +61,12 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="format_full_friendly_date" translatable="false"><xliff:g id="day">%1$s</xliff:g></string> <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
-<<<<<<< HEAD
+
     <!--dialog_weather-->
     <string name="title_weather_dialog">Set weather: </string>
     <string name="temperature">Current temperature: </string>
     <string name="temperature_value" translatable="false">0\u00B0 C </string>
-=======
+
     <!-- SyncAdapter related -->
     <string name="sync_account_type" translatable="false">fishing.validcat.net</string>
     <string name="content_authority" translatable="false">net.validcat.fishing.app</string>
@@ -95,6 +95,6 @@
     <string name="pref_location_status_key" translatable="false">loc-status</string>
     <string name="pref_location_error_description">Invalid Location (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
     <string name="pref_location_unknown_description">Validating Location… (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
->>>>>>> 8cfd9cbe78ac59bcc89ac3df7a35afef2658befe
+
 
     </resources>

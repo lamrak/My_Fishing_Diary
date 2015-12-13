@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
@@ -36,6 +38,24 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
                 startActivityForResult(new Intent(ListActivity.this, AddNewFishingActivity.class), Constants.ITEM_REQUEST);
             }
         });
+
+        Intent intent = getIntent();
+
+        if(intent!=null) {
+            boolean delete = intent.getBooleanExtra(Constants.DELETE,false);
+            if(delete) {
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(this.getSupportFragmentManager().getBackStackEntryCount() - 1);
+                if (backEntry !=null) {
+                    String str = backEntry.getName();
+                    Fragment df = getSupportFragmentManager().findFragmentByTag(str);
+                    FragmentTransaction trans = manager.beginTransaction();
+                    trans.remove(df);
+                    trans.commit();
+                    manager.popBackStack();
+                }
+            }
+        }
     }
 
     @Override

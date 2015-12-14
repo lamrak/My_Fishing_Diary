@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
+import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
@@ -146,60 +147,60 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_add_new_fishing:
-                if (TextUtils.isEmpty(etPlace.getText().toString())) {
-                    etPlace.setError("Add your fishing place");
-                    break;
-                }else {
-                    ContentValues cv = new ContentValues();
-                    if (this.item == null) {
-                        this.item = new FishingItem();
-                    } else {
-                        cv.put(FishingContract.FishingEntry._ID, item.getId());
-                    }
-                    cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
-                    cv.put(FishingContract.FishingEntry.COLUMN_DATE, date);
-                    cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
-                    cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
-                    cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
-
-                    if (userPhoto) {
-                        Bitmap photo = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
-                        item.setBitmap(photo);
-                        cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
-                                BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
-                    }
-                    if (updateData) {
-                        getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
-                    } else {
-                        getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
-                    }
-
-                    getActivity().finish();
-                }
+                storeNewFishing();
                 break;
-
             case R.id.action_camera:
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                            Manifest.permission.CAMERA)) {
-                        // Show an expanation to the user *asynchronously* -- don't block
-                        // this thread waiting for the user's response! After the user
-                        // sees the explanation, try again to request the permission.
-                    } else {
-                        // No explanation needed, we can request the permission.
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.CAMERA},
-                                AddNewFishingActivity.PERMISSIONS_REQUEST_CAMERA);
-                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                        // app-defined int constant. The callback method gets the
-                        // result of the request.
-                    }
-                } else runCamera();
+                handleCamera();
+                break;
+            case R.id.action_settings:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
         }
 
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void handleCamera() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.CAMERA))
+                runCamera();
+            else ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.CAMERA},
+                        AddNewFishingActivity.PERMISSIONS_REQUEST_CAMERA);
+        }
+    }
+
+    private void storeNewFishing() {
+        if (TextUtils.isEmpty(etPlace.getText().toString())) {
+            etPlace.setError("Add your fishing place");
+        } else {
+            ContentValues cv = new ContentValues();
+            if (this.item == null) {
+                this.item = new FishingItem();
+            } else {
+                cv.put(FishingContract.FishingEntry._ID, item.getId());
+            }
+            cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
+            cv.put(FishingContract.FishingEntry.COLUMN_DATE, date);
+            cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
+            cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
+            cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
+
+            if (userPhoto) {
+                Bitmap photo = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
+                item.setBitmap(photo);
+                cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
+                        BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
+            }
+            if (updateData) {
+                getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
+            } else {
+                getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
+            }
+
+            getActivity().finish();
+        }
     }
 
     public void runCamera() {
@@ -211,13 +212,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (resultCode == Activity.RESULT_OK) {
             userPhoto = true;
             cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
-//            Bitmap b = cm.getCameraPhoto(getActivity(), requestCode);
-//            if (b != null) {
-//                userPhoto = true;
-////                ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(rotate, Constants.HEIGHT_BITMAP, getActivity()));
-//                  b = CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity());
-//                  ivPhoto.setImageBitmap(b);
-//            }
         } else {
             Log.d(LOG_TAG, "onActivityResult returns result not OK");
         }
@@ -226,13 +220,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,
                 FishingItem.COLUMNS, null, null, null);
-        if(cursor != null){
-            if (cursor.moveToFirst()) {
+        if(cursor != null) {
+            if (cursor.moveToFirst())
                 etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
-            }
-        }else{
-            if (cursor !=null)
-                cursor.close();
+            cursor.close();
         }
         updateData = true;
     }

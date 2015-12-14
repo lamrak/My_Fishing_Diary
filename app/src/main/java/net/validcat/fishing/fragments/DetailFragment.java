@@ -137,7 +137,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                             case R.id.delete:
                                 getActivity().getContentResolver().delete(uri, null,null);
                                 Intent back = new Intent(getActivity(), ListActivity.class);
+                                boolean delete = true;
+                                back.putExtra(Constants.DELETE,delete);
                                 startActivity(back);
+
                             default:
                                 return false;
                         }

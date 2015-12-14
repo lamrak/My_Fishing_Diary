@@ -15,10 +15,11 @@
 -->
 <resources>
     <!-- colors -->
-    <color name="color_green_forest">#43A047</color>
+    <color name="color_green_forest">#357F39</color>
     <color name="color_light_gray">#e0e0e0</color>
     <color name="color_dark_gray">#404040</color>
     <color name="color_pale_gray">#9a9a9a</color>
+    <color name="color_sprint_leafs">#5C7F5D</color>
 
     <color name="green01">#669900</color>
     <color name="green02">#6DA000</color>
@@ -46,11 +47,11 @@
 
     <!-- using the "Light Blue" Material Palette -->
     <color name="primary">@color/color_green_forest</color>
-    <color name="primary_dark">@color/green01</color>
+    <color name="primary_dark">@color/color_sprint_leafs</color>
     <!-- 700 -->
     <color name="primary_light">@color/green10</color>
     <!-- 100 -->
-    <color name="accent">#FFD740</color>
+    <color name="accent">#FFFF4040</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
 

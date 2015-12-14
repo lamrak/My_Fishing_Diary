@@ -36,5 +36,6 @@
     <string name="menu_detail_delete">Удалить</string>
     <string name="title_weather_dialog">Выберите погоду</string>
     <string name="temperature">Температура:</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

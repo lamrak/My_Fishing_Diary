@@ -6,19 +6,14 @@
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     -->
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <!--style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/green10</item>
-        <item name="colorAccent">@color/green01</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryDark">@color/primary</item>
     </style>
 
-    <!-- Application theme. -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+
         <item name="android:actionBarStyle"   tools:ignore="NewApi">@style/FishingActionBar</item>
         <item name="actionBarStyle">@style/FishingActionBar</item>
         <item name="colorAccent">@color/primary</item>
@@ -33,6 +28,6 @@
 
     <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
-    </style>
+    </style-->
 
 </resources>

@@ -21,6 +21,13 @@ public class AddNewFishingActivity extends AppCompatActivity {
         AppCompatActivity appCompatActivity = (AppCompatActivity) this;
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_revert);
+        
+        fetchCurrentWeather();
+    }
+
+    private void fetchCurrentWeather() {
+        //TODO create AsyncTask
+        //TODO fetch weather with SyncAdapter
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

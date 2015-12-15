@@ -210,16 +210,22 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
- if (requestCode != Constants.REQUEST_TEMPERATURE) {     
-   if (resultCode == Activity.RESULT_OK) {
-            userPhoto = true;
-            cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+        if (requestCode != Constants.REQUEST_TEMPERATURE) {
+            if (resultCode == Activity.RESULT_OK) {
+                userPhoto = true;
+                cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+            } else {
+                Log.d(LOG_TAG, "onActivityResult returns result not OK");
+            }
         } else {
-            Log.d(LOG_TAG, "onActivityResult returns result not OK");
-        }
-    }else{
             String temperature = data.getStringExtra(Constants.EXTRA_TEMPERATURE);
             tvWeather.setText(temperature);
+            if (resultCode == Activity.RESULT_OK) {
+                userPhoto = true;
+                cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+            } else {
+                Log.d(LOG_TAG, "onActivityResult returns result not OK");
+            }
         }
     }
 

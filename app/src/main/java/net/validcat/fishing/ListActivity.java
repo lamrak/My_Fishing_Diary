@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import net.validcat.fishing.data.Constants;
@@ -76,16 +77,21 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.list_activity_action_bar, menu);
+        getMenuInflater().inflate(R.menu.menu_main_list, menu);
         return true;
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == RESULT_OK && requestCode == Constants.ITEM_REQUEST) {
-//            ListFragment lf = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
-//            if(lf != null)
-//                lf.addNewItem(data);
-//        }
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+            break;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(menuItem);
+    }
+
 }

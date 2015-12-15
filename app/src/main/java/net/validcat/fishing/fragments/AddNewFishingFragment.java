@@ -129,6 +129,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getFragmentManager();
                 WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
+                weatherDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TEMPERATURE);
                 weatherDialog.show(fm,Constants.DIALOG_KEY);
             }
         });
@@ -208,18 +209,16 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            userPhoto = true;
-            cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
-//            Bitmap b = cm.getCameraPhoto(getActivity(), requestCode);
-//            if (b != null) {
-//                userPhoto = true;
-////                ivPhoto.setImageBitmap(CameraManager.scaleDownBitmap(rotate, Constants.HEIGHT_BITMAP, getActivity()));
-//                  b = CameraManager.scaleDownBitmap(b, Constants.HEIGHT_BITMAP, getActivity());
-//                  ivPhoto.setImageBitmap(b);
-//            }
-        } else {
-            Log.d(LOG_TAG, "onActivityResult returns result not OK");
+        if (requestCode != Constants.REQUEST_TEMPERATURE) {
+            if (resultCode == Activity.RESULT_OK) {
+                userPhoto = true;
+                cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+            } else {
+                Log.d(LOG_TAG, "onActivityResult returns result not OK");
+            }
+        }else{
+            String temperature = data.getStringExtra(Constants.EXTRA_TEMPERATURE);
+            tvWeather.setText(temperature);
         }
     }
 
@@ -245,6 +244,5 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         Log.d("TIME", "time=" + date);
         tvDate.setText(DateUtils.getFormattedMonthDay(getActivity(), date));
     }
-
 
 }

@@ -14,6 +14,9 @@ public class Constants {
 
     public static final String DIALOG_KEY = "dialog";
     public static final String DELETE = "delete";
+    public static final int REQUEST_TEMPERATURE = 101;
+    public static final String EXTRA_TEMPERATURE = "temperature";
+
 
 
     public static final String ACTION_DATA_UPDATED =

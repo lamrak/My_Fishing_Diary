@@ -19,6 +19,8 @@
     <color name="color_light_gray">#e0e0e0</color>
     <color name="color_dark_gray">#404040</color>
     <color name="color_pale_gray">#9a9a9a</color>
+    <color name="color_background">#C8E6C9</color>
+    <color name="color_default_background">#EEEEEE</color>
 
     <color name="green01">#669900</color>
     <color name="green02">#6DA000</color>

@@ -19,6 +19,7 @@ import net.validcat.fishing.data.Constants;
  * Created by Denis on 10.12.2015.
  */
 public class WeatherDialogFragment extends DialogFragment {
+    String weatherKey;
     String temperature;
     ImageView sunny;
     ImageView cloudy;
@@ -49,6 +50,7 @@ public class WeatherDialogFragment extends DialogFragment {
                         partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
+                        weatherKey = "Sunny";
                         break;
                     case R.id.icCloudy:
                         cloudy.setBackgroundColor(getResources().getColor(R.color.color_background));
@@ -56,6 +58,7 @@ public class WeatherDialogFragment extends DialogFragment {
                         partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
+                        weatherKey = "Cloudy";
                         break;
                     case R.id.icPartlyCloudy:
                         cloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
@@ -63,6 +66,7 @@ public class WeatherDialogFragment extends DialogFragment {
                         partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_background));
                         rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
+                        weatherKey = "PartlyCloudy";
                         break;
                     case R.id.icRain:
                         cloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
@@ -70,6 +74,7 @@ public class WeatherDialogFragment extends DialogFragment {
                         partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         rain.setBackgroundColor(getResources().getColor(R.color.color_background));
                         snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
+                        weatherKey = "Rain";
                         break;
                     case R.id.icSnow:
                         cloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
@@ -77,6 +82,7 @@ public class WeatherDialogFragment extends DialogFragment {
                         partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
                         snow.setBackgroundColor(getResources().getColor(R.color.color_background));
+                        weatherKey = "Snow";
                         break;
                 }
             }
@@ -132,6 +138,7 @@ public class WeatherDialogFragment extends DialogFragment {
             return;
         Intent i = new Intent();
         i.putExtra(Constants.EXTRA_TEMPERATURE,temperature);
+        i.putExtra(Constants.EXTRA_IMAGE_KEY, weatherKey);
         getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,i);
     }
 

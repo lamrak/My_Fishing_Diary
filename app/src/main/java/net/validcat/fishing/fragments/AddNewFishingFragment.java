@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,8 +41,11 @@ import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.DateUtils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,12 +61,15 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.et_price) EditText etPrice;
     @Bind(R.id.et_details) EditText etDetails;
+    @Bind(R.id.ibtnWeather)ImageButton ibtnWeather;
 
     private CameraManager cm;
     private Uri uri;
     private FishingItem item;
     private boolean userPhoto = false;
     private boolean updateData = false;
+    ArrayList<Map<String, Integer>> weatherIcon;
+    Map<String, Integer> m;
 
     private long date = 0;
 
@@ -73,6 +80,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment_rev01, container, false);
         ButterKnife.bind(this, addNewFragmentView);
+        createWeatherIconArray();
 
         Intent intent = getActivity().getIntent();
         String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
@@ -128,10 +136,14 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getFragmentManager();
-                WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
-                weatherDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TEMPERATURE);
-                weatherDialog.show(fm,Constants.DIALOG_KEY);
+               runWeatherDialog();
+            }
+        });
+
+        ibtnWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                runWeatherDialog();
             }
         });
 
@@ -219,11 +231,17 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         } else {
             String temperature = data.getStringExtra(Constants.EXTRA_TEMPERATURE);
+            String weatherKey = data.getStringExtra(Constants.EXTRA_IMAGE_KEY);
             if (TextUtils.isEmpty(temperature)) {
                 tvWeather.setText("t" + "°" + "C");
             } else {
                 tvWeather.setText(temperature);
+            }   if (TextUtils.isEmpty(weatherKey)) {
+                ibtnWeather.setImageResource(m.get("Sunny"));
+            } else {
+                ibtnWeather.setImageResource(m.get(weatherKey));
             }
+
         }
     }
 
@@ -245,6 +263,24 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         date =  c.getTimeInMillis(); //(year, monthOfYear, dayOfMonth).getTime();
         Log.d("TIME", "time=" + date);
         tvDate.setText(DateUtils.getFormattedMonthDay(getActivity(), date));
+    }
+
+    private void runWeatherDialog(){
+        FragmentManager fm = getActivity().getFragmentManager();
+        WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
+        weatherDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TEMPERATURE);
+        weatherDialog.show(fm,Constants.DIALOG_KEY);
+    }
+
+    private void createWeatherIconArray(){
+        weatherIcon = new ArrayList<>();
+        m = new HashMap<>();
+        m.put("Sunny",R.drawable.ic_sunny);
+        m.put("Cloudy",R.drawable.ic_cloudy);
+        m.put("PartlyCloudy",R.drawable.ic_partly_cloud);
+        m.put("Rain",R.drawable.ic_rain);
+        m.put("Snow",R.drawable.ic_snow);
+        weatherIcon.add(m);
     }
 
 }

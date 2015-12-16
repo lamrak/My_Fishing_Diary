@@ -17,6 +17,7 @@ public class Constants {
     public static final int REQUEST_TEMPERATURE = 101;
     public static final String EXTRA_TEMPERATURE = "temperature";
     public static final String VALIDATION_ERROR = "Add your fishing place";
+    public static final String EXTRA_IMAGE_KEY = "imageKey";
 
 
 

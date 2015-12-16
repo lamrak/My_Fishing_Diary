@@ -65,7 +65,7 @@
     <!--dialog_weather-->
     <string name="title_weather_dialog">Set weather: </string>
     <string name="temperature">Current temperature: </string>
-    <string name="temperature_value" translatable="false">0\u00B0 C </string>
+    <string name="temperature_value" translatable="false">t\u00B0 C </string>
 
     <!-- SyncAdapter related -->
     <string name="sync_account_type" translatable="false">fishing.validcat.net</string>

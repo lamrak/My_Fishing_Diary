@@ -71,7 +71,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
+        View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment_rev01, container, false);
         ButterKnife.bind(this, addNewFragmentView);
 
         Intent intent = getActivity().getIntent();
@@ -174,7 +174,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     private void storeNewFishing() {
         if (TextUtils.isEmpty(etPlace.getText().toString())) {
-            etPlace.setError("Add your fishing place");
+            etPlace.setError(Constants.VALIDATION_ERROR);
         } else {
             ContentValues cv = new ContentValues();
             if (this.item == null) {
@@ -210,16 +210,20 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
- if (requestCode != Constants.REQUEST_TEMPERATURE) {     
-   if (resultCode == Activity.RESULT_OK) {
-            userPhoto = true;
-            cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+        if (requestCode != Constants.REQUEST_TEMPERATURE) {
+            if (resultCode == Activity.RESULT_OK) {
+                userPhoto = true;
+                cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+            } else {
+                Log.d(LOG_TAG, "onActivityResult returns result not OK");
+            }
         } else {
-            Log.d(LOG_TAG, "onActivityResult returns result not OK");
-        }
-    }else{
             String temperature = data.getStringExtra(Constants.EXTRA_TEMPERATURE);
-            tvWeather.setText(temperature);
+            if (TextUtils.isEmpty(temperature)) {
+                tvWeather.setText("t" + "°" + "C");
+            } else {
+                tvWeather.setText(temperature);
+            }
         }
     }
 

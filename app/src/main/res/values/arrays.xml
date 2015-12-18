@@ -9,4 +9,12 @@
         <item>@string/pref_units_metric</item>
         <item>@string/pref_units_imperial</item>
     </string-array>
+
+    <string-array name="icons_set">
+        <item>R.drawable.ic_sunny</item>
+        <item>R.drawable.ic_cloudy</item>
+        <item>R.drawable.ic_partly_cloud</item>
+        <item>R.drawable.ic_rain</item>
+        <item>R.drawable.ic_snow</item>
+    </string-array>
 </resources>

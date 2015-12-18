@@ -11,6 +11,7 @@ import net.validcat.fishing.R;
 import net.validcat.fishing.data.FishingContract;
 
 public class FishingItem {
+    private static final String LOG_TAG = FishingItem.class.getSimpleName();
     public final static String PLACE = "place";
     public final static String DATE = "date";
     public final static String ID = "id";
@@ -45,6 +46,7 @@ public class FishingItem {
     String price;
 //    byte[] cameraPhoto;
     Bitmap photoBitmap;
+   static Bitmap weatherIcon;
 
     public FishingItem() {}
     // constructor bdObject
@@ -105,6 +107,9 @@ public class FishingItem {
     public Bitmap getBitmap(){
         return photoBitmap;
     }
+    public static Bitmap getWeatherIcon(){
+        Log.d(LOG_TAG,"getWeatherIcon = " + weatherIcon);
+        return weatherIcon;}
     public void setPlace(String place) {
         this.place = place;
     }
@@ -129,6 +134,8 @@ public class FishingItem {
     public void setId(long id) {
         this.id = id;
     }
+    public void setWeatherIcon (Bitmap icon) {weatherIcon = icon;
+    Log.d(LOG_TAG,"setWeatherIcon = "+weatherIcon);}
 
     @Override
     public String toString() {
@@ -145,7 +152,7 @@ public class FishingItem {
         item.description = data.getString(COL_DESCRIPTION);
         item.price = data.getString(COL_PRICE);
         item.photoBitmap = convertBlobToPhotoBitmap(context, data.getBlob(COL_IMAGE));
-
+        item.weatherIcon = getWeatherIcon();
         return item;
     }
 

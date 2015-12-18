@@ -10,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.R;
 import net.validcat.fishing.fragments.ListFragment;
+import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.ui.RoundedImageView;
 
 public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.ViewHolder> { //RecyclerView.Adapter<FishingAdapter.ViewHolder> {
+	private static final String LOG_TAG = FishingAdapter.class.getSimpleName();
 	private Context context;
 	private ListFragment.IClickListener listener;
 
@@ -39,19 +40,20 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
         viewHolder.place.setText(item.getPlace());
         viewHolder.date.setText(DateUtils.getFullFriendlyDayString(context, item.getDate()));
         viewHolder.description.setText(item.getDescription());
-//		byte[] photo = item.getPhoto();
-//		if(photo!= null) {
-//			Bitmap dbPhoto = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-//			viewHolder.photoPreview.setImageBitmap(dbPhoto);
-//		}else {
-//			Log.d(LOG_TAG,"byte[] photo =" +photo);
-//		}
+
         if(item.getBitmap() != null) {
             viewHolder.photoPreview.setImageBitmap(item.getBitmap());
         }else{
             Bitmap noPhoto = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_no_photo);
             viewHolder.photoPreview.setImageBitmap(noPhoto);
         }
+
+//		if(item.getWeatherIcon() != null){
+//			viewHolder.weatherPreview.setImageBitmap(item.getWeatherIcon());
+//		}else{
+//			Bitmap noWeatherIcon = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_sunny);
+//			viewHolder.weatherPreview.setImageBitmap(noWeatherIcon);
+//		}
     }
 
     public void setIClickListener(ListFragment.IClickListener listener) {

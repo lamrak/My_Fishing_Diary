@@ -28,8 +28,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="45dp"
-        android:background="@drawable/ic_no_weather"
         android:scaleType="center" />
+        <!--android:background="@drawable/ic_no_weather"-->
+
 
     <TextView
         android:id="@+id/tv_adapter_place"

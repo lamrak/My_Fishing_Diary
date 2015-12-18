@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,7 +60,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.et_price) EditText etPrice;
     @Bind(R.id.et_details) EditText etDetails;
-    @Bind(R.id.ibtnWeather)ImageButton ibtnWeather;
+    @Bind(R.id.ivWeather)ImageView ivWeather;
 
     private CameraManager cm;
     private Uri uri;
@@ -140,7 +139,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        ibtnWeather.setOnClickListener(new View.OnClickListener() {
+        ivWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 runWeatherDialog();
@@ -206,6 +205,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
                         BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
             }
+
+//            BitmapDrawable drawable = (BitmapDrawable) ivWeather.getDrawable();
+//            Bitmap weatherIcon = drawable.getBitmap();
+//            Log.d(LOG_TAG,"WeatherIcon = " +weatherIcon);
+//            item.setWeatherIcon(weatherIcon);
+
             if (updateData) {
                 getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
             } else {
@@ -237,9 +242,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             } else {
                 tvWeather.setText(temperature);
             }   if (TextUtils.isEmpty(weatherKey)) {
-                ibtnWeather.setImageResource(m.get("Sunny"));
+                ivWeather.setImageResource(m.get("Sunny"));
             } else {
-                ibtnWeather.setImageResource(m.get(weatherKey));
+                ivWeather.setImageResource(m.get(weatherKey));
             }
 
         }

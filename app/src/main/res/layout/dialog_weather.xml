@@ -16,39 +16,44 @@
         android:paddingStart="@dimen/activity_horizontal_margin">
 
         <ImageView
-            android:id="@+id/icSunny"
+            android:id="@+id/ic_sunny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src = "@drawable/ic_sunny"/>
+            android:src = "@drawable/ic_sunny"
+            android:onClick="changeWeather"/>
 
         <ImageView
-            android:id="@+id/icPartlyCloudy"
+            android:id="@+id/ic_partly_cloudy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src = "@drawable/ic_partly_cloud"/>
+            android:src = "@drawable/ic_partly_cloud"
+            android:onClick="changeWeather" />
 
         <ImageView
-            android:id="@+id/icCloudy"
+            android:id="@+id/ic_cloudy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src = "@drawable/ic_cloudy"/>
+            android:src = "@drawable/ic_cloudy"
+            android:onClick="changeWeather" />
 
         <ImageView
-            android:id="@+id/icRain"
+            android:id="@+id/ic_rain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src = "@drawable/ic_rain"/>
+            android:src = "@drawable/ic_rain"
+            android:onClick="changeWeather" />
 
         <ImageView
-            android:id="@+id/icSnow"
+            android:id="@+id/ic_snow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src = "@drawable/ic_snow"/>
+            android:src = "@drawable/ic_snow"
+            android:onClick="changeWeather" />
     </LinearLayout>
 
     <LinearLayout

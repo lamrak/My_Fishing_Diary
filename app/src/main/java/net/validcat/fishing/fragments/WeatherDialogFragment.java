@@ -15,83 +15,27 @@ import android.widget.TextView;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Denis on 10.12.2015.
  */
 public class WeatherDialogFragment extends DialogFragment {
-    String weatherKey;
-    String temperature;
-    ImageView sunny;
-    ImageView cloudy;
-    ImageView partlyCloudy;
-    ImageView rain;
-    ImageView snow;
+    private int weatherKey;
+    private String temperature;
+    @Bind(R.id.ic_sunny) ImageView sunny;
+    @Bind(R.id.ic_cloudy) ImageView cloudy;
+    @Bind(R.id.ic_partly_cloudy) ImageView partlyCloudy;
+    @Bind(R.id.ic_rain) ImageView rain;
+    @Bind(R.id.ic_snow) ImageView snow;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_weather,null);
-        SeekBar seekBar = (SeekBar)v.findViewById(R.id.seekBar);
-        final TextView temperatureValue = (TextView)v.findViewById(R.id.temperatureValue);
 
-        sunny = (ImageView)v.findViewById(R.id.icSunny);
-        cloudy = (ImageView)v.findViewById(R.id.icCloudy);
-        partlyCloudy = (ImageView)v.findViewById(R.id.icPartlyCloudy);
-        rain = (ImageView)v.findViewById(R.id.icRain);
-        snow = (ImageView)v.findViewById(R.id.icSnow);
-
-        View.OnClickListener oclBtn = new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                switch (v.getId()) {
-                    case R.id.icSunny:
-                        sunny.setBackgroundColor(getResources().getColor(R.color.color_background));
-                        cloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        weatherKey = "Sunny";
-                        break;
-                    case R.id.icCloudy:
-                        cloudy.setBackgroundColor(getResources().getColor(R.color.color_background));
-                        sunny.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        weatherKey = "Cloudy";
-                        break;
-                    case R.id.icPartlyCloudy:
-                        cloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        sunny.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_background));
-                        rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        weatherKey = "PartlyCloudy";
-                        break;
-                    case R.id.icRain:
-                        cloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        sunny.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        rain.setBackgroundColor(getResources().getColor(R.color.color_background));
-                        snow.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        weatherKey = "Rain";
-                        break;
-                    case R.id.icSnow:
-                        cloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        sunny.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        partlyCloudy.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        rain.setBackgroundColor(getResources().getColor(R.color.color_default_background));
-                        snow.setBackgroundColor(getResources().getColor(R.color.color_background));
-                        weatherKey = "Snow";
-                        break;
-                }
-            }
-        };
-        sunny.setOnClickListener(oclBtn);
-        cloudy.setOnClickListener(oclBtn);
-        partlyCloudy.setOnClickListener(oclBtn);
-        rain.setOnClickListener(oclBtn);
-        snow.setOnClickListener(oclBtn);
+        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_weather, null);
+        SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekBar);
+        final TextView temperatureValue = (TextView) v.findViewById(R.id.temperatureValue);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -102,7 +46,6 @@ public class WeatherDialogFragment extends DialogFragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -111,7 +54,8 @@ public class WeatherDialogFragment extends DialogFragment {
                 temperatureValue.setText(temperature);
             }
         });
-        return new AlertDialog.Builder(getActivity())
+
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.title_weather_dialog)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -120,26 +64,66 @@ public class WeatherDialogFragment extends DialogFragment {
                         sendResult(Activity.RESULT_OK);
                     }
                 })
-                .setNegativeButton(android.R.string.no,null)
+                .setNegativeButton(android.R.string.no, null)
                 .create();
+
+        ButterKnife.bind(this, v); //
+
+        return dialog;
     }
 
-    private String currentValue (int progress){
-        if (progress>50) {
-            return "+" + String.valueOf(progress-50)+ "\u00B0" + "C" ;
-        }else{
-            String negative = "-" + String.valueOf(50-progress)+ "\u00B0" + "C";
-           return negative;
+    public void changeWeather(View v) {
+        final int defaultBgColor = getResources().getColor(R.color.color_background);
+
+        switch (v.getId()) {
+            case R.id.ic_sunny:
+                setBackgroundSelection(getResources().getColor(R.color.color_default_background),
+                        defaultBgColor, defaultBgColor, defaultBgColor, defaultBgColor);
+                weatherKey = 0;
+                break;
+            case R.id.ic_cloudy:
+                setBackgroundSelection(defaultBgColor, getResources().getColor(R.color.color_default_background),
+                        defaultBgColor, defaultBgColor, defaultBgColor);
+                weatherKey = 1;
+                break;
+            case R.id.ic_partly_cloudy:
+                setBackgroundSelection(defaultBgColor, defaultBgColor, getResources().getColor(R.color.color_default_background),
+                        defaultBgColor, defaultBgColor);
+                weatherKey = 2;
+                break;
+            case R.id.ic_rain:
+                setBackgroundSelection(defaultBgColor, defaultBgColor, defaultBgColor,
+                        getResources().getColor(R.color.color_default_background), defaultBgColor);
+                weatherKey = 3;
+                break;
+            case R.id.ic_snow:
+                setBackgroundSelection(defaultBgColor, defaultBgColor, defaultBgColor, defaultBgColor,
+                        getResources().getColor(R.color.color_default_background));
+                weatherKey = 4;
+                break;
         }
     }
 
-    private void sendResult (int resultCode){
-        if (getTargetFragment()==null)
+    private void setBackgroundSelection(int sunny, int cloudy, int partly, int rain, int snow) {
+        this.sunny.setBackgroundColor(sunny);
+        this.cloudy.setBackgroundColor(cloudy);
+        this.partlyCloudy.setBackgroundColor(partly);
+        this.rain.setBackgroundColor(rain);
+        this.snow.setBackgroundColor(snow);
+    }
+
+    private String currentValue (int progress){
+       return progress > 50 ? "+" + String.valueOf(progress - 50)+ "\u00B0" + "C"
+               : "-" + String.valueOf(50 - progress)+ "\u00B0" + "C";
+    }
+
+    private void sendResult(int resultCode) {
+        if (getTargetFragment() == null)
             return;
         Intent i = new Intent();
-        i.putExtra(Constants.EXTRA_TEMPERATURE,temperature);
+        i.putExtra(Constants.EXTRA_TEMPERATURE, temperature);
         i.putExtra(Constants.EXTRA_IMAGE_KEY, weatherKey);
-        getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,i);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
     }
 
 }

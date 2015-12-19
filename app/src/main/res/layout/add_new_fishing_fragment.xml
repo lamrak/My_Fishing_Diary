@@ -53,13 +53,13 @@
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/btn_weather"
+            <ImageView
+                android:id="@+id/iv_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/il_price"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
                 android:layout_toRightOf="@+id/il_price"
                 android:layout_toEndOf="@+id/il_price"
                 android:src="@drawable/ic_sunny"
@@ -91,8 +91,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/btn_weather"
-                android:layout_toEndOf="@+id/btn_weather"
+                android:layout_toRightOf="@+id/iv_weather"
+                android:layout_toEndOf="@+id/iv_weather"
                 android:text="@string/temperature_value"
                 android:textSize="16sp" />
 
@@ -100,14 +100,14 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/il_price"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/tv_weather"
-                android:layout_toEndOf="@+id/tv_weather"
                 android:text="@string/title_fishing_date"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:layout_alignBottom="@+id/iv_weather"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="5dp"/>
 
             <ImageView
                 android:id="@+id/iv_photo"

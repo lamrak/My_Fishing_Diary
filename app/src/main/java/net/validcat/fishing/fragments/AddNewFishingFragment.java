@@ -10,6 +10,7 @@ import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -27,7 +28,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,7 +58,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.et_price) EditText etPrice;
     @Bind(R.id.et_details) EditText etDetails;
-    @Bind(R.id.btn_weather)ImageButton btnWeather;
+    @Bind(R.id.iv_weather)ImageView ivWeather;
 
     private CameraManager cm;
     private Uri uri;
@@ -136,7 +136,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         };
         tvWeather.setOnClickListener(lin);
-        btnWeather.setOnClickListener(lin);
+        ivWeather.setOnClickListener(lin);
 
         return addNewFragmentView;
     }
@@ -228,9 +228,22 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
                 break;
             case Constants.REQUEST_TEMPERATURE:
-                tvWeather.setText(data.getStringExtra(Constants.EXTRA_TEMPERATURE));
-                int[] iconsArr = getResources().getIntArray(R.array.icons_set);
-                btnWeather.setImageResource(iconsArr[data.getIntExtra(Constants.EXTRA_IMAGE_KEY, 0)]);
+                String temperature = data.getStringExtra(Constants.EXTRA_TEMPERATURE);
+                int weatherKey = data.getIntExtra(Constants.EXTRA_IMAGE_KEY,0);
+                TypedArray iconsArr = getResources().obtainTypedArray(R.array.icons_set);
+
+                if (TextUtils.isEmpty(temperature)) {
+                    tvWeather.setText("t" + "°" + "C");
+                } else {
+                    tvWeather.setText(temperature);
+                }
+
+                if ((weatherKey == 0)) {
+                    ivWeather.setImageResource(iconsArr.getResourceId(0,-1));
+                } else {
+                    ivWeather.setImageResource(iconsArr.getResourceId(data.getIntExtra(Constants.EXTRA_IMAGE_KEY,0),-1));
+                }
+
                 break;
         }
     }

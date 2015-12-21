@@ -25,7 +25,8 @@ public class FishingItem {
         FishingContract.FishingEntry.COLUMN_WEATHER,
         FishingContract.FishingEntry.COLUMN_DESCRIPTION,
         FishingContract.FishingEntry.COLUMN_PRICE,
-        FishingContract.FishingEntry.COLUMN_IMAGE
+        FishingContract.FishingEntry.COLUMN_IMAGE,
+        FishingContract.FishingEntry.COLUMN_WEATHER_IMAGE
     };
 
     public static final int COL_ID = 0;
@@ -35,6 +36,7 @@ public class FishingItem {
     public static final int COL_DESCRIPTION = 4;
     public static final int COL_PRICE = 5;
     public static final int COL_IMAGE = 6;
+    public static final int COL_WEATHER_ICON = 7;
 
     long id = -1;
     String place;
@@ -46,7 +48,7 @@ public class FishingItem {
     String price;
 //    byte[] cameraPhoto;
     Bitmap photoBitmap;
-   static Bitmap weatherIcon;
+    Bitmap weatherIcon;
 
     public FishingItem() {}
     // constructor bdObject
@@ -107,7 +109,7 @@ public class FishingItem {
     public Bitmap getBitmap(){
         return photoBitmap;
     }
-    public static Bitmap getWeatherIcon(){
+    public  Bitmap getWeatherIcon(){
         Log.d(LOG_TAG,"getWeatherIcon = " + weatherIcon);
         return weatherIcon;}
     public void setPlace(String place) {
@@ -152,7 +154,7 @@ public class FishingItem {
         item.description = data.getString(COL_DESCRIPTION);
         item.price = data.getString(COL_PRICE);
         item.photoBitmap = convertBlobToPhotoBitmap(context, data.getBlob(COL_IMAGE));
-        item.weatherIcon = getWeatherIcon();
+        item.weatherIcon = convertBlobToPhotoBitmap(context, data.getBlob(COL_WEATHER_ICON));
         return item;
     }
 

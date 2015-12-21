@@ -22,6 +22,7 @@
     <color name="color_background">#C8E6C9</color>
     <color name="color_default_background">#EEEEEE</color>
     <color name="color_sprint_leafs">#5C7F5D</color>
+    <color name="color_white">@android:color/white</color>
 
 
     <color name="green01">#669900</color>

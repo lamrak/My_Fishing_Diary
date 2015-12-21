@@ -198,6 +198,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                         BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
             }
 
+            Bitmap weatherIcon = ((BitmapDrawable)ivWeather.getDrawable()).getBitmap();
+            item.setWeatherIcon(weatherIcon);
+            cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_IMAGE,
+                    BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivWeather.getDrawable()).getBitmap()));
+
 //            BitmapDrawable drawable = (BitmapDrawable) ivWeather.getDrawable();
 //            Bitmap weatherIcon = drawable.getBitmap();
 //            Log.d(LOG_TAG,"WeatherIcon = " +weatherIcon);

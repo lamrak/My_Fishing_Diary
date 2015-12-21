@@ -104,7 +104,8 @@ public class FishingContract {
                 FishingEntry.COLUMN_WEATHER + " TEXT NOT NULL, " +
                 FishingEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 FishingEntry.COLUMN_PRICE + " TEXT, " +
-                FishingEntry.COLUMN_IMAGE + " BLOB" +
+                FishingEntry.COLUMN_IMAGE + " BLOB, " +
+                FishingEntry.COLUMN_WEATHER_IMAGE + " BLOB" +
                 ");";
     }
 
@@ -117,6 +118,7 @@ public class FishingContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_IMAGE = "photo";
+        public static final String COLUMN_WEATHER_IMAGE = "weatherIcon";
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_FISHING).build();

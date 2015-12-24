@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +41,9 @@ import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.DateUtils;
+import net.validcat.fishing.weather.SunshineSyncAdapter;
+
+import org.json.JSONException;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -139,7 +143,20 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvWeather.setOnClickListener(lin);
         ivWeather.setOnClickListener(lin);
 
+        makeWeatherRequest();
+
         return addNewFragmentView;
+    }
+
+    private void makeWeatherRequest() {
+        FetcherTask task = new FetcherTask(new SunshineSyncAdapter.IWeatherListener() {
+            @Override
+            public void onWeatherResult(int id, double temp, double high, double low) {
+                Log.d(LOG_TAG, "Waether data " + temp);
+                //TODO handle weather results
+            }
+        });
+        task.execute();
     }
 
     @Override
@@ -276,6 +293,32 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
         weatherDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TEMPERATURE);
         weatherDialog.show(fm, Constants.DIALOG_KEY);
+    }
+
+    private class FetcherTask extends AsyncTask<Void, Void, String> {
+        private SunshineSyncAdapter.IWeatherListener listener;
+        private SunshineSyncAdapter syncAdapter;
+
+        public FetcherTask(SunshineSyncAdapter.IWeatherListener listener) {
+            this.listener = listener;
+            syncAdapter = new SunshineSyncAdapter(getActivity());
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return syncAdapter.onPerformSync();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null)
+                try {
+                    syncAdapter.getCurrentWeatherDataFromJson(result, listener);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
 }

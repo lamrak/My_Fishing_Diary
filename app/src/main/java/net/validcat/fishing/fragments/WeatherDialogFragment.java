@@ -15,48 +15,38 @@ import android.widget.TextView;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Denis on 10.12.2015.
  */
-public class WeatherDialogFragment extends DialogFragment {
+public class WeatherDialogFragment extends DialogFragment implements View.OnClickListener {
     private int weatherKey;
     private String temperature;
-    ImageView sunny;
-    ImageView cloudy;
-    ImageView partlyCloudy;
-    ImageView rain;
-    ImageView snow;
+    @Bind(R.id.ic_sunny) ImageView sunny;
+    @Bind(R.id.ic_cloudy) ImageView cloudy;
+    @Bind(R.id.ic_partly_cloudy) ImageView partlyCloudy;
+    @Bind(R.id.ic_rain) ImageView rain;
+    @Bind(R.id.ic_snow) ImageView snow;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_weather, null);
         SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekBar);
-        final TextView temperatureValue = (TextView) v.findViewById(R.id.temperatureValue);
+        final TextView tvTemp = (TextView) v.findViewById(R.id.temperatureValue);
 
-        sunny = (ImageView)v.findViewById(R.id.ic_sunny);
-        cloudy = (ImageView)v.findViewById(R.id.ic_cloudy);
-        partlyCloudy = (ImageView)v.findViewById(R.id.ic_partly_cloudy);
-        rain = (ImageView)v.findViewById(R.id.ic_rain);
-        snow = (ImageView)v.findViewById(R.id.ic_snow);
-
-        View.OnClickListener oclBtn = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeWeather(v);
-            }
-        };
-        sunny.setOnClickListener(oclBtn);
-        cloudy.setOnClickListener(oclBtn);
-        partlyCloudy.setOnClickListener(oclBtn);
-        rain.setOnClickListener(oclBtn);
-        snow.setOnClickListener(oclBtn);
+        sunny.setOnClickListener(this);
+        cloudy.setOnClickListener(this);
+        partlyCloudy.setOnClickListener(this);
+        rain.setOnClickListener(this);
+        snow.setOnClickListener(this);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 temperature = currentValue(seekBar.getProgress());
-                temperatureValue.setText(temperature);
+                tvTemp.setText(temperature);
             }
 
             @Override
@@ -66,7 +56,7 @@ public class WeatherDialogFragment extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 temperature = currentValue(seekBar.getProgress());
-                temperatureValue.setText(temperature);
+                tvTemp.setText(temperature);
             }
         });
 
@@ -82,12 +72,13 @@ public class WeatherDialogFragment extends DialogFragment {
                 .setNegativeButton(android.R.string.no, null)
                 .create();
 
-//        ButterKnife.bind(this, v); //
+        ButterKnife.bind(this, v);
 
         return dialog;
     }
 
-    public void changeWeather(View v) {
+    @Override
+    public void onClick(View v) {
         final int defaultBgColor = getResources().getColor(R.color.color_default_background);
 
         switch (v.getId()) {

@@ -44,7 +44,7 @@ public class FishingItem {
     //int weather
     String weather;
     String description;
-    String catches;
+//    String catches;
     String price;
 //    byte[] cameraPhoto;
     Bitmap photoBitmap;
@@ -104,7 +104,7 @@ public class FishingItem {
         return description;
     }
     public String getPrice() {
-        return catches;
+        return price;
     }
     public Bitmap getBitmap(){
         return photoBitmap;
@@ -124,8 +124,8 @@ public class FishingItem {
     public void setDescription(String description) {
         this.description = description;
     }
-    public void setPrice(String catches) {
-        this.catches = catches;
+    public void setPrice(String price) {
+        this.price = price;
     }
 //    public void setPhoto(byte[] photo) {
 //        cameraPhoto = photo;

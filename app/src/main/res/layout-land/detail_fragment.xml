@@ -54,7 +54,7 @@
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/tv_catch"
+        android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -69,8 +69,8 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_no_photo"
         android:contentDescription="@string/image_descr"
-        android:layout_alignLeft="@+id/tv_catch"
-        android:layout_alignStart="@+id/tv_catch"
-        android:layout_below="@+id/tv_catch" />
+        android:layout_alignLeft="@+id/tv_price"
+        android:layout_alignStart="@+id/tv_price"
+        android:layout_below="@+id/tv_price" />
 
 </RelativeLayout>

@@ -59,7 +59,7 @@
                 android:text="TextView" />
 
             <TextView
-                android:id="@+id/tv_catch"
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/tv_description"
@@ -72,9 +72,9 @@
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignLeft="@+id/tv_catch"
-                android:layout_alignStart="@+id/tv_catch"
-                android:layout_below="@+id/tv_catch"
+                android:layout_alignLeft="@+id/tv_price"
+                android:layout_alignStart="@+id/tv_price"
+                android:layout_below="@+id/tv_price"
                 android:contentDescription="@string/image_descr"
                 />
 

@@ -49,9 +49,7 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
         }
 
 		if (item.getWeatherIcon() != null){
-//			Bitmap weather = item.getWeatherIcon();
-//			BitmapDrawable ob = new BitmapDrawable(getR, weather);
-			viewHolder.weatherPreview.setImageBitmap(item.getWeatherIcon());
+		viewHolder.weatherPreview.setImageBitmap(item.getWeatherIcon());
 		}else {
 			Bitmap noWeatherIcon = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_sunny);
 			viewHolder.weatherPreview.setImageBitmap(noWeatherIcon);

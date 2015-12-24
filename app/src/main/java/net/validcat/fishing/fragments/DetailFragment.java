@@ -42,7 +42,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.tv_date) TextView tvDate;
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.tv_description) TextView tvDescription;
-    @Bind(R.id.tv_catch) TextView tvCatch;
+    @Bind(R.id.tv_price) TextView tvPrice;
     @Bind(R.id.iv_photo) ImageView ivPhoto;
 
     private Uri uri;
@@ -92,7 +92,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                  + tvDate.getText() + "\n"
                  + tvWeather.getText() + "\n"
                  + tvDescription.getText() + "\n"
-                 + tvCatch.getText() + "\n";
+                 + tvPrice.getText() + "\n";
         shareIntent.putExtra(Intent.EXTRA_TEXT, massage);
         shareIntent.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -184,8 +184,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 //        tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
             tvDescription.setText(getString(R.string.fishing_description, item.getDescription()));
             tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
-            tvCatch.setText(getString(R.string.fishing_price, item.getPrice()));
-            tvCatch.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
+            tvPrice.setText(getString(R.string.fishing_price, item.getPrice()));
+            tvPrice.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
             Bitmap photo = item.getBitmap();
             if (photo != null) {
                 Log.d(LOG_TAG, "photo !=null " + photo);

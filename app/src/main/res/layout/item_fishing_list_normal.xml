@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="88dp"
     android:id="@+id/rlLayout"
     android:orientation="vertical"
-    tools:context=".ListActivity">
+    tools:context=".ListActivity"
+    >
     <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
     <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
     <!--android:paddingTop="@dimen/activity_vertical_margin_top"-->
@@ -18,7 +19,7 @@
         android:id="@+id/foto_preview"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:adjustViewBounds="true" />
 
     <net.validcat.fishing.ui.RoundedImageView
@@ -27,7 +28,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="45dp"
+        android:layout_alignBottom="@id/foto_preview"
         android:scaleType="center" />
         <!--android:background="@drawable/ic_no_weather"-->
 
@@ -36,16 +37,23 @@
         android:id="@+id/tv_adapter_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="56dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
-        android:autoText="false"
-        android:elegantTextHeight="false"
+        android:layout_alignTop="@id/foto_preview"
         android:text="@string/title_fishing_place"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/fishing_name_color"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:layout_toLeftOf="@id/tv_adapter_date"
+        android:layout_toStartOf="@id/tv_adapter_date"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignLeft="@id/foto_preview"
+        android:layout_alignStart="@id/foto_preview"
+        android:layout_marginLeft="56dp"
+        android:layout_marginStart="56dp"
+        android:ellipsize="end"
+        />
 
     <TextView
         android:id="@+id/tv_adapter_description"
@@ -53,24 +61,27 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="56dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="48dp"
+        android:layout_below="@id/tv_adapter_place"
         android:text="@string/fishing_details"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/description_color"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:layout_marginBottom= "12dp"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/tv_adapter_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="24dp"
+        android:layout_alignTop="@id/tv_adapter_place"
         android:text="@string/title_fishing_date"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/date_color"
         android:textSize="12sp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 
     <!--<RatingBar-->
     <!--android:id="@+id/ratingBar"-->
@@ -87,7 +98,9 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="88dp"
-        android:background="@color/divider_color" />
+        android:background="@color/divider_color"
+        android:layout_below="@+id/tv_adapter_description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

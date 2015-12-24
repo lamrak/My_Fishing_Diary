@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +41,9 @@ import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.DateUtils;
+import net.validcat.fishing.weather.SunshineSyncAdapter;
+
+import org.json.JSONException;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -66,6 +70,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private boolean userPhoto = false;
     private boolean updateData = false;
 
+    private TypedArray iconsArr;
     private long date = 0;
 
     public AddNewFishingFragment() {
@@ -75,7 +80,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
         ButterKnife.bind(this, addNewFragmentView);
-
+        iconsArr = getResources().obtainTypedArray(R.array.icons_set);
 
         Intent intent = getActivity().getIntent();
         String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
@@ -87,12 +92,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
+//                // Show an expanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//            } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -138,7 +143,27 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvWeather.setOnClickListener(lin);
         ivWeather.setOnClickListener(lin);
 
+        makeWeatherRequest();
+
         return addNewFragmentView;
+    }
+
+    private void makeWeatherRequest() {
+        FetcherTask task = new FetcherTask(new SunshineSyncAdapter.IWeatherListener() {
+            @Override
+            public void onWeatherResult(int id, double temp, double high, double low) {
+                Log.d(LOG_TAG, "Waether data " + temp);
+                //TODO handle weather results
+            }
+        });
+        task.execute();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (iconsArr != null)
+            iconsArr.recycle();
     }
 
     @Override
@@ -234,20 +259,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 break;
             case Constants.REQUEST_TEMPERATURE:
                 String temperature = data.getStringExtra(Constants.EXTRA_TEMPERATURE);
-                int weatherKey = data.getIntExtra(Constants.EXTRA_IMAGE_KEY,0);
-                TypedArray iconsArr = getResources().obtainTypedArray(R.array.icons_set);
-
-                if (TextUtils.isEmpty(temperature)) {
-                    tvWeather.setText("t" + "°" + "C");
-                } else {
-                    tvWeather.setText(temperature);
-                }
-
-                if ((weatherKey == 0)) {
-                    ivWeather.setImageResource(iconsArr.getResourceId(0,-1));
-                } else {
-                    ivWeather.setImageResource(iconsArr.getResourceId(data.getIntExtra(Constants.EXTRA_IMAGE_KEY,0),-1));
-                }
+                tvWeather.setText(TextUtils.isEmpty(temperature) ? getString(R.string.no_weather_data) : temperature);
+                ivWeather.setImageResource(data.getIntExtra(Constants.EXTRA_IMAGE_KEY, 0) == 0 ?
+                        iconsArr.getResourceId(0,-1) :
+                        iconsArr.getResourceId(data.getIntExtra(Constants.EXTRA_IMAGE_KEY,0),-1));
 
                 break;
         }
@@ -278,6 +293,32 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
         weatherDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TEMPERATURE);
         weatherDialog.show(fm, Constants.DIALOG_KEY);
+    }
+
+    private class FetcherTask extends AsyncTask<Void, Void, String> {
+        private SunshineSyncAdapter.IWeatherListener listener;
+        private SunshineSyncAdapter syncAdapter;
+
+        public FetcherTask(SunshineSyncAdapter.IWeatherListener listener) {
+            this.listener = listener;
+            syncAdapter = new SunshineSyncAdapter(getActivity());
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return syncAdapter.onPerformSync();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null)
+                try {
+                    syncAdapter.getCurrentWeatherDataFromJson(result, listener);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
 }

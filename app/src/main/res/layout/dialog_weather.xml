@@ -2,9 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -15,45 +13,57 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin">
 
-        <ImageView
-            android:id="@+id/ic_sunny"
+        <RadioGroup
+            android:id="@+id/weather_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src = "@drawable/ic_sunny"
-            android:onClick="changeWeather"/>
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/ic_partly_cloudy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src = "@drawable/ic_partly_cloud"
-            android:onClick="changeWeather" />
+            <RadioButton
+                android:id="@+id/ic_sunny"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:checked="true"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_sunny_selector"
+                android:layout_marginRight="8dp" />
 
-        <ImageView
-            android:id="@+id/ic_cloudy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src = "@drawable/ic_cloudy"
-            android:onClick="changeWeather" />
+            <RadioButton
+                android:id="@+id/ic_partly_cloudy"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_p_cloud_selector"
+                android:layout_marginRight="8dp"/>
+                <!--android:background = "@drawable/ic_partly_cloud"-->
 
-        <ImageView
-            android:id="@+id/ic_rain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src = "@drawable/ic_rain"
-            android:onClick="changeWeather" />
+            <RadioButton
+                android:id="@+id/ic_cloudy"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_cloud_selector"
+                android:layout_marginRight="8dp"/>
+                <!--android:background = "@drawable/ic_cloudy"-->
 
-        <ImageView
-            android:id="@+id/ic_snow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src = "@drawable/ic_snow"
-            android:onClick="changeWeather" />
+            <RadioButton
+                android:id="@+id/ic_rain"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_rain_selector"
+                android:layout_marginRight="8dp"/>
+                <!--android:background = "@drawable/ic_rain"-->
+
+            <RadioButton
+                android:id="@+id/ic_snow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_snow_selector"/>
+                <!--android:background = "@drawable/ic_snow"-->
+
+        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout

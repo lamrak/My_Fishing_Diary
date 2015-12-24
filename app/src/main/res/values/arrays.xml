@@ -12,8 +12,8 @@
 
     <string-array name="icons_set">
         <item>@drawable/ic_sunny</item>
-        <item>@drawable/ic_cloudy</item>
         <item>@drawable/ic_partly_cloud</item>
+        <item>@drawable/ic_cloudy</item>
         <item>@drawable/ic_rain</item>
         <item>@drawable/ic_snow</item>
     </string-array>

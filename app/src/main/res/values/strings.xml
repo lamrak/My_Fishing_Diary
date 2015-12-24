@@ -49,7 +49,7 @@
 
     <!--sharing massage-->
     <string name="share_search">Share my fishing to:</string>
-    <string name="share_message">Fishing...</string>
+    <string name="share_message">Fishing…</string>
     <string name="share_subject">Fishing app</string>
 
     <!--detail_action_bar-->
@@ -76,7 +76,7 @@
     <!-- Key name for storing location in SharedPreferences [CHAR LIMIT=NONE] -->
     <string name="pref_location_key" translatable="false">location</string>
     <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
-    <string name="pref_location_default" translatable="false">61099</string>
+    <string name="pref_location_default" translatable="false">Kharkiv</string>
     <!-- Key name for temperature unit preference in SharedPreferences [CHAR LIMIT=NONE] -->
     <string name="pref_units_key" translatable="false">units</string>
     <!-- Value in SharedPreferences for metric temperature unit option [CHAR LIMIT=NONE] -->
@@ -97,6 +97,7 @@
     <string name="pref_location_unknown_description">Validating Location… (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="descr_weather_button">Change Weather</string>
+    <string name="no_weather_data">0C</string>
 
 
 </resources>

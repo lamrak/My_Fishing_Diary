@@ -18,9 +18,10 @@
     <color name="color_green_forest">#357F39</color>
     <color name="color_light_gray">#e0e0e0</color>
     <color name="color_dark_gray">#404040</color>
+    <color name="color_gray">#EEEEEE</color>
     <color name="color_pale_gray">#9a9a9a</color>
     <color name="color_background">#C8E6C9</color>
-    <color name="color_default_background">#EEEEEE</color>
+    <color name="color_default_background">@android:color/white</color>
     <color name="color_sprint_leafs">#5C7F5D</color>
 
 

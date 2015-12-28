@@ -18,9 +18,6 @@ import net.validcat.fishing.data.Constants;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Denis on 10.12.2015.
- */
 public class WeatherDialogFragment extends DialogFragment {
     private String temperature;
     @Bind(R.id.weather_group)
@@ -58,21 +55,17 @@ public class WeatherDialogFragment extends DialogFragment {
             }
         });
 
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+        return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.title_weather_dialog)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         sendResult(Activity.RESULT_OK);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .create();
-
-
-        return dialog;
     }
 
     private String currentValue (int progress){

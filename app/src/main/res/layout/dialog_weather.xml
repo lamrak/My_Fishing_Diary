@@ -26,7 +26,7 @@
                 android:checked="true"
                 android:button="@android:color/transparent"
                 android:background="@drawable/w_sunny_selector"
-                android:layout_marginRight="8dp" />
+                android:layout_marginRight="2dp" />
 
             <RadioButton
                 android:id="@+id/ic_partly_cloudy"
@@ -34,8 +34,7 @@
                 android:layout_height="40dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/w_p_cloud_selector"
-                android:layout_marginRight="8dp"/>
-                <!--android:background = "@drawable/ic_partly_cloud"-->
+                android:layout_marginRight="2dp"/>
 
             <RadioButton
                 android:id="@+id/ic_cloudy"
@@ -43,8 +42,7 @@
                 android:layout_height="40dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/w_cloud_selector"
-                android:layout_marginRight="8dp"/>
-                <!--android:background = "@drawable/ic_cloudy"-->
+                android:layout_marginRight="2dp"/>
 
             <RadioButton
                 android:id="@+id/ic_rain"
@@ -52,8 +50,7 @@
                 android:layout_height="40dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/w_rain_selector"
-                android:layout_marginRight="8dp"/>
-                <!--android:background = "@drawable/ic_rain"-->
+                android:layout_marginRight="2dp"/>
 
             <RadioButton
                 android:id="@+id/ic_snow"
@@ -61,7 +58,27 @@
                 android:layout_height="40dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/w_snow_selector"/>
-                <!--android:background = "@drawable/ic_snow"-->
+
+            <RadioButton
+                android:id="@+id/ic_mist"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_mist_selector"/>
+
+            <RadioButton
+                android:id="@+id/ic_thunder"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_thunder_selector"/>
+
+            <RadioButton
+                android:id="@+id/ic_tornado"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/w_tornado_selector"/>
 
         </RadioGroup>
     </LinearLayout>

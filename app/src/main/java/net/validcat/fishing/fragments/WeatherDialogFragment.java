@@ -19,7 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class WeatherDialogFragment extends DialogFragment {
-    private String temperature;
+    private int temperature;
     @Bind(R.id.weather_group)
     RadioGroup weatherGroup;
 
@@ -34,24 +34,29 @@ public class WeatherDialogFragment extends DialogFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_weather, null);
         ButterKnife.bind(this, v);
 
-        SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekBar);
+        final SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekBar);
         final TextView tvTemp = (TextView) v.findViewById(R.id.temperatureValue);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            private void progressChanged() {
+                temperature = currentValue(seekBar.getProgress());
+                tvTemp.setText(temperature + "\u00B0");
+            }
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                temperature = currentValue(seekBar.getProgress());
-                tvTemp.setText(temperature);
+                progressChanged();
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                progressChanged();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                temperature = currentValue(seekBar.getProgress());
-                tvTemp.setText(temperature);
+                progressChanged();
             }
         });
 
@@ -68,9 +73,8 @@ public class WeatherDialogFragment extends DialogFragment {
                 .create();
     }
 
-    private String currentValue (int progress){
-       return progress > 50 ? "+" + String.valueOf(progress - 50)+ "\u00B0" + "C"
-               : "-" + String.valueOf(50 - progress)+ "\u00B0" + "C";
+    private int currentValue(int progress){
+       return progress - 50;
     }
 
     private void sendResult(int resultCode) {

@@ -10,7 +10,6 @@ import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,7 +31,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.camera.CameraManager;
@@ -41,7 +39,8 @@ import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.DateUtils;
-import net.validcat.fishing.weather.SunshineSyncAdapter;
+import net.validcat.fishing.tools.PrefUtils;
+import net.validcat.fishing.weather.WeatherSyncFetcher;
 
 import org.json.JSONException;
 
@@ -70,7 +69,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private boolean userPhoto = false;
     private boolean updateData = false;
 
-    private TypedArray iconsArr;
     private long date = 0;
 
     public AddNewFishingFragment() {
@@ -80,7 +78,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View addNewFragmentView = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
         ButterKnife.bind(this, addNewFragmentView);
-        iconsArr = getResources().obtainTypedArray(R.array.icons_set);
 
         Intent intent = getActivity().getIntent();
         String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
@@ -101,7 +98,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        AddNewFishingActivity.PERMISSIONS_REQUEST_WRITE_STORAGE);
+                        Constants.PERMISSIONS_REQUEST_WRITE_STORAGE);
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
@@ -149,21 +146,14 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     private void makeWeatherRequest() {
-        FetcherTask task = new FetcherTask(new SunshineSyncAdapter.IWeatherListener() {
+        new FetcherTask(new WeatherSyncFetcher.IWeatherListener() {
             @Override
             public void onWeatherResult(int id, double temp, double high, double low) {
-                Log.d(LOG_TAG, "Waether data " + temp);
-                //TODO handle weather results
+                Log.d(LOG_TAG, "Weather data " + temp);
+                updateWeatherData(PrefUtils.formatTemperature(getActivity(), temp),
+                        PrefUtils.formatWeatherIdToIconsCode(id));
             }
-        });
-        task.execute();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (iconsArr != null)
-            iconsArr.recycle();
+        }).execute();
     }
 
     @Override
@@ -196,7 +186,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 runCamera();
             else ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.CAMERA},
-                        AddNewFishingActivity.PERMISSIONS_REQUEST_CAMERA);
+                        Constants.PERMISSIONS_REQUEST_CAMERA);
         }
     }
 
@@ -258,14 +248,16 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
                 break;
             case Constants.REQUEST_TEMPERATURE:
-                String temperature = data.getStringExtra(Constants.EXTRA_TEMPERATURE);
-                tvWeather.setText(TextUtils.isEmpty(temperature) ? getString(R.string.no_weather_data) : temperature);
-                ivWeather.setImageResource(data.getIntExtra(Constants.EXTRA_IMAGE_KEY, 0) == 0 ?
-                        iconsArr.getResourceId(0,-1) :
-                        iconsArr.getResourceId(data.getIntExtra(Constants.EXTRA_IMAGE_KEY,0),-1));
+                updateWeatherData(String.valueOf(data.getIntExtra(Constants.EXTRA_TEMPERATURE, 0) + "\u00B0"),
+                        PrefUtils.formatWeatherSeletedToIconsCode(data.getIntExtra(Constants.EXTRA_IMAGE_KEY, -1)));
 
                 break;
         }
+    }
+
+    private void updateWeatherData(String temp, int weather) {
+        tvWeather.setText(temp);
+        ivWeather.setImageResource(weather);
     }
 
     public void updateUiByItemId() {
@@ -296,12 +288,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     private class FetcherTask extends AsyncTask<Void, Void, String> {
-        private SunshineSyncAdapter.IWeatherListener listener;
-        private SunshineSyncAdapter syncAdapter;
+        private WeatherSyncFetcher.IWeatherListener listener;
+        private WeatherSyncFetcher syncAdapter;
 
-        public FetcherTask(SunshineSyncAdapter.IWeatherListener listener) {
+        public FetcherTask(WeatherSyncFetcher.IWeatherListener listener) {
             this.listener = listener;
-            syncAdapter = new SunshineSyncAdapter(getActivity());
+            syncAdapter = new WeatherSyncFetcher(getActivity());
         }
 
         @Override

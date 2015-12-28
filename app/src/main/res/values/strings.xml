@@ -65,7 +65,7 @@
     <!--dialog_weather-->
     <string name="title_weather_dialog">Set weather: </string>
     <string name="temperature">Current temperature: </string>
-    <string name="temperature_value" translatable="false">t\u00B0 C </string>
+    <string name="temperature_value" translatable="false">0\u00B0</string>
 
     <!-- SyncAdapter related -->
     <string name="sync_account_type" translatable="false">fishing.validcat.net</string>
@@ -98,6 +98,7 @@
     <string name="title_activity_settings">Настройки</string>
     <string name="descr_weather_button">Change Weather</string>
     <string name="no_weather_data">0C</string>
+    <string name="camera_permissoin_denied">Camera permission denied</string>
 
 
 </resources>

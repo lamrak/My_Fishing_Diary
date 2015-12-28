@@ -19,6 +19,12 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
+            <View
+            android:id="@+id/delimetr"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"/>
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/il_place"
                 android:layout_width="match_parent"
@@ -38,19 +44,22 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/il_price"
-                android:layout_width="96dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_place"
-                android:textSize="16sp">
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
 
                 <EditText
                     android:id="@+id/et_price"
-                    android:layout_width="96dp"
+                    android:layout_width="56dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="@string/title_fishing_price"
                     android:inputType="text"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
@@ -58,10 +67,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/il_price"
-                android:layout_marginLeft="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_toRightOf="@+id/il_price"
-                android:layout_toEndOf="@+id/il_price"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_alignRight="@+id/delimetr"
+                android:layout_alignEnd="@+id/delimetr"
                 android:src="@drawable/ic_sunny"
                 android:contentDescription="@string/descr_weather_button"/>
 
@@ -89,10 +98,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/il_price"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/iv_weather"
-                android:layout_toEndOf="@+id/iv_weather"
+                android:layout_alignLeft="@+id/delimetr"
+                android:layout_alignStart="@+id/delimetr"
+                android:layout_marginLeft="@dimen/activity_vertical_margin_top"
+                android:layout_marginStart="@dimen/activity_vertical_margin_top"
                 android:text="@string/temperature_value"
                 android:textSize="16sp" />
 
@@ -105,8 +114,6 @@
                 android:layout_alignBottom="@+id/iv_weather"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="5dp"/>
 
             <ImageView

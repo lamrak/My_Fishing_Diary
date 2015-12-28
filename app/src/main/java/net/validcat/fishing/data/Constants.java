@@ -19,8 +19,6 @@ public class Constants {
     public static final String VALIDATION_ERROR = "Add your fishing place";
     public static final String EXTRA_IMAGE_KEY = "imageKey";
 
-
-
     public static final String ACTION_DATA_UPDATED =
             "net.validcat.fishing.ACTION_DATA_UPDATED";
     // Interval at which to sync with the weather, in seconds.
@@ -32,6 +30,23 @@ public class Constants {
     public static final int LOCATION_STATUS_SERVER_INVALID = 2;
     public static final int LOCATION_STATUS_UNKNOWN = 3;
     public static final int LOCATION_STATUS_INVALID = 4;
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+    public static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+
+    //Permissions
+    public static final int PERMISSIONS_REQUEST_CAMERA = 191;
+    public static final int PERMISSIONS_REQUEST_WRITE_STORAGE = 192;
+
+    //Weather
+    public static final String HTTP_SCHEME = "http";
+    public static final String OWM_TEMPERATURE = "temp";
+    public static final String OWM_MAX = "temp_max";
+    public static final String OWM_MIN = "temp_min";
+    public static final String OWM_WEATHER = "weather";
+    public static final String OWM_DESCRIPTION = "main";
+    public static final String OWM_WEATHER_ID = "id";
+    public static final String OWM_MESSAGE_CODE = "cod";
+    public final static String FORECAST_BASE_URL = "api.openweathermap.org";
+    public final static String QUERY_PARAM = "q";
+    public final static String APPID_PARAM = "APPID";
 
 }

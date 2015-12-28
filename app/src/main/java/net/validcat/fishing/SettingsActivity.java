@@ -28,7 +28,7 @@ import android.preference.PreferenceManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.tools.PrefUtils;
-import net.validcat.fishing.weather.SunshineSyncAdapter;
+import net.validcat.fishing.weather.WeatherSyncFetcher;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
@@ -98,7 +98,7 @@ public class SettingsActivity extends PreferenceActivity
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
         } else if (key.equals(getString(R.string.pref_location_key))) {
-            @SunshineSyncAdapter.LocationStatus int status = PrefUtils.getLocationStatus(this);
+            @WeatherSyncFetcher.LocationStatus int status = PrefUtils.getLocationStatus(this);
             switch (status) {
                 case Constants.LOCATION_STATUS_OK:
                     preference.setSummary(stringValue);
@@ -136,7 +136,7 @@ public class SettingsActivity extends PreferenceActivity
             // we've changed the location
             // first clear locationStatus
             PrefUtils.resetLocationStatus(this);
-//TODO            SunshineSyncAdapter.syncImmediately(this);
+//TODO            WeatherSyncFetcher.syncImmediately(this);
         } else if ( key.equals(getString(R.string.pref_units_key)) ) {
             // units have changed. update lists of weather entries accordingly
             getContentResolver().notifyChange(FishingContract.WeatherEntry.CONTENT_URI, null);

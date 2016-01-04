@@ -45,4 +45,9 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="edit_text_style">
+        <item name="android:inputType">text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

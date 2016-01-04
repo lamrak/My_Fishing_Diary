@@ -50,9 +50,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Denis on 11.09.2015.
- */
+
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;

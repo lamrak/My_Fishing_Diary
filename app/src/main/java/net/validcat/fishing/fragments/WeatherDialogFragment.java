@@ -7,21 +7,24 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
+import net.validcat.fishing.ui.RadioGridGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class WeatherDialogFragment extends DialogFragment {
+    private static final String LOG_TAG = WeatherDialogFragment.class.getSimpleName();
     private int temperature;
-    @Bind(R.id.weather_group)
-    RadioGroup weatherGroup;
+    @Bind(R.id.weather_group) RadioGridGroup weatherGroup;
+    @Bind(R.id.sb_temp) SeekBar seekBar;
+    @Bind(R.id.tv_temp) TextView tvTemp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,14 +37,15 @@ public class WeatherDialogFragment extends DialogFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_weather, null);
         ButterKnife.bind(this, v);
 
-        final SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekBar);
-        final TextView tvTemp = (TextView) v.findViewById(R.id.temperatureValue);
-
+        weatherGroup.setChecked(getArguments().getInt(Constants.EXTRA_IMAGE_KEY, 0));
+        temperature = getArguments().getInt(Constants.EXTRA_TEMPERATURE, 50);
+        seekBar.setProgress(50 + temperature);
+        tvTemp.setText(getString(R.string.weather_formatter, temperature));
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             private void progressChanged() {
                 temperature = currentValue(seekBar.getProgress());
-                tvTemp.setText(temperature + "\u00B0");
+                tvTemp.setText(getString(R.string.weather_formatter, temperature));
             }
 
             @Override
@@ -82,7 +86,9 @@ public class WeatherDialogFragment extends DialogFragment {
             return;
         Intent i = new Intent();
         i.putExtra(Constants.EXTRA_TEMPERATURE, temperature);
-        i.putExtra(Constants.EXTRA_IMAGE_KEY, getSelectedWeather());
+        int ind = getSelectedWeather();
+        Log.d(LOG_TAG, "Selected = " + ind);
+        i.putExtra(Constants.EXTRA_IMAGE_KEY, ind);
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
     }
 

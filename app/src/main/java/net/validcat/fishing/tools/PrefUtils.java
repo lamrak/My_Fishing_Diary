@@ -8,9 +8,6 @@ import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
 
-/**
- * Created by Dobrunov on 11.12.2015.
- */
 public class PrefUtils {
 
     public static String getPreferredLocation(Context context) {
@@ -37,6 +34,17 @@ public class PrefUtils {
 
         // For presentation, assume the user doesn't care about tenths of a degree.
         return String.format(context.getString(R.string.format_temperature), temperature);
+    }
+
+    public static double formatTemperatureToMetrics(Context context, double temperature) {
+        if (!isMetric(context)) {
+            temperature = (temperature * 1.8) + 32;
+        } else {
+            temperature = temperature - 273;
+        }
+
+        // For presentation, assume the user doesn't care about tenths of a degree.
+        return temperature;
     }
 
     /**
@@ -113,4 +121,26 @@ public class PrefUtils {
     }
 
 
+    public static int formatWeatherIdToSelection(int id) {
+        switch (id) {
+            case R.drawable.ic_sunny_check:
+                return 0;
+            case R.drawable.ic_partly_cloud_check:
+                return 1;
+            case R.drawable.ic_cloudy_check:
+                return 2;
+            case R.drawable.ic_rain_check:
+                return 3;
+            case R.drawable.ic_snow_check:
+                return 4;
+            case R.drawable.ic_mist_check:
+                return 5;
+            case R.drawable.ic_thunder_check:
+                return 6;
+            case R.drawable.ic_tornado_check:
+                return 7;
+            default:
+                return 0;
+        }
+    }
 }

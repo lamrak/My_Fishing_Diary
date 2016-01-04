@@ -10,9 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Dobrunov on 08.12.2015.
- */
 public class DateUtils {
     public static final String DATE_FORMAT = "yyyyMMdd";
 

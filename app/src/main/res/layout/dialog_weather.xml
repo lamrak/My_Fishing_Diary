@@ -11,76 +11,76 @@
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:gravity="center_horizontal">
 
-        <RadioGroup
+        <net.validcat.fishing.ui.RadioGridGroup
             android:id="@+id/weather_group"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/ic_sunny"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:checked="true"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_sunny_selector"
-                android:layout_marginRight="2dp" />
+            <TableRow>
 
-            <RadioButton
-                android:id="@+id/ic_partly_cloudy"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_p_cloud_selector"
-                android:layout_marginRight="2dp"/>
+                <RadioButton
+                    android:id="@+id/ic_sunny"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_sunny_selector"
+                    android:layout_marginRight="@dimen/weather_icon_margin"
+                    android:layout_marginEnd="@dimen/weather_icon_margin"/>
 
-            <RadioButton
-                android:id="@+id/ic_cloudy"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_cloud_selector"
-                android:layout_marginRight="2dp"/>
+                <RadioButton
+                    android:id="@+id/ic_partly_cloudy"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_p_cloud_selector"/>
 
-            <RadioButton
-                android:id="@+id/ic_rain"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_rain_selector"
-                android:layout_marginRight="2dp"/>
+                <RadioButton
+                    android:id="@+id/ic_cloudy"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_cloud_selector"/>
 
-            <RadioButton
-                android:id="@+id/ic_snow"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_snow_selector"/>
+                <RadioButton
+                    android:id="@+id/ic_rain"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_rain_selector"/>
+            </TableRow>
+            <TableRow>
+                <RadioButton
+                    android:id="@+id/ic_snow"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_snow_selector"/>
 
-            <RadioButton
-                android:id="@+id/ic_mist"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_mist_selector"/>
+                <RadioButton
+                    android:id="@+id/ic_mist"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_mist_selector"/>
 
-            <RadioButton
-                android:id="@+id/ic_thunder"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_thunder_selector"/>
+                <RadioButton
+                    android:id="@+id/ic_thunder"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_thunder_selector"/>
 
-            <RadioButton
-                android:id="@+id/ic_tornado"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:button="@android:color/transparent"
-                android:background="@drawable/w_tornado_selector"/>
-
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/ic_tornado"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/w_tornado_selector"/>
+            </TableRow>
+        </net.validcat.fishing.ui.RadioGridGroup>
     </LinearLayout>
 
     <LinearLayout
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content">
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/sb_temp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="100"
@@ -112,7 +112,7 @@
                 />
 
             <TextView
-                android:id="@+id/temperatureValue"
+                android:id="@+id/tv_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temperature_value"

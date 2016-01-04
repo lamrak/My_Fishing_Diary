@@ -16,8 +16,7 @@ import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.ui.RoundedImageView;
 
-public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.ViewHolder> { //RecyclerView.Adapter<FishingAdapter.ViewHolder> {
-	private static final String LOG_TAG = FishingAdapter.class.getSimpleName();
+public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.ViewHolder> {
 	private Context context;
 	private ListFragment.IClickListener listener;
 
@@ -28,7 +27,6 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
 
 	@Override
 	public FishingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-		// create a new view and set the view's size, margins, paddings and layout parameters
 		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fishing_list_normal, parent, false));
 	}
 

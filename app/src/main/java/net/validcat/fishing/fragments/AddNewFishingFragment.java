@@ -50,9 +50,6 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Denis on 11.09.2015.
- */
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
@@ -68,6 +65,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private FishingItem item;
     private boolean userPhoto = false;
     private boolean updateData = false;
+    //weather
+    private int weatherIconSelection = 0;
+    private int weatherTemp = 0;
 
     private long date = 0;
 
@@ -149,7 +149,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         new FetcherTask(new WeatherSyncFetcher.IWeatherListener() {
             @Override
             public void onWeatherResult(int id, double temp, double high, double low) {
-                Log.d(LOG_TAG, "Weather data " + temp);
+                weatherIconSelection = PrefUtils.formatWeatherIdToSelection(id);
+                weatherTemp = (int) PrefUtils.formatTemperatureToMetrics(getActivity(), temp);
+
                 updateWeatherData(PrefUtils.formatTemperature(getActivity(), temp),
                         PrefUtils.formatWeatherIdToIconsCode(id));
             }
@@ -218,11 +220,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_IMAGE,
                     BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivWeather.getDrawable()).getBitmap()));
 
-//            BitmapDrawable drawable = (BitmapDrawable) ivWeather.getDrawable();
-//            Bitmap weatherIcon = drawable.getBitmap();
-//            Log.d(LOG_TAG,"WeatherIcon = " +weatherIcon);
-//            item.setWeatherIcon(weatherIcon);
-
             if (updateData) {
                 getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
             } else {
@@ -248,8 +245,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
                 break;
             case Constants.REQUEST_TEMPERATURE:
-                updateWeatherData(String.valueOf(data.getIntExtra(Constants.EXTRA_TEMPERATURE, 0) + "\u00B0"),
-                        PrefUtils.formatWeatherSeletedToIconsCode(data.getIntExtra(Constants.EXTRA_IMAGE_KEY, -1)));
+                weatherIconSelection = data.getIntExtra(Constants.EXTRA_IMAGE_KEY, -1);
+                weatherTemp = data.getIntExtra(Constants.EXTRA_TEMPERATURE, 0);
+                updateWeatherData(weatherTemp + "\u00B0",
+                        PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
 
                 break;
         }
@@ -284,6 +283,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         FragmentManager fm = getActivity().getFragmentManager();
         WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
         weatherDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TEMPERATURE);
+
+        Bundle args = new Bundle();
+        args.putInt(Constants.EXTRA_IMAGE_KEY, weatherIconSelection);
+        args.putInt(Constants.EXTRA_TEMPERATURE, weatherTemp);
+        weatherDialog.setArguments(args);
+
         weatherDialog.show(fm, Constants.DIALOG_KEY);
     }
 

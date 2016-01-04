@@ -27,9 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Denis on 07.07.2015.
- */
 public class CameraManager {
     public static final String LOG_TAG = CameraManager.class.getSimpleName();
 

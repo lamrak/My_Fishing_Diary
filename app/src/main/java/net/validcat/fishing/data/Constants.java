@@ -1,8 +1,5 @@
 package net.validcat.fishing.data;
 
-/**
- * Created by Dobrunov on 09.07.2015.
- */
 public class Constants {
     public static final int ITEM_REQUEST = 0;
     public static final String FOLDER_NAME = "MyFishing";

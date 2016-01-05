@@ -14,6 +14,7 @@ import net.validcat.fishing.R;
 import net.validcat.fishing.fragments.ListFragment;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
+import net.validcat.fishing.tools.PrefUtils;
 import net.validcat.fishing.ui.RoundedImageView;
 
 public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.ViewHolder> {
@@ -46,12 +47,7 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
             viewHolder.photoPreview.setImageBitmap(noPhoto);
         }
 
-		if (item.getWeatherIcon() != null){
-		viewHolder.weatherPreview.setImageBitmap(item.getWeatherIcon());
-		}else {
-			Bitmap noWeatherIcon = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_sunny);
-			viewHolder.weatherPreview.setImageBitmap(noWeatherIcon);
-		}
+		viewHolder.weatherPreview.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(item.getWeatherIcon()));
 
     }
 

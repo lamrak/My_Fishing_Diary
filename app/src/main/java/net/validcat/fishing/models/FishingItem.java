@@ -48,7 +48,7 @@ public class FishingItem {
     String price;
 //    byte[] cameraPhoto;
     Bitmap photoBitmap;
-    Bitmap weatherIcon;
+    int weatherIcon;
 
     public FishingItem() {}
     // constructor bdObject
@@ -109,7 +109,7 @@ public class FishingItem {
     public Bitmap getBitmap(){
         return photoBitmap;
     }
-    public  Bitmap getWeatherIcon(){
+    public int getWeatherIcon(){
         Log.d(LOG_TAG,"getWeatherIcon = " + weatherIcon);
         return weatherIcon;}
     public void setPlace(String place) {
@@ -136,7 +136,7 @@ public class FishingItem {
     public void setId(long id) {
         this.id = id;
     }
-    public void setWeatherIcon (Bitmap icon) {weatherIcon = icon;
+    public void setWeatherIcon (int icon) {weatherIcon = icon;
     Log.d(LOG_TAG,"setWeatherIcon = "+weatherIcon);}
 
     @Override
@@ -154,7 +154,7 @@ public class FishingItem {
         item.description = data.getString(COL_DESCRIPTION);
         item.price = data.getString(COL_PRICE);
         item.photoBitmap = convertBlobToPhotoBitmap(context, data.getBlob(COL_IMAGE));
-        item.weatherIcon = convertBlobToPhotoBitmap(context, data.getBlob(COL_WEATHER_ICON));
+        item.weatherIcon = data.getInt(COL_WEATHER_ICON);
         return item;
     }
 

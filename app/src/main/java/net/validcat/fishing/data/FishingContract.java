@@ -105,7 +105,7 @@ public class FishingContract {
                 FishingEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 FishingEntry.COLUMN_PRICE + " TEXT, " +
                 FishingEntry.COLUMN_IMAGE + " BLOB, " +
-                FishingEntry.COLUMN_WEATHER_IMAGE + " BLOB" +
+                FishingEntry.COLUMN_WEATHER_IMAGE + " INTEGER" +
                 ");";
     }
 

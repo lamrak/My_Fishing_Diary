@@ -31,6 +31,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.camera.CameraManager;
@@ -171,7 +173,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 storeNewFishing();
                 break;
             case R.id.action_camera:
-                handleCamera();
+               runPhotoDialog();
                 break;
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
@@ -181,7 +183,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void handleCamera() {
+    public void handleCamera() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.CAMERA))
@@ -248,8 +250,14 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 weatherTemp = data.getIntExtra(Constants.EXTRA_TEMPERATURE, 0);
                 updateWeatherData(weatherTemp + "\u00B0",
                         PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
-
                 break;
+            case Constants.REQUEST_TAKE_PHOTO:
+                handleCamera();
+                break;
+            case Constants.REQUEST_PICK_PHOTO:
+                userPhoto = true;
+                Uri selectedImage = Uri.parse(data.getStringExtra(Constants.IMAGE_URI));
+                setImage(selectedImage);
         }
     }
 
@@ -289,6 +297,18 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         weatherDialog.setArguments(args);
 
         weatherDialog.show(fm, Constants.DIALOG_KEY);
+    }
+
+    private void runPhotoDialog(){
+        FragmentManager fm = getActivity().getFragmentManager();
+        PhotoDialogFragment photoDialog = new PhotoDialogFragment();
+        photoDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TAKE_PHOTO);
+        photoDialog.show(fm, Constants.PHOTO_DIALOG_KEY);
+
+    }
+
+    public void setImage(Uri imageUri) {
+        Picasso.with(getActivity()).load(imageUri).into(ivPhoto);
     }
 
     private class FetcherTask extends AsyncTask<Void, Void, String> {

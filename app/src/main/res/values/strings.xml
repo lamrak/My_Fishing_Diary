@@ -101,5 +101,9 @@
     <string name="no_weather_data">0C</string>
     <string name="camera_permissoin_denied">Camera permission denied</string>
 
+    <!--dialog_photo-->
+    <string name="pick_image">Pick an image</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="title_photo_dialog">Set photo</string>
 
 </resources>

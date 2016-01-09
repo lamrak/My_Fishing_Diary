@@ -46,4 +46,9 @@ public class Constants {
     public final static String QUERY_PARAM = "q";
     public final static String APPID_PARAM = "APPID";
 
+    public static final String PHOTO_DIALOG_KEY = "photo_dialog";
+    public static final String IMAGE_URI = "image_uri";
+    public static final int REQUEST_TAKE_PHOTO = 102;
+    public static final int REQUEST_PICK_PHOTO = 103;
+    public static final int PICK_PHOTO = 104;
 }

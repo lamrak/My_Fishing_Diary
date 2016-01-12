@@ -23,28 +23,12 @@ public class PrefUtils {
     }
 
     public static String formatTemperature(Context context, double temperature) {
-        // Data stored in Celsius by default.  If user prefers to see in Fahrenheit, convert
-        // the values here.
-        String suffix = "\u00B0";
-        if (!isMetric(context)) {
-            temperature = (temperature * 1.8) + 32;
-        } else {
-            temperature = temperature - 273;
-        }
-
-        // For presentation, assume the user doesn't care about tenths of a degree.
-        return String.format(context.getString(R.string.format_temperature), temperature);
+        return String.format(context.getString(R.string.format_temperature), isMetric(context) ? temperature - 273 : temperature);
     }
 
     public static double formatTemperatureToMetrics(Context context, double temperature) {
-        if (!isMetric(context)) {
-            temperature = (temperature * 1.8) + 32;
-        } else {
-            temperature = temperature - 273;
-        }
-
-        // For presentation, assume the user doesn't care about tenths of a degree.
-        return temperature;
+            //temperature = (temperature * 1.8) + 32;
+        return isMetric(context) ? temperature - 273 : temperature;
     }
 
     /**
@@ -120,8 +104,28 @@ public class PrefUtils {
         return lower <= x && x <= upper;
     }
 
-
     public static int formatWeatherIdToSelection(int id) {
+        int sel = 0; // sunny
+
+        if (isBetween(id, 200, 299))
+            sel = 6;
+        else if (isBetween(id, 300, 499))
+            sel = 3;
+        else if (isBetween(id, 600, 699))
+            sel = 4;
+        else if (isBetween(id, 700, 799))
+            sel = 5;
+        else if (id == 801)
+            sel = 1;
+        else if (isBetween(id, 802, 804))
+            sel = 2;
+        else if (isBetween(id, 900, 999))
+            sel = 7;
+
+        return sel;
+    }
+
+    public static int formatResIdToSelection(int id) {
         switch (id) {
             case R.drawable.ic_sunny_check:
                 return 0;

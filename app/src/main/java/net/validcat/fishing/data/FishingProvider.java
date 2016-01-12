@@ -163,7 +163,6 @@ public class FishingProvider extends ContentProvider {
                 retCursor = getWeatherByLocationSetting(uri, projection, sortOrder);
                 break;
             }
-            // "weather"
             case WEATHER: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         FishingContract.WeatherEntry.TABLE_NAME,
@@ -174,9 +173,7 @@ public class FishingProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
-            }
-            // "location"
-            case LOCATION: {
+            } case LOCATION: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         FishingContract.LocationEntry.TABLE_NAME,
                         projection,
@@ -186,9 +183,7 @@ public class FishingProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
-            }
-            // "FISHING"
-            case FISHING: {
+            } case FISHING: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         FishingContract.FishingEntry.TABLE_NAME,
                         projection,
@@ -198,8 +193,7 @@ public class FishingProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
-            }
-            case FISHING_BY_ID: {
+            } case FISHING_BY_ID: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         FishingContract.FishingEntry.TABLE_NAME,
                         projection,

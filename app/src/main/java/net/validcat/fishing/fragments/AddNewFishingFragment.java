@@ -184,14 +184,19 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void handleCamera() {
+//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            runCamera();
+//            return;
+//        }
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.CAMERA))
-                runCamera();
-            else ActivityCompat.requestPermissions(getActivity(),
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.CAMERA},
                         Constants.PERMISSIONS_REQUEST_CAMERA);
+                return;
+            }
         }
+        runCamera();
     }
 
     private void storeNewFishing() {
@@ -199,11 +204,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             etPlace.setError(Constants.VALIDATION_ERROR);
         } else {
             ContentValues cv = new ContentValues();
-            if (this.item == null) {
-                this.item = new FishingItem();
-            } else {
+//            if (this.item == null) {
+//                this.item = new FishingItem();
+//            } else {
+            if (this.item != null)
                 cv.put(FishingContract.FishingEntry._ID, item.getId());
-            }
+//            }
             cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
             cv.put(FishingContract.FishingEntry.COLUMN_DATE, date);
             cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
@@ -212,14 +218,14 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
             if (userPhoto) {
                 Bitmap photo = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
-                item.setBitmap(photo);
+//                item.setBitmap(photo);
                 cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
                         BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
             }
 
            // Bitmap weatherIcon = ((BitmapDrawable)ivWeather.getDrawable()).getBitmap();
-            item.setWeatherIcon(weatherIconSelection);
-            cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_IMAGE,weatherIconSelection);
+//            item.setWeatherIcon(weatherIconSelection); //TODO do we really need this?
+            cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_IMAGE, weatherIconSelection);
 
             if (updateData) {
                 getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
@@ -289,7 +295,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private void runWeatherDialog(){
         FragmentManager fm = getActivity().getFragmentManager();
         WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
-        weatherDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TEMPERATURE);
+        weatherDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TEMPERATURE);
 
         Bundle args = new Bundle();
         args.putInt(Constants.EXTRA_IMAGE_KEY, weatherIconSelection);
@@ -302,7 +308,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private void runPhotoDialog(){
         FragmentManager fm = getActivity().getFragmentManager();
         PhotoDialogFragment photoDialog = new PhotoDialogFragment();
-        photoDialog.setTargetFragment(AddNewFishingFragment.this,Constants.REQUEST_TAKE_PHOTO);
+        photoDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TAKE_PHOTO);
         photoDialog.show(fm, Constants.PHOTO_DIALOG_KEY);
 
     }

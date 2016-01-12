@@ -70,9 +70,9 @@ public class PhotoDialogFragment extends DialogFragment {
                 if (resultCode == Activity.RESULT_OK) {
                     Uri selectedImage = data.getData();
 //                    ((MainActivity) getActivity()).setImage(selectedImage);
-                   Intent pickPhotoIntent = new Intent();
-                    pickPhotoIntent.putExtra(Constants.IMAGE_URI,selectedImage.toString());
-                    getTargetFragment().onActivityResult(Constants.REQUEST_PICK_PHOTO,Activity.RESULT_OK,pickPhotoIntent);
+                    Intent pickPhotoIntent = new Intent();
+                    pickPhotoIntent.putExtra(Constants.IMAGE_URI, selectedImage.toString());
+                    getTargetFragment().onActivityResult(Constants.REQUEST_PICK_PHOTO, Activity.RESULT_OK, pickPhotoIntent);
                     getDialog().dismiss();
                 }
                 break;

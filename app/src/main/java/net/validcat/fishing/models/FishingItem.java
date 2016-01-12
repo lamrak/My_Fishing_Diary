@@ -127,17 +127,13 @@ public class FishingItem {
     public void setPrice(String price) {
         this.price = price;
     }
-//    public void setPhoto(byte[] photo) {
-//        cameraPhoto = photo;
-//    }
     public void setBitmap (Bitmap photo){
         photoBitmap = photo;
     }
     public void setId(long id) {
         this.id = id;
     }
-    public void setWeatherIcon (int icon) {weatherIcon = icon;
-    Log.d(LOG_TAG,"setWeatherIcon = "+weatherIcon);}
+    public void setWeatherIcon (int icon) {weatherIcon = icon;}
 
     @Override
     public String toString() {
@@ -149,12 +145,12 @@ public class FishingItem {
         item.id = data.getLong(COL_ID);
         item.place = data.getString(COL_PLACE);
         item.date = data.getLong(COL_DATE);
-        Log.d("ITEMS", "ITEMS=" + item.place + "=" + item.date);
         item.weather = data.getString(COL_WEATHER);
         item.description = data.getString(COL_DESCRIPTION);
         item.price = data.getString(COL_PRICE);
         item.photoBitmap = convertBlobToPhotoBitmap(context, data.getBlob(COL_IMAGE));
         item.weatherIcon = data.getInt(COL_WEATHER_ICON);
+
         return item;
     }
 

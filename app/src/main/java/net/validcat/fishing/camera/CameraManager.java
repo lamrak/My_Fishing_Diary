@@ -143,7 +143,7 @@ public class CameraManager {
 
 		/* Figure out which way needs to be reduced less */
         int scaleFactor = 1;
-        if ((targetW > 0) || (targetH > 0)) {
+        if (targetW > 0 && targetH > 0) {
             scaleFactor = Math.min(photoW/targetW, photoH/targetH);
         }
 

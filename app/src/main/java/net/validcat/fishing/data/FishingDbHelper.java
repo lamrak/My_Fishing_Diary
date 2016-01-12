@@ -36,15 +36,15 @@ public class FishingDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(FishingContract.createWeatherTable());
-        sqLiteDatabase.execSQL(FishingContract.createLocationTable());
+//        sqLiteDatabase.execSQL(FishingContract.createWeatherTable());
+//        sqLiteDatabase.execSQL(FishingContract.createLocationTable());
         sqLiteDatabase.execSQL(FishingContract.createFishingTable());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.LocationEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.WeatherEntry.TABLE_NAME);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.LocationEntry.TABLE_NAME);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.WeatherEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.FishingEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }

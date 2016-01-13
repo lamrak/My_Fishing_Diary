@@ -51,4 +51,5 @@ public class Constants {
     public static final int REQUEST_TAKE_PHOTO = 102;
     public static final int REQUEST_PICK_PHOTO = 103;
     public static final int PICK_PHOTO = 104;
+    public static final String SPLIT_IMAGE_PATH_PATTERN = "\\s*,\\s*";
 }

@@ -104,8 +104,8 @@ public class FishingContract {
                 FishingEntry.COLUMN_WEATHER + " TEXT NOT NULL, " +
                 FishingEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 FishingEntry.COLUMN_PRICE + " TEXT, " +
-                FishingEntry.COLUMN_IMAGE + " BLOB, " +
-                FishingEntry.COLUMN_WEATHER_IMAGE + " INTEGER" +
+                FishingEntry.COLUMN_IMAGE + " TEXT, " +
+                FishingEntry.COLUMN_WEATHER_ICON + " INTEGER" +
                 ");";
     }
 
@@ -118,7 +118,27 @@ public class FishingContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_IMAGE = "photo";
-        public static final String COLUMN_WEATHER_IMAGE = "weatherIcon";
+        public static final String COLUMN_WEATHER_ICON = "weather_icon";
+
+        public static String[] COLUMNS = {
+                FishingContract.FishingEntry._ID,
+                FishingContract.FishingEntry.COLUMN_PLACE,
+                FishingContract.FishingEntry.COLUMN_DATE,
+                FishingContract.FishingEntry.COLUMN_WEATHER,
+                FishingContract.FishingEntry.COLUMN_DESCRIPTION,
+                FishingContract.FishingEntry.COLUMN_PRICE,
+                FishingContract.FishingEntry.COLUMN_IMAGE,
+                FishingContract.FishingEntry.COLUMN_WEATHER_ICON
+        };
+
+        public static final int INDEX_ID = 0;
+        public static final int INDEX_PLACE = 1;
+        public static final int INDEX_DATE = 2;
+        public static final int INDEX_WEATHER = 3;
+        public static final int INDEX_DESCRIPTION = 4;
+        public static final int INDEX_PRICE = 5;
+        public static final int INDEX_IMAGE = 6;
+        public static final int INDEX_WEATHER_ICON = 7;
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_FISHING).build();

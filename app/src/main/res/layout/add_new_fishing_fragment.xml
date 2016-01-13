@@ -111,12 +111,12 @@
                 android:layout_alignBottom="@+id/iv_weather"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="@dimen/activity_vertical_margin_top"/>
 
             <ImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/height_photoholder"
                 android:layout_below="@+id/il_details"
                 android:contentDescription="@string/image_descr" />
 

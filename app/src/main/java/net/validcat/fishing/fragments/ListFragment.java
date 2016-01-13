@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.adapters.FishingAdapter;
@@ -54,7 +53,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(getActivity(),
                 FishingContract.FishingEntry.CONTENT_URI,
-                FishingItem.COLUMNS,
+                FishingContract.FishingEntry.COLUMNS,
                 null, null, FishingContract.FishingEntry.COLUMN_DATE + " DESC");
     }
 

@@ -71,25 +71,18 @@ public class CameraManager {
     }
 
     public void startCameraForResult(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
-        } else {
-            mAlbumStorageDirFactory = new BaseAlbumDirFactory();
-        }
-
+        mAlbumStorageDirFactory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ?
+                new FroyoAlbumDirFactory() : new BaseAlbumDirFactory();
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File f = null;
+        File f;
         try {
             f = setUpPhotoFile();
             mCurrentPhotoPath = f.getAbsolutePath();
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
         } catch (IOException e) {
             e.printStackTrace();
-            f = null;
             mCurrentPhotoPath = null;
         }
-
-//        if (hasPermissionInManifest(activity, "android.permission.CAMERA"));
         activity.startActivityForResult(takePictureIntent, Constants.REQUEST_CODE_PHOTO);
     }
 
@@ -121,13 +114,13 @@ public class CameraManager {
 
     private void handleBigCameraPhoto(Context context, ImageView ivPhoto) {
         if (mCurrentPhotoPath != null) {
-            setPic(ivPhoto);
+            setPic(mCurrentPhotoPath, ivPhoto);
             galleryAddPic(context);
             mCurrentPhotoPath = null;
         }
     }
 
-    private void setPic(ImageView ivPhoto) {
+    public static void setPic(String mCurrentPhotoPath, ImageView ivPhoto) {
 		/* There isn't enough memory to open up more than a couple camera photos */
 		/* So pre-scale the target bitmap into which the file is decoded */
 		/* Get the size of the ImageView */
@@ -143,9 +136,8 @@ public class CameraManager {
 
 		/* Figure out which way needs to be reduced less */
         int scaleFactor = 1;
-        if (targetW > 0 && targetH > 0) {
+        if (targetW > 0 && targetH > 0)
             scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-        }
 
 		/* Set bitmap options to scale the image decode target */
         bmOptions.inJustDecodeBounds = false;
@@ -158,7 +150,7 @@ public class CameraManager {
         try {
             ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
             int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-            Log.d(LOG_TAG, "Orientaton = " + orientation);
+            Log.d(LOG_TAG, "Orientation = " + orientation);
 
             int degree = 0;
 
@@ -181,10 +173,7 @@ public class CameraManager {
                 default:
                     degree = 90;
             }
-            Bitmap photo = rotateImageIfRequired(bitmap, degree);
-            photo = cropToSquare(photo);
-//            ivPhoto.setImageBitmap(rotateImageIfRequired(bitmap, degree));
-            ivPhoto.setImageBitmap(photo);
+            ivPhoto.setImageBitmap(cropToSquare(rotateImageIfRequired(bitmap, degree)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -192,8 +181,8 @@ public class CameraManager {
 
     /**
      * Rotate an image if required.
-     * @param img
-     * @return
+     * @param img - image for rotation
+     * @return Bitmap rotated image
      */
     private static Bitmap rotateImageIfRequired(Bitmap img, int rotation) {
         // Detect rotation
@@ -211,22 +200,20 @@ public class CameraManager {
 
     /**
      * Get the rotation of the last image added.
-     * @param context
-     * @return
+     * @param context - context
+     * @return rotation
      */
     private static int getRotation(Context context) {
         int rotation =0;
         ContentResolver content = context.getContentResolver();
         Cursor mediaCursor = content.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[] { "orientation", "date_added" },null, null,"date_added desc");
-
-        if (mediaCursor != null && mediaCursor.getCount() !=0 ) {
-            while(mediaCursor.moveToNext()){
+        if (mediaCursor != null && mediaCursor.getCount() != 0) {
+            if (mediaCursor.moveToNext())
                 rotation = mediaCursor.getInt(0);
-                break;
-            }
+            mediaCursor.close();
         }
-        mediaCursor.close();
+
         return rotation;
     }
 
@@ -238,10 +225,13 @@ public class CameraManager {
         context.sendBroadcast(mediaScanIntent);
     }
 
-    public void setPhotoToImageView(Context context, int requestCode, ImageView ivPhoto) {
+    public String setPhotoToImageView(Context context, int requestCode, ImageView ivPhoto) {
+        String path = mCurrentPhotoPath;
         if (requestCode == Constants.REQUEST_CODE_PHOTO) {
             handleBigCameraPhoto(context, ivPhoto);
         }
+
+        return path;
     }
 
     public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context){
@@ -262,37 +252,8 @@ public class CameraManager {
         cropW = (cropW<0)?0:cropW;
         int cropH = (height-width)/2;
         cropH = (cropH<0)?0:cropH;
-        Bitmap cropImg = Bitmap.createBitmap(bitmap,cropW,cropH,newWidth,newHeight);
 
-        return cropImg;
+        return Bitmap.createBitmap(bitmap,cropW,cropH,newWidth,newHeight);
     }
-
-    //TODO add to activity
-//    // Some lifecycle callbacks so that the image can survive orientation change
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        outState.putParcelable(BITMAP_STORAGE_KEY, mImageBitmap);
-//        outState.putParcelable(VIDEO_STORAGE_KEY, mVideoUri);
-//        outState.putBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY, (mImageBitmap != null) );
-//        outState.putBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY, (mVideoUri != null) );
-//        super.onSaveInstanceState(outState);
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        mImageBitmap = savedInstanceState.getParcelable(BITMAP_STORAGE_KEY);
-//        mVideoUri = savedInstanceState.getParcelable(VIDEO_STORAGE_KEY);
-//        mImageView.setImageBitmap(mImageBitmap);
-//        mImageView.setVisibility(
-//                savedInstanceState.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ?
-//                        ImageView.VISIBLE : ImageView.INVISIBLE
-//        );
-//        mVideoView.setVideoURI(mVideoUri);
-//        mVideoView.setVisibility(
-//                savedInstanceState.getBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY) ?
-//                        ImageView.VISIBLE : ImageView.INVISIBLE
-//        );
-//    }
 
 }

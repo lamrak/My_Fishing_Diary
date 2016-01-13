@@ -11,5 +11,6 @@
     <dimen name="fab_size_small">40dp</dimen>
     <dimen name="fab_icon_size">24dp</dimen>
     <dimen name="weather_icon_margin">2dp</dimen>
+    <dimen name="height_photoholder">200dp</dimen>
 
 </resources>

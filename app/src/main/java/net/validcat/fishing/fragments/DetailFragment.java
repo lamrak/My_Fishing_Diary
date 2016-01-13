@@ -2,7 +2,6 @@ package net.validcat.fishing.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import android.widget.TextView;
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
+import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
@@ -165,7 +165,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             return null;
 
         return new CursorLoader(getActivity(),
-                uri, FishingItem.COLUMNS, null, null, null);
+                uri, FishingContract.FishingEntry.COLUMNS, null, null, null);
     }
 
     @Override
@@ -186,10 +186,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
             tvPrice.setText(getString(R.string.fishing_price, item.getPrice()));
             tvPrice.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
-            Bitmap photo = item.getBitmap();
-            if (photo != null) {
-                Log.d(LOG_TAG, "photo !=null " + photo);
-                ivPhoto.setImageBitmap(photo);
+            if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
+                CameraManager.setPic(item.getPhotoList().get(0), ivPhoto);
             } else {
                 Log.d(LOG_TAG, "photo == null");
                 ivPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo));

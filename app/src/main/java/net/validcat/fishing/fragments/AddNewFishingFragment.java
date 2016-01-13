@@ -11,8 +11,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,7 +37,6 @@ import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
-import net.validcat.fishing.tools.BitmapUtils;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
@@ -70,7 +67,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     //weather
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
-
+    private String photoPath;
     private long date = 0;
 
     public AddNewFishingFragment() {
@@ -115,14 +112,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
                     @Override
                     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-                        // Use the current date as the default date in the picker
                         final Calendar c = Calendar.getInstance();
                         int year = c.get(Calendar.YEAR);
                         int month = c.get(Calendar.MONTH);
                         int day = c.get(Calendar.DAY_OF_MONTH);
 
-                        // Create a new instance of DatePickerDialog and return it
                         return new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
                     }
                 }.show(getFragmentManager(), "datePicker");
@@ -216,16 +210,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
             cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
 
-            if (userPhoto) {
-                Bitmap photo = ((BitmapDrawable) ivPhoto.getDrawable()).getBitmap();
-//                item.setBitmap(photo);
-                cv.put(FishingContract.FishingEntry.COLUMN_IMAGE,
-                        BitmapUtils.convertBitmapToBiteArray(((BitmapDrawable) ivPhoto.getDrawable()).getBitmap()));
-            }
+            if (!TextUtils.isEmpty(photoPath))
+                cv.put(FishingContract.FishingEntry.COLUMN_IMAGE, photoPath);
 
            // Bitmap weatherIcon = ((BitmapDrawable)ivWeather.getDrawable()).getBitmap();
 //            item.setWeatherIcon(weatherIconSelection); //TODO do we really need this?
-            cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_IMAGE, weatherIconSelection);
+            //cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_ICON, weatherIconSelection);
 
             if (updateData) {
                 getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
@@ -248,8 +238,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         switch (requestCode) {
             case Constants.REQUEST_CODE_PHOTO:
-                userPhoto = true;
-                cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+                photoPath = cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
                 break;
             case Constants.REQUEST_TEMPERATURE:
                 weatherIconSelection = data.getIntExtra(Constants.EXTRA_IMAGE_KEY, -1);
@@ -274,7 +263,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,
-                FishingItem.COLUMNS, null, null, null);
+                FishingContract.FishingEntry.COLUMNS, null, null, null);
         if(cursor != null) {
             if (cursor.moveToFirst())
                 etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
@@ -310,7 +299,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         PhotoDialogFragment photoDialog = new PhotoDialogFragment();
         photoDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TAKE_PHOTO);
         photoDialog.show(fm, Constants.PHOTO_DIALOG_KEY);
-
     }
 
     public void setImage(Uri imageUri) {

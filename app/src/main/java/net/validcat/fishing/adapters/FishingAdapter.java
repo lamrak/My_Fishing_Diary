@@ -40,11 +40,11 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
         viewHolder.date.setText(DateUtils.getFullFriendlyDayString(context, item.getDate()));
         viewHolder.description.setText(item.getDescription());
 
-        if(item.getBitmap() != null) {
-            viewHolder.photoPreview.setImageBitmap(item.getBitmap());
-        }else{
-            Bitmap noPhoto = BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_no_photo);
-            viewHolder.photoPreview.setImageBitmap(noPhoto);
+        if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
+            Bitmap photo = BitmapFactory.decodeFile(item.getPhotoList().get(0));
+            if (photo != null) viewHolder.photoPreview.setImageBitmap(photo);
+        } else {
+            viewHolder.photoPreview.setImageResource(R.drawable.ic_no_photo);
         }
 
 		viewHolder.weatherPreview.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(item.getWeatherIcon()));

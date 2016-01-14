@@ -243,7 +243,7 @@ public class CameraManager {
         return photo;
     }
 
-    public static Bitmap cropToSquare (Bitmap bitmap){
+    public static Bitmap cropToSquare(Bitmap bitmap){
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         int newWidth = (height > width)? width:height;

@@ -20,15 +20,17 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
         android:adjustViewBounds="true" />
 
     <net.validcat.fishing.ui.RoundedImageView
         android:id="@+id/weather_preview"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="@dimen/weather_icons_list_item_size"
+        android:layout_height="@dimen/weather_icons_list_item_size"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_alignBottom="@id/foto_preview"
+        android:background="@drawable/circle_bg"
         android:scaleType="center" />
         <!--android:background="@drawable/ic_no_weather"-->
 

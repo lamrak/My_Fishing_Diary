@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.validcat.fishing.R;
+import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.fragments.ListFragment;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
@@ -42,7 +43,7 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
 
         if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
             Bitmap photo = BitmapFactory.decodeFile(item.getPhotoList().get(0));
-            if (photo != null) viewHolder.photoPreview.setImageBitmap(photo);
+            if (photo != null) viewHolder.photoPreview.setImageBitmap(CameraManager.cropToSquare(photo));
         } else {
             viewHolder.photoPreview.setImageResource(R.drawable.ic_no_photo);
         }

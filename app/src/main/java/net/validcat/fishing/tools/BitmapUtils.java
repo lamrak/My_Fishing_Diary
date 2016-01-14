@@ -14,7 +14,6 @@ public class BitmapUtils {
     }
 
     public static byte[] convertBitmapToBiteArray(Bitmap bitmap) {
-
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 

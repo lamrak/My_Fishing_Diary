@@ -71,7 +71,8 @@
             <ImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/height_photoholder"
+                android:scaleType="centerCrop"
                 android:layout_alignLeft="@+id/tv_price"
                 android:layout_alignStart="@+id/tv_price"
                 android:layout_below="@+id/tv_price"

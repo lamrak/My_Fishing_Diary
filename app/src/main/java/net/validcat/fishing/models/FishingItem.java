@@ -2,6 +2,7 @@ package net.validcat.fishing.models;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
@@ -72,8 +73,9 @@ public class FishingItem {
         item.weather = data.getString(FishingContract.FishingEntry.INDEX_WEATHER);
         item.description = data.getString(FishingContract.FishingEntry.INDEX_DESCRIPTION);
         item.price = data.getString(FishingContract.FishingEntry.INDEX_PRICE);
-        item.photoList = Arrays.asList(data.getString(FishingContract.FishingEntry.INDEX_IMAGE)
-                .split(Constants.SPLIT_IMAGE_PATH_PATTERN));
+        String photoStr = data.getString(FishingContract.FishingEntry.INDEX_IMAGE);
+        if (!TextUtils.isEmpty(photoStr))
+            item.photoList = Arrays.asList(photoStr.split(Constants.SPLIT_IMAGE_PATH_PATTERN));
         item.weatherIcon = data.getInt(FishingContract.FishingEntry.INDEX_WEATHER_ICON);
 
         return item;

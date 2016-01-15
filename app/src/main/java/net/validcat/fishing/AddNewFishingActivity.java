@@ -21,7 +21,8 @@ public class AddNewFishingActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;
         AppCompatActivity appCompatActivity = (AppCompatActivity) this;
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_revert);
+       // getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_revert);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

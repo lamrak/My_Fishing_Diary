@@ -60,7 +60,7 @@
     <string name="menu_detail_delete">Delete</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
-    <string name="format_full_friendly_date" translatable="false"><xliff:g id="day">%1$s</xliff:g></string> <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
+    <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string> <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
 
     <!--dialog_weather-->
@@ -105,5 +105,6 @@
     <string name="pick_image">Pick an image</string>
     <string name="take_photo">Take a photo</string>
     <string name="title_photo_dialog">Set photo</string>
+    <string name="date_format">MMMM dd</string>
 
 </resources>

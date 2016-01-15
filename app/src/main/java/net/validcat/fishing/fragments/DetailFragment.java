@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.validcat.fishing.AddNewFishingActivity;
-import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
@@ -97,12 +96,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 return true;
             case R.id.share:
                 share();
+                break;
             case R.id.delete:
                 getActivity().getContentResolver().delete(uri, null, null);
-                Intent back = new Intent(getActivity(), ListActivity.class);
-                boolean delete = true; //TODO
-                back.putExtra(Constants.DELETE, delete);
-                startActivity(back);
+                getActivity().finish();
+                return true;
+            default:
+                return false;
         }
 
         return super.onOptionsItemSelected(item);

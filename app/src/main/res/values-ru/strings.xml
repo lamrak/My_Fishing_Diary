@@ -41,4 +41,8 @@
     <string name="pick_image">Выбрать из галереи</string>
     <string name="title_phot_dialog">Выберите фото</string>
 
+    <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string>
+    <string name="date_format">dd MMMM</string>
+    <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
+
 </resources>

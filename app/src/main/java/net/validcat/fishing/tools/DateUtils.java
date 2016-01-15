@@ -33,11 +33,11 @@ public class DateUtils {
      *                in Utility.DATE_FORMAT
      * @return The day in the form of a string formatted "December 6"
      */
-    public static String getFormattedMonthDay(Context context, long dateInMillis ) {
+    public static String getFormattedMonthDay(Context context, long dateInMillis) {
         Time time = new Time();
         time.setToNow();
         SimpleDateFormat dbDateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-        SimpleDateFormat monthDayFormat = new SimpleDateFormat("MMMM dd", Locale.getDefault());
+        SimpleDateFormat monthDayFormat = new SimpleDateFormat(context.getString(R.string.date_format), Locale.getDefault());
 
         return monthDayFormat.format(dateInMillis);
     }

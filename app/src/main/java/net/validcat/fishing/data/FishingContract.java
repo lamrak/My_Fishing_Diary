@@ -105,7 +105,8 @@ public class FishingContract {
                 FishingEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 FishingEntry.COLUMN_PRICE + " TEXT, " +
                 FishingEntry.COLUMN_IMAGE + " TEXT, " +
-                FishingEntry.COLUMN_WEATHER_ICON + " INTEGER" +
+                FishingEntry.COLUMN_WEATHER_ICON + " INTEGER, " +
+                FishingEntry.COLUMN_THUMB + " TEXT" +
                 ");";
     }
 
@@ -119,16 +120,18 @@ public class FishingContract {
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_IMAGE = "photo";
         public static final String COLUMN_WEATHER_ICON = "weather_icon";
+        public static final String COLUMN_THUMB = "photo_thumb";
 
         public static String[] COLUMNS = {
-                FishingContract.FishingEntry._ID,
-                FishingContract.FishingEntry.COLUMN_PLACE,
-                FishingContract.FishingEntry.COLUMN_DATE,
-                FishingContract.FishingEntry.COLUMN_WEATHER,
-                FishingContract.FishingEntry.COLUMN_DESCRIPTION,
-                FishingContract.FishingEntry.COLUMN_PRICE,
-                FishingContract.FishingEntry.COLUMN_IMAGE,
-                FishingContract.FishingEntry.COLUMN_WEATHER_ICON
+                FishingEntry._ID,
+                FishingEntry.COLUMN_PLACE,
+                FishingEntry.COLUMN_DATE,
+                FishingEntry.COLUMN_WEATHER,
+                FishingEntry.COLUMN_DESCRIPTION,
+                FishingEntry.COLUMN_PRICE,
+                FishingEntry.COLUMN_IMAGE,
+                FishingEntry.COLUMN_WEATHER_ICON,
+                FishingEntry.COLUMN_THUMB
         };
 
         public static final int INDEX_ID = 0;
@@ -139,6 +142,7 @@ public class FishingContract {
         public static final int INDEX_PRICE = 5;
         public static final int INDEX_IMAGE = 6;
         public static final int INDEX_WEATHER_ICON = 7;
+        public static final int INDEX_THUMB = 8;
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_FISHING).build();

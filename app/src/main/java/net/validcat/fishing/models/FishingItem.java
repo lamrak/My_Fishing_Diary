@@ -20,6 +20,7 @@ public class FishingItem {
     String description;
 //    String catches;
     String price;
+    String thumb;
     private List<String> photoList;
     int weatherIcon;
 
@@ -56,6 +57,10 @@ public class FishingItem {
         photoList.add(photoPath);
     }
 
+    public String getThumb() {
+        return thumb;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -77,6 +82,7 @@ public class FishingItem {
         if (!TextUtils.isEmpty(photoStr))
             item.photoList = Arrays.asList(photoStr.split(Constants.SPLIT_IMAGE_PATH_PATTERN));
         item.weatherIcon = data.getInt(FishingContract.FishingEntry.INDEX_WEATHER_ICON);
+        item.thumb  = data.getString(FishingContract.FishingEntry.INDEX_THUMB);
 
         return item;
     }

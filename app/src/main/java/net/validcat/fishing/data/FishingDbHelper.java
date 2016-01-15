@@ -24,7 +24,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Manages a local database for weather data.
  */
 public class FishingDbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     private static final String DATABASE_NAME = "fishing.db";
 
     public FishingDbHelper(Context context) {

@@ -43,7 +43,9 @@ import net.validcat.fishing.weather.WeatherSyncFetcher;
 
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -68,6 +70,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
     private String photoPath;
+    private String photoId;
     private long date = 0;
 
     public AddNewFishingFragment() {
@@ -137,6 +140,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         ivWeather.setOnClickListener(lin);
 
         makeWeatherRequest();
+
+        cm = new CameraManager();
 
         return addNewFragmentView;
     }
@@ -210,9 +215,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
             cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
 
-            if (!TextUtils.isEmpty(photoPath))
+            if (!TextUtils.isEmpty(photoPath)) {
+                String thumbPath = cm.createAndSaveThumb(photoPath, photoId);
                 cv.put(FishingContract.FishingEntry.COLUMN_IMAGE, photoPath);
-
+                cv.put(FishingContract.FishingEntry.COLUMN_THUMB, thumbPath);
+            }
             cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_ICON, weatherIconSelection);
 
             if (updateData) {
@@ -226,8 +233,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void runCamera() {
-        cm = new CameraManager();
-        cm.startCameraForResult(getActivity());
+        photoId = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        cm.startCameraForResult(getActivity(), photoId);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -250,6 +257,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             case Constants.REQUEST_PICK_PHOTO:
                 //http://stackoverflow.com/questions/20260416/retrieve-absolute-path-when-select-image-from-gallery-kitkat-android
                 Uri selectedImage = Uri.parse(data.getStringExtra(Constants.IMAGE_URI));
+                photoId = CameraManager.getPhotoIdFromUri(getActivity(), selectedImage);
                 photoPath = CameraManager.getPath(getActivity(), selectedImage);
                 setImage(selectedImage);
         }

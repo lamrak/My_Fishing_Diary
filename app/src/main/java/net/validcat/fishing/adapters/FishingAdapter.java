@@ -5,13 +5,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.validcat.fishing.R;
-import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.fragments.ListFragment;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
@@ -41,9 +41,10 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
         viewHolder.date.setText(DateUtils.getFullFriendlyDayString(context, item.getDate()));
         viewHolder.description.setText(item.getDescription());
 
-        if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
-            Bitmap photo = BitmapFactory.decodeFile(item.getPhotoList().get(0));
-            if (photo != null) viewHolder.photoPreview.setImageBitmap(CameraManager.cropToSquare(photo));
+        if (!TextUtils.isEmpty(item.getThumb())) {
+            Bitmap photo = BitmapFactory.decodeFile(item.getThumb());
+            if (photo != null) viewHolder.photoPreview.setImageBitmap(photo);
+            else viewHolder.photoPreview.setImageResource(R.drawable.ic_no_photo);
         } else {
             viewHolder.photoPreview.setImageResource(R.drawable.ic_no_photo);
         }

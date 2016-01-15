@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,16 +26,20 @@ import android.widget.ImageView;
 import net.validcat.fishing.data.Constants;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Random;
 
 public class CameraManager {
     public static final String LOG_TAG = CameraManager.class.getSimpleName();
 
     private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
     private String mCurrentPhotoPath;
+
+    public CameraManager() {
+        mAlbumStorageDirFactory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ?
+                new FroyoAlbumDirFactory() : new BaseAlbumDirFactory();
+    }
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
@@ -108,6 +113,21 @@ public class CameraManager {
         return null;
     }
 
+    public static String getPhotoIdFromUri(Activity context, Uri uri) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (DocumentsContract.isDocumentUri(context, uri)) {
+                // ExternalStorageProvider or DownloadsProvider or MediaProvider
+                if (isExternalStorageDocument(uri) || isDownloadsDocument(uri) || isMediaDocument(uri))
+                    return DocumentsContract.getDocumentId(uri);
+            }
+        }
+        Random generator = new Random();
+        int n = 1000000;
+        n = generator.nextInt(n);
+
+        return String.valueOf(n);
+    }
+
     /**
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
@@ -171,7 +191,7 @@ public class CameraManager {
             storageDir = mAlbumStorageDirFactory.getAlbumStorageDir(getAlbumName());
             if (storageDir != null)
                 if (!storageDir.mkdirs())
-                    if (!storageDir.exists()){
+                    if (!storageDir.exists()) {
                         Log.d("CameraSample", "failed to create directory");
                         return null;
                     }
@@ -186,29 +206,25 @@ public class CameraManager {
         return Constants.FOLDER_NAME;
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+    private File createImageFile(String timeStamp) throws IOException {
         String imageFileName = timeStamp + "_"; //Constants.EXTENSION_JPG +
         File albumF = getAlbumDir();
         File imageF = File.createTempFile(imageFileName, Constants.EXTENSION_JPG, albumF);
         return imageF;
     }
 
-    private File setUpPhotoFile() throws IOException {
-        File f = createImageFile();
+    private File setUpPhotoFile(String timeStamp) throws IOException {
+        File f = createImageFile(timeStamp);
         mCurrentPhotoPath = f.getAbsolutePath();
 
         return f;
     }
 
-    public void startCameraForResult(Activity activity) {
-        mAlbumStorageDirFactory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ?
-                new FroyoAlbumDirFactory() : new BaseAlbumDirFactory();
+    public void startCameraForResult(Activity activity, String timeStamp) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File f;
         try {
-            f = setUpPhotoFile();
+            f = setUpPhotoFile(timeStamp);
             mCurrentPhotoPath = f.getAbsolutePath();
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
         } catch (IOException e) {
@@ -339,7 +355,7 @@ public class CameraManager {
         int rotation =0;
         ContentResolver content = context.getContentResolver();
         Cursor mediaCursor = content.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] { "orientation", "date_added" },null, null,"date_added desc");
+                new String[]{"orientation", "date_added"}, null, null, "date_added desc");
         if (mediaCursor != null && mediaCursor.getCount() != 0) {
             if (mediaCursor.moveToNext())
                 rotation = mediaCursor.getInt(0);
@@ -385,7 +401,39 @@ public class CameraManager {
         int cropH = (height-width)/2;
         cropH = (cropH<0)?0:cropH;
 
-        return Bitmap.createBitmap(bitmap,cropW,cropH,newWidth,newHeight);
+        return Bitmap.createBitmap(bitmap, cropW, cropH, newWidth, newHeight);
     }
 
+    private String saveThumbnail(Bitmap finalBitmap, String num) throws IOException {
+        Bitmap b = CameraManager.cropToSquare(finalBitmap);
+        File file = new File (getAlbumDir(), "thumb-"+ num +".jpg");
+        FileOutputStream out = null;
+        if (file.exists())
+            if (file.delete())
+                Log.e(LOG_TAG, "Thumb write over old");
+        try {
+            out = new FileOutputStream(file);
+            b.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            out.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null)
+                out.close();
+        }
+
+        return file.getPath();
+    }
+
+    public String createAndSaveThumb(String photoPath, String photoId) {
+        try {
+            return saveThumbnail(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(photoPath),
+                      Constants.THUMB_SIZE, Constants.THUMB_SIZE), photoId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

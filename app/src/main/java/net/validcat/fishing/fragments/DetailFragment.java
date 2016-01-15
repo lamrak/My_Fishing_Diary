@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,22 +63,49 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View detailFragmentView = inflater.inflate(R.layout.detail_fragment, container, false);
         ButterKnife.bind(this, detailFragmentView);
-
         Bundle arguments = getArguments();
         long id = (arguments != null) ?
                 arguments.getLong(Constants.DETAIL_KEY, -1) :
                 getActivity().getIntent().getLongExtra(Constants.DETAIL_KEY, -1);
-
         if (id != -1)
             uri = FishingContract.FishingEntry.buildFishingUri(id);
 
         return detailFragmentView;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        if (null == uri)
+            return null;
+        return new CursorLoader(getActivity(),
+                uri, FishingContract.FishingEntry.COLUMNS, null, null, null);
+    }
+
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.detail_action_bar, menu);
+        inflater.inflate(R.menu.item_detail, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit:
+                Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
+                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
+                startActivity(intent);
+                return true;
+            case R.id.share:
+                share();
+            case R.id.delete:
+                getActivity().getContentResolver().delete(uri, null, null);
+                Intent back = new Intent(getActivity(), ListActivity.class);
+                boolean delete = true; //TODO
+                back.putExtra(Constants.DELETE, delete);
+                startActivity(back);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void share() {
@@ -89,10 +115,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_subject);
         String massage = tvPlace.getText() + "\n"
-                 + tvDate.getText() + "\n"
-                 + tvWeather.getText() + "\n"
-                 + tvDescription.getText() + "\n"
-                 + tvPrice.getText() + "\n";
+                + tvDate.getText() + "\n"
+                + tvWeather.getText() + "\n"
+                + tvDescription.getText() + "\n"
+                + tvPrice.getText() + "\n";
         shareIntent.putExtra(Intent.EXTRA_TEXT, massage);
         shareIntent.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -113,66 +139,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.share:
-//                share();
-//            case R.id.edit:
-                View menuItemView = getActivity().findViewById(R.id.settings_buton);
-                PopupMenu popupMenu = new PopupMenu(getActivity(), menuItemView);
-                popupMenu.inflate(R.menu.item_detail);
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.edit:
-                                // Toast.makeText(getActivity(),"Вы выбрали Редактирование",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
-                                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
-                                startActivity(intent);
-                                return true;
-                            case R.id.share:
-                                share();
-                            case R.id.delete:
-                                getActivity().getContentResolver().delete(uri, null,null);
-                                Intent back = new Intent(getActivity(), ListActivity.class);
-                                boolean delete = true;
-                                back.putExtra(Constants.DELETE,delete);
-                                startActivity(back);
-
-                            default:
-                                return false;
-                        }
-                    }
-                });
-//            }
-//        if (item.getItemId() == R.id.share)
-//            share();
-//        else if (item.getItemId() == R.id.edit) {
-//            Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
-//            intent.putExtra(Constants.DETAIL_KEY, id);
-//            startActivity(intent);
-//        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d(LOG_TAG, "onCreateLoader");
-        if (null == uri)
-            return null;
-
-        return new CursorLoader(getActivity(),
-                uri, FishingContract.FishingEntry.COLUMNS, null, null, null);
-    }
-
-    @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-
-            FishingItem item = FishingItem.createFishingItemFromCursor(getActivity(), data);
+            item = FishingItem.createFishingItemFromCursor(getActivity(), data);
             //TODO add content description for each TextView
             tvPlace.setText(getString(R.string.fishing_place, item.getPlace()));
             tvPlace.setContentDescription(getString(R.string.fishing_place, item.getPlace()));

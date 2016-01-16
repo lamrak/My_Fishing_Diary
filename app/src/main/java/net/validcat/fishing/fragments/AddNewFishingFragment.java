@@ -277,6 +277,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if(cursor != null) {
             if (cursor.moveToFirst())
                 etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
+                etPrice.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PRICE)));
+                etDetails.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DESCRIPTION)));
             cursor.close();
         }
         updateData = true;

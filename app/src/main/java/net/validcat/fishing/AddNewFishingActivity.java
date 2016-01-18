@@ -19,8 +19,7 @@ public class AddNewFishingActivity extends AppCompatActivity {
         setContentView(R.layout.add_new_fishing_activity);
 
         assert getSupportActionBar() != null;
-        AppCompatActivity appCompatActivity = (AppCompatActivity) this;
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 

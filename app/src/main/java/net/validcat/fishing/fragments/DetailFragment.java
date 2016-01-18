@@ -6,10 +6,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +29,6 @@ import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
-import net.validcat.fishing.tools.DateUtils;
 
 import java.io.ByteArrayOutputStream;
 
@@ -36,12 +38,14 @@ import butterknife.ButterKnife;
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
-    @Bind(R.id.tv_place) TextView tvPlace;
-    @Bind(R.id.tv_date) TextView tvDate;
+//    @Bind(R.id.tv_place) TextView tvPlace;
+//    @Bind(R.id.tv_date) TextView tvDate;
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.tv_description) TextView tvDescription;
     @Bind(R.id.tv_price) TextView tvPrice;
     @Bind(R.id.iv_photo) ImageView ivPhoto;
+    Toolbar toolbar; //TODO bind
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     private Uri uri;
     private FishingItem item;
@@ -61,6 +65,16 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View detailFragmentView = inflater.inflate(R.layout.detail_fragment, container, false);
         ButterKnife.bind(this, detailFragmentView);
+
+        toolbar = (Toolbar) detailFragmentView.findViewById(R.id.toolbar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) detailFragmentView.findViewById(R.id.collapsing_toolbar);
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        assert ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         Bundle arguments = getArguments();
         long id = (arguments != null) ?
                 arguments.getLong(Constants.DETAIL_KEY, -1) :
@@ -112,9 +126,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_subject);
-        String massage = tvPlace.getText() + "\n"
-                + tvDate.getText() + "\n"
-                + tvWeather.getText() + "\n"
+        String massage =
+//                tvPlace.getText() + "\n"
+//                + tvDate.getText() + "\n"
+                tvWeather.getText() + "\n"
                 + tvDescription.getText() + "\n"
                 + tvPrice.getText() + "\n";
         shareIntent.putExtra(Intent.EXTRA_TEXT, massage);
@@ -141,11 +156,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         if (data != null && data.moveToFirst()) {
             item = FishingItem.createFishingItemFromCursor(getActivity(), data);
             //TODO add content description for each TextView
-            tvPlace.setText(getString(R.string.fishing_place, item.getPlace()));
-            tvPlace.setContentDescription(getString(R.string.fishing_place, item.getPlace()));
-            tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
+            collapsingToolbarLayout.setTitle(item.getPlace());
+//            date.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
             //tvDate.setText(getString(R.string.fishing_date, item.getDate()));
-            tvDate.setContentDescription(getString(R.string.fishing_date, item.getDate()));
+//            date.setContentDescription(getString(R.string.fishing_date, item.getDate()));
             tvWeather.setText(item.getWeather());
 //        tvWeather.setText(getString(R.string.fishing_weather, item.getWeather()));
 //        tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));

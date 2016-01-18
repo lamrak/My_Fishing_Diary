@@ -22,8 +22,4 @@
         <item name="android:statusBarColor">@color/green10</item>
     </style>
 
-    <style name="AppTheme.Main" parent="@style/AppTheme">
-        <item name="android:windowContentTransitions">true</item>
-    </style>
-
 </resources>

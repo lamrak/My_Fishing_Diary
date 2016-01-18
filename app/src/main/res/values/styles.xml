@@ -16,12 +16,15 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="@style/AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/FishingActionBar</item>
+    </style>
+
+    <style name="DetailAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/green04</item> <!-- accent -->
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/green04</item>
     </style>
 
     <style name="FishingActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">

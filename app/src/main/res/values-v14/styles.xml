@@ -10,7 +10,7 @@
         <item name="colorPrimaryDark">@color/primary</item>
     </style>
 
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/FishingActionBar</item>
         <item name="actionBarStyle">@style/FishingActionBar</item>
         <item name="colorPrimary">@color/primary</item>

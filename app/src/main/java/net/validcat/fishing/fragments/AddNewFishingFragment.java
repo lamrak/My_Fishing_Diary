@@ -119,8 +119,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                         int year = c.get(Calendar.YEAR);
                         int month = c.get(Calendar.MONTH);
                         int day = c.get(Calendar.DAY_OF_MONTH);
-
-                        return new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
+                        DatePickerDialog dialog = new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
+                        dialog.getDatePicker().setMaxDate(new Date().getTime());
+                        return dialog;
+//                        return new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
                     }
                 }.show(getFragmentManager(), "datePicker");
             }
@@ -275,6 +277,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if(cursor != null) {
             if (cursor.moveToFirst())
                 etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
+                etPrice.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PRICE)));
+                etDetails.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DESCRIPTION)));
             cursor.close();
         }
         updateData = true;

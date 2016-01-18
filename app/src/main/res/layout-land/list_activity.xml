@@ -40,7 +40,8 @@
         android:layout_alignLeft="@+id/delimetr"
         android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
-        >
+        android:layout_alignStart="@+id/delimetr"
+        android:layout_alignParentEnd="true">
 
     </FrameLayout>
 

@@ -31,7 +31,8 @@
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:layout_marginLeft="24dp"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:layout_marginStart="24dp"/>
 
     <net.validcat.fishing.ui.RoundedImageView
         android:id="@+id/weather_preview"
@@ -41,7 +42,8 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/ic_no_weather"
         android:scaleType="center"
-        android:layout_below="@+id/foto_preview" />
+        android:layout_below="@+id/foto_preview"
+        android:layout_marginStart="33dp"/>
 
     <TextView
         android:id="@+id/tv_adapter_place"
@@ -56,7 +58,9 @@
         android:textColor="@color/fishing_name_color"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_toRightOf="@+id/foto_preview" />
+        android:layout_toRightOf="@+id/foto_preview"
+        android:layout_marginStart="56dp"
+        android:layout_toEndOf="@+id/foto_preview"/>
 
     <TextView
         android:id="@+id/tv_adapter_description"
@@ -74,14 +78,15 @@
         android:id="@+id/tv_adapter_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_marginTop="24dp"
         android:text="@string/title_fishing_date"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/date_color"
         android:textSize="12sp"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/imageView" />
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentEnd="true"/>
 
     <!--<RatingBar-->
         <!--android:id="@+id/ratingBar"-->

@@ -76,8 +76,7 @@
                 android:layout_alignLeft="@+id/tv_price"
                 android:layout_alignStart="@+id/tv_price"
                 android:layout_below="@+id/tv_price"
-                android:contentDescription="@string/image_descr"
-                />
+                android:contentDescription="@string/image_descr" />
 
         </RelativeLayout>
     </ScrollView>

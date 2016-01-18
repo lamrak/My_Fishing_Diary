@@ -53,7 +53,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
-
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -90,9 +89,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-                Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
-                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
-                startActivity(intent);
+                startActivity(new Intent(getActivity(),
+                        AddNewFishingActivity.class).putExtra(Constants.DETAIL_KEY, uri.toString()));
                 return true;
             case R.id.share:
                 share();

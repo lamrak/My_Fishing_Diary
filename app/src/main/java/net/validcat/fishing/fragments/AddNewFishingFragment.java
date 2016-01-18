@@ -36,6 +36,7 @@ import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
+import net.validcat.fishing.data.FishingContract.FishingEntry;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
@@ -52,7 +53,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
-    private static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
+    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
     @Bind(R.id.tv_date) TextView tvDate;
@@ -64,7 +65,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private CameraManager cm;
     private Uri uri;
     private FishingItem item;
-    private boolean userPhoto = false;
     private boolean updateData = false;
     //weather
     private int weatherIconSelection = 0;
@@ -93,17 +93,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             // Should we show an explanation?
             if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//                // Show an expanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//            } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         Constants.PERMISSIONS_REQUEST_WRITE_STORAGE);
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         }
 
@@ -185,10 +177,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void handleCamera() {
-//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-//            runCamera();
-//            return;
-//        }
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
                 ActivityCompat.requestPermissions(getActivity(),
@@ -205,29 +193,26 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             etPlace.setError(Constants.VALIDATION_ERROR);
         } else {
             ContentValues cv = new ContentValues();
-//            if (this.item == null) {
-//                this.item = new FishingItem();
-//            } else {
             if (this.item != null)
-                cv.put(FishingContract.FishingEntry._ID, item.getId());
-//            }
-            cv.put(FishingContract.FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
-            cv.put(FishingContract.FishingEntry.COLUMN_DATE, date);
-            cv.put(FishingContract.FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
-            cv.put(FishingContract.FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
-            cv.put(FishingContract.FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
+                cv.put(FishingEntry._ID, item.getId());
+
+            cv.put(FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
+            cv.put(FishingEntry.COLUMN_DATE, date);
+            cv.put(FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
+            cv.put(FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
+            cv.put(FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
 
             if (!TextUtils.isEmpty(photoPath)) {
                 String thumbPath = cm.createAndSaveThumb(photoPath, photoId);
-                cv.put(FishingContract.FishingEntry.COLUMN_IMAGE, photoPath);
-                cv.put(FishingContract.FishingEntry.COLUMN_THUMB, thumbPath);
+                cv.put(FishingEntry.COLUMN_IMAGE, photoPath);
+                cv.put(FishingEntry.COLUMN_THUMB, thumbPath);
             }
-            cv.put(FishingContract.FishingEntry.COLUMN_WEATHER_ICON, weatherIconSelection);
+            cv.put(FishingEntry.COLUMN_WEATHER_ICON, weatherIconSelection);
 
             if (updateData) {
-                getActivity().getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
+                getActivity().getContentResolver().update(FishingEntry.CONTENT_URI, cv, null, null);
             } else {
-                getActivity().getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
+                getActivity().getContentResolver().insert(FishingEntry.CONTENT_URI, cv);
             }
 
             getActivity().finish();
@@ -273,7 +258,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,
-                FishingContract.FishingEntry.COLUMNS, null, null, null);
+                FishingEntry.COLUMNS, null, null, null);
         if(cursor != null) {
             if (cursor.moveToFirst())
                 etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));

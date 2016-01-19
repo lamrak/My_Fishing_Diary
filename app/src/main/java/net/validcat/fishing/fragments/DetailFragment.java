@@ -29,6 +29,7 @@ import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
+import net.validcat.fishing.tools.DateUtils;
 
 import java.io.ByteArrayOutputStream;
 
@@ -38,8 +39,8 @@ import butterknife.ButterKnife;
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
-//    @Bind(R.id.tv_place) TextView tvPlace;
-//    @Bind(R.id.tv_date) TextView tvDate;
+    @Bind(R.id.tv_place) TextView tvPlace;
+    @Bind(R.id.tv_date) TextView tvDate;
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.tv_description) TextView tvDescription;
     @Bind(R.id.tv_price) TextView tvPrice;
@@ -73,7 +74,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         assert ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle arguments = getArguments();
         long id = (arguments != null) ?
@@ -156,8 +157,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         if (data != null && data.moveToFirst()) {
             item = FishingItem.createFishingItemFromCursor(getActivity(), data);
             //TODO add content description for each TextView
-            collapsingToolbarLayout.setTitle(item.getPlace());
-//            date.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
+            tvPlace.setText(item.getPlace());
+            tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
             //tvDate.setText(getString(R.string.fishing_date, item.getDate()));
 //            date.setContentDescription(getString(R.string.fishing_date, item.getDate()));
             tvWeather.setText(item.getWeather());

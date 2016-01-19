@@ -25,6 +25,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginStart="16dp"
                 app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:titleEnabled="false"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
@@ -49,6 +50,62 @@
                     app:layout_collapseMode="pin" >
 
                 </android.support.v7.widget.Toolbar>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_place"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="208dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"                     />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_date"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:layout_marginTop="210dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="right|end"
+                    />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="left|top|start"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:elevation="8dp"
+                    android:background="@drawable/circle_bg" >
+
+                    <ImageView
+                        android:id="@+id/iv_toolbar_weather_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/ic_rain_check"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginStart="18dp"
+                        android:contentDescription="@string/fishing_weather" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+23 C"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
@@ -101,4 +158,5 @@
             app:layout_anchorGravity="bottom|right|end"/ -->
 
     </android.support.design.widget.CoordinatorLayout>
+
 </FrameLayout>

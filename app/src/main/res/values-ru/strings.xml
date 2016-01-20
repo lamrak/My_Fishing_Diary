@@ -6,17 +6,17 @@
     <string name="title_fishing_details">Рыбалка </string>
     <string name="action_settings">Настройки</string>
     <string name="footer_string">Новая рыбалка</string>
-    <string name="fishing_place">Место рыбалки: <xliff:g id="Место рыбалки">%1$s</xliff:g></string>
+    <string name="fishing_place">Место рыбалки: <xliff:g id="place">%1$s</xliff:g></string>
     <string name="fishing_date">Дата:  <xliff:g id="Дата">%1$s</xliff:g></string>
     <string name="fishing_weather">Погода: <xliff:g id="Погода">%1$s</xliff:g></string>
     <string name="fishing_details">Описание</string>
     <string name="fishing_catch">Улов</string>
     <string name="fishing_photo">Фотография</string>
-    <string name="fishing_price">Стоимость рыбалки: <xliff:g id="Цена">%1$s</xliff:g></string>
+    <string name="fishing_price">Стоимость рыбалки: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="price_value">0 грн</string>
     <string name="hint_fishing_place">Место вашей рыбалки (Озеро, Река)</string>
-    <string name="fishing_description">Описание: <xliff:g id="Описание">%1$s</xliff:g></string>
-    <string name="image_descr">User photo</string>
+    <string name="fishing_description"><xliff:g id="Описание">%1$s</xliff:g></string>
+    <string name="image_descr">Фотографии с рыбалки</string>
     <string name="action_send">Отправить</string>
     <string name="action_camera">Камера</string>
     <string name="action_back">Назад</string>
@@ -43,6 +43,7 @@
 
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string>
     <string name="date_format">dd MMMM</string>
+    <string name="fishing_no_description">Нет зметок о рыбалке</string>
     <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
 </resources>

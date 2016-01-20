@@ -33,7 +33,7 @@
 
     <string name="fishing_place">Place: <xliff:g id="place">%1$s</xliff:g></string>
     <string name="fishing_weather">Weather: <xliff:g id="weather">%1$s</xliff:g></string>
-    <string name="fishing_description">Description: <xliff:g id="humidity">%1$s</xliff:g></string>
+    <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="fishing_date">Date: <xliff:g id="date">%1$s</xliff:g></string>
     <string name="fishing_price">Price: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="hint_fishing_place">Place of fishing (e.x. Dnipro River)</string>
@@ -61,7 +61,6 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string> <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
-
 
     <!--dialog_weather-->
     <string name="title_weather_dialog">Set weather: </string>
@@ -106,5 +105,14 @@
     <string name="take_photo">Take a photo</string>
     <string name="title_photo_dialog">Set photo</string>
     <string name="date_format">MMMM dd</string>
+
+    <!-- Keys transitions -->
+    <string name="key_photo_transition">photo_trans</string>
+    <string name="key_weather_transition">weather_transition</string>
+    <string name="key_place_transition">key_place_transition</string>
+    <string name="key_description_transition">key_description_transition</string>
+    <string name="key_date_transition">key_date_trans</string>
+
+    <string name="fishing_no_description">There are no notes about this fishing</string>
 
 </resources>

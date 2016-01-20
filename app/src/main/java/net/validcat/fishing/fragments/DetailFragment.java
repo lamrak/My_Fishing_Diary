@@ -6,13 +6,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +30,7 @@ import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
+import net.validcat.fishing.tools.PrefUtils;
 
 import java.io.ByteArrayOutputStream;
 
@@ -45,8 +46,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.tv_description) TextView tvDescription;
     @Bind(R.id.tv_price) TextView tvPrice;
     @Bind(R.id.iv_photo) ImageView ivPhoto;
-    Toolbar toolbar; //TODO bind
-    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.iv_toolbar_weather_icon) ImageView weatherIcon;
+
 
     private Uri uri;
     private FishingItem item;
@@ -67,13 +69,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         View detailFragmentView = inflater.inflate(R.layout.detail_fragment, container, false);
         ButterKnife.bind(this, detailFragmentView);
 
-        toolbar = (Toolbar) detailFragmentView.findViewById(R.id.toolbar);
-        collapsingToolbarLayout = (CollapsingToolbarLayout) detailFragmentView.findViewById(R.id.collapsing_toolbar);
-
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         assert ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
+        //noinspection ConstantConditions
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //noinspection ConstantConditions
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+        //noinspection ConstantConditions
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle arguments = getArguments();
@@ -121,6 +123,44 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null && data.moveToFirst()) {
+            item = FishingItem.createFishingItemFromCursor(getActivity(), data);
+            tvPlace.setText(item.getPlace());
+            tvPlace.setContentDescription(item.getPlace());
+            tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
+            tvDate.setContentDescription(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
+            //weather box
+            tvWeather.setText(item.getWeather());
+            tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
+            weatherIcon.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(item.getWeatherIcon()));
+            //content
+            if (!TextUtils.isEmpty(item.getDescription())) {
+                tvDescription.setText(getString(R.string.fishing_description, item.getDescription()));
+                tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
+            } else {
+                tvDescription.setText(getString(R.string.fishing_no_description));
+                tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
+            }
+            if (!TextUtils.isEmpty(item.getPrice())) {
+                tvPrice.setText(getString(R.string.fishing_price, item.getPrice()));
+                tvPrice.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
+            }
+            if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
+                CameraManager.setPic(item.getPhotoList().get(0), ivPhoto);
+            } else {
+                Log.d(LOG_TAG, "photo == null");
+                ivPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo));
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    //TODO refactore this method
     private void share() {
         // create Intent to share urlString
         Intent shareIntent = new Intent();
@@ -131,8 +171,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 //                tvPlace.getText() + "\n"
 //                + tvDate.getText() + "\n"
                 tvWeather.getText() + "\n"
-                + tvDescription.getText() + "\n"
-                + tvPrice.getText() + "\n";
+                        + tvDescription.getText() + "\n"
+                        + tvPrice.getText() + "\n";
         shareIntent.putExtra(Intent.EXTRA_TEXT, massage);
         shareIntent.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -152,33 +192,4 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         startActivity(Intent.createChooser(shareIntent,getString(R.string.share_search)));
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
-            item = FishingItem.createFishingItemFromCursor(getActivity(), data);
-            //TODO add content description for each TextView
-            tvPlace.setText(item.getPlace());
-            tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
-            //tvDate.setText(getString(R.string.fishing_date, item.getDate()));
-//            date.setContentDescription(getString(R.string.fishing_date, item.getDate()));
-            tvWeather.setText(item.getWeather());
-//        tvWeather.setText(getString(R.string.fishing_weather, item.getWeather()));
-//        tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
-            tvDescription.setText(getString(R.string.fishing_description, item.getDescription()));
-            tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
-            tvPrice.setText(getString(R.string.fishing_price, item.getPrice()));
-            tvPrice.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
-            if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
-                CameraManager.setPic(item.getPhotoList().get(0), ivPhoto);
-            } else {
-                Log.d(LOG_TAG, "photo == null");
-                ivPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo));
-            }
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 }

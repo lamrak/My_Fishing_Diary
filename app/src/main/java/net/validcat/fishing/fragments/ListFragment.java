@@ -68,7 +68,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     public interface IClickListener {
-        void onItemClicked(long id);
+        void onItemClicked(long id, View... sharedViews);
     }
 
     @Override

@@ -2,21 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="88dp"
     android:id="@+id/rlLayout"
     android:orientation="vertical"
-    tools:context=".ListActivity"
-    >
-    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingTop="@dimen/activity_vertical_margin_top"-->
-    <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-    <!--&gt;-->
+    tools:context=".ListActivity" >
 
     <net.validcat.fishing.ui.RoundedImageView
-        android:id="@+id/foto_preview"
+        android:id="@+id/photo_preview"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -29,18 +22,17 @@
         android:layout_height="@dimen/weather_icons_list_item_size"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_alignBottom="@id/foto_preview"
+        android:layout_alignBottom="@id/photo_preview"
         android:background="@drawable/circle_bg"
-        android:scaleType="center" />
+        android:scaleType="center"
+        android:transitionName="@string/key_weather_transition" />
         <!--android:background="@drawable/ic_no_weather"-->
-
 
     <TextView
         android:id="@+id/tv_adapter_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/foto_preview"
-        android:text="@string/title_fishing_place"
+        android:layout_alignTop="@id/photo_preview"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/fishing_name_color"
         android:textSize="16sp"
@@ -50,12 +42,11 @@
         android:layout_toStartOf="@id/tv_adapter_date"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_alignLeft="@id/foto_preview"
-        android:layout_alignStart="@id/foto_preview"
+        android:layout_alignLeft="@id/photo_preview"
+        android:layout_alignStart="@id/photo_preview"
         android:layout_marginLeft="56dp"
         android:layout_marginStart="56dp"
-        android:ellipsize="end"
-        />
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/tv_adapter_description"
@@ -70,7 +61,8 @@
         android:textSize="14sp"
         android:maxLines="2"
         android:layout_marginBottom= "12dp"
-        android:ellipsize="end"/>
+        android:ellipsize="end"
+        android:transitionName="@string/key_description_transition" />
 
     <TextView
         android:id="@+id/tv_adapter_date"
@@ -83,7 +75,8 @@
         android:textColor="@color/date_color"
         android:textSize="12sp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:transitionName="@string/key_date_transition"/>
 
     <!--<RatingBar-->
     <!--android:id="@+id/ratingBar"-->

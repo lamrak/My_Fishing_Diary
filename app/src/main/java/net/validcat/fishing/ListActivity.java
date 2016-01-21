@@ -1,11 +1,13 @@
 package net.validcat.fishing;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,13 +39,27 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
                 startActivityForResult(new Intent(ListActivity.this, AddNewFishingActivity.class), Constants.ITEM_REQUEST);
             }
         });
+
+//        getWindow().setSharedElementExitTransition(null);
+//        getWindow().setSharedElementReturnTransition(null);
+//        getWindow().setSharedElementEnterTransition(null);
     }
 
+
+
     @Override
-    public void onItemClicked(long clickedItemId) {
+    public void onItemClicked(long clickedItemId, View... sharedView) {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             panel = true;
-            startActivity(new Intent(ListActivity.this, DetailActivity.class).putExtra(Constants.DETAIL_KEY, clickedItemId));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                //noinspection unchecked
+                startActivity(new Intent(ListActivity.this, DetailActivity.class)
+                        .putExtra(Constants.DETAIL_KEY, clickedItemId),
+                        ActivityOptions.makeSceneTransitionAnimation(this,
+                                new Pair<>(sharedView[0], sharedView[0].getTransitionName()),
+                                new Pair<>(sharedView[1], sharedView[1].getTransitionName()),
+                                new Pair<>(sharedView[2], sharedView[2].getTransitionName())).toBundle());
+            } else  startActivity(new Intent(ListActivity.this, DetailActivity.class).putExtra(Constants.DETAIL_KEY, clickedItemId));
         } else {
             panel = false;
             Bundle args = new Bundle();

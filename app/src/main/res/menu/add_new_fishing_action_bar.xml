@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/action_camera"
-        android:icon="@android:drawable/ic_menu_camera"
+        android:icon="@drawable/ic_camera_alt_24dp"
         android:title="@string/action_camera"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_add_new_fishing"
-        android:icon="@android:drawable/ic_menu_send"
-        android:title="@string/action_send"
+        android:icon="@drawable/ic_done_24dp"
+        android:title="@string/action_save"
         app:showAsAction="always" />
 
     <!--<item-->

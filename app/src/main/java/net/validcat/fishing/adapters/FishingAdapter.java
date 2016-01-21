@@ -75,13 +75,13 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
 			place = (TextView) view.findViewById(R.id.tv_adapter_place);
 			date = (TextView) view.findViewById(R.id.tv_adapter_date);
 			description = (TextView) view.findViewById(R.id.tv_adapter_description);
-			photoPreview = (RoundedImageView) view.findViewById(R.id.foto_preview);
+			photoPreview = (RoundedImageView) view.findViewById(R.id.photo_preview);
 			weatherPreview = (RoundedImageView) view.findViewById(R.id.weather_preview);
 		}
 
 		@Override
 		public void onClick(View v) {
-			listener.onItemClicked(id);
+			listener.onItemClicked(id, description, date, weatherPreview);
 		}
 	}
 

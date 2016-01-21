@@ -24,6 +24,7 @@
     <string name="action_camera">Camera</string>
     <string name="action_send">Send</string>
     <string name="action_back">Back</string>
+    <string name="action_save">Save</string>
 
     <string name="title_fishing_place">Place:</string>
     <string name="title_fishing_weather">Weather</string>
@@ -39,7 +40,7 @@
     <string name="hint_fishing_place">Place of fishing (e.x. Dnipro River)</string>
     <string name="price_value">0$</string>
 
-    <string name="weather_formatter"><xliff:g id="temperature">%1$s</xliff:g>\u00B0</string>
+    <string name="weather_formatter" translatable="false"><xliff:g id="temperature">%1$s</xliff:g>\u00B0</string>
 
     <!--fishing_list-->
     <string name="fishing_catch">Catch</string>
@@ -86,18 +87,18 @@
     <!-- Label for the temperature units preference [CHAR LIMIT=30] -->
     <string name="pref_units_label">Temperature Units</string>
     <!-- Label for metric option in temperature unit preference [CHAR LIMIT=25] -->
-    <string name="pref_units_label_metric">Metric</string>
+    <string name="pref_units_label_metric">Celsius</string>
     <!-- Label for imperial option in temperature unit preference [CHAR LIMIT=25] -->
-    <string name="pref_units_label_imperial">Imperial</string>
+    <string name="pref_units_label_imperial">Fahrenheit</string>
     <!-- Temperature format [CHAR LIMIT=5 -->
-    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+    <string name="format_temperature" translatable="false"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
     <!-- Strings used when displaying the state of the Location in settings -->
     <string name="pref_location_status_key" translatable="false">loc-status</string>
-    <string name="pref_location_error_description">Invalid Location (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
-    <string name="pref_location_unknown_description">Validating Location… (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
+    <string name="pref_location_error_description">Invalid Location (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
+    <string name="pref_location_unknown_description">Validating Location… (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
     <string name="title_activity_settings">Settings</string>
     <string name="descr_weather_button">Change Weather</string>
-    <string name="no_weather_data">0C</string>
+    <string name="no_weather_data" translatable="false">0C</string>
     <string name="camera_permissoin_denied">Camera permission denied</string>
 
     <!--dialog_photo-->
@@ -107,12 +108,15 @@
     <string name="date_format">MMMM dd</string>
 
     <!-- Keys transitions -->
-    <string name="key_photo_transition">photo_trans</string>
-    <string name="key_weather_transition">weather_transition</string>
-    <string name="key_place_transition">key_place_transition</string>
-    <string name="key_description_transition">key_description_transition</string>
-    <string name="key_date_transition">key_date_trans</string>
+    <string name="key_photo_transition" translatable="false">photo_trans</string>
+    <string name="key_weather_transition" translatable="false">weather_transition</string>
+    <string name="key_place_transition" translatable="false">key_place_transition</string>
+    <string name="key_description_transition" translatable="false">key_description_transition</string>
+    <string name="key_date_transition" translatable="false">key_date_trans</string>
 
     <string name="fishing_no_description">There are no notes about this fishing</string>
+    <string name="fishing_share_message">Fishing in <xliff:g id="place">%2$s</xliff:g> <xliff:g id="date">%1$s</xliff:g>:
+        <xliff:g id="description">%3$s</xliff:g></string>
+    <string name="title_phot_dialog">Pick photo</string>
 
 </resources>

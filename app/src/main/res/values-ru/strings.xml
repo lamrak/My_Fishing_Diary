@@ -44,6 +44,18 @@
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string>
     <string name="date_format">dd MMMM</string>
     <string name="fishing_no_description">Нет зметок о рыбалке</string>
+    <string name="fishing_share_message">Заметки о рыбалке <xliff:g id="date">%1$s</xliff:g>
+        на <xliff:g id="place">%2$s</xliff:g>:<xliff:g id="description">%3$s</xliff:g></string>
+    <string name="action_save">Сохранить</string>
+    <string name="camera_permissoin_denied">Запретить использование камеры</string>
+    <string name="descr_weather_button">Изменить погоду</string>
+    <string name="pref_location_error_description">Неправильная локация (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
+    <string name="pref_location_label">Локация</string>
+    <string name="pref_location_unknown_description">Проверка локации… (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
+    <string name="pref_units_label">Единица измерения температуры</string>
+    <string name="pref_units_label_imperial">Фаренгейт</string>
+    <string name="pref_units_label_metric">Цельсий</string>
+    <string name="title_photo_dialog">Добавить фото</string>
     <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
 </resources>

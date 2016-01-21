@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -32,10 +33,11 @@ import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String LOG_TAG = DetailFragment.class.getSimpleName();
@@ -46,10 +48,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.tv_description) TextView tvDescription;
     @Bind(R.id.tv_price) TextView tvPrice;
     @Bind(R.id.iv_photo) ImageView ivPhoto;
-    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.iv_toolbar_weather_icon) ImageView weatherIcon;
-
-
+    @Bind(R.id.toolbar) Toolbar toolbar;
     private Uri uri;
     private FishingItem item;
 
@@ -109,9 +109,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 startActivity(new Intent(getActivity(),
                         AddNewFishingActivity.class).putExtra(Constants.DETAIL_KEY, uri.toString()));
                 return true;
-            case R.id.share:
-                share();
-                break;
             case R.id.delete:
                 getActivity().getContentResolver().delete(uri, null, null);
                 getActivity().finish();
@@ -119,8 +116,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             default:
                 return false;
         }
-
-        return super.onOptionsItemSelected(item);
+//        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -160,36 +156,24 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    //TODO refactore this method
-    private void share() {
-        // create Intent to share urlString
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.share_subject);
-        String massage =
-//                tvPlace.getText() + "\n"
-//                + tvDate.getText() + "\n"
-                tvWeather.getText() + "\n"
-                        + tvDescription.getText() + "\n"
-                        + tvPrice.getText() + "\n";
-        shareIntent.putExtra(Intent.EXTRA_TEXT, massage);
-        shareIntent.setType("image/jpeg");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        //TODO get link to bitmap from fishing item
-//        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-//        try {
-//            f.createNewFile();
-//            FileOutputStream fo = new FileOutputStream(f);
-//            fo.write(bytes.toByteArray());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-
-        // display apps that can share text
-        startActivity(Intent.createChooser(shareIntent,getString(R.string.share_search)));
+    @OnClick(R.id.share_fab)
+    public void share(View view) {
+        startActivity(item.getPhotoList() == null || item.getPhotoList().size() == 0 ?
+                ShareCompat.IntentBuilder.from(getActivity())
+                        .setText(getString(R.string.fishing_share_message, item.getPlace(),
+                                DateUtils.getFullFriendlyDayString(getActivity(),
+                                        item.getDate()), item.getDescription()))
+                        .setSubject(getString(R.string.app_name))
+                        .setType("text/plain")
+                        .getIntent() :
+                ShareCompat.IntentBuilder.from(getActivity())
+                .setText(getString(R.string.fishing_share_message, item.getPlace(),
+                        DateUtils.getFullFriendlyDayString(getActivity(),
+                                item.getDate()), item.getDescription()))
+                .setSubject(getString(R.string.app_name))
+                .setStream(Uri.fromFile(new File(item.getPhotoList().get(0))))
+                .setType("image/jpeg")
+                .getIntent());
     }
 
 }

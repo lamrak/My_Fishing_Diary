@@ -1,57 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<fragment android:id="@+id/list_fragment"
+          android:name="net.validcat.fishing.fragments.ListFragment"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout="@layout/list_fragment"/>
 
-    <fragment
-        android:id="@+id/list_fragment"
-        android:name="net.validcat.fishing.fragments.ListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout="@layout/list_fragment" />
 
-    <android.support.design.widget.FloatingActionButton
-
-        android:id="@+id/fab_add_fishing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_white_add"
-        app:fabSize="normal"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        app:borderWidth="0dp"
-        app:layout_anchorGravity="bottom|right|end" />
-
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_marginEnd="53dp"-->
-        <!--android:layout_marginBottom="16dp"-->
-        <!--android:layout_marginRight="16dp"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_marginEnd="53dp"-->
+    <!--android:layout_marginBottom="16dp"-->
+    <!--android:layout_marginRight="16dp"-->
 
 
     <!--<android.support.v4.widget.DrawerLayout-->
-        <!--android:id="@+id/drawer_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <!--android:id="@+id/drawer_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-        <!--<FrameLayout-->
-            <!--android:id="@+id/container"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-        <!--</FrameLayout>-->
+    <!--<FrameLayout-->
+    <!--android:id="@+id/container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!--</FrameLayout>-->
 
-        <!--<ListView-->
-            <!--android:id="@+id/lv_navigation_drawer"-->
-            <!--android:layout_width="240dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="start"-->
-            <!--android:background="@android:color/white">-->
-        <!--</ListView>-->
+    <!--<ListView-->
+    <!--android:id="@+id/lv_navigation_drawer"-->
+    <!--android:layout_width="240dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="start"-->
+    <!--android:background="@android:color/white">-->
+    <!--</ListView>-->
     <!--</android.support.v4.widget.DrawerLayout>-->
 
-</RelativeLayout>

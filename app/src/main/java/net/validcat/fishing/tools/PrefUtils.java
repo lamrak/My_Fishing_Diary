@@ -23,12 +23,19 @@ public class PrefUtils {
     }
 
     public static String formatTemperature(Context context, double temperature) {
-        return String.format(context.getString(R.string.format_temperature), isMetric(context) ? temperature - 273 : temperature);
+        double celsiusTemp = temperature - 273;
+        double fahrenheitTemp = (celsiusTemp * 1.8) + 32;
+//        return String.format(context.getString(R.string.format_temperature), isMetric(context) ? temperature - 273 : temperature);
+          return String.format(context.getString(R.string.format_temperature), isMetric(context) ? celsiusTemp : fahrenheitTemp);
     }
 
     public static double formatTemperatureToMetrics(Context context, double temperature) {
+
+        double celsiusTemp =  temperature - 273;
+        double fahrenheitTemp = (celsiusTemp * 1.8) + 32;
             //temperature = (temperature * 1.8) + 32;
-        return isMetric(context) ? temperature - 273 : temperature;
+//        return isMetric(context) ? temperature - 273 : temperature;
+          return isMetric(context) ? celsiusTemp : fahrenheitTemp;
     }
 
     /**

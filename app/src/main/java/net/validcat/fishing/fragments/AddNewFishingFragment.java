@@ -235,8 +235,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             case Constants.REQUEST_TEMPERATURE:
                 weatherIconSelection = data.getIntExtra(Constants.EXTRA_IMAGE_KEY, -1);
                 weatherTemp = data.getIntExtra(Constants.EXTRA_TEMPERATURE, 0);
-                updateWeatherData(weatherTemp + "\u00B0",
-                        PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
+                if (PrefUtils.isMetric(getActivity())) {
+                    updateWeatherData(weatherTemp + "\u00B0" + "C",
+                            PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
+                }else{
+                    updateWeatherData(weatherTemp + "\u00B0" + "F",
+                            PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
+                }
                 break;
             case Constants.REQUEST_TAKE_PHOTO:
                 handleCamera();

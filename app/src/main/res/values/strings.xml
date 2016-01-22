@@ -40,8 +40,6 @@
     <string name="hint_fishing_place">Place of fishing (e.x. Dnipro River)</string>
     <string name="price_value">0$</string>
 
-       <string name="weather_formatter" translatable="false"><xliff:g id="temperature">%1$s</xliff:g>\u00B0</string>
-       <string name="weather_fahrenheit"><xliff:g id="fahrenheit">%1$s</xliff:g>\u00B0 F</string>
     <!--fishing_list-->
     <string name="fishing_catch">Catch</string>
     <string name="fishing_photo">Photo</string>
@@ -118,5 +116,6 @@
     <string name="fishing_share_message">Fishing in <xliff:g id="place">%2$s</xliff:g> <xliff:g id="date">%1$s</xliff:g>:
         <xliff:g id="description">%3$s</xliff:g></string>
     <string name="title_phot_dialog">Pick photo</string>
-
+    <string name="temp_formatted_cel" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;C</string>
+    <string name="temp_formatted_far" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;F</string>
 </resources>

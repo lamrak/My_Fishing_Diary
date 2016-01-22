@@ -22,16 +22,20 @@ public class PrefUtils {
                 .equals(context.getString(R.string.pref_units_metric));
     }
 
-    public static String formatTemperature(Context context, double temperature) {
-        double celsiusTemp = temperature - 273;
-        double fahrenheitTemp = (celsiusTemp * 1.8) + 32;
-//        return String.format(context.getString(R.string.format_temperature), isMetric(context) ? temperature - 273 : temperature);
-          return String.format(context.getString(R.string.format_temperature), isMetric(context) ? celsiusTemp : fahrenheitTemp);
+    public static String getFormattedTemp(Context context, int weatherTemp) {
+        return context.getString(PrefUtils.isMetric(context) ?
+                R.string.temp_formatted_cel : R.string.temp_formatted_far, weatherTemp);
     }
 
-    public static double formatTemperatureToMetrics(Context context, double temperature) {
+    public static String formatTemperature(Context context, double kelvin) {
+        double celsiusTemp = kelvin - 273;
+        double fahrenheitTemp = (celsiusTemp * 1.8) + 32;
+//        return String.format(context.getString(R.string.format_temperature), isMetric(context) ? temperature - 273 : temperature);
+        return String.format(context.getString(R.string.format_temperature), isMetric(context) ? celsiusTemp : fahrenheitTemp);
+    }
 
-        double celsiusTemp =  temperature - 273;
+    public static double formatTemperatureToMetrics(Context context, double kelvin) {
+        double celsiusTemp =  kelvin - 273;
         double fahrenheitTemp = (celsiusTemp * 1.8) + 32;
             //temperature = (temperature * 1.8) + 32;
 //        return isMetric(context) ? temperature - 273 : temperature;
@@ -154,4 +158,5 @@ public class PrefUtils {
                 return 0;
         }
     }
+
 }

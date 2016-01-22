@@ -37,23 +37,15 @@ public class AddNewFishingActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
                     AddNewFishingFragment anff = //TODO check this
                             (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
                     anff.runCamera();
 
                 } else {
                     Toast.makeText(this, R.string.camera_permissoin_denied, Toast.LENGTH_SHORT).show();
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 break;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 }

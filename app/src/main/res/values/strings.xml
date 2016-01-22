@@ -31,6 +31,10 @@
     <string name="title_fishing_description">Description</string>
     <string name="title_fishing_date">Date</string>
     <string name="title_fishing_price">Price</string>
+    <string name="title_fishing_bait">Bait</string>
+    <string name="title_fishing_fish_feed">Fish feed</string>
+    <string name="title_fishing_catch">Catch</string>
+    <string name="title_fishing_tackle">Tackle</string>
 
     <string name="fishing_place">Place: <xliff:g id="place">%1$s</xliff:g></string>
     <string name="fishing_weather">Weather: <xliff:g id="weather">%1$s</xliff:g></string>
@@ -98,6 +102,7 @@
     <string name="pref_location_unknown_description">Validating Location… (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
     <string name="title_activity_settings">Settings</string>
     <string name="descr_weather_button">Change Weather</string>
+    <string name="descr_tackle_button">Change Tackle</string>
     <string name="no_weather_data" translatable="false">0C</string>
     <string name="camera_permissoin_denied">Camera permission denied</string>
 

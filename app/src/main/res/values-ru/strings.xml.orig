@@ -56,12 +56,15 @@
     <string name="pref_units_label_imperial">Фаренгейт</string>
     <string name="pref_units_label_metric">Цельсий</string>
     <string name="title_photo_dialog">Добавить фото</string>
+<<<<<<< HEAD
     <string name="title_fishing_bait">Наживка</string>
     <string name="title_fishing_catch">Улов</string>
     <string name="title_fishing_fish_feed">Прикормка</string>
     <string name="title_fishing_tackle">Снасть</string>
     <string name="descr_tackle_button">Изменить снасть</string>
+=======
     <string name="temp_formated_cels">+ \"\\u00B0\" + \"C\"</string>
- <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
+>>>>>>> 7533ed2a8b1619eda0994dcd7083584d324b841a
+    <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
 </resources>

@@ -43,24 +43,21 @@ public class WeatherDialogFragment extends DialogFragment {
 
         if(tempScale){
             temperature = getArguments().getInt(Constants.EXTRA_TEMPERATURE, 50);
-            tvTemp.setText(getString(R.string.weather_formatter, temperature));
             seekBar.setProgress(50 + temperature);
-        }else{
+        } else {
             temperature = 32;
-            tvTemp.setText(getString(R.string.weather_fahrenheit, temperature));
             seekBar.setMax(180);
             seekBar.setProgress(90);
         }
+        tvTemp.setText(getString(tempScale ? R.string.temp_formatted_cel
+                : R.string.temp_formatted_far, temperature));
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             private void progressChanged() {
                 temperature = currentValue(seekBar.getProgress());
-                if(tempScale) {
-                    tvTemp.setText(getString(R.string.weather_formatter, temperature));
-                }else {
-                    tvTemp.setText(getString(R.string.weather_fahrenheit, temperature));
-                }
+                tvTemp.setText(getString(tempScale ? R.string.temp_formatted_cel
+                        : R.string.temp_formatted_far, temperature));
             }
 
             @Override

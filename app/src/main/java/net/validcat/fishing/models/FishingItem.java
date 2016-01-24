@@ -18,11 +18,15 @@ public class FishingItem {
     //int weather
     String weather;
     String description;
-//    String catches;
     String price;
     String thumb;
     private List<String> photoList;
     int weatherIcon;
+    String tackle;
+    int tackleIcon;
+    String bait;
+    String fishFeed;
+    String catches;
 
     public FishingItem() {}
 
@@ -61,6 +65,22 @@ public class FishingItem {
         return thumb;
     }
 
+    public String getBait() {
+        return bait;
+    }
+
+    public String getFishFeed() {
+        return fishFeed;
+    }
+
+    public String getCatches() {
+        return catches;
+    }
+
+    public String getTackle() {
+        return tackle;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -83,6 +103,10 @@ public class FishingItem {
             item.photoList = Arrays.asList(photoStr.split(Constants.SPLIT_IMAGE_PATH_PATTERN));
         item.weatherIcon = data.getInt(FishingContract.FishingEntry.INDEX_WEATHER_ICON);
         item.thumb  = data.getString(FishingContract.FishingEntry.INDEX_THUMB);
+        item.tackle  = data.getString(FishingContract.FishingEntry.INDEX_TACKLE);
+        item.bait  = data.getString(FishingContract.FishingEntry.INDEX_BAIT);
+        item.fishFeed  = data.getString(FishingContract.FishingEntry.INDEX_FISH_FEED);
+        item.catches  = data.getString(FishingContract.FishingEntry.INDEX_CATCH);
 
         return item;
     }

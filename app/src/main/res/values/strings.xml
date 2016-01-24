@@ -43,9 +43,14 @@
     <string name="fishing_price">Price: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="hint_fishing_place">Place of fishing (e.x. Dnipro River)</string>
     <string name="price_value">0$</string>
+    <string name="fishing_bait"><xliff:g id="bait">%1$s</xliff:g></string>
+    <string name="fishing_no_bait">There are no information about this bait</string>
+    <string name="fishing_fish_feed"><xliff:g id="fish_feed">%1$s</xliff:g></string>
+    <string name="fishing_no_fish_feed">There are no information about this fish feed</string>
+    <string name="fishing_catches"><xliff:g id="catch">%1$s</xliff:g></string>
+    <string name="fishing_no_catches">There are no information about this catch</string>
 
     <!--fishing_list-->
-    <string name="fishing_catch">Catch</string>
     <string name="fishing_photo">Photo</string>
     <string name="image_descr">User photo</string>
     <string name="fishing_details">Details</string>

@@ -60,7 +60,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.et_price) EditText etPrice;
     @Bind(R.id.et_details) EditText etDetails;
-    @Bind(R.id.iv_weather)ImageView ivWeather;
+    @Bind(R.id.iv_weather) ImageView ivWeather;
+    @Bind(R.id.tv_tackle) TextView tvTackle;
+    @Bind(R.id.iv_tackle) ImageView ivTackle;
+    @Bind(R.id.et_bait) EditText etBait;
+    @Bind(R.id.et_fish_feed) EditText etFishFeed;
+    @Bind(R.id.et_catch) EditText etCatch;
 
     private CameraManager cm;
     private Uri uri;
@@ -208,6 +213,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 cv.put(FishingEntry.COLUMN_THUMB, thumbPath);
             }
             cv.put(FishingEntry.COLUMN_WEATHER_ICON, weatherIconSelection);
+            cv.put(FishingEntry.COLUMN_TACKLE, tvTackle.getText().toString());
+            cv.put(FishingEntry.COLUMN_BAIT, etBait.getText().toString());
+            cv.put(FishingEntry.COLUMN_FISH_FEED, etFishFeed.getText().toString());
+            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
 
             if (updateData) {
                 getActivity().getContentResolver().update(FishingEntry.CONTENT_URI, cv, null, null);

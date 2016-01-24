@@ -62,6 +62,12 @@
     <string name="title_fishing_tackle">Снасть</string>
     <string name="descr_tackle_button">Изменить снасть</string>
     <string name="temp_formated_cels">+ \"\\u00B0\" + \"C\"</string>
- <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
+    <string name="fishing_bait"><xliff:g id="Наживка">%1$s</xliff:g></string>
+    <string name="fishing_catches"><xliff:g id="Улов">%1$s</xliff:g></string>
+    <string name="fishing_fish_feed"><xliff:g id="Прикормка">%1$s</xliff:g></string>
+    <string name="fishing_no_bait">Нет информации о наживки</string>
+    <string name="fishing_no_catches">Нет информации о улове</string>
+    <string name="fishing_no_fish_feed">Нет информации о прикормке</string>
+    <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
 </resources>

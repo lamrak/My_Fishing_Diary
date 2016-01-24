@@ -50,6 +50,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.iv_toolbar_weather_icon) ImageView weatherIcon;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.tv_tackle) TextView tvTackle;
+    @Bind(R.id.tv_bait) TextView tvBait;
+    @Bind(R.id.tv_fish_feed) TextView tvFishFeed;
+    @Bind(R.id.tv_catch) TextView tvCatch;
+
     private Uri uri;
     private FishingItem item;
 
@@ -127,6 +132,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             tvPlace.setContentDescription(item.getPlace());
             tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
             tvDate.setContentDescription(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
+            tvTackle.setText(item.getTackle());
+            tvTackle.setContentDescription(item.getTackle());
             //weather box
             tvWeather.setText(item.getWeather());
             tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
@@ -139,6 +146,27 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 tvDescription.setText(getString(R.string.fishing_no_description));
                 tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
             }
+            if (!TextUtils.isEmpty(item.getBait())) {
+                tvBait.setText(getString(R.string.fishing_bait, item.getBait()));
+                tvBait.setContentDescription(getString(R.string.fishing_bait, item.getBait()));
+            } else {
+                tvBait.setText(getString(R.string.fishing_no_bait));
+                tvBait.setContentDescription(getString(R.string.fishing_bait, item.getBait()));
+            }
+            if (!TextUtils.isEmpty(item.getFishFeed())) {
+                tvFishFeed.setText(getString(R.string.fishing_fish_feed, item.getFishFeed()));
+                tvFishFeed.setContentDescription(getString(R.string.fishing_fish_feed, item.getFishFeed()));
+            } else {
+                tvFishFeed.setText(getString(R.string.fishing_no_fish_feed));
+                tvFishFeed.setContentDescription(getString(R.string.fishing_fish_feed, item.getFishFeed()));
+            }
+            if (!TextUtils.isEmpty(item.getCatches())) {
+                tvCatch.setText(getString(R.string.fishing_catches, item.getCatches()));
+                tvCatch.setContentDescription(getString(R.string.fishing_catches, item.getCatches()));
+            } else {
+                tvCatch.setText(getString(R.string.fishing_no_catches));
+                tvFishFeed.setContentDescription(getString(R.string.fishing_catches, item.getCatches()));
+            }
             if (!TextUtils.isEmpty(item.getPrice())) {
                 tvPrice.setText(getString(R.string.fishing_price, item.getPrice()));
                 tvPrice.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
@@ -149,6 +177,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 Log.d(LOG_TAG, "photo == null");
                 ivPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo));
             }
+
+
         }
     }
 

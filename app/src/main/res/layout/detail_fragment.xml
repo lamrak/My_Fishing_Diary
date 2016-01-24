@@ -122,18 +122,34 @@
                 android:padding="@dimen/activity_horizontal_margin">
 
                 <TextView
+                    android:id="@+id/tv_tackle"
+                    style="@style/detail_text_view_style" />
+
+                <TextView
+                    android:id="@+id/tv_bait"
+                    style="@style/detail_text_view_style"
+                    android:layout_below="@+id/tv_tackle"/>
+
+                <TextView
+                    android:id="@+id/tv_fish_feed"
+                    style="@style/detail_text_view_style"
+                    android:layout_below="@+id/tv_bait"/>
+
+                <TextView
+                    android:id="@+id/tv_catch"
+                    style="@style/detail_text_view_style"
+                    android:layout_below="@+id/tv_fish_feed"/>
+
+                <TextView
                     android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    style="@style/detail_text_view_style"
+                    android:layout_below="@+id/tv_catch"
                     android:transitionName="@string/key_description_transition" />
 
                 <TextView
                     android:id="@+id/tv_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_description"
-                    android:layout_marginTop="8dp" />
+                    style="@style/detail_text_view_style"
+                    android:layout_below="@+id/tv_description"/>
 
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>

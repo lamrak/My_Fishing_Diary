@@ -106,13 +106,17 @@ public class FishingContract {
                 FishingEntry.COLUMN_PRICE + " TEXT, " +
                 FishingEntry.COLUMN_IMAGE + " TEXT, " +
                 FishingEntry.COLUMN_WEATHER_ICON + " INTEGER, " +
-                FishingEntry.COLUMN_THUMB + " TEXT" +
+                FishingEntry.COLUMN_THUMB + " TEXT, " +
+                FishingEntry.COLUMN_TACKLE + " TEXT NOT NULL, " +
+                FishingEntry.COLUMN_TACKLE_ICON + " INTEGER, " +
+                FishingEntry.COLUMN_BAIT + " TEXT, " +
+                FishingEntry.COLUMN_FISH_FEED + " TEXT, " +
+                FishingEntry.COLUMN_CATCH + " TEXT" +
                 ");";
     }
 
     public static final class FishingEntry implements BaseColumns {
         public static final String TABLE_NAME = "fishing";
-
         public static final String COLUMN_PLACE = "place";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_WEATHER = "weather";
@@ -121,6 +125,11 @@ public class FishingContract {
         public static final String COLUMN_IMAGE = "photo";
         public static final String COLUMN_WEATHER_ICON = "weather_icon";
         public static final String COLUMN_THUMB = "photo_thumb";
+        public static final String COLUMN_TACKLE = "tackle";
+        public static final String COLUMN_TACKLE_ICON = "tackle_icon";
+        public static final String COLUMN_BAIT = "bait";
+        public static final String COLUMN_FISH_FEED = "fish_feed";
+        public static final String COLUMN_CATCH = "catch";
 
         public static String[] COLUMNS = {
                 FishingEntry._ID,
@@ -131,7 +140,12 @@ public class FishingContract {
                 FishingEntry.COLUMN_PRICE,
                 FishingEntry.COLUMN_IMAGE,
                 FishingEntry.COLUMN_WEATHER_ICON,
-                FishingEntry.COLUMN_THUMB
+                FishingEntry.COLUMN_THUMB,
+                FishingEntry.COLUMN_TACKLE,
+                FishingEntry.COLUMN_TACKLE_ICON,
+                FishingEntry.COLUMN_BAIT,
+                FishingEntry.COLUMN_FISH_FEED,
+                FishingEntry.COLUMN_CATCH
         };
 
         public static final int INDEX_ID = 0;
@@ -143,6 +157,11 @@ public class FishingContract {
         public static final int INDEX_IMAGE = 6;
         public static final int INDEX_WEATHER_ICON = 7;
         public static final int INDEX_THUMB = 8;
+        public static final int INDEX_TACKLE = 9;
+        public static final int INDEX_TACKLE_ICON = 10;
+        public static final int INDEX_BAIT = 11;
+        public static final int INDEX_FISH_FEED = 12;
+        public static final int INDEX_CATCH = 13;
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_FISHING).build();

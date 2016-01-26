@@ -128,4 +128,5 @@
     <string name="title_phot_dialog">Pick photo</string>
     <string name="temp_formatted_cel" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;C</string>
     <string name="temp_formatted_far" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;F</string>
+    <string name="temp_formated_cels" translatable="false">+ \"\\u00B0\" + \"C\"</string>
 </resources>

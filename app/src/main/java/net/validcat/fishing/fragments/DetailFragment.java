@@ -46,15 +46,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.tv_date) TextView tvDate;
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.tv_description) TextView tvDescription;
-    @Bind(R.id.tv_price) TextView tvPrice;
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.iv_toolbar_weather_icon) ImageView weatherIcon;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.tv_tackle) TextView tvTackle;
-    @Bind(R.id.tv_bait) TextView tvBait;
-    @Bind(R.id.tv_fish_feed) TextView tvFishFeed;
-    @Bind(R.id.tv_catch) TextView tvCatch;
-
     private Uri uri;
     private FishingItem item;
 
@@ -132,45 +126,27 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             tvPlace.setContentDescription(item.getPlace());
             tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
             tvDate.setContentDescription(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
-            tvTackle.setText(item.getTackle());
-            tvTackle.setContentDescription(item.getTackle());
             //weather box
             tvWeather.setText(item.getWeather());
             tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
             weatherIcon.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(item.getWeatherIcon()));
             //content
-            if (!TextUtils.isEmpty(item.getDescription())) {
-                tvDescription.setText(getString(R.string.fishing_description, item.getDescription()));
-                tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
+            StringBuilder sb = new StringBuilder();
+            if (!TextUtils.isEmpty(item.getDescription())) sb.append(item.getDescription());
+            if (!TextUtils.isEmpty(item.getBait())) sb.append(item.getBait());
+            if (!TextUtils.isEmpty(item.getFishFeed())) sb.append(item.getFishFeed());
+            if (!TextUtils.isEmpty(item.getCatches())) sb.append(item.getCatches());
+            if (!TextUtils.isEmpty(item.getPrice())) sb.append(item.getPrice());
+
+            String descr = sb.toString();
+            if (!TextUtils.isEmpty(descr)) {
+                tvDescription.setText(getString(R.string.fishing_description, descr));
+                tvDescription.setContentDescription(getString(R.string.fishing_description, descr));
             } else {
                 tvDescription.setText(getString(R.string.fishing_no_description));
-                tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
+                tvDescription.setContentDescription(getString(R.string.fishing_no_description));
             }
-            if (!TextUtils.isEmpty(item.getBait())) {
-                tvBait.setText(getString(R.string.fishing_bait, item.getBait()));
-                tvBait.setContentDescription(getString(R.string.fishing_bait, item.getBait()));
-            } else {
-                tvBait.setText(getString(R.string.fishing_no_bait));
-                tvBait.setContentDescription(getString(R.string.fishing_bait, item.getBait()));
-            }
-            if (!TextUtils.isEmpty(item.getFishFeed())) {
-                tvFishFeed.setText(getString(R.string.fishing_fish_feed, item.getFishFeed()));
-                tvFishFeed.setContentDescription(getString(R.string.fishing_fish_feed, item.getFishFeed()));
-            } else {
-                tvFishFeed.setText(getString(R.string.fishing_no_fish_feed));
-                tvFishFeed.setContentDescription(getString(R.string.fishing_fish_feed, item.getFishFeed()));
-            }
-            if (!TextUtils.isEmpty(item.getCatches())) {
-                tvCatch.setText(getString(R.string.fishing_catches, item.getCatches()));
-                tvCatch.setContentDescription(getString(R.string.fishing_catches, item.getCatches()));
-            } else {
-                tvCatch.setText(getString(R.string.fishing_no_catches));
-                tvFishFeed.setContentDescription(getString(R.string.fishing_catches, item.getCatches()));
-            }
-            if (!TextUtils.isEmpty(item.getPrice())) {
-                tvPrice.setText(getString(R.string.fishing_price, item.getPrice()));
-                tvPrice.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
-            }
+
             if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
                 CameraManager.setPic(item.getPhotoList().get(0), ivPhoto);
             } else {

@@ -321,7 +321,7 @@ public class CameraManager {
                 default:
                     degree = 90;
             }
-            ivPhoto.setImageBitmap(cropToSquare(rotateImageIfRequired(bitmap, degree)));
+            ivPhoto.setImageBitmap(rotateImageIfRequired(bitmap, degree)); //cropToSquare(
         } catch (IOException e) {
             e.printStackTrace();
         }

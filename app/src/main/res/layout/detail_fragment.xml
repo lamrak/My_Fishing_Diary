@@ -115,43 +115,12 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:id="@+id/tv_tackle"
-                    style="@style/detail_text_view_style" />
-
-                <TextView
-                    android:id="@+id/tv_bait"
-                    style="@style/detail_text_view_style"
-                    android:layout_below="@+id/tv_tackle"/>
-
-                <TextView
-                    android:id="@+id/tv_fish_feed"
-                    style="@style/detail_text_view_style"
-                    android:layout_below="@+id/tv_bait"/>
-
-                <TextView
-                    android:id="@+id/tv_catch"
-                    style="@style/detail_text_view_style"
-                    android:layout_below="@+id/tv_fish_feed"/>
-
                 <TextView
                     android:id="@+id/tv_description"
                     style="@style/detail_text_view_style"
-                    android:layout_below="@+id/tv_catch"
                     android:transitionName="@string/key_description_transition" />
 
-                <TextView
-                    android:id="@+id/tv_price"
-                    style="@style/detail_text_view_style"
-                    android:layout_below="@+id/tv_description"/>
 
-            </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton

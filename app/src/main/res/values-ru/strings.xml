@@ -10,7 +10,6 @@
     <string name="fishing_date">Дата:  <xliff:g id="Дата">%1$s</xliff:g></string>
     <string name="fishing_weather">Погода: <xliff:g id="Погода">%1$s</xliff:g></string>
     <string name="fishing_details">Описание</string>
-    <string name="fishing_catch">Улов</string>
     <string name="fishing_photo">Фотография</string>
     <string name="fishing_price">Стоимость рыбалки: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="price_value">0 грн</string>
@@ -61,7 +60,6 @@
     <string name="title_fishing_fish_feed">Прикормка</string>
     <string name="title_fishing_tackle">Снасть</string>
     <string name="descr_tackle_button">Изменить снасть</string>
-    <string name="temp_formated_cels">+ \"\\u00B0\" + \"C\"</string>
     <string name="fishing_bait"><xliff:g id="Наживка">%1$s</xliff:g></string>
     <string name="fishing_catches"><xliff:g id="Улов">%1$s</xliff:g></string>
     <string name="fishing_fish_feed"><xliff:g id="Прикормка">%1$s</xliff:g></string>

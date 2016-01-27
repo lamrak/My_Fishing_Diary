@@ -133,10 +133,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             //content
             StringBuilder sb = new StringBuilder();
             if (!TextUtils.isEmpty(item.getDescription())) sb.append(item.getDescription());
-            if (!TextUtils.isEmpty(item.getBait())) sb.append(item.getBait());
-            if (!TextUtils.isEmpty(item.getFishFeed())) sb.append(item.getFishFeed());
-            if (!TextUtils.isEmpty(item.getCatches())) sb.append(item.getCatches());
-            if (!TextUtils.isEmpty(item.getPrice())) sb.append(item.getPrice());
+            if (!TextUtils.isEmpty(item.getBait())) sb.append(getString(R.string.fishing_bait, item.getBait()));
+            if (!TextUtils.isEmpty(item.getFishFeed())) sb.append(getString(R.string.fishing_fish_feed, item.getFishFeed()));
+            if (!TextUtils.isEmpty(item.getCatches())) sb.append(getString(R.string.fishing_catches, item.getCatches()));
+            if (!TextUtils.isEmpty(item.getPrice())) sb.append(getString(R.string.fishing_price, item.getPrice()));
 
             String descr = sb.toString();
             if (!TextUtils.isEmpty(descr)) {

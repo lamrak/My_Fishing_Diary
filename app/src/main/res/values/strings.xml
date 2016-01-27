@@ -40,14 +40,14 @@
     <string name="fishing_weather">Weather: <xliff:g id="weather">%1$s</xliff:g></string>
     <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="fishing_date">Date: <xliff:g id="date">%1$s</xliff:g></string>
-    <string name="fishing_price">Price: <xliff:g id="price">%1$s</xliff:g></string>
+    <string name="fishing_price">\nPrice: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="hint_fishing_place">Place of fishing (e.x. Dnipro River)</string>
     <string name="price_value">0$</string>
-    <string name="fishing_bait"><xliff:g id="bait">%1$s</xliff:g></string>
+    <string name="fishing_bait">\n\nBait: <xliff:g id="bait">%1$s</xliff:g></string>
     <string name="fishing_no_bait">There are no information about this bait</string>
-    <string name="fishing_fish_feed"><xliff:g id="fish_feed">%1$s</xliff:g></string>
+    <string name="fishing_fish_feed">\nFish feed: <xliff:g id="fish_feed">%1$s</xliff:g></string>
     <string name="fishing_no_fish_feed">There are no information about this fish feed</string>
-    <string name="fishing_catches"><xliff:g id="catch">%1$s</xliff:g></string>
+    <string name="fishing_catches">\nCatches: <xliff:g id="catch">%1$s</xliff:g></string>
     <string name="fishing_no_catches">There are no information about this catch</string>
 
     <!--fishing_list-->

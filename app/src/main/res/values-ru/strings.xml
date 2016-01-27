@@ -7,14 +7,14 @@
     <string name="action_settings">Настройки</string>
     <string name="footer_string">Новая рыбалка</string>
     <string name="fishing_place">Место рыбалки: <xliff:g id="place">%1$s</xliff:g></string>
-    <string name="fishing_date">Дата:  <xliff:g id="Дата">%1$s</xliff:g></string>
-    <string name="fishing_weather">Погода: <xliff:g id="Погода">%1$s</xliff:g></string>
+    <string name="fishing_date">Дата: <xliff:g id="date">%1$s</xliff:g></string>
+    <string name="fishing_weather">Погода: <xliff:g id="weather">%1$s</xliff:g></string>
     <string name="fishing_details">Описание</string>
     <string name="fishing_photo">Фотография</string>
-    <string name="fishing_price">Стоимость рыбалки: <xliff:g id="price">%1$s</xliff:g></string>
+    <string name="fishing_price">\nСтоимость рыбалки: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="price_value">0 грн</string>
     <string name="hint_fishing_place">Место вашей рыбалки (Озеро, Река)</string>
-    <string name="fishing_description"><xliff:g id="Описание">%1$s</xliff:g></string>
+    <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="image_descr">Фотографии с рыбалки</string>
     <string name="action_send">Отправить</string>
     <string name="action_camera">Камера</string>
@@ -35,7 +35,7 @@
     <string name="menu_detail_delete">Удалить</string>
     <string name="title_weather_dialog">Выберите погоду</string>
     <string name="temperature">Температура:</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings">Настройки</string>
     <string name="take_photo">Сделать фото</string>
     <string name="pick_image">Выбрать из галереи</string>
     <string name="title_phot_dialog">Выберите фото</string>
@@ -60,9 +60,9 @@
     <string name="title_fishing_fish_feed">Прикормка</string>
     <string name="title_fishing_tackle">Снасть</string>
     <string name="descr_tackle_button">Изменить снасть</string>
-    <string name="fishing_bait"><xliff:g id="Наживка">%1$s</xliff:g></string>
-    <string name="fishing_catches"><xliff:g id="Улов">%1$s</xliff:g></string>
-    <string name="fishing_fish_feed"><xliff:g id="Прикормка">%1$s</xliff:g></string>
+    <string name="fishing_bait">\n\nНаживка: <xliff:g id="bait">%1$s</xliff:g></string>
+    <string name="fishing_catches">\nУлов: <xliff:g id="catch">%1$s</xliff:g></string>
+    <string name="fishing_fish_feed">\nПрикормка: <xliff:g id="fish_feed">%1$s</xliff:g></string>
     <string name="fishing_no_bait">Нет информации о наживки</string>
     <string name="fishing_no_catches">Нет информации о улове</string>
     <string name="fishing_no_fish_feed">Нет информации о прикормке</string>

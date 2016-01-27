@@ -14,7 +14,7 @@
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/FishingActionBar</item>
         <item name="actionBarStyle">@style/FishingActionBar</item>
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/green04</item>
     </style>
 

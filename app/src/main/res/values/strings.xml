@@ -16,7 +16,7 @@
     <string name="title_fishing_details">Fishing Details</string>
 
     <!--android_manifest-->
-    <string name="app_name">My Fishing</string>
+    <string name="app_name">Fishing Diary</string>
     <string name="title_add_new_fishing">New Fishing</string>
 
     <!--add_new_fishing_action_bar-->

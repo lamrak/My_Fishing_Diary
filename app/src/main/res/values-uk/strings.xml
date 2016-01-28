@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Щоденник Рибалки</string>
+    <string name="title_add_new_fishing">Добавити риболовлю</string>
+    <string name="title_fishing_details">Рибалка</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="footer_string">Нова рибалка</string>
+    <string name="fishing_place">Місце риболовлі: <xliff:g id="place">%1$s</xliff:g></string>
+    <string name="fishing_date">Дата: <xliff:g id="date">%1$s</xliff:g></string>
+    <string name="fishing_weather">Погода: <xliff:g id="weather">%1$s</xliff:g></string>
+    <string name="fishing_details">Опис</string>
+    <string name="fishing_photo">Фотографiя</string>
+    <string name="fishing_price">\nВартість риболовлі: <xliff:g id="price">%1$s</xliff:g></string>
+    <string name="price_value">0 грн</string>
+    <string name="hint_fishing_place">Місце вашої риболовлі (Озеро, Річка)</string>
+    <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
+    <string name="image_descr">Фотографії з риболовлі</string>
+    <string name="action_send">Відправити</string>
+    <string name="action_camera">Камера</string>
+    <string name="action_back">Назад</string>
+    <string name="title_fishing_date">Дата</string>
+    <string name="title_fishing_description">Опис</string>
+    <string name="title_fishing_place">Місце риболовлі</string>
+    <string name="title_fishing_price">Вартiсть</string>
+    <string name="title_fishing_weather">Погода</string>
+    <string name="menu_detail_item">Редагувати</string>
+    <string name="menu_detail_share">Поділитися</string>
+    <string name="today">Сьогодні</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="settings_button">Налаштування</string>
+    <string name="share_message">Поділитися</string>
+    <string name="share_search">Поділитися:</string>
+    <string name="share_subject">Моя Рибалка</string>
+    <string name="menu_detail_delete">Видалити</string>
+    <string name="title_weather_dialog">Виберіть погоду</string>
+    <string name="temperature">Температура:</string>
+    <string name="title_activity_settings">Налаштування</string>
+    <string name="take_photo">Зробити фото</string>
+    <string name="pick_image">Вибрати з галереї</string>
+    <string name="title_phot_dialog">Виберіть фото</string>
+
+    <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string>
+    <string name="date_format">dd MMMM</string>
+    <string name="fishing_no_description">Немає інформації</string>
+    <string name="fishing_share_message">Нотатки про рибалку <xliff:g id="date">%1$s</xliff:g>
+        на <xliff:g id="place">%2$s</xliff:g>:<xliff:g id="description">%3$s</xliff:g></string>
+    <string name="action_save">Зберегти</string>
+    <string name="camera_permissoin_denied">Заборонити використання камери </string>
+    <string name="descr_weather_button">Змінити погоду</string>
+    <string name="pref_location_error_description">Неправильна локація (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
+    <string name="pref_location_label">Локація</string>
+    <string name="pref_location_unknown_description">Перевірка локації… (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
+    <string name="pref_units_label">Одиниця виміру температури</string>
+    <string name="pref_units_label_imperial">Фаренгейт</string>
+    <string name="pref_units_label_metric">Цельсій</string>
+    <string name="title_photo_dialog">Добавить фото</string>
+    <string name="title_fishing_bait">Наживка</string>
+    <string name="title_fishing_catch">Улов</string>
+    <string name="title_fishing_fish_feed">Прикормка</string>
+    <string name="title_fishing_tackle">Снасть</string>
+    <string name="descr_tackle_button">Змінити снасть</string>
+    <string name="fishing_bait">\n\nНаживка: <xliff:g id="bait">%1$s</xliff:g></string>
+    <string name="fishing_catches">\nУлов: <xliff:g id="catch">%1$s</xliff:g></string>
+    <string name="fishing_fish_feed">\nПідгодовування: <xliff:g id="fish_feed">%1$s</xliff:g></string>
+    <string name="fishing_no_bait">Немає інформації </string>
+    <string name="fishing_no_catches">Немає інформації</string>
+    <string name="fishing_no_fish_feed">Немає інформації</string>
+    <string name="alert_dialog_stay_here">Залишитися</string>
+    <string name="alert_dialog_do_not_store">Закрити</string>
+    <string name="close_without_save">Закрити без збереження?</string>
+    <string name="delete_fishing_item">Видалити запис про риболовлю?</string>
+    <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
+
+</resources>

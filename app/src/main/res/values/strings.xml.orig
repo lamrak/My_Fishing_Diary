@@ -128,6 +128,7 @@
     <string name="title_phot_dialog">Pick photo</string>
     <string name="temp_formatted_cel" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;C</string>
     <string name="temp_formatted_far" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;F</string>
+<<<<<<< HEAD
 
     <!--dialog_tackle-->
     <string name="tackle_value">Rod</string>
@@ -140,10 +141,11 @@
     <string name="tip_up">Tip up </string>
     <string name="hand_line">Hand line </string>
     <string name="fly_fishing">Fly fishing </string>
-
- <string name="temp_formated_cels" translatable="false">+ \"\\u00B0\" + \"C\"</string>
+=======
+    <string name="temp_formated_cels" translatable="false">+ \"\\u00B0\" + \"C\"</string>
     <string name="alert_dialog_do_not_store">Reset and close</string>
     <string name="alert_dialog_stay_here">Stay here</string>
     <string name="close_without_save">Close without saving?</string>
     <string name="delete_fishing_item">Delete Fishing Item?</string>
+>>>>>>> 094189c137673fbecc5fe874344dc6c19470e38f
 </resources>

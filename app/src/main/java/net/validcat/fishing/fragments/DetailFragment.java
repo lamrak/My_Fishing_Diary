@@ -1,16 +1,21 @@
 package net.validcat.fishing.fragments;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -25,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.validcat.fishing.AddNewFishingActivity;
+import net.validcat.fishing.DetailActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
@@ -46,15 +52,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.tv_date) TextView tvDate;
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.tv_description) TextView tvDescription;
-    @Bind(R.id.tv_price) TextView tvPrice;
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.iv_toolbar_weather_icon) ImageView weatherIcon;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.tv_tackle) TextView tvTackle;
-    @Bind(R.id.tv_bait) TextView tvBait;
-    @Bind(R.id.tv_fish_feed) TextView tvFishFeed;
-    @Bind(R.id.tv_catch) TextView tvCatch;
-
     private Uri uri;
     private FishingItem item;
 
@@ -115,13 +115,22 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         AddNewFishingActivity.class).putExtra(Constants.DETAIL_KEY, uri.toString()));
                 return true;
             case R.id.delete:
-                getActivity().getContentResolver().delete(uri, null, null);
-                getActivity().finish();
+                showConfirmationDialog();
                 return true;
             default:
                 return false;
         }
 //        return super.onOptionsItemSelected(item);
+    }
+
+    public void deleteFishingItem() {
+        getActivity().getContentResolver().delete(uri, null, null);
+        getActivity().finish();
+    }
+
+    private void showConfirmationDialog() {
+        DialogFragment newFragment = DeleteAlertDialog.newInstance(R.string.delete_fishing_item);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 
     @Override
@@ -132,45 +141,27 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             tvPlace.setContentDescription(item.getPlace());
             tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
             tvDate.setContentDescription(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
-            tvTackle.setText(item.getTackle());
-            tvTackle.setContentDescription(item.getTackle());
             //weather box
             tvWeather.setText(item.getWeather());
             tvWeather.setContentDescription(getString(R.string.fishing_weather, item.getWeather()));
             weatherIcon.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(item.getWeatherIcon()));
             //content
-            if (!TextUtils.isEmpty(item.getDescription())) {
-                tvDescription.setText(getString(R.string.fishing_description, item.getDescription()));
-                tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
+            StringBuilder sb = new StringBuilder();
+            if (!TextUtils.isEmpty(item.getDescription())) sb.append(item.getDescription());
+            if (!TextUtils.isEmpty(item.getBait())) sb.append(getString(R.string.fishing_bait, item.getBait()));
+            if (!TextUtils.isEmpty(item.getFishFeed())) sb.append(getString(R.string.fishing_fish_feed, item.getFishFeed()));
+            if (!TextUtils.isEmpty(item.getCatches())) sb.append(getString(R.string.fishing_catches, item.getCatches()));
+            if (!TextUtils.isEmpty(item.getPrice())) sb.append(getString(R.string.fishing_price, item.getPrice()));
+
+            String descr = sb.toString();
+            if (!TextUtils.isEmpty(descr)) {
+                tvDescription.setText(getString(R.string.fishing_description, descr));
+                tvDescription.setContentDescription(getString(R.string.fishing_description, descr));
             } else {
                 tvDescription.setText(getString(R.string.fishing_no_description));
-                tvDescription.setContentDescription(getString(R.string.fishing_description, item.getDescription()));
+                tvDescription.setContentDescription(getString(R.string.fishing_no_description));
             }
-            if (!TextUtils.isEmpty(item.getBait())) {
-                tvBait.setText(getString(R.string.fishing_bait, item.getBait()));
-                tvBait.setContentDescription(getString(R.string.fishing_bait, item.getBait()));
-            } else {
-                tvBait.setText(getString(R.string.fishing_no_bait));
-                tvBait.setContentDescription(getString(R.string.fishing_bait, item.getBait()));
-            }
-            if (!TextUtils.isEmpty(item.getFishFeed())) {
-                tvFishFeed.setText(getString(R.string.fishing_fish_feed, item.getFishFeed()));
-                tvFishFeed.setContentDescription(getString(R.string.fishing_fish_feed, item.getFishFeed()));
-            } else {
-                tvFishFeed.setText(getString(R.string.fishing_no_fish_feed));
-                tvFishFeed.setContentDescription(getString(R.string.fishing_fish_feed, item.getFishFeed()));
-            }
-            if (!TextUtils.isEmpty(item.getCatches())) {
-                tvCatch.setText(getString(R.string.fishing_catches, item.getCatches()));
-                tvCatch.setContentDescription(getString(R.string.fishing_catches, item.getCatches()));
-            } else {
-                tvCatch.setText(getString(R.string.fishing_no_catches));
-                tvFishFeed.setContentDescription(getString(R.string.fishing_catches, item.getCatches()));
-            }
-            if (!TextUtils.isEmpty(item.getPrice())) {
-                tvPrice.setText(getString(R.string.fishing_price, item.getPrice()));
-                tvPrice.setContentDescription(getString(R.string.fishing_price, item.getPrice()));
-            }
+
             if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
                 CameraManager.setPic(item.getPhotoList().get(0), ivPhoto);
             } else {
@@ -204,6 +195,39 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 .setStream(Uri.fromFile(new File(item.getPhotoList().get(0))))
                 .setType("image/jpeg")
                 .getIntent());
+    }
+
+    public static class DeleteAlertDialog extends DialogFragment {
+
+        public static DeleteAlertDialog newInstance(int title) {
+            DeleteAlertDialog frag = new DeleteAlertDialog();
+            Bundle args = new Bundle();
+            args.putInt(Constants.KEY_TITLE, title);
+            frag.setArguments(args);
+
+            return frag;
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(getArguments().getInt(Constants.KEY_TITLE))
+                    .setPositiveButton(android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    ((DetailActivity) getActivity()).doPositiveClick();
+                                }
+                            }
+                    )
+                    .setNegativeButton(android.R.string.cancel,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                }
+                            }
+                    )
+                    .create();
+        }
     }
 
 }

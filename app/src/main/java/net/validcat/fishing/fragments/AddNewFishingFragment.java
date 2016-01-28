@@ -8,6 +8,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.camera.CameraManager;
@@ -53,7 +56,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
-    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
+//    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
     @Bind(R.id.tv_date) TextView tvDate;
@@ -176,6 +179,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                if (!TextUtils.isEmpty(etPlace.getText())) {
+                    showConfirmationDialog();
+                    return true;
+                }
+                break;
             case R.id.action_add_new_fishing:
                 storeNewFishing();
                 break;
@@ -188,6 +197,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         }
 
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void showConfirmationDialog() {
+        DialogFragment newFragment = StoreAlertDialog.newInstance(R.string.close_without_save);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 
     public void handleCamera() {
@@ -238,7 +252,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void runCamera() {
-        photoId = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        photoId = new SimpleDateFormat(Constants.CAMERA_TIME_PATTERN, Locale.getDefault()).format(new Date());
         cm.startCameraForResult(getActivity(), photoId);
     }
 
@@ -272,7 +286,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         }
     }
-
 
     private void updateWeatherData(String temp, int weather) {
         tvWeather.setText(temp);
@@ -360,6 +373,41 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+        }
+    }
+
+    public static class StoreAlertDialog extends DialogFragment {
+
+        public static StoreAlertDialog newInstance(int title) {
+            StoreAlertDialog frag = new StoreAlertDialog();
+            Bundle args = new Bundle();
+            args.putInt(Constants.KEY_TITLE, title);
+            frag.setArguments(args);
+            
+            return frag;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            int title = getArguments().getInt(Constants.KEY_TITLE);
+
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(title)
+                    .setPositiveButton(R.string.alert_dialog_do_not_store,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    ((AddNewFishingActivity)getActivity()).doPositiveClick();
+                                }
+                            }
+                    )
+                    .setNegativeButton(R.string.alert_dialog_stay_here,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+//                                    ((AddNewFishingActivity)getActivity()).doNegativeClick();
+                                }
+                            }
+                    )
+                    .create();
         }
     }
 

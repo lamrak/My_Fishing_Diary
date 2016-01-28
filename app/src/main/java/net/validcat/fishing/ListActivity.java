@@ -59,7 +59,7 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
                                 new Pair<>(sharedView[0], sharedView[0].getTransitionName()),
                                 new Pair<>(sharedView[1], sharedView[1].getTransitionName()),
                                 new Pair<>(sharedView[2], sharedView[2].getTransitionName())).toBundle());
-            } else  startActivity(new Intent(ListActivity.this, DetailActivity.class).putExtra(Constants.DETAIL_KEY, clickedItemId));
+            } else startActivity(new Intent(ListActivity.this, DetailActivity.class).putExtra(Constants.DETAIL_KEY, clickedItemId));
         } else {
             panel = false;
             Bundle args = new Bundle();

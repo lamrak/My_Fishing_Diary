@@ -14,8 +14,10 @@
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/FishingActionBar</item>
         <item name="actionBarStyle">@style/FishingActionBar</item>
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/green04</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
     <style name="FishingActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">

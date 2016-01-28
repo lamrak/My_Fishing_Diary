@@ -53,4 +53,8 @@ public class Constants {
     public static final int PICK_PHOTO = 104;
     public static final String SPLIT_IMAGE_PATH_PATTERN = "\\s*,\\s*";
     public static final int THUMB_SIZE = 64;
+
+    public static final String TACKLE_DIALOG_KEY = "tackle_dialog";
+    public static final int REQUEST_TACKLE = 105;
+    public static final String EXTRA_TACKLE_IMAGE_KEY = "tackle_imageKey";
 }

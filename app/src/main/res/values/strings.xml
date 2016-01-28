@@ -128,4 +128,16 @@
     <string name="title_phot_dialog">Pick photo</string>
     <string name="temp_formatted_cel" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;C</string>
     <string name="temp_formatted_far" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;F</string>
+
+    <!--dialog_tackle-->
+    <string name="tackle_value">Rod</string>
+    <string name="title_tackle_dialog">Set tackle: </string>
+    <string name="rod">Rod </string>
+    <string name="spinning">Spinning </string>
+    <string name="feeder">Feeder </string>
+    <string name="distance_casting">Distance casting </string>
+    <string name="ice_fishing_rod">Ice fishing rod </string>
+    <string name="tip_up">Tip up </string>
+    <string name="hand_line">Hand line </string>
+    <string name="fly_fishing">Fly fishing </string>
 </resources>

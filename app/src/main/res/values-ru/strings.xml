@@ -34,7 +34,7 @@
     <string name="share_search">Поделиться в:</string>
     <string name="share_subject">Приложение: Моя Рыбалка</string>
     <string name="menu_detail_delete">Удалить</string>
-    <string name="title_weather_dialog">Выберите погоду</string>
+    <string name="title_weather_dialog">Выберите погоду:</string>
     <string name="temperature">Температура:</string>
     <string name="title_activity_settings">Settings</string>
     <string name="take_photo">Сделать фото</string>
@@ -68,6 +68,8 @@
     <string name="fishing_no_bait">Нет информации о наживки</string>
     <string name="fishing_no_catches">Нет информации о улове</string>
     <string name="fishing_no_fish_feed">Нет информации о прикормке</string>
+    <string name="tackle_value">Удочка</string>
+    <string name="title_tackle_dialog">Выберите снасть:</string>
     <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
 </resources>

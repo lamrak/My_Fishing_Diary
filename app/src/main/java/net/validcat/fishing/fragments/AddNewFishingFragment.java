@@ -74,6 +74,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     //weather
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
+    private int tackleSelection = 0;
+   // private int tackleTextSelection = 0;
     private String photoPath;
     private String photoId;
     private long date = 0;
@@ -139,6 +141,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         ivWeather.setOnClickListener(lin);
 
         makeWeatherRequest();
+
+        ivTackle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                runTackleDialog();
+            }
+        });
 
         cm = new CameraManager();
 
@@ -256,6 +265,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 photoId = CameraManager.getPhotoIdFromUri(getActivity(), selectedImage);
                 photoPath = CameraManager.getPath(getActivity(), selectedImage);
                 setImage(selectedImage);
+                break;
+            case Constants.REQUEST_TACKLE:
+                tackleSelection = data.getIntExtra(Constants.EXTRA_TACKLE_IMAGE_KEY,-1);
+                updateTackleData(PrefUtils.formatTacleSeletedToTextView(tackleSelection),PrefUtils.formatTacleSeletedToIconsCode(tackleSelection));
+
         }
     }
 
@@ -263,6 +277,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private void updateWeatherData(String temp, int weather) {
         tvWeather.setText(temp);
         ivWeather.setImageResource(weather);
+    }
+
+    private void updateTackleData(int nameTackle, int iconTackle) {
+        tvTackle.setText(nameTackle);
+        ivTackle.setImageResource(iconTackle);
     }
 
     public void updateUiByItemId() {
@@ -305,6 +324,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         PhotoDialogFragment photoDialog = new PhotoDialogFragment();
         photoDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TAKE_PHOTO);
         photoDialog.show(fm, Constants.PHOTO_DIALOG_KEY);
+    }
+
+    private void runTackleDialog() {
+        FragmentManager fm = getActivity().getFragmentManager();
+        TackleDialogFragment tackleDialog = new TackleDialogFragment();
+        tackleDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TACKLE);
+        tackleDialog.show(fm,Constants.TACKLE_DIALOG_KEY);
     }
 
     public void setImage(Uri imageUri) {

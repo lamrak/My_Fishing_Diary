@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -201,18 +202,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         public static DeleteAlertDialog newInstance(int title) {
             DeleteAlertDialog frag = new DeleteAlertDialog();
             Bundle args = new Bundle();
-            args.putInt("title", title);
+            args.putInt(Constants.KEY_TITLE, title);
             frag.setArguments(args);
 
             return frag;
         }
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            int title = getArguments().getInt("title");
-
             return new AlertDialog.Builder(getActivity())
-                    .setTitle(title)
+                    .setTitle(getArguments().getInt(Constants.KEY_TITLE))
                     .setPositiveButton(android.R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {

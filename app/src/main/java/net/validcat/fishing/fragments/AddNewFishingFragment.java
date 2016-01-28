@@ -56,7 +56,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
-    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
+//    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
     @Bind(R.id.tv_date) TextView tvDate;
@@ -243,7 +243,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public void runCamera() {
-        photoId = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        photoId = new SimpleDateFormat(Constants.CAMERA_TIME_PATTERN, Locale.getDefault()).format(new Date());
         cm.startCameraForResult(getActivity(), photoId);
     }
 
@@ -355,7 +355,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         public static StoreAlertDialog newInstance(int title) {
             StoreAlertDialog frag = new StoreAlertDialog();
             Bundle args = new Bundle();
-            args.putInt("title", title);
+            args.putInt(Constants.KEY_TITLE, title);
             frag.setArguments(args);
             
             return frag;
@@ -363,7 +363,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            int title = getArguments().getInt("title");
+            int title = getArguments().getInt(Constants.KEY_TITLE);
 
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)

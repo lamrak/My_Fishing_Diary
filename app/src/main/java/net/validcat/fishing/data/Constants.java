@@ -7,7 +7,6 @@ public class Constants {
     public static final String EXTENSION_JPG = ".jpg";
     public static final int REQUEST_CODE_PHOTO = 301;
     public static final String DETAIL_KEY = "detail_id";
-    public static final int HEIGHT_BITMAP = 200;
 
     public static final String DIALOG_KEY = "dialog";
     public static final String DELETE = "delete";
@@ -53,4 +52,6 @@ public class Constants {
     public static final int PICK_PHOTO = 104;
     public static final String SPLIT_IMAGE_PATH_PATTERN = "\\s*,\\s*";
     public static final int THUMB_SIZE = 64;
+    public static final String KEY_TITLE = "title";
+    public static final String CAMERA_TIME_PATTERN = "yyyyMMdd_HHmmss";
 }

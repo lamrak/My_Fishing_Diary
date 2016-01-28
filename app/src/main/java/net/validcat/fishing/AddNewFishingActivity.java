@@ -37,10 +37,9 @@ public class AddNewFishingActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    AddNewFishingFragment anff = //TODO check this
+                    AddNewFishingFragment anff = //TODO check null
                             (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
                     anff.runCamera();
-
                 } else {
                     Toast.makeText(this, R.string.camera_permissoin_denied, Toast.LENGTH_SHORT).show();
                 }

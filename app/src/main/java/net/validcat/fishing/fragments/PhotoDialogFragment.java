@@ -21,7 +21,6 @@ public class PhotoDialogFragment extends DialogFragment {
     @Bind(R.id.btn_take_photo)Button takePhoto;
     @Bind(R.id.btn_pick_photo)Button pickPhoto;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

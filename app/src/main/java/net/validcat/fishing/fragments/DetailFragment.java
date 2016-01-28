@@ -1,16 +1,20 @@
 package net.validcat.fishing.fragments;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -25,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.validcat.fishing.AddNewFishingActivity;
+import net.validcat.fishing.DetailActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
@@ -109,13 +114,22 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         AddNewFishingActivity.class).putExtra(Constants.DETAIL_KEY, uri.toString()));
                 return true;
             case R.id.delete:
-                getActivity().getContentResolver().delete(uri, null, null);
-                getActivity().finish();
+                showConfirmationDialog();
                 return true;
             default:
                 return false;
         }
 //        return super.onOptionsItemSelected(item);
+    }
+
+    public void deleteFishingItem() {
+        getActivity().getContentResolver().delete(uri, null, null);
+        getActivity().finish();
+    }
+
+    private void showConfirmationDialog() {
+        DialogFragment newFragment = DeleteAlertDialog.newInstance(R.string.delete_fishing_item);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 
     @Override
@@ -180,6 +194,40 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 .setStream(Uri.fromFile(new File(item.getPhotoList().get(0))))
                 .setType("image/jpeg")
                 .getIntent());
+    }
+
+    public static class DeleteAlertDialog extends DialogFragment {
+
+        public static DeleteAlertDialog newInstance(int title) {
+            DeleteAlertDialog frag = new DeleteAlertDialog();
+            Bundle args = new Bundle();
+            args.putInt("title", title);
+            frag.setArguments(args);
+
+            return frag;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            int title = getArguments().getInt("title");
+
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(title)
+                    .setPositiveButton(android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    ((DetailActivity) getActivity()).doPositiveClick();
+                                }
+                            }
+                    )
+                    .setNegativeButton(android.R.string.cancel,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                }
+                            }
+                    )
+                    .create();
+        }
     }
 
 }

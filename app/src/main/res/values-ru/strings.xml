@@ -66,6 +66,10 @@
     <string name="fishing_no_bait">Нет информации о наживки</string>
     <string name="fishing_no_catches">Нет информации о улове</string>
     <string name="fishing_no_fish_feed">Нет информации о прикормке</string>
+    <string name="alert_dialog_stay_here">Остаться</string>
+    <string name="alert_dialog_do_not_store">Закрыть окно</string>
+    <string name="close_without_save">Закрыть окно без сохранения?</string>
+    <string name="delete_fishing_item">Удалить запись о рыбалке?</string>
     <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
 
 </resources>

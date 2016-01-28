@@ -48,5 +48,10 @@ public class AddNewFishingActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void doPositiveClick() {
+        finish();
+    }
+
 }
 

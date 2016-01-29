@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2015 The Android Open Source Project
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-          http://www.apache.org/licenses/LICENSE-2.0
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
- -->
-<!--resources xmlns:xliff="http://schemas.android.com/apk/res-auto"-->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="title_fishing_details">Fishing Details</string>
 
@@ -123,11 +110,22 @@
     <string name="key_date_transition" translatable="false">key_date_trans</string>
 
     <string name="fishing_no_description">There are no notes about this fishing</string>
-    <string name="fishing_share_message">Fishing in <xliff:g id="place">%2$s</xliff:g> <xliff:g id="date">%1$s</xliff:g>:
-        <xliff:g id="description">%3$s</xliff:g></string>
+    <string name="fishing_share_message">Fishing in <xliff:g id="place">%2$s</xliff:g> <xliff:g id="date">%1$s</xliff:g>:<xliff:g id="description">%3$s</xliff:g></string>
     <string name="title_phot_dialog">Pick photo</string>
     <string name="temp_formatted_cel" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;C</string>
     <string name="temp_formatted_far" translatable="false"><xliff:g id="weatherTemp">%1$s</xliff:g>&#176;F</string>
+
+    <!--dialog_tackle-->
+    <string name="tackle_value">Rod</string>
+    <string name="title_tackle_dialog">Set tackle: </string>
+    <string name="rod">Rod </string>
+    <string name="spinning">Spinning </string>
+    <string name="feeder">Feeder </string>
+    <string name="distance_casting">Distance casting </string>
+    <string name="ice_fishing_rod">Ice fishing rod </string>
+    <string name="tip_up">Tip up </string>
+    <string name="hand_line">Hand line </string>
+    <string name="fly_fishing">Fly fishing </string>
     <string name="alert_dialog_do_not_store">Reset and close</string>
     <string name="alert_dialog_stay_here">Stay here</string>
     <string name="close_without_save">Close without saving?</string>

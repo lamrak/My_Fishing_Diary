@@ -159,4 +159,50 @@ public class PrefUtils {
         }
     }
 
+    public static int formatTacleSeletedToIconsCode(int selected) {
+        switch (selected) {
+            case 0:
+                return R.drawable.ic_rod_check;
+            case 1:
+                return R.drawable.ic_spinning_check;
+            case 2:
+                return R.drawable.ic_feeder_check;
+            case 3:
+                return R.drawable.ic_distance_casting_check;
+            case 4:
+                return R.drawable.ic_ice_fishing_check;
+            case 5:
+                return R.drawable.ic_tip_up_check;
+            case 6:
+                return R.drawable.ic_hand_line_check;
+            case 7:
+                return R.drawable.ic_fly_fishing_check;
+            default:
+                return R.drawable.ic_rod_check;
+        }
+    }
+
+    public static int formatTacleSeletedToTextView(int selected) {
+        switch (selected) {
+            case 0:
+                return R.string.rod;
+            case 1:
+                return R.string.spinning;
+            case 2:
+                return R.string.feeder;
+            case 3:
+                return R.string.distance_casting;
+            case 4:
+                return R.string.ice_fishing_rod;
+            case 5:
+                return R.string.tip_up;
+            case 6:
+                return R.string.hand_line;
+            case 7:
+                return R.string.fly_fishing;
+            default:
+                return R.string.rod;
+        }
+    }
+
 }

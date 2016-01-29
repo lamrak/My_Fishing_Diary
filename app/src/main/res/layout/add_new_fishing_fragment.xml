@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:paddingBottom="8dp">
 
             <View
             android:id="@+id/delimetr"
@@ -31,8 +31,7 @@
                 android:id="@+id/il_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:textSize="16sp">
 
                 <EditText
@@ -74,33 +73,23 @@
                 android:src="@drawable/ic_sunny"
                 android:contentDescription="@string/descr_weather_button"/>
 
-            <TextView
-                android:id="@+id/tv_tackle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/il_price"
-                android:textSize="16sp"
-                android:paddingTop="@dimen/activity_vertical_margin_big"
-                android:text="@string/title_fishing_tackle"/>
-
             <ImageView
                 android:id="@+id/iv_tackle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tv_tackle"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_alignRight="@+id/delimetr"
-                android:layout_alignEnd="@+id/delimetr"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_distance_casting"
-                android:contentDescription="@string/descr_tackle_button"/>
+                android:contentDescription="@string/descr_tackle_button"
+                android:layout_above="@+id/il_fish_feed"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/il_bait"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_tackle"
-                android:layout_marginTop="16dp"
+                android:layout_below="@+id/iv_weather"
+                android:layout_marginTop="8dp"
+                android:paddingRight="56dp"
                 android:textSize="16sp">
 
                 <EditText
@@ -117,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_bait"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:textSize="16sp">
 
                 <EditText
@@ -130,11 +119,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:visibility="gone"
                 android:id="@+id/il_catch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_fish_feed"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:textSize="16sp">
 
                 <EditText
@@ -151,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_catch"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:textSize="16sp">
 
                 <EditText

@@ -33,7 +33,7 @@
     <string name="share_search">Поділитися:</string>
     <string name="share_subject">Моя Рибалка</string>
     <string name="menu_detail_delete">Видалити</string>
-    <string name="title_weather_dialog">Виберіть погоду</string>
+    <string name="title_weather_dialog">Оберить погоду</string>
     <string name="temperature">Температура:</string>
     <string name="title_activity_settings">Налаштування</string>
     <string name="take_photo">Зробити фото</string>
@@ -70,6 +70,14 @@
     <string name="alert_dialog_do_not_store">Закрити</string>
     <string name="close_without_save">Закрити без збереження?</string>
     <string name="delete_fishing_item">Видалити запис про риболовлю?</string>
-    <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
-
+    <string name="feeder">Фiдер</string>
+    <string name="distance_casting">Відстань </string>
+    <string name="fly_fishing">Нахлист</string>
+    <string name="hand_line">Hand line</string>
+    <string name="ice_fishing_rod">Ice fishing rod</string>
+    <string name="tackle_value">Вудка</string>
+    <string name="spinning">Спінінг</string>
+    <string name="rod">Вудка</string>
+    <string name="title_tackle_dialog">Оберить снасть</string>
+    <string name="tip_up">Tip up</string>
 </resources>

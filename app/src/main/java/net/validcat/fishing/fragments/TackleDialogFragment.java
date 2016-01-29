@@ -8,19 +8,28 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
-import net.validcat.fishing.ui.RadioGridGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TackleDialogFragment  extends DialogFragment {
+public class TackleDialogFragment  extends DialogFragment implements View.OnClickListener {
     private static final String LOG_TAG = TackleDialogFragment.class.getSimpleName();
-    @Bind(R.id.tackle_group) RadioGridGroup tackleGroup;
+
     @Bind(R.id.tv_tackle_value) TextView tvTackleValue;
+    @Bind(R.id.ic_rod) Button rod;
+    @Bind(R.id.ic_spinning) Button spinning;
+    @Bind(R.id.ic_feeder) Button feeder;
+    @Bind(R.id.ic_distance_casting) Button casting;
+    @Bind(R.id.ic_ice_fishing_rod) Button iceRod;
+    @Bind(R.id.ic_tip_up) Button tipUp;
+    @Bind(R.id.ic_hand_line) Button handLine;
+    @Bind(R.id.ic_fly_fishing) Button flyFishing;
+
     int ind = 0;
 
     @Override
@@ -33,81 +42,15 @@ public class TackleDialogFragment  extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tackle, null);
         ButterKnife.bind(this, v);
-
-        View rod = tackleGroup.findViewById(R.id.ic_rod);
-        View spinning = tackleGroup.findViewById(R.id.ic_spinning);
-        View feeder = tackleGroup.findViewById(R.id.ic_feeder);
-        View distance_casting = tackleGroup.findViewById(R.id.ic_distance_casting);
-        View ice_fishing_rod = tackleGroup.findViewById(R.id.ic_ice_fishing_rod);
-        View tip_up = tackleGroup.findViewById(R.id.ic_tip_up);
-        View hand_line = tackleGroup.findViewById(R.id.ic_hand_line);
-        View fly_fishing = tackleGroup.findViewById(R.id.ic_fly_fishing);
-
-        View.OnClickListener clickIcon = new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.ic_rod:
-                        tvTackleValue.setText(R.string.rod);
-                        ind = 0;
-                        break;
-                    case R.id.ic_spinning:
-                        tvTackleValue.setText(R.string.spinning);
-                        ind = 1;
-                        break;
-                    case R.id.ic_feeder:
-                        tvTackleValue.setText(R.string.feeder);
-                        ind = 2;
-                        break;
-                    case R.id.ic_distance_casting:
-                        tvTackleValue.setText(R.string.distance_casting);
-                        ind = 3;
-                        break;
-                    case R.id.ic_ice_fishing_rod:
-                        tvTackleValue.setText(R.string.ice_fishing_rod);
-                        ind = 4;
-                        break;
-                    case R.id.ic_tip_up:
-                        tvTackleValue.setText(R.string.tip_up);
-                        ind = 5;
-                        break;
-                    case R.id.ic_hand_line:
-                        tvTackleValue.setText(R.string.hand_line);
-                        ind = 6;
-                        break;
-                    case R.id.ic_fly_fishing:
-                        tvTackleValue.setText(R.string.fly_fishing);
-                        ind = 7;
-                        break;
-                }
-            }
-        };
-
-        rod.setOnClickListener(clickIcon);
-        spinning.setOnClickListener(clickIcon);
-        feeder.setOnClickListener(clickIcon);
-        distance_casting.setOnClickListener(clickIcon);
-        ice_fishing_rod.setOnClickListener(clickIcon);
-        tip_up.setOnClickListener(clickIcon);
-        hand_line.setOnClickListener(clickIcon);
-        fly_fishing.setOnClickListener(clickIcon);
-
-//        rod.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tvTackleValue.setText(R.string.rod);
-//                ind = 0;
-//            }
-//        });
 //
-//        spinning.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tvTackleValue.setText(R.string.spinning);
-//                ind = 1;
-//            }
-//        });
+        rod.setOnClickListener(this);
+        spinning.setOnClickListener(this);
+        feeder.setOnClickListener(this);
+        casting.setOnClickListener(this);
+        iceRod.setOnClickListener(this);
+        tipUp.setOnClickListener(this);
+        handLine.setOnClickListener(this);
+        flyFishing.setOnClickListener(this);
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
@@ -133,8 +76,43 @@ public class TackleDialogFragment  extends DialogFragment {
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
     }
 
-//    public int getSelectedTackle() {
-//            return tackleGroup.indexOfChild(tackleGroup.findViewById(tackleGroup.getCheckedRadioButtonId()));
-//    }
+    @Override
+    public void onClick(View v) {
+        v.setSelected(!v.isSelected());
+        switch (v.getId()){
+            case R.id.ic_rod:
+                tvTackleValue.setText(R.string.rod);
+                ind = 0;
+                break;
+            case R.id.ic_spinning:
+                tvTackleValue.setText(R.string.spinning);
+                ind = 1;
+                break;
+            case R.id.ic_feeder:
+                tvTackleValue.setText(R.string.feeder);
+                ind = 2;
+                break;
+            case R.id.ic_distance_casting:
+                tvTackleValue.setText(R.string.distance_casting);
+                ind = 3;
+                break;
+            case R.id.ic_ice_fishing_rod:
+                tvTackleValue.setText(R.string.ice_fishing_rod);
+                ind = 4;
+                break;
+            case R.id.ic_tip_up:
+                tvTackleValue.setText(R.string.tip_up);
+                ind = 5;
+                break;
+            case R.id.ic_hand_line:
+                tvTackleValue.setText(R.string.hand_line);
+                ind = 6;
+                break;
+            case R.id.ic_fly_fishing:
+                tvTackleValue.setText(R.string.fly_fishing);
+                ind = 7;
+                break;
+        }
+    }
 
 }

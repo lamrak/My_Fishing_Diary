@@ -1,112 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:gravity="center_horizontal">
+    <android.support.v7.widget.GridLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:alignmentMode="alignBounds"
+        app:columnCount="4"
+        app:columnOrderPreserved="false"
+        app:layout_gravity="center"
+        app:orientation="horizontal"
+        app:useDefaultMargins="true">
 
-        <net.validcat.fishing.ui.RadioGridGroup
-            android:id="@+id/tackle_group"
+        <Button
+            android:id="@+id/ic_rod"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/weather_icon_margin"
+            android:layout_marginRight="@dimen/weather_icon_margin"
+            android:background="@drawable/t_rod_selector"
+            android:contentDescription="@string/rod"/>
+
+        <Button
+            android:id="@+id/ic_spinning"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/t_spinning_selector"
+            android:contentDescription="@string/spinning"/>
+
+        <Button
+            android:id="@+id/ic_feeder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/t_feeder_selector"
+            android:contentDescription="@string/feeder"/>
+
+        <Button
+            android:id="@+id/ic_distance_casting"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/t_distance_casting_selector"
+            android:contentDescription="@string/distance_casting"/>
+
+        <Button
+            android:id="@+id/ic_ice_fishing_rod"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/t_ice_fishing_rod_selector"
+            android:contentDescription="@string/ice_fishing_rod"/>
+
+        <Button
+            android:id="@+id/ic_tip_up"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/t_tip_up_selector"
+            android:contentDescription="@string/tip_up"/>
+
+        <Button
+            android:id="@+id/ic_hand_line"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/t_hand_line_selector"
+            android:contentDescription="@string/hand_line"/>
+
+        <Button
+            android:id="@+id/ic_fly_fishing"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/t_fly_fishing_selector"
+            android:contentDescription="@string/fly_fishing"/>
+
+        <TextView
+            android:id="@+id/tv_tackle_value"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TableRow>
-
-                <RadioButton
-                    android:id="@+id/ic_rod"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_rod_selector"
-                    android:layout_marginRight="@dimen/weather_icon_margin"
-                    android:layout_marginEnd="@dimen/weather_icon_margin"/>
-
-                <RadioButton
-                    android:id="@+id/ic_spinning"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_spinning_selector"/>
-
-                <RadioButton
-                    android:id="@+id/ic_feeder"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_feeder_selector"/>
-
-                <RadioButton
-                    android:id="@+id/ic_distance_casting"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_distance_casting_selector"/>
-            </TableRow>
-            <TableRow>
-                <RadioButton
-                    android:id="@+id/ic_ice_fishing_rod"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_ice_fishing_rod_selector"/>
-
-                <RadioButton
-                    android:id="@+id/ic_tip_up"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_tip_up_selector"/>
-
-                <RadioButton
-                    android:id="@+id/ic_hand_line"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_hand_line_selector"/>
-
-                <RadioButton
-                    android:id="@+id/ic_fly_fishing"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:button="@android:color/transparent"
-                    android:background="@drawable/t_fly_fishing_selector"/>
-            </TableRow>
-        </net.validcat.fishing.ui.RadioGridGroup>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/tackle_value"
+            app:layout_columnSpan="4"
+            app:layout_gravity="center_horizontal"/>
 
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_tackle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_fishing_tackle"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd= "10dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                />
-
-            <TextView
-                android:id="@+id/tv_tackle_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tackle_value"
-                />
-        </LinearLayout>
-
+    </android.support.v7.widget.GridLayout>
 </LinearLayout>

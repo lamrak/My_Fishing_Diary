@@ -103,7 +103,7 @@ public class FishingItem {
             item.photoList = Arrays.asList(photoStr.split(Constants.SPLIT_IMAGE_PATH_PATTERN));
         item.weatherIcon = data.getInt(FishingContract.FishingEntry.INDEX_WEATHER_ICON);
         item.thumb  = data.getString(FishingContract.FishingEntry.INDEX_THUMB);
-        item.tackle  = data.getString(FishingContract.FishingEntry.INDEX_TACKLE);
+        item.tackle  = data.getString(FishingContract.FishingEntry.INDEX_TACKLE_ICON);
         item.bait  = data.getString(FishingContract.FishingEntry.INDEX_BAIT);
         item.fishFeed  = data.getString(FishingContract.FishingEntry.INDEX_FISH_FEED);
         item.catches  = data.getString(FishingContract.FishingEntry.INDEX_CATCH);

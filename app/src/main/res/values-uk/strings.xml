@@ -70,6 +70,4 @@
     <string name="alert_dialog_do_not_store">Закрити</string>
     <string name="close_without_save">Закрити без збереження?</string>
     <string name="delete_fishing_item">Видалити запис про риболовлю?</string>
-    <!-- <xliff:g id="month">%1$s</xliff:g>,  -->
-
 </resources>

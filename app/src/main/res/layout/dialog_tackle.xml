@@ -77,12 +77,10 @@
 
         <TextView
             android:id="@+id/tv_tackle_value"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="@string/tackle_value"
             app:layout_columnSpan="4"
             app:layout_gravity="center_horizontal"/>
-
 
     </android.support.v7.widget.GridLayout>
 </LinearLayout>

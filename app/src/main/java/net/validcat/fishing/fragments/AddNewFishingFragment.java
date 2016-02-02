@@ -94,6 +94,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         Intent intent = getActivity().getIntent();
         String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
 
+
         if (!TextUtils.isEmpty(strUri)) {
             uri = Uri.parse(strUri);
             updateUiByItemId();
@@ -239,7 +240,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //            cv.put(FishingEntry.COLUMN_TACKLE, tvTackle.getText().toString());
             cv.put(FishingEntry.COLUMN_BAIT, etBait.getText().toString());
             cv.put(FishingEntry.COLUMN_FISH_FEED, etFishFeed.getText().toString());
-            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
+//            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
 
             if (updateData) {
                 getActivity().getContentResolver().update(FishingEntry.CONTENT_URI, cv, null, null);
@@ -305,8 +306,17 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
                 etPrice.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PRICE)));
                 etDetails.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DESCRIPTION)));
-            cursor.close();
+                etBait.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_BAIT)));
+                etFishFeed.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_FISH_FEED)));
+                photoPath = cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_IMAGE));
+                CameraManager.setPic(photoPath, ivPhoto);
+                //long editDate = cursor.getLong(cursor.getColumnIndex(FishingEntry.COLUMN_DATE));
+                //tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), editDate));
+
+                cursor.close();
+
         }
+
         updateData = true;
     }
 

@@ -69,16 +69,16 @@
     <string name="alert_dialog_stay_here">Остаться</string>
     <string name="alert_dialog_do_not_store">Закрыть окно</string>
     <string name="delete_fishing_item">Удалить запись о рыбалке?</string>
-    <string name="title_tackle_dialog">Выберите снасть:</string>
+    <string name="title_tackle_dialog">Выберите снасти:</string>
     <string name="close_without_save">Закрыть без сохранения?</string>
     <string name="tackle_value">Удочка</string>
     <string name="feeder">Фидер</string>
-    <string name="distance_casting">Дистанция</string>
+    <string name="distance_casting">Ловля коропа</string>
     <string name="fly_fishing">Нахлыст</string>
-    <string name="hand_line">Hand line</string>
-    <string name="ice_fishing_rod">Ice fishing rod</string>
+    <string name="hand_line">Донка</string>
+    <string name="ice_fishing_rod">Зимняя удочка</string>
     <string name="spinning">Спиннинг</string>
     <string name="rod">Удочка</string>
-    <string name="tip_up">Tip up</string>
+    <string name="tip_up">Жерлица</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,8 @@ public class TackleDialogFragment  extends DialogFragment implements View.OnClic
     @Bind(R.id.ic_hand_line) Button handLine;
     @Bind(R.id.ic_fly_fishing) Button flyFishing;
 
-    int ind = 0;
+    private int[] selectedIdx;
+    private String[] tackles;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class TackleDialogFragment  extends DialogFragment implements View.OnClic
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_tackle, null);
         ButterKnife.bind(this, v);
+
+        tackles = getResources().getStringArray(R.array.tackle_array);
+        selectedIdx = new int[tackles.length];
 //
         rod.setOnClickListener(this);
         spinning.setOnClickListener(this);
@@ -52,7 +57,8 @@ public class TackleDialogFragment  extends DialogFragment implements View.OnClic
         handLine.setOnClickListener(this);
         flyFishing.setOnClickListener(this);
 
-        return new AlertDialog.Builder(getActivity())
+        v.setBackgroundResource(android.R.color.white);
+        Dialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.title_tackle_dialog)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -63,6 +69,9 @@ public class TackleDialogFragment  extends DialogFragment implements View.OnClic
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources()
+                .getColor(android.R.color.white)));
+        return dialog;
     }
 
 
@@ -72,13 +81,14 @@ public class TackleDialogFragment  extends DialogFragment implements View.OnClic
         Intent i = new Intent();
        // int ind = getSelectedTackle();
         //Log.d(LOG_TAG, "Selected = " + ind);
-        i.putExtra(Constants.EXTRA_TACKLE_IMAGE_KEY, ind);
+        i.putExtra(Constants.EXTRA_TACKLE_IMAGE_KEY, selectedIdx);
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
     }
 
     @Override
     public void onClick(View v) {
         v.setSelected(!v.isSelected());
+        int ind = -1;
         switch (v.getId()){
             case R.id.ic_rod:
                 tvTackleValue.setText(R.string.rod);
@@ -113,6 +123,24 @@ public class TackleDialogFragment  extends DialogFragment implements View.OnClic
                 ind = 7;
                 break;
         }
+
+        if (ind == -1) {
+            return;
+        }
+        selectedIdx[ind] = selectedIdx[ind] == 0 ? 1 : 0;
+        updateTextView();
+    }
+
+    private void updateTextView() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < selectedIdx.length; i++) {
+            if (selectedIdx[i] == 1) {
+                sb.append(tackles[i]);
+                sb.append(", ");
+            }
+        }
+
+        tvTackleValue.setText(sb.substring(0, sb.length()-2));
     }
 
 }

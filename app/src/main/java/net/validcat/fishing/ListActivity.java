@@ -40,9 +40,9 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
             }
         });
 
-//        getWindow().setSharedElementExitTransition(null);
-//        getWindow().setSharedElementReturnTransition(null);
-//        getWindow().setSharedElementEnterTransition(null);
+//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        Transition transition = getWindow().setSharedElementEnterTransition(transition);
+//        getWindow().setSharedElementExitTransition(transition);
     }
 
 

@@ -117,7 +117,19 @@
 
     <!--dialog_tackle-->
     <string name="tackle_value">Rod</string>
-    <string name="title_tackle_dialog">Set tackle: </string>
+    <string name="title_tackle_dialog">Set tackles:</string>
+
+    <string-array name="tackle_array">
+        <item>@string/rod</item>
+        <item>@string/spinning</item>
+        <item>@string/feeder</item>
+        <item>@string/distance_casting</item>
+        <item>@string/ice_fishing_rod</item>
+        <item>@string/tip_up</item>
+        <item>@string/hand_line</item>
+        <item>@string/fly_fishing</item>
+    </string-array>
+
     <string name="rod">Rod </string>
     <string name="spinning">Spinning </string>
     <string name="feeder">Feeder </string>

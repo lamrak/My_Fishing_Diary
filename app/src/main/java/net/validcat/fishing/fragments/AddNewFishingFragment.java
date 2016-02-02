@@ -56,7 +56,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
-//    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
+    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
     @Bind(R.id.tv_date) TextView tvDate;
@@ -131,8 +131,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        date = Calendar.getInstance().getTimeInMillis();
-        tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
+        if(date != 0){
+            tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
+        }else {
+            date = Calendar.getInstance().getTimeInMillis();
+            tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
+        }
 
         View.OnClickListener lin = new View.OnClickListener() {
             @Override
@@ -310,9 +314,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 etFishFeed.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_FISH_FEED)));
                 photoPath = cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_IMAGE));
                 CameraManager.setPic(photoPath, ivPhoto);
-                //long editDate = cursor.getLong(cursor.getColumnIndex(FishingEntry.COLUMN_DATE));
-                //tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), editDate));
-
+                date = cursor.getLong(cursor.getColumnIndex(FishingEntry.COLUMN_DATE));
                 cursor.close();
 
         }

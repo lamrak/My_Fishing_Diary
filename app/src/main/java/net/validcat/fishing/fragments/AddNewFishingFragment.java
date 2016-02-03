@@ -82,6 +82,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private String photoPath;
     private String photoId;
     private long date = 0;
+//    private int editWeather;
+    private boolean checkWeather = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -148,7 +150,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvWeather.setOnClickListener(lin);
         ivWeather.setOnClickListener(lin);
 
-        makeWeatherRequest();
+        if(checkWeather){
+            updateWeatherData(PrefUtils.getFormattedTemp(getActivity(), weatherTemp),
+                    PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
+        }else{
+            makeWeatherRequest();
+        }
 
         ivTackle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,6 +302,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private void updateWeatherData(String temp, int weather) {
         tvWeather.setText(temp);
         ivWeather.setImageResource(weather);
+         // ivWeather.setImageResource(checkWeather ? editWeather : weather);
     }
 
     private void updateTackleData(int nameTackle, int iconTackle) {
@@ -315,6 +323,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 photoPath = cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_IMAGE));
                 CameraManager.setPic(photoPath, ivPhoto);
                 date = cursor.getLong(cursor.getColumnIndex(FishingEntry.COLUMN_DATE));
+                weatherIconSelection = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER_ICON));
+                weatherTemp = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER));
+                checkWeather = true;
                 cursor.close();
 
         }

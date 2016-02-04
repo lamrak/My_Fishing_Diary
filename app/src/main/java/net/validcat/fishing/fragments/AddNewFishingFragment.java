@@ -134,7 +134,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        if (date != 0)
+        if (date == 0)
             date = Calendar.getInstance().getTimeInMillis();
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
 

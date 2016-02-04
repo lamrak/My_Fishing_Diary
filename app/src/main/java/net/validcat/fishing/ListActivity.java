@@ -43,6 +43,7 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 //        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 //        Transition transition = getWindow().setSharedElementEnterTransition(transition);
 //        getWindow().setSharedElementExitTransition(transition);
+
     }
 
 
@@ -89,5 +90,7 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 
         return super.onOptionsItemSelected(menuItem);
     }
+
+
 
 }

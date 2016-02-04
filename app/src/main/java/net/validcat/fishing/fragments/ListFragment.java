@@ -8,9 +8,11 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import net.validcat.fishing.ListActivity;
 import net.validcat.fishing.R;
@@ -24,9 +26,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public static final String LOG_TAG = ListActivity.class.getSimpleName();
     private static final int LOADER_ID = 3;
     @Bind(R.id.my_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.empty_view) TextView emptyView;
     public static FishingAdapter adapter;
-
-    public ListFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,4 +78,33 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
+    private boolean checkDB() {
+        Cursor cursor = getActivity().getContentResolver().query(FishingContract.FishingEntry.CONTENT_URI,
+                FishingContract.FishingEntry.COLUMNS, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+             int id = cursor.getInt(cursor.getColumnIndex(FishingContract.FishingEntry._ID));
+                Log.d(LOG_TAG,"myId = "+ id);
+                cursor.close();
+                return false; // visible recycler view
+            }
+        }
+        return true;
+    }
+
+    private void checkVisiableRecyclerView(){
+        if(checkDB()) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        checkVisiableRecyclerView();
+    }
 }

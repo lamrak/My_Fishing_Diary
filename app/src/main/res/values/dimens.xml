@@ -15,5 +15,6 @@
     <dimen name="height_photoholder">300dp</dimen>
     <dimen name="weather_icons_list_item_size">22dp</dimen>
     <dimen name="empty_view_text_size">22sp</dimen>
+    <dimen name="default_margin_top">8dp</dimen>
 
 </resources>

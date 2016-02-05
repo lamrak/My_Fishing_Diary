@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,7 +56,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
 //    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
@@ -65,10 +66,23 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.et_details) EditText etDetails;
     @Bind(R.id.iv_weather) ImageView ivWeather;
 //    @Bind(R.id.tv_tackle) TextView tvTackle;
-    @Bind(R.id.iv_tackle) ImageView ivTackle;
+//    @Bind(R.id.iv_tackle) ImageView ivTackle;
     @Bind(R.id.et_bait) EditText etBait;
     @Bind(R.id.et_fish_feed) EditText etFishFeed;
 //    @Bind(R.id.et_catch) EditText etCatch;
+
+    //tackle
+    @Bind(R.id.tv_tackle_value) TextView tvTackleValue;
+    @Bind(R.id.ic_rod) Button rod;
+    @Bind(R.id.ic_spinning) Button spinning;
+    @Bind(R.id.ic_feeder) Button feeder;
+    @Bind(R.id.ic_distance_casting) Button casting;
+    @Bind(R.id.ic_ice_fishing_rod) Button iceRod;
+    @Bind(R.id.ic_tip_up) Button tipUp;
+    @Bind(R.id.ic_hand_line) Button handLine;
+    @Bind(R.id.ic_fly_fishing) Button flyFishing;
+    private int[] selectedIdx;
+    private String[] tackles;
 
     private CameraManager cm;
     private Uri uri;
@@ -147,6 +161,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvWeather.setOnClickListener(lin);
         ivWeather.setOnClickListener(lin);
 
+        initTackleUI();
+
         if (updateData) {
             updateWeatherData(PrefUtils.getFormattedTemp(getActivity(), weatherTemp),
                     PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
@@ -154,15 +170,81 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             makeWeatherRequest();
         }
 
-        ivTackle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                runTackleDialog();
-            }
-        });
         cm = new CameraManager();
 
         return addNewFragmentView;
+    }
+
+    private void initTackleUI() {
+        rod.setOnClickListener(this);
+        spinning.setOnClickListener(this);
+        feeder.setOnClickListener(this);
+        casting.setOnClickListener(this);
+        iceRod.setOnClickListener(this);
+        tipUp.setOnClickListener(this);
+        handLine.setOnClickListener(this);
+        flyFishing.setOnClickListener(this);
+
+        tackles = getResources().getStringArray(R.array.tackle_array);
+        selectedIdx = new int[tackles.length];
+    }
+
+    @Override
+    public void onClick(View v) {
+        v.setSelected(!v.isSelected());
+        int ind = -1;
+        switch (v.getId()){
+            case R.id.ic_rod:
+                tvTackleValue.setText(R.string.rod);
+                ind = 0;
+                break;
+            case R.id.ic_spinning:
+                tvTackleValue.setText(R.string.spinning);
+                ind = 1;
+                break;
+            case R.id.ic_feeder:
+                tvTackleValue.setText(R.string.feeder);
+                ind = 2;
+                break;
+            case R.id.ic_distance_casting:
+                tvTackleValue.setText(R.string.distance_casting);
+                ind = 3;
+                break;
+            case R.id.ic_ice_fishing_rod:
+                tvTackleValue.setText(R.string.ice_fishing_rod);
+                ind = 4;
+                break;
+            case R.id.ic_tip_up:
+                tvTackleValue.setText(R.string.tip_up);
+                ind = 5;
+                break;
+            case R.id.ic_hand_line:
+                tvTackleValue.setText(R.string.hand_line);
+                ind = 6;
+                break;
+            case R.id.ic_fly_fishing:
+                tvTackleValue.setText(R.string.fly_fishing);
+                ind = 7;
+                break;
+        }
+
+        if (ind == -1) {
+            return;
+        }
+        selectedIdx[ind] = selectedIdx[ind] == 0 ? 1 : 0;
+        updateTextView();
+    }
+
+    private void updateTextView() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < selectedIdx.length; i++) {
+            if (selectedIdx[i] == 1) {
+                sb.append(tackles[i]);
+                sb.append(", ");
+            }
+        }
+
+        tvTackleValue.setText(sb.substring(0, sb.length() - 2));
     }
 
     private void makeWeatherRequest() {
@@ -290,9 +372,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 photoPath = CameraManager.getPath(getActivity(), selectedImage);
                 setImage(selectedImage);
                 break;
-            case Constants.REQUEST_TACKLE:
-                //PrefUtils.formatTacleSeletedToTextView(tackleSelection),
-                updateTackleData(PrefUtils.formatTacleSeletedToIconsCode(data.getIntExtra(Constants.EXTRA_TACKLE_IMAGE_KEY,-1)));
+//            case Constants.REQUEST_TACKLE:
+//                //PrefUtils.formatTacleSeletedToTextView(tackleSelection),
+//                updateTackleData(PrefUtils.formatTacleSeletedToIconsCode(data.getIntExtra(Constants.EXTRA_TACKLE_IMAGE_KEY,-1)));
 
         }
     }
@@ -303,9 +385,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
          // ivWeather.setImageResource(checkWeather ? editWeather : weather);
     }
 
-    private void updateTackleData(int iconTackle) {
-        ivTackle.setImageResource(iconTackle);
-    }
+//    private void updateTackleData(int iconTackle) {
+//        ivTackle.setImageResource(iconTackle);
+//    }
 
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,

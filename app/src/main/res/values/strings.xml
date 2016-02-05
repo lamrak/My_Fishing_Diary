@@ -42,6 +42,7 @@
     <string name="image_descr">User photo</string>
     <string name="fishing_details">Details</string>
     <string name="footer_string">New Fishing</string>
+    <string name="add_fishing">Add Fishing</string>
 
     <!--sharing massage-->
     <string name="share_search">Share my fishing to:</string>

@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -69,8 +70,8 @@ public class TackleDialogFragment  extends DialogFragment implements View.OnClic
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources()
-                .getColor(android.R.color.white)));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
         return dialog;
     }
 

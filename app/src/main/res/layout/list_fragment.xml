@@ -5,20 +5,20 @@
                                                  android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
 
         <TextView
             android:id="@+id/empty_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:gravity="center_horizontal"
             android:text="@string/add_fishing"
             android:textSize="@dimen/empty_view_text_size"
-            android:layout_marginLeft="130dp"
-            android:layout_marginStart="130dp"
+
             android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
     <android.support.design.widget.FloatingActionButton

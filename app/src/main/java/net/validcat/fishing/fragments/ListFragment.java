@@ -25,15 +25,14 @@ import butterknife.ButterKnife;
 public class ListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String LOG_TAG = ListActivity.class.getSimpleName();
     private static final int LOADER_ID = 3;
-    @Bind(R.id.my_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.recycler_view) RecyclerView recyclerView;
     @Bind(R.id.empty_view) TextView emptyView;
-    public static FishingAdapter adapter;
+    private FishingAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View listFragmentView = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, listFragmentView);
-//        initDataBase();
         initUI();
 
         return listFragmentView;
@@ -41,10 +40,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private void initUI() {
         recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        // specify an adapter (see also next example)
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new FishingAdapter(getActivity(), null);
         recyclerView.setAdapter(adapter);
         adapter.setIClickListener((IClickListener) getActivity());
@@ -78,33 +74,31 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
-    private boolean checkDB() {
+    private boolean isFishingListEmpty() {
         Cursor cursor = getActivity().getContentResolver().query(FishingContract.FishingEntry.CONTENT_URI,
                 FishingContract.FishingEntry.COLUMNS, null, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-             int id = cursor.getInt(cursor.getColumnIndex(FishingContract.FishingEntry._ID));
-                Log.d(LOG_TAG,"myId = "+ id);
+                int id = cursor.getInt(cursor.getColumnIndex(FishingContract.FishingEntry._ID));
+                Log.d(LOG_TAG, "Database is not empty = " + id);
                 cursor.close();
-                return false; // visible recycler view
+                return false;
             }
+            cursor.close();
         }
+
         return true;
     }
 
-    private void checkVisiableRecyclerView(){
-        if(checkDB()) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        }else {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
+    private void checkVisibleRecyclerView() {
+        boolean isEmpty = isFishingListEmpty();
+        recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        emptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        checkVisiableRecyclerView();
+        checkVisibleRecyclerView();
     }
 }

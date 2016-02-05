@@ -56,7 +56,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
-    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
+//    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
     @Bind(R.id.tv_date) TextView tvDate;
@@ -68,7 +68,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.iv_tackle) ImageView ivTackle;
     @Bind(R.id.et_bait) EditText etBait;
     @Bind(R.id.et_fish_feed) EditText etFishFeed;
-    @Bind(R.id.et_catch) EditText etCatch;
+//    @Bind(R.id.et_catch) EditText etCatch;
 
     private CameraManager cm;
     private Uri uri;
@@ -77,7 +77,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     //weather
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
-    private int tackleSelection = 0;
+//    private int tackleSelection = 0;
    // private int tackleTextSelection = 0;
     private String photoPath;
     private String photoId;
@@ -99,7 +99,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (!TextUtils.isEmpty(strUri)) {
             uri = Uri.parse(strUri);
             updateUiByItemId();
-
             updateData = true;
         }
 
@@ -148,10 +147,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvWeather.setOnClickListener(lin);
         ivWeather.setOnClickListener(lin);
 
-        if(updateData){
+        if (updateData) {
             updateWeatherData(PrefUtils.getFormattedTemp(getActivity(), weatherTemp),
                     PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
-        }else{
+        } else {
             makeWeatherRequest();
         }
 
@@ -161,7 +160,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 runTackleDialog();
             }
         });
-
         cm = new CameraManager();
 
         return addNewFragmentView;
@@ -190,7 +188,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-                if (!TextUtils.isEmpty(etPlace.getText())) {
+                if (!TextUtils.isEmpty(etPlace.getText()) && !updateData) {
                     showConfirmationDialog();
                     return true;
                 }
@@ -272,6 +270,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         switch (requestCode) {
             case Constants.REQUEST_CODE_PHOTO:
+                ivPhoto.setVisibility(View.VISIBLE);
                 photoPath = cm.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
                 break;
             case Constants.REQUEST_TEMPERATURE:
@@ -284,6 +283,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 handleCamera();
                 break;
             case Constants.REQUEST_PICK_PHOTO:
+                ivPhoto.setVisibility(View.VISIBLE);
                 //http://stackoverflow.com/questions/20260416/retrieve-absolute-path-when-select-image-from-gallery-kitkat-android
                 Uri selectedImage = Uri.parse(data.getStringExtra(Constants.IMAGE_URI));
                 photoId = CameraManager.getPhotoIdFromUri(getActivity(), selectedImage);
@@ -291,8 +291,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 setImage(selectedImage);
                 break;
             case Constants.REQUEST_TACKLE:
-                tackleSelection = data.getIntExtra(Constants.EXTRA_TACKLE_IMAGE_KEY,-1);
-                updateTackleData(PrefUtils.formatTacleSeletedToTextView(tackleSelection),PrefUtils.formatTacleSeletedToIconsCode(tackleSelection));
+                //PrefUtils.formatTacleSeletedToTextView(tackleSelection),
+                updateTackleData(PrefUtils.formatTacleSeletedToIconsCode(data.getIntExtra(Constants.EXTRA_TACKLE_IMAGE_KEY,-1)));
 
         }
     }
@@ -303,27 +303,31 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
          // ivWeather.setImageResource(checkWeather ? editWeather : weather);
     }
 
-    private void updateTackleData(int nameTackle, int iconTackle) {
-//        tvTackle.setText(nameTackle);
+    private void updateTackleData(int iconTackle) {
         ivTackle.setImageResource(iconTackle);
     }
 
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,
                 FishingEntry.COLUMNS, null, null, null);
-        if(cursor != null) {
-            if (cursor.moveToFirst())
-                etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
-                etPrice.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PRICE)));
-                etDetails.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DESCRIPTION)));
-                etBait.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_BAIT)));
-                etFishFeed.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_FISH_FEED)));
-                photoPath = cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_IMAGE));
+        if(cursor == null)
+            return;
+
+        if (cursor.moveToFirst()) {
+            etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
+            etPrice.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PRICE)));
+            etDetails.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DESCRIPTION)));
+            etBait.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_BAIT)));
+            etFishFeed.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_FISH_FEED)));
+            photoPath = cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_IMAGE));
+            if (!TextUtils.isEmpty(photoPath)) {
+                ivPhoto.setVisibility(View.VISIBLE);
                 CameraManager.setPic(photoPath, ivPhoto);
+            }
             date = cursor.getLong(cursor.getColumnIndex(FishingEntry.COLUMN_DATE));
-                weatherIconSelection = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER_ICON));
-                weatherTemp = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER));
-                cursor.close();
+            weatherIconSelection = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER_ICON));
+            weatherTemp = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER));
+            cursor.close();
         }
     }
 

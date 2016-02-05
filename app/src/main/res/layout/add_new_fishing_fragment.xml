@@ -149,6 +149,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/fishing_details"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:minLines="3"
+                    android:maxLines="6"
+                    android:scrollbars="vertical"
                     style="@style/edit_text_style"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -188,7 +193,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_photoholder"
                     android:scaleType="centerCrop"
-                    android:contentDescription="@string/image_descr" />
+                    android:contentDescription="@string/image_descr"
+                    android:visibility="gone" />
             </android.support.v7.widget.CardView>
 
         </RelativeLayout>

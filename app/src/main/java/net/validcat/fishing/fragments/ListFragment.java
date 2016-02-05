@@ -90,7 +90,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         return true;
     }
 
-    private void checkVisibleRecyclerView() {
+    private void checkIsEmptyState() {
         boolean isEmpty = isFishingListEmpty();
         recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         emptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
@@ -99,6 +99,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onStart() {
         super.onStart();
-        checkVisibleRecyclerView();
+        checkIsEmptyState();
     }
+
 }

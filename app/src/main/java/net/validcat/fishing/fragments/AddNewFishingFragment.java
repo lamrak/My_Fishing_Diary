@@ -244,7 +244,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         }
 
-        tvTackleValue.setText(sb.substring(0, sb.length() - 2));
+        if (sb.length() > 0)
+            tvTackleValue.setText(sb.substring(0, sb.length() - 2));
     }
 
     private void makeWeatherRequest() {

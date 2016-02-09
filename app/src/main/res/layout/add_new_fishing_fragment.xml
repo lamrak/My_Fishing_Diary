@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="8dp"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingTop="8dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,82 +22,122 @@
             android:paddingBottom="8dp">
 
             <View
-            android:id="@+id/delimetr"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerHorizontal="true"/>
+                android:id="@+id/delimetr"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/il_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/default_margin_top"
                 android:textSize="16sp">
 
                 <EditText
                     android:id="@+id/et_place"
+                    style="@style/edit_text_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_fishing_place"
-                    style="@style/edit_text_style" />
+                    android:hint="@string/hint_fishing_place"/>
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/il_price"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/row_today_holder"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_place"
-                android:textSize="16sp"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/default_margin_top"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
-                <EditText
-                    android:id="@+id/et_price"
-                    android:layout_width="56dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="@string/title_fishing_price"
-                    style="@style/edit_text_style"
-                    />
-            </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/il_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textSize="16sp"
+                    android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/iv_weather"
-                android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/et_price"
+                        style="@style/edit_text_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/title_fishing_price"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/weather_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:paddingLeft="26dp"
+                    android:paddingStart="26dp"
+                    android:background="@drawable/border_bottom"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_weather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/temperature_value"
+                        android:textSize="16sp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_weather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:contentDescription="@string/descr_weather_button"
+                        android:src="@drawable/ic_sunny"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="@drawable/border_bottom"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:paddingBottom="3dp"
+                    android:gravity="bottom"
+                    android:text="@string/title_fishing_date"
+                    android:textSize="16sp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/tackle_layout"
+                layout="@layout/dialog_tackle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/il_price"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_alignRight="@+id/delimetr"
-                android:layout_alignEnd="@+id/delimetr"
-                android:src="@drawable/ic_sunny"
-                android:contentDescription="@string/descr_weather_button"/>
+                android:layout_below="@+id/row_today_holder"
+                android:layout_marginTop="@dimen/default_margin_top"/>
 
-            <ImageView
-                android:id="@+id/iv_tackle"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_distance_casting"
-                android:contentDescription="@string/descr_tackle_button"
-                android:layout_above="@+id/il_fish_feed"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
+            <TextView
+                android:layout_below="@+id/tackle_layout"
+                android:id="@+id/tv_tackle_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:visibility="gone" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/il_bait"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_weather"
-                android:layout_marginTop="8dp"
-                android:paddingRight="56dp"
+                android:layout_below="@+id/tv_tackle_value"
+                android:layout_marginTop="@dimen/default_margin_top"
                 android:textSize="16sp">
 
                 <EditText
                     android:id="@+id/et_bait"
+                    style="@style/edit_text_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/title_fishing_bait"
-                    style="@style/edit_text_style"/>
+                    android:hint="@string/title_fishing_bait"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -106,33 +146,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_bait"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/default_margin_top"
                 android:textSize="16sp">
 
                 <EditText
                     android:id="@+id/et_fish_feed"
+                    style="@style/edit_text_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/title_fishing_fish_feed"
-                    style="@style/edit_text_style"/>
+                    android:hint="@string/title_fishing_fish_feed"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:visibility="gone"
                 android:id="@+id/il_catch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_fish_feed"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp">
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:textSize="16sp"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/et_catch"
+                    style="@style/edit_text_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/title_fishing_catch"
-                    style="@style/edit_text_style"/>
+                    android:hint="@string/title_fishing_catch"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -141,46 +181,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/il_catch"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/default_margin_top"
                 android:textSize="16sp">
 
                 <EditText
                     android:id="@+id/et_details"
+                    style="@style/edit_text_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/fishing_details"
+                    android:isScrollContainer="true"
+                    android:minHeight="40dp"
                     android:inputType="textMultiLine"
-                    android:lines="4"
-                    android:minLines="3"
-                    android:maxLines="6"
-                    android:scrollbars="vertical"
-                    style="@style/edit_text_style"/>
+                    android:scrollbars="vertical"/>
 
             </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:id="@+id/tv_weather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/il_price"
-                android:layout_marginBottom="5dp"
-                android:layout_alignLeft="@+id/delimetr"
-                android:layout_alignStart="@+id/delimetr"
-                android:layout_marginLeft="@dimen/activity_vertical_margin_top"
-                android:layout_marginStart="@dimen/activity_vertical_margin_top"
-                android:text="@string/temperature_value"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_fishing_date"
-                android:textSize="16sp"
-                android:layout_alignBottom="@+id/iv_weather"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="@dimen/activity_vertical_margin_top" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_view"
@@ -192,9 +207,9 @@
                     android:id="@+id/iv_photo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_photoholder"
-                    android:scaleType="centerCrop"
                     android:contentDescription="@string/image_descr"
-                    android:visibility="gone" />
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"/>
             </android.support.v7.widget.CardView>
 
         </RelativeLayout>

@@ -13,7 +13,7 @@
     <string name="fishing_photo">Фотография</string>
     <string name="fishing_price">\nСтоимость рыбалки: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="price_value">0 грн</string>
-    <string name="hint_fishing_place">Место вашей рыбалки (Озеро, Река)</string>
+    <string name="hint_fishing_place">Место рыбалки</string>
     <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="image_descr">Фотографии с рыбалки</string>
     <string name="action_send">Отправить</string>

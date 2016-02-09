@@ -13,7 +13,7 @@
     <string name="fishing_photo">Фотографiя</string>
     <string name="fishing_price">\nВартість риболовлі: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="price_value">0 грн</string>
-    <string name="hint_fishing_place">Місце вашої риболовлі (Озеро, Річка)</string>
+    <string name="hint_fishing_place">Місце риболовлі</string>
     <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="image_descr">Фотографії з риболовлі</string>
     <string name="action_send">Відправити</string>

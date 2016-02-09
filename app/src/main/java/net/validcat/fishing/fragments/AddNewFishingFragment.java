@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -30,6 +31,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -44,6 +46,7 @@ import net.validcat.fishing.data.FishingContract.FishingEntry;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
+import net.validcat.fishing.tools.ViewAnimatorUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
 
 import org.json.JSONException;
@@ -61,18 +64,17 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
     @Bind(R.id.tv_date) TextView tvDate;
+    @Bind(R.id.weather_holder) LinearLayout weatherWrapper;
     @Bind(R.id.tv_weather) TextView tvWeather;
     @Bind(R.id.et_price) EditText etPrice;
     @Bind(R.id.et_details) EditText etDetails;
     @Bind(R.id.iv_weather) ImageView ivWeather;
-//    @Bind(R.id.tv_tackle) TextView tvTackle;
-//    @Bind(R.id.iv_tackle) ImageView ivTackle;
     @Bind(R.id.et_bait) EditText etBait;
     @Bind(R.id.et_fish_feed) EditText etFishFeed;
+    @Bind(R.id.tv_tackle_value) TextView tvTackleValue;
 //    @Bind(R.id.et_catch) EditText etCatch;
 
     //tackle
-    @Bind(R.id.tv_tackle_value) TextView tvTackleValue;
     @Bind(R.id.ic_rod) Button rod;
     @Bind(R.id.ic_spinning) Button spinning;
     @Bind(R.id.ic_feeder) Button feeder;
@@ -81,8 +83,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Bind(R.id.ic_tip_up) Button tipUp;
     @Bind(R.id.ic_hand_line) Button handLine;
     @Bind(R.id.ic_fly_fishing) Button flyFishing;
-    private int[] selectedIdx;
-    private String[] tackles;
 
     private CameraManager cm;
     private Uri uri;
@@ -91,13 +91,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     //weather
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
-//    private int tackleSelection = 0;
-   // private int tackleTextSelection = 0;
+    private int[] selectedIdx;
+    private String[] tackles;
     private String photoPath;
     private String photoId;
     private long date = 0;
-//    private int editWeather;
-//    private boolean checkWeather = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -150,16 +148,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (date == 0)
             date = Calendar.getInstance().getTimeInMillis();
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), date));
-
-        View.OnClickListener lin = new View.OnClickListener() {
+        weatherWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 runWeatherDialog();
 
             }
-        };
-        tvWeather.setOnClickListener(lin);
-        ivWeather.setOnClickListener(lin);
+        });
 
         initTackleUI();
 
@@ -231,9 +226,27 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (ind == -1) {
             return;
         }
+
+        counter.start();
+        if (!animTackleViewState) {
+            ViewAnimatorUtils.expand(tvTackleValue);
+            animTackleViewState = true;
+        }
         selectedIdx[ind] = selectedIdx[ind] == 0 ? 1 : 0;
         updateTextView();
     }
+
+    CountDownTimer counter = new CountDownTimer(5000, 1000) {
+
+        public void onTick(long millisUntilFinished) {}
+
+        public void onFinish() {
+            ViewAnimatorUtils.collapse(tvTackleValue);
+            animTackleViewState = false;
+        }
+    };
+
+    boolean animTackleViewState = false;
 
     private void updateTextView() {
         StringBuilder sb = new StringBuilder();
@@ -244,8 +257,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         }
 
-        if (sb.length() > 0)
-            tvTackleValue.setText(sb.substring(0, sb.length() - 2));
+        if (sb.length() > 0) {
+            String tackleSelection = sb.substring(0, sb.length() - 2);
+            String s1 = tackleSelection.substring(0, 1).toUpperCase();
+            tvTackleValue.setText(s1 + tackleSelection.substring(1));
+        }
     }
 
     private void makeWeatherRequest() {

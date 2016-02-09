@@ -28,7 +28,7 @@
     <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="fishing_date">Date: <xliff:g id="date">%1$s</xliff:g></string>
     <string name="fishing_price">\nPrice: <xliff:g id="price">%1$s</xliff:g></string>
-    <string name="hint_fishing_place">Place of fishing (e.x. Dnipro River)</string>
+    <string name="hint_fishing_place">Place of fishing</string>
     <string name="price_value">0$</string>
     <string name="fishing_bait">\n\nBait: <xliff:g id="bait">%1$s</xliff:g></string>
     <string name="fishing_no_bait">There are no information about this bait</string>

@@ -75,12 +75,5 @@
             android:background="@drawable/t_fly_fishing_selector"
             android:contentDescription="@string/fly_fishing"/>
 
-        <TextView
-            android:id="@+id/tv_tackle_value"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            app:layout_columnSpan="4"
-            app:layout_gravity="center_horizontal"/>
-
     </android.support.v7.widget.GridLayout>
 </LinearLayout>

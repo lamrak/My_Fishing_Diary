@@ -46,6 +46,7 @@ import net.validcat.fishing.data.FishingContract.FishingEntry;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
+import net.validcat.fishing.tools.TackleBag;
 import net.validcat.fishing.tools.ViewAnimatorUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
 
@@ -91,11 +92,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     //weather
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
-    private int[] selectedIdx;
-    private String[] tackles;
+//    private int tackleArrInd = 0;
+//    private int[] selectedIdx;
+//    private String[] tackles;
     private String photoPath;
     private String photoId;
     private long date = 0;
+    private TackleBag tacklesBag;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -180,51 +183,39 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         handLine.setOnClickListener(this);
         flyFishing.setOnClickListener(this);
 
-        tackles = getResources().getStringArray(R.array.tackle_array);
-        selectedIdx = new int[tackles.length];
+        tacklesBag = new TackleBag(getResources().getStringArray(R.array.tackle_array));
     }
 
     @Override
     public void onClick(View v) {
         v.setSelected(!v.isSelected());
-        int ind = -1;
         switch (v.getId()){
             case R.id.ic_rod:
-                tvTackleValue.setText(R.string.rod);
-                ind = 0;
+                tacklesBag.handle(0);
                 break;
             case R.id.ic_spinning:
-                tvTackleValue.setText(R.string.spinning);
-                ind = 1;
+                tacklesBag.handle(1);
                 break;
             case R.id.ic_feeder:
-                tvTackleValue.setText(R.string.feeder);
-                ind = 2;
+                tacklesBag.handle(2);
                 break;
             case R.id.ic_distance_casting:
-                tvTackleValue.setText(R.string.distance_casting);
-                ind = 3;
+                tacklesBag.handle(3);
                 break;
             case R.id.ic_ice_fishing_rod:
-                tvTackleValue.setText(R.string.ice_fishing_rod);
-                ind = 4;
+                tacklesBag.handle(4);
                 break;
             case R.id.ic_tip_up:
-                tvTackleValue.setText(R.string.tip_up);
-                ind = 5;
+                tacklesBag.handle(5);
                 break;
             case R.id.ic_hand_line:
-                tvTackleValue.setText(R.string.hand_line);
-                ind = 6;
+                tacklesBag.handle(6);
                 break;
             case R.id.ic_fly_fishing:
-                tvTackleValue.setText(R.string.fly_fishing);
-                ind = 7;
+                tacklesBag.handle(7);
                 break;
-        }
-
-        if (ind == -1) {
-            return;
+            default:
+                return;
         }
 
         counter.start();
@@ -232,7 +223,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             ViewAnimatorUtils.expand(tvTackleValue);
             animTackleViewState = true;
         }
-        selectedIdx[ind] = selectedIdx[ind] == 0 ? 1 : 0;
         updateTextView();
     }
 
@@ -249,19 +239,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     boolean animTackleViewState = false;
 
     private void updateTextView() {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < selectedIdx.length; i++) {
-            if (selectedIdx[i] == 1) {
-                sb.append(tackles[i]);
-                sb.append(", ");
-            }
-        }
-
-        if (sb.length() > 0) {
-            String tackleSelection = sb.substring(0, sb.length() - 2);
-            String s1 = tackleSelection.substring(0, 1).toUpperCase();
-            tvTackleValue.setText(s1 + tackleSelection.substring(1));
-        }
+        tvTackleValue.setText(tacklesBag.getSelectedTackles());
     }
 
     private void makeWeatherRequest() {

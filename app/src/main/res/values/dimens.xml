@@ -16,4 +16,10 @@
     <dimen name="weather_icons_list_item_size">22dp</dimen>
     <dimen name="empty_view_text_size">22sp</dimen>
 
+    <!--photo dialog-->
+    <dimen name="photo_dialog_text_size">20sp</dimen>
+    <dimen name="photo_dialog_horizontal_margin">24dp</dimen>
+    <dimen name="photo_dialog_vertical_margin">24dp</dimen>
+    <dimen name="photo_dialog_bottom_vertical_margin">32dp</dimen>
+
 </resources>

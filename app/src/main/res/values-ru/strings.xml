@@ -36,8 +36,8 @@
     <string name="title_weather_dialog">Выберите погоду:</string>
     <string name="temperature">Температура:</string>
     <string name="title_activity_settings">Настройки</string>
-    <string name="take_photo">Сделать фото</string>
-    <string name="pick_image">Выбрать из галереи</string>
+    <string name="take_photo">Сделать снимок</string>
+    <string name="pick_image">Загрузить из галереи</string>
     <string name="title_phot_dialog">Выберите фото</string>
 
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string>
@@ -54,7 +54,7 @@
     <string name="pref_units_label">Единица измерения температуры</string>
     <string name="pref_units_label_imperial">Фаренгейт</string>
     <string name="pref_units_label_metric">Цельсий</string>
-    <string name="title_photo_dialog">Добавить фото</string>
+    <string name="title_photo_dialog">Фотография</string>
     <string name="title_fishing_bait">Наживка</string>
     <string name="title_fishing_catch">Улов</string>
     <string name="title_fishing_fish_feed">Прикормка</string>

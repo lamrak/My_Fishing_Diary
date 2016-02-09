@@ -98,9 +98,9 @@
     <string name="camera_permissoin_denied">Camera permission denied</string>
 
     <!--dialog_photo-->
-    <string name="pick_image">Pick an image</string>
+    <string name="pick_image">Load from the gallery</string>
     <string name="take_photo">Take a photo</string>
-    <string name="title_photo_dialog">Set photo</string>
+    <string name="title_photo_dialog">Photo</string>
     <string name="date_format">MMMM dd</string>
 
     <!-- Keys transitions -->

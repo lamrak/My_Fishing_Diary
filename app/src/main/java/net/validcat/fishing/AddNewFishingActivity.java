@@ -45,6 +45,14 @@ public class AddNewFishingActivity extends AppCompatActivity {
                 }
                 break;
             }
+            case Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    AddNewFishingFragment anff = //TODO check null
+                            (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
+                    anff.getCurrentLocation();
+                }
+            } break;
         }
     }
 

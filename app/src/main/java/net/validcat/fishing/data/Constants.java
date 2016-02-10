@@ -31,6 +31,7 @@ public class Constants {
     //Permissions
     public static final int PERMISSIONS_REQUEST_CAMERA = 191;
     public static final int PERMISSIONS_REQUEST_WRITE_STORAGE = 192;
+    public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 193;
 
     //Weather
     public static final String HTTP_SCHEME = "http";

@@ -8,13 +8,19 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -31,6 +37,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -56,31 +63,49 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
-//    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
-    @Bind(R.id.iv_photo) ImageView ivPhoto;
-    @Bind(R.id.et_place) EditText etPlace;
-    @Bind(R.id.tv_date) TextView tvDate;
-    @Bind(R.id.tv_weather) TextView tvWeather;
-    @Bind(R.id.et_price) EditText etPrice;
-    @Bind(R.id.et_details) EditText etDetails;
-    @Bind(R.id.iv_weather) ImageView ivWeather;
-//    @Bind(R.id.tv_tackle) TextView tvTackle;
+public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener, LocationListener {
+    //    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
+    @Bind(R.id.iv_photo)
+    ImageView ivPhoto;
+    @Bind(R.id.et_place)
+    EditText etPlace;
+    @Bind(R.id.tv_date)
+    TextView tvDate;
+    @Bind(R.id.tv_weather)
+    TextView tvWeather;
+    @Bind(R.id.et_price)
+    EditText etPrice;
+    @Bind(R.id.et_details)
+    EditText etDetails;
+    @Bind(R.id.iv_weather)
+    ImageView ivWeather;
+    //    @Bind(R.id.tv_tackle) TextView tvTackle;
 //    @Bind(R.id.iv_tackle) ImageView ivTackle;
-    @Bind(R.id.et_bait) EditText etBait;
-    @Bind(R.id.et_fish_feed) EditText etFishFeed;
+    @Bind(R.id.et_bait)
+    EditText etBait;
+    @Bind(R.id.et_fish_feed)
+    EditText etFishFeed;
 //    @Bind(R.id.et_catch) EditText etCatch;
 
     //tackle
-    @Bind(R.id.tv_tackle_value) TextView tvTackleValue;
-    @Bind(R.id.ic_rod) Button rod;
-    @Bind(R.id.ic_spinning) Button spinning;
-    @Bind(R.id.ic_feeder) Button feeder;
-    @Bind(R.id.ic_distance_casting) Button casting;
-    @Bind(R.id.ic_ice_fishing_rod) Button iceRod;
-    @Bind(R.id.ic_tip_up) Button tipUp;
-    @Bind(R.id.ic_hand_line) Button handLine;
-    @Bind(R.id.ic_fly_fishing) Button flyFishing;
+    @Bind(R.id.tv_tackle_value)
+    TextView tvTackleValue;
+    @Bind(R.id.ic_rod)
+    Button rod;
+    @Bind(R.id.ic_spinning)
+    Button spinning;
+    @Bind(R.id.ic_feeder)
+    Button feeder;
+    @Bind(R.id.ic_distance_casting)
+    Button casting;
+    @Bind(R.id.ic_ice_fishing_rod)
+    Button iceRod;
+    @Bind(R.id.ic_tip_up)
+    Button tipUp;
+    @Bind(R.id.ic_hand_line)
+    Button handLine;
+    @Bind(R.id.ic_fly_fishing)
+    Button flyFishing;
     private int[] selectedIdx;
     private String[] tackles;
 
@@ -91,13 +116,19 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     //weather
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
-//    private int tackleSelection = 0;
-   // private int tackleTextSelection = 0;
+    //    private int tackleSelection = 0;
+    // private int tackleTextSelection = 0;
     private String photoPath;
     private String photoId;
     private long date = 0;
 //    private int editWeather;
 //    private boolean checkWeather = false;
+
+    private double latitude;
+    private double longitude;
+    private LocationManager locationManager;
+    Location location;
+    private String provider;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -126,7 +157,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         }
 
-       // fab_add_fishing_list.setOnClickListener(this);
+        // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,8 +202,36 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         }
 
         cm = new CameraManager();
-
+        getCurrentLocation();
         return addNewFragmentView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(provider, 400, 1, this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.removeUpdates(this);
     }
 
     private void initTackleUI() {
@@ -193,7 +252,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void onClick(View v) {
         v.setSelected(!v.isSelected());
         int ind = -1;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ic_rod:
                 tvTackleValue.setText(R.string.rod);
                 ind = 0;
@@ -237,7 +296,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     private void updateTextView() {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < selectedIdx.length; i++) {
+        for (int i = 0; i < selectedIdx.length; i++) {
             if (selectedIdx[i] == 1) {
                 sb.append(tackles[i]);
                 sb.append(", ");
@@ -263,8 +322,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            // Inflate the menu; this adds items to the action bar if it is present.
-            inflater.inflate(R.menu.add_new_fishing_action_bar, menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.add_new_fishing_action_bar, menu);
     }
 
     @Override
@@ -280,7 +339,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 storeNewFishing();
                 break;
             case R.id.action_camera:
-               runPhotoDialog();
+                runPhotoDialog();
                 break;
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
@@ -383,7 +442,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private void updateWeatherData(String temp, int weather) {
         tvWeather.setText(temp);
         ivWeather.setImageResource(weather);
-         // ivWeather.setImageResource(checkWeather ? editWeather : weather);
+        // ivWeather.setImageResource(checkWeather ? editWeather : weather);
     }
 
 //    private void updateTackleData(int iconTackle) {
@@ -393,7 +452,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,
                 FishingEntry.COLUMNS, null, null, null);
-        if(cursor == null)
+        if (cursor == null)
             return;
 
         if (cursor.moveToFirst()) {
@@ -418,12 +477,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         Calendar c = Calendar.getInstance(Locale.getDefault());
         c.set(year, monthOfYear, dayOfMonth);
-        date =  c.getTimeInMillis(); //(year, monthOfYear, dayOfMonth).getTime();
+        date = c.getTimeInMillis(); //(year, monthOfYear, dayOfMonth).getTime();
         Log.d("TIME", "time=" + date);
         tvDate.setText(DateUtils.getFormattedMonthDay(getActivity(), date));
     }
 
-    private void runWeatherDialog(){
+    private void runWeatherDialog() {
         FragmentManager fm = getActivity().getFragmentManager();
         WeatherDialogFragment weatherDialog = new WeatherDialogFragment();
         weatherDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TEMPERATURE);
@@ -436,7 +495,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         weatherDialog.show(fm, Constants.DIALOG_KEY);
     }
 
-    private void runPhotoDialog(){
+    private void runPhotoDialog() {
         FragmentManager fm = getActivity().getFragmentManager();
         PhotoDialogFragment photoDialog = new PhotoDialogFragment();
         photoDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TAKE_PHOTO);
@@ -447,11 +506,67 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         FragmentManager fm = getActivity().getFragmentManager();
         TackleDialogFragment tackleDialog = new TackleDialogFragment();
         tackleDialog.setTargetFragment(AddNewFishingFragment.this, Constants.REQUEST_TACKLE);
-        tackleDialog.show(fm,Constants.TACKLE_DIALOG_KEY);
+        tackleDialog.show(fm, Constants.TACKLE_DIALOG_KEY);
     }
 
     public void setImage(Uri imageUri) {
         Picasso.with(getActivity()).load(imageUri).into(ivPhoto);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        latitude = (location.getLatitude());
+        longitude = (location.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(getActivity(), "Enabled new provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(getActivity(), "Disabled provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void getCurrentLocation() {
+        handleLocation();
+        // Initialize the location fields
+        if (location != null) {
+            Log.d("LOCATION_LOG>>>>>", "Provider " + provider + " has been selected.");
+            onLocationChanged(location);
+        } else {
+            latitude = 0.0;
+            longitude = 0.0;
+        }
+        //check our location 
+        Toast.makeText(getActivity(), String.valueOf(latitude)+ "and\n" + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleLocation() {
+        // Get the location manager
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
+        }
+        location = locationManager.getLastKnownLocation(provider);
     }
 
     private class FetcherTask extends AsyncTask<Void, Void, String> {

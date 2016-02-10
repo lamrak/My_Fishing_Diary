@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 
 public class PhotoDialogFragment extends DialogFragment {
     private static final String LOG_TAG = PhotoDialogFragment.class.getSimpleName();
-    @Bind(R.id.btn_take_photo)Button takePhoto;
-    @Bind(R.id.btn_pick_photo)Button pickPhoto;
+    @Bind(R.id.tv_take_photo)TextView takePhoto;
+    @Bind(R.id.tv_pick_photo)TextView pickPhoto;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

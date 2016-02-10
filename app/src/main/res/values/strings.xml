@@ -28,7 +28,7 @@
     <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="fishing_date">Date: <xliff:g id="date">%1$s</xliff:g></string>
     <string name="fishing_price">\nPrice: <xliff:g id="price">%1$s</xliff:g></string>
-    <string name="hint_fishing_place">Place of fishing (e.x. Dnipro River)</string>
+    <string name="hint_fishing_place">Place of fishing</string>
     <string name="price_value">0$</string>
     <string name="fishing_bait">\n\nBait: <xliff:g id="bait">%1$s</xliff:g></string>
     <string name="fishing_no_bait">There are no information about this bait</string>
@@ -98,9 +98,9 @@
     <string name="camera_permissoin_denied">Camera permission denied</string>
 
     <!--dialog_photo-->
-    <string name="pick_image">Pick an image</string>
+    <string name="pick_image">Load from the gallery</string>
     <string name="take_photo">Take a photo</string>
-    <string name="title_photo_dialog">Set photo</string>
+    <string name="title_photo_dialog">Photo</string>
     <string name="date_format">MMMM dd</string>
 
     <!-- Keys transitions -->

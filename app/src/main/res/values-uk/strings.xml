@@ -13,7 +13,7 @@
     <string name="fishing_photo">Фотографiя</string>
     <string name="fishing_price">\nВартість риболовлі: <xliff:g id="price">%1$s</xliff:g></string>
     <string name="price_value">0 грн</string>
-    <string name="hint_fishing_place">Місце вашої риболовлі (Озеро, Річка)</string>
+    <string name="hint_fishing_place">Місце риболовлі</string>
     <string name="fishing_description"><xliff:g id="description">%1$s</xliff:g></string>
     <string name="image_descr">Фотографії з риболовлі</string>
     <string name="action_send">Відправити</string>
@@ -37,7 +37,7 @@
     <string name="temperature">Температура:</string>
     <string name="title_activity_settings">Налаштування</string>
     <string name="take_photo">Зробити фото</string>
-    <string name="pick_image">Вибрати з галереї</string>
+    <string name="pick_image">Завантажити з галереї</string>
     <string name="title_phot_dialog">Виберіть фото</string>
 
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g></string>
@@ -54,7 +54,7 @@
     <string name="pref_units_label">Одиниця виміру температури</string>
     <string name="pref_units_label_imperial">Фаренгейт</string>
     <string name="pref_units_label_metric">Цельсій</string>
-    <string name="title_photo_dialog">Добавить фото</string>
+    <string name="title_photo_dialog">Світлина</string>
     <string name="title_fishing_bait">Наживка</string>
     <string name="title_fishing_catch">Улов</string>
     <string name="title_fishing_fish_feed">Прикормка</string>

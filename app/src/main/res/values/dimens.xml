@@ -14,7 +14,15 @@
     <dimen name="weather_icon_margin">2dp</dimen>
     <dimen name="height_photoholder">300dp</dimen>
     <dimen name="weather_icons_list_item_size">22dp</dimen>
-    <dimen name="empty_view_text_size">22sp</dimen>
+    <dimen name="empty_view_text_size">20sp</dimen>
     <dimen name="default_margin_top">8dp</dimen>
 
+    <!--photo dialog-->
+    <dimen name="photo_dialog_text_size">20sp</dimen>
+    <dimen name="photo_dialog_horizontal_margin">24dp</dimen>
+    <dimen name="photo_dialog_vertical_margin">24dp</dimen>
+    <dimen name="photo_dialog_bottom_vertical_margin">32dp</dimen>
+
+    <!--weather dialog-->
+    <dimen name="wd_bottom_margin">12dp</dimen>
 </resources>

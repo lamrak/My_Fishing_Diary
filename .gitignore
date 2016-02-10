@@ -7,5 +7,6 @@ build/
 .gradle/
 local.properties
 .idea/
+*.apk
 app/app.iml
 my_fishing.iml

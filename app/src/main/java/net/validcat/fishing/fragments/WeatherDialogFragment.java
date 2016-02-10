@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class WeatherDialogFragment extends DialogFragment {
     @Bind(R.id.weather_group) RadioGridGroup weatherGroup;
     @Bind(R.id.sb_temp) SeekBar seekBar;
     @Bind(R.id.tv_temp) TextView tvTemp;
+    @Bind(R.id.iv_termometr) ImageView ivTermometr;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class WeatherDialogFragment extends DialogFragment {
         ButterKnife.bind(this, v);
         weatherGroup.setChecked(getArguments().getInt(Constants.EXTRA_IMAGE_KEY, 0));
         tempScale = PrefUtils.isMetric(getActivity());
+
 
         if(tempScale){
             temperature = getArguments().getInt(Constants.EXTRA_TEMPERATURE, 50);
@@ -63,6 +66,7 @@ public class WeatherDialogFragment extends DialogFragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged();
+                ivTermometr.setImageResource(R.drawable.ic_termometr_check);
             }
 
             @Override
@@ -73,6 +77,7 @@ public class WeatherDialogFragment extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 progressChanged();
+                ivTermometr.setImageResource(R.drawable.ic_termometr);
             }
         });
 

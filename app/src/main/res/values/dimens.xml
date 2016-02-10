@@ -23,4 +23,6 @@
     <dimen name="photo_dialog_vertical_margin">24dp</dimen>
     <dimen name="photo_dialog_bottom_vertical_margin">32dp</dimen>
 
+    <!--weather dialog-->
+    <dimen name="wd_bottom_margin">12dp</dimen>
 </resources>

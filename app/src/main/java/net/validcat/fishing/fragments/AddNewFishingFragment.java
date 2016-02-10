@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Criteria;
@@ -20,7 +21,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -37,10 +38,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
-
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
@@ -52,19 +50,16 @@ import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
-
 import org.json.JSONException;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener, LocationListener {
-    //    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
+    public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo)
     ImageView ivPhoto;
     @Bind(R.id.et_place)
@@ -127,7 +122,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private double latitude;
     private double longitude;
     private LocationManager locationManager;
-    Location location;
+    private Location location;
     private String provider;
 
     public AddNewFishingFragment() {
@@ -202,7 +197,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         }
 
         cm = new CameraManager();
+
         getCurrentLocation();
+
         return addNewFragmentView;
     }
 
@@ -211,13 +208,18 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         super.onResume();
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            return;
+                PackageManager.PERMISSION_GRANTED) {
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
         }
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
+
+        locationManager.requestLocationUpdates(provider,
+                Constants.LOCATION_MIN_TIME, Constants.LOCATION_MIN_DISTANCE, this);
     }
 
     @Override
@@ -225,12 +227,16 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         super.onPause();
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            return;
+                PackageManager.PERMISSION_GRANTED) {
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
         }
+
         locationManager.removeUpdates(this);
     }
 
@@ -526,37 +532,49 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     @Override
     public void onProviderEnabled(String provider) {
-        Toast.makeText(getActivity(), "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
+        Log.i(LOG_TAG, "Enabled new provider " + provider);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        Toast.makeText(getActivity(), "Disabled provider " + provider,
-                Toast.LENGTH_SHORT).show();
+        Log.i(LOG_TAG, "Disabled provider " + provider);
     }
 
     public void getCurrentLocation() {
         handleLocation();
+
         // Initialize the location fields
         if (location != null) {
-            Log.d("LOCATION_LOG>>>>>", "Provider " + provider + " has been selected.");
+            Log.i(LOG_TAG, "Provider " + provider + " has been selected.");
             onLocationChanged(location);
         } else {
             latitude = 0.0;
             longitude = 0.0;
         }
-        //check our location 
-        Toast.makeText(getActivity(), String.valueOf(latitude)+ "and\n" + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+
+        // write location in preferences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putLong(Constants.PREFERENCES_LOCATION_LATITUDE,
+                Double.doubleToLongBits(location.getLatitude()));
+        editor.putLong(Constants.PREFERENCES_LOCATION_LONGITUDE,
+                Double.doubleToLongBits(location.getLongitude()));
+        editor.apply();
+
+        Log.i(LOG_TAG, String.valueOf(latitude)+ " and " + String.valueOf(longitude));
     }
 
     private void handleLocation() {
         // Get the location manager
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager =
+                (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
+
         provider = locationManager.getBestProvider(criteria, false);
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
 
             if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
@@ -566,6 +584,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                         Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
             }
         }
+
         location = locationManager.getLastKnownLocation(provider);
     }
 

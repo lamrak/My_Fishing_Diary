@@ -27,6 +27,8 @@ public class Constants {
     public static final int LOCATION_STATUS_UNKNOWN = 3;
     public static final int LOCATION_STATUS_INVALID = 4;
     public static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+    public static final long LOCATION_MIN_TIME = 400;
+    public static final float LOCATION_MIN_DISTANCE = 1;
 
     //Permissions
     public static final int PERMISSIONS_REQUEST_CAMERA = 191;
@@ -59,4 +61,8 @@ public class Constants {
     public static final String TACKLE_DIALOG_KEY = "tackle_dialog";
     public static final int REQUEST_TACKLE = 105;
     public static final String EXTRA_TACKLE_IMAGE_KEY = "tackle_imageKey";
+
+    //Preferences
+    public static final String PREFERENCES_LOCATION_LATITUDE = "latitude";
+    public static final String PREFERENCES_LOCATION_LONGITUDE = "longitude";
 }

@@ -15,6 +15,19 @@ public class PrefUtils {
         return prefs.getString(context.getString(R.string.pref_location_key), context.getString(R.string.pref_location_default));
     }
 
+    public static double[] getCurrentLocation(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        double latitude = Double.longBitsToDouble(
+                prefs.getLong(Constants.PREFERENCES_LOCATION_LATITUDE, 0));
+        double longitude = Double.longBitsToDouble(
+                prefs.getLong(Constants.PREFERENCES_LOCATION_LONGITUDE, 0));
+
+        double[] location = {latitude, longitude};
+
+        return location;
+    }
+
     public static boolean isMetric(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_units_key),

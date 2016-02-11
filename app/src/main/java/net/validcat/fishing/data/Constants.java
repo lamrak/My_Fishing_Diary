@@ -46,6 +46,8 @@ public class Constants {
     public static final String OWM_MESSAGE_CODE = "cod";
     public final static String FORECAST_BASE_URL = "api.openweathermap.org";
     public final static String QUERY_PARAM = "q";
+    public final static String LAT_PARAM = "lat";
+    public final static String LON_PARAM = "lon";
     public final static String APPID_PARAM = "APPID";
 
     public static final String PHOTO_DIALOG_KEY = "photo_dialog";

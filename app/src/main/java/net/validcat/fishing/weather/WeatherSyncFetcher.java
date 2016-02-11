@@ -46,24 +46,29 @@ public class WeatherSyncFetcher {
         return context;
     }
 
-    public String onPerformSync() {
+    public String onPerformSync(double lat, double lon) {
         Log.d(LOG_TAG, "Starting sync");
-        String locationQuery = PrefUtils.getPreferredLocation(getContext());
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String forecastJsonStr = null;
 
         try {
-            Uri builtUri = new Uri.Builder()
+            Uri.Builder uri = new Uri.Builder()
                     .scheme(Constants.HTTP_SCHEME)
                     .authority(Constants.FORECAST_BASE_URL)
                     .appendPath("data")
                     .appendPath("2.5")
-                    .appendPath("weather")
-                    .appendQueryParameter(Constants.QUERY_PARAM, locationQuery)
-                    .appendQueryParameter(Constants.APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+                    .appendPath("weather");
+            if (lat != 0 && lon != 0) {
+                Log.d(LOG_TAG, "fetch weather by current location");
+                uri.appendQueryParameter(Constants.LAT_PARAM, String.valueOf(lat))
+                    .appendQueryParameter(Constants.LON_PARAM, String.valueOf(lon));
+            } else {
+                Log.d(LOG_TAG, "fetch weather by preferences location");
+                uri.appendQueryParameter(Constants.QUERY_PARAM, PrefUtils.getPreferredLocation(getContext()));
+            }
+            Uri builtUri = uri.appendQueryParameter(Constants.APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                     .build();
-
             URL url = new URL(builtUri.toString());
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

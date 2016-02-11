@@ -8,20 +8,15 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,7 +35,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
+
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
@@ -54,15 +55,19 @@ import net.validcat.fishing.tools.PrefUtils;
 import net.validcat.fishing.tools.TackleBag;
 import net.validcat.fishing.tools.ViewAnimatorUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
+
 import org.json.JSONException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener, LocationListener{
+public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
+        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener { //, LocationListener
     public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
@@ -99,11 +104,16 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private long date = 0;
     private TackleBag tacklesBag;
 
+    private GoogleApiClient mGoogleApiClient;
     private double latitude;
     private double longitude;
-    private LocationManager locationManager;
-    private Location location;
-    private String provider;
+    // Request code to use when launching the resolution activity
+    private static final int REQUEST_RESOLVE_ERROR = 1001;
+    // Unique tag for the error dialog fragment
+    private static final String DIALOG_ERROR = "dialog_error";
+    // Bool to track whether the app is already resolving an error
+    private boolean mResolvingError = false;
+    private boolean isWeatherRequestDone = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -122,6 +132,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             updateData = true;
         }
 
+        //TODO Do we need this right now?
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
             if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
@@ -169,52 +180,80 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (updateData) {
             updateWeatherData(PrefUtils.getFormattedTemp(getActivity(), weatherTemp),
                     PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
-        } else {
-            makeWeatherRequest();
         }
 
         cm = new CameraManager();
+//        getCurrentLocation();
 
-        getCurrentLocation();
+        // Create a GoogleApiClient instance
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
 
         return addNewFragmentView;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
+    public void onConnected(Bundle connectionHint) {
+        if (getCurrentLocation()) {
 
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-            }
+            makeWeatherRequest();
+            return;
+        } else if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            return;
         }
-
-        locationManager.requestLocationUpdates(provider,
-                Constants.LOCATION_MIN_TIME, Constants.LOCATION_MIN_DISTANCE, this);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
+    public void onConnectionSuspended(int cause) {
+        // The connection has been interrupted.
+        // Disable any UI components that depend on Google APIs
+        // until onConnected() is called.
+        Log.e(LOG_TAG, "onConnectionSuspended");
 
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        makeWeatherRequest();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (mResolvingError) {
+            // Already attempting to resolve an error.
+            return;
+        } else if (result.hasResolution()) {
+            try {
+                mResolvingError = true;
+                result.startResolutionForResult(getActivity(), REQUEST_RESOLVE_ERROR);
+            } catch (IntentSender.SendIntentException e) {
+                // There was an error with the resolution intent. Try again.
+                mGoogleApiClient.connect();
             }
+        } else {
+            // Show dialog using GoogleApiAvailability.getErrorDialog()
+            showErrorDialog(result.getErrorCode());
+            mResolvingError = true;
         }
 
-        locationManager.removeUpdates(this);
+        makeWeatherRequest();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!mResolvingError && !isWeatherRequestDone) {
+            mGoogleApiClient.connect();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     private void initTackleUI() {
@@ -270,6 +309,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         updateTextView();
     }
 
+    //animation for tackles
     CountDownTimer counter = new CountDownTimer(5000, 1000) {
 
         public void onTick(long millisUntilFinished) {}
@@ -286,7 +326,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         tvTackleValue.setText(tacklesBag.getSelectedTackles());
     }
 
-    private void makeWeatherRequest() {
+    public void makeWeatherRequest() {
+        isWeatherRequestDone = true;
         new FetcherTask(new WeatherSyncFetcher.IWeatherListener() {
             @Override
             public void onWeatherResult(int id, double temp, double high, double low) {
@@ -409,12 +450,15 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 Uri selectedImage = Uri.parse(data.getStringExtra(Constants.IMAGE_URI));
                 photoId = CameraManager.getPhotoIdFromUri(getActivity(), selectedImage);
                 photoPath = CameraManager.getPath(getActivity(), selectedImage);
-                setImage(selectedImage);
+                CameraManager.setPic(photoPath, ivPhoto);
+//                setImage(selectedImage);
                 break;
-//            case Constants.REQUEST_TACKLE:
-//                //PrefUtils.formatTacleSeletedToTextView(tackleSelection),
-//                updateTackleData(PrefUtils.formatTacleSeletedToIconsCode(data.getIntExtra(Constants.EXTRA_TACKLE_IMAGE_KEY,-1)));
-
+            case REQUEST_RESOLVE_ERROR:
+                mResolvingError = false;
+                // Make sure the app is not already connected or attempting to connect
+                if (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected())
+                    mGoogleApiClient.connect();
+                break;
         }
     }
 
@@ -492,73 +536,20 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         Picasso.with(getActivity()).load(imageUri).into(ivPhoto);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        latitude = (location.getLatitude());
-        longitude = (location.getLongitude());
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Log.i(LOG_TAG, "Enabled new provider " + provider);
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Log.i(LOG_TAG, "Disabled provider " + provider);
-    }
-
-    public void getCurrentLocation() {
-        handleLocation();
-
-        // Initialize the location fields
-        if (location != null) {
-            Log.i(LOG_TAG, "Provider " + provider + " has been selected.");
-            onLocationChanged(location);
-        } else {
-            latitude = 0.0;
-            longitude = 0.0;
-        }
-
-        // write location in preferences
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.putLong(Constants.PREFERENCES_LOCATION_LATITUDE,
-                Double.doubleToLongBits(location.getLatitude()));
-        editor.putLong(Constants.PREFERENCES_LOCATION_LONGITUDE,
-                Double.doubleToLongBits(location.getLongitude()));
-        editor.apply();
-
-        Log.i(LOG_TAG, String.valueOf(latitude)+ " and " + String.valueOf(longitude));
-    }
-
-    private void handleLocation() {
-        // Get the location manager
-        locationManager =
-                (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-
-        provider = locationManager.getBestProvider(criteria, false);
-
-        if (ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    public boolean getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
             }
+
+            return true;
         }
 
-        location = locationManager.getLastKnownLocation(provider);
+        return false;
     }
 
     private class FetcherTask extends AsyncTask<Void, Void, String> {
@@ -572,7 +563,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         @Override
         protected String doInBackground(Void... params) {
-            return syncAdapter.onPerformSync();
+            return syncAdapter.onPerformSync(latitude, longitude);
         }
 
         @Override
@@ -618,6 +609,42 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                             }
                     )
                     .create();
+        }
+    }
+
+    // The rest of this code is all about building the error dialog
+
+    /* Creates a dialog for an error message */
+    private void showErrorDialog(int errorCode) {
+        // Create a fragment for the error dialog
+        ErrorDialogFragment dialogFragment = new ErrorDialogFragment();
+        // Pass the error that should be displayed
+        Bundle args = new Bundle();
+        args.putInt(DIALOG_ERROR, errorCode);
+        dialogFragment.setArguments(args);
+        dialogFragment.show(getActivity().getFragmentManager(), "errordialog");
+    }
+
+    /* Called from ErrorDialogFragment when the dialog is dismissed. */
+    public void onDialogDismissed() {
+        mResolvingError = false;
+    }
+
+    /* A fragment to display an error dialog */
+    public static class ErrorDialogFragment extends DialogFragment {
+        public ErrorDialogFragment() { }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Get the error code and retrieve the appropriate dialog
+            int errorCode = this.getArguments().getInt(DIALOG_ERROR);
+            return GoogleApiAvailability.getInstance().getErrorDialog(
+                    this.getActivity(), errorCode, REQUEST_RESOLVE_ERROR);
+        }
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            ((AddNewFishingActivity)getActivity()).onDialogDismissed();
         }
     }
 

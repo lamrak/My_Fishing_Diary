@@ -83,7 +83,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/temperature_value"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/primary_text"/>
 
                     <ImageView
                         android:id="@+id/iv_weather"
@@ -91,7 +92,7 @@
                         android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/descr_weather_button"
-                        android:src="@drawable/ic_sunny"/>
+                        android:src="@drawable/ic_sunny_check"/>
                 </LinearLayout>
 
                 <TextView

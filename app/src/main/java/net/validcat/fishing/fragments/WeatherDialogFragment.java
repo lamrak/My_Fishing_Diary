@@ -67,6 +67,7 @@ public class WeatherDialogFragment extends DialogFragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged();
                 ivTermometr.setImageResource(R.drawable.ic_termometr_check);
+                tvTemp.setTextColor(getResources().getColor(R.color.primary_text));
             }
 
             @Override
@@ -77,7 +78,8 @@ public class WeatherDialogFragment extends DialogFragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 progressChanged();
-                ivTermometr.setImageResource(R.drawable.ic_termometr);
+                ivTermometr.setImageResource(R.drawable.ic_termometr_check);
+                tvTemp.setTextColor(getResources().getColor(R.color.primary_text));
             }
         });
 

@@ -25,4 +25,6 @@
 
     <!--weather dialog-->
     <dimen name="wd_bottom_margin">12dp</dimen>
+    <dimen name="height_map">150dp</dimen>
+    <dimen name="card_radius">4dp</dimen>
 </resources>

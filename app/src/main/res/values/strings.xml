@@ -143,4 +143,5 @@
     <string name="alert_dialog_stay_here">Stay here</string>
     <string name="close_without_save">Close without saving?</string>
     <string name="delete_fishing_item">Delete Fishing Item?</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

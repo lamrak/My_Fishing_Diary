@@ -29,6 +29,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.DetailActivity;
 import net.validcat.fishing.R;
@@ -45,7 +52,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, OnMapReadyCallback {
     public static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
     @Bind(R.id.tv_place) TextView tvPlace;
@@ -57,6 +64,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.toolbar) Toolbar toolbar;
     private Uri uri;
     private FishingItem item;
+    private GoogleMap mMap;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -89,6 +97,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 getActivity().getIntent().getLongExtra(Constants.DETAIL_KEY, -1);
         if (id != -1)
             uri = FishingContract.FishingEntry.buildFishingUri(id);
+
+        MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         return detailFragmentView;
     }
@@ -195,6 +207,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 .setStream(Uri.fromFile(new File(item.getPhotoList().get(0))))
                 .setType("image/jpeg")
                 .getIntent());
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     public static class DeleteAlertDialog extends DialogFragment {

@@ -32,9 +32,7 @@ public class AddNewFishingActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
-        anff = //TODO check null
-                (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
-
+        anff = (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
         switch (requestCode) {
             case Constants.PERMISSIONS_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
@@ -51,6 +49,7 @@ public class AddNewFishingActivity extends AppCompatActivity {
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     anff.getCurrentLocation();
                 }
+                anff.makeWeatherRequest();
                 break;
             }
         }
@@ -60,5 +59,9 @@ public class AddNewFishingActivity extends AppCompatActivity {
         finish();
     }
 
+    public void onDialogDismissed() {
+        anff = (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
+        anff.onDialogDismissed();
+    }
 }
 

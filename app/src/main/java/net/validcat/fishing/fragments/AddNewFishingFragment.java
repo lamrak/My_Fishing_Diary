@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,11 +36,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import net.validcat.fishing.AddNewFishingActivity;
@@ -67,7 +74,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
-        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener { //, LocationListener
+        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        OnMapReadyCallback { //, LocationListener
     public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
@@ -114,6 +122,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     // Bool to track whether the app is already resolving an error
     private boolean mResolvingError = false;
     private boolean isWeatherRequestDone = false;
+    MapFragment mMapFragment;
+    GoogleMap mGoogleMap;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -191,6 +201,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        mMapFragment = MapFragment.newInstance();
+        FragmentTransaction fragmentTransaction =
+                getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.map_holder, mMapFragment);
+        fragmentTransaction.commit();
+        mMapFragment.getMapAsync(this);
 
         return addNewFragmentView;
     }
@@ -550,6 +567,11 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         }
 
         return false;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
     }
 
     private class FetcherTask extends AsyncTask<Void, Void, String> {

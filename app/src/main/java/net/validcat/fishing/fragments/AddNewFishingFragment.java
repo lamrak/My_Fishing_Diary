@@ -41,11 +41,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
@@ -74,8 +77,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
-        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        OnMapReadyCallback { //, LocationListener
+        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{ //, LocationListener
     public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.et_place) EditText etPlace;
@@ -124,6 +126,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private boolean isWeatherRequestDone = false;
     MapFragment mMapFragment;
     GoogleMap mGoogleMap;
+    LatLng currentLocation;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -195,21 +198,38 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         cm = new CameraManager();
 //        getCurrentLocation();
 
-        // Create a GoogleApiClient instance
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        mGoogleApiClient.connect();
 
         mMapFragment = MapFragment.newInstance();
         FragmentTransaction fragmentTransaction =
                 getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.map_holder, mMapFragment);
         fragmentTransaction.commit();
-        mMapFragment.getMapAsync(this);
+        mMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                loadMap(googleMap);
+
+            }
+        });
 
         return addNewFragmentView;
+    }
+
+    private void loadMap(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        // Create a GoogleApiClient instance
+//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
+//        mGoogleApiClient.connect();
     }
 
     @Override
@@ -561,17 +581,35 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             if (location != null) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+                
+                currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                Log.d(LOG_TAG,"lat"+latitude+"long"+longitude );
+
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .title(getResources().getString(R.string.map_place))
+                        .draggable(true)
+                        .position(currentLocation));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+                mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                    @Override
+                    public void onMarkerDragStart(Marker marker) {}
+
+                    @Override
+                    public void onMarkerDrag(Marker marker) {}
+
+                    @Override
+                    public void onMarkerDragEnd(Marker marker) {
+                       currentLocation =  marker.getPosition();
+                       mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+                       Log.d(LOG_TAG,"lat"+latitude+"long"+longitude );
+                    }
+                });
             }
 
             return true;
         }
 
         return false;
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
     }
 
     private class FetcherTask extends AsyncTask<Void, Void, String> {

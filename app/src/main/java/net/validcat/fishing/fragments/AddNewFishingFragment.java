@@ -36,12 +36,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,7 +48,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
-
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
@@ -65,14 +61,11 @@ import net.validcat.fishing.tools.PrefUtils;
 import net.validcat.fishing.tools.TackleBag;
 import net.validcat.fishing.tools.ViewAnimatorUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
-
 import org.json.JSONException;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -205,6 +198,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 .build();
         mGoogleApiClient.connect();
 
+        // attach map fragment to map_holder, get reference.
         mMapFragment = MapFragment.newInstance();
         FragmentTransaction fragmentTransaction =
                 getFragmentManager().beginTransaction();
@@ -223,13 +217,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     private void loadMap(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        // Create a GoogleApiClient instance
-//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(LocationServices.API)
-//                .build();
-//        mGoogleApiClient.connect();
     }
 
     @Override
@@ -581,10 +568,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             if (location != null) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                
+
                 currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+
                 Log.d(LOG_TAG,"lat"+latitude+"long"+longitude );
 
+            // add draggable marker
                 mGoogleMap.addMarker(new MarkerOptions()
                         .title(getResources().getString(R.string.map_place))
                         .draggable(true)

@@ -18,7 +18,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -36,6 +35,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -48,6 +48,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
+
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
@@ -61,11 +62,14 @@ import net.validcat.fishing.tools.PrefUtils;
 import net.validcat.fishing.tools.TackleBag;
 import net.validcat.fishing.tools.ViewAnimatorUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
+
 import org.json.JSONException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -138,17 +142,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             updateData = true;
         }
 
-        //TODO Do we need this right now?
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // Should we show an explanation?
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        Constants.PERMISSIONS_REQUEST_WRITE_STORAGE);
-            }
-        }
-
         // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,8 +182,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         }
 
         cm = new CameraManager();
-//        getCurrentLocation();
-
+        //Google API init
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -222,10 +214,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Override
     public void onConnected(Bundle connectionHint) {
         if (getCurrentLocation()) {
-
             makeWeatherRequest();
             return;
-        } else if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
+        } else {
+//        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
@@ -271,7 +263,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (!mResolvingError && !isWeatherRequestDone) {
             mGoogleApiClient.connect();
         }
-
     }
 
     @Override
@@ -325,7 +316,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 return;
         }
 
-        counter.start();
+//        counter.start();
         if (!animTackleViewState) {
             ViewAnimatorUtils.expand(tvTackleValue);
             animTackleViewState = true;
@@ -334,15 +325,15 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     //animation for tackles
-    CountDownTimer counter = new CountDownTimer(5000, 1000) {
-
-        public void onTick(long millisUntilFinished) {}
-
-        public void onFinish() {
-            ViewAnimatorUtils.collapse(tvTackleValue);
-            animTackleViewState = false;
-        }
-    };
+//    CountDownTimer counter = new CountDownTimer(5000, 1000) {
+//
+//        public void onTick(long millisUntilFinished) {}
+//
+//        public void onFinish() {
+//            ViewAnimatorUtils.collapse(tvTackleValue);
+//            animTackleViewState = false;
+//        }
+//    };
 
     boolean animTackleViewState = false;
 
@@ -468,7 +459,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             case Constants.REQUEST_TAKE_PHOTO:
                 handleCamera();
                 break;
-            case Constants.REQUEST_PICK_PHOTO:
+            case Constants.PICK_PHOTO:
                 ivPhoto.setVisibility(View.VISIBLE);
                 //http://stackoverflow.com/questions/20260416/retrieve-absolute-path-when-select-image-from-gallery-kitkat-android
                 Uri selectedImage = Uri.parse(data.getStringExtra(Constants.IMAGE_URI));
@@ -571,7 +562,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
                 currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
 
-                Log.d(LOG_TAG,"lat"+latitude+"long"+longitude );
+                //Log.d(LOG_TAG, "lat" + latitude + "long" + longitude );
 
             // add draggable marker
                 mGoogleMap.addMarker(new MarkerOptions()
@@ -590,7 +581,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                     public void onMarkerDragEnd(Marker marker) {
                        currentLocation =  marker.getPosition();
                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                       Log.d(LOG_TAG,"lat"+latitude+"long"+longitude );
                     }
                 });
             }

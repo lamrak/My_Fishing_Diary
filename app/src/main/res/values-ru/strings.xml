@@ -47,6 +47,7 @@
         на <xliff:g id="place">%2$s</xliff:g>:<xliff:g id="description">%3$s</xliff:g></string>
     <string name="action_save">Сохранить</string>
     <string name="camera_permissoin_denied">Запретить использование камеры</string>
+    <string name="storage_permissoin_denied">Запретить использование диска</string>
     <string name="descr_weather_button">Изменить погоду</string>
     <string name="pref_location_error_description">Неправильная локация (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
     <string name="pref_location_label">Локация</string>
@@ -81,5 +82,7 @@
     <string name="rod">Удочка</string>
     <string name="tip_up">Жерлица</string>
     <string name="add_fishing">Добавьте Рыбалку</string>
+    <string name="map_place">Вы здесь</string>
+    <string name="title_activity_maps">Карта</string>
 
 </resources>

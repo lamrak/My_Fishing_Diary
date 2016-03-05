@@ -219,7 +219,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         } else {
 //        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
             ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
             return;
         }
@@ -552,7 +552,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     public boolean getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(
                     mGoogleApiClient);

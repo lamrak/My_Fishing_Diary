@@ -126,8 +126,8 @@
                     android:layout_width="match_parent"
                     app:cardCornerRadius="@dimen/card_radius"
                     android:id="@+id/card_map"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin_top"
-                    android:layout_marginTop="@dimen/activity_vertical_margin_top"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_height="wrap_content">
 
                     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -151,8 +151,8 @@
                         style="@style/detail_text_view_style"
                         android:layout_below="@+id/map"
                         android:paddingBottom="@dimen/activity_vertical_margin_top"
-                        android:paddingLeft="@dimen/weather_icon_margin"
-                        android:paddingRight="@dimen/weather_icon_margin"
+                        android:paddingLeft="@dimen/default_gap"
+                        android:paddingRight="@dimen/default_gap"
                         android:transitionName="@string/key_description_transition" />
 
                 </android.support.v7.widget.CardView>

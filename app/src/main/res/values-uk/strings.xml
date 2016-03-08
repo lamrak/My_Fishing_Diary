@@ -82,4 +82,7 @@
     <string name="title_tackle_dialog">Оберить снастi</string>
     <string name="tip_up">Жерлица</string>
     <string name="add_fishing">Додайе Риболовлю</string>
+    <string name="map_place">Ви тут</string>
+    <string name="storage_permissoin_denied">Немае доступа до диска</string>
+    <string name="title_activity_maps">Карта</string>
 </resources>

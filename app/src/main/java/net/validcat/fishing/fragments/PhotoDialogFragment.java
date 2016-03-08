@@ -1,12 +1,16 @@
 package net.validcat.fishing.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,6 +44,18 @@ public class PhotoDialogFragment extends DialogFragment {
         pickPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Should we show an explanation?
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                Constants.PERMISSIONS_REQUEST_WRITE_STORAGE);
+                            getDialog().dismiss();
+                        return;
+//            }
+                    }
+                }
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, Constants.PICK_PHOTO);
@@ -71,7 +87,7 @@ public class PhotoDialogFragment extends DialogFragment {
 //                    ((MainActivity) getActivity()).setImage(selectedImage);
                     Intent pickPhotoIntent = new Intent();
                     pickPhotoIntent.putExtra(Constants.IMAGE_URI, selectedImage.toString());
-                    getTargetFragment().onActivityResult(Constants.REQUEST_PICK_PHOTO, Activity.RESULT_OK, pickPhotoIntent);
+                    getTargetFragment().onActivityResult(Constants.PICK_PHOTO, Activity.RESULT_OK, pickPhotoIntent);
                     getDialog().dismiss();
                 }
                 break;

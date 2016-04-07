@@ -1,6 +1,5 @@
 package net.validcat.fishing.models;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
 
@@ -27,6 +26,8 @@ public class FishingItem {
     String bait;
     String fishFeed;
     String catches;
+    double latitude;
+    double longitude;
 
     public FishingItem() {}
 
@@ -85,12 +86,20 @@ public class FishingItem {
         this.id = id;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
     @Override
     public String toString() {
         return "Item[id:" + id + "]";
     }
 
-    public static FishingItem createFishingItemFromCursor(Context context, Cursor data) {
+    public static FishingItem createFishingItemFromCursor(Cursor data) {
         FishingItem item = new FishingItem();
         item.id = data.getLong(FishingContract.FishingEntry.INDEX_ID);
         item.place = data.getString(FishingContract.FishingEntry.INDEX_PLACE);
@@ -107,6 +116,9 @@ public class FishingItem {
         item.bait  = data.getString(FishingContract.FishingEntry.INDEX_BAIT);
         item.fishFeed  = data.getString(FishingContract.FishingEntry.INDEX_FISH_FEED);
         item.catches  = data.getString(FishingContract.FishingEntry.INDEX_CATCH);
+
+        item.latitude = data.getDouble(FishingContract.FishingEntry.INDEX_LATITUDE);
+        item.longitude = data.getDouble(FishingContract.FishingEntry.INDEX_LONGITUDE);
 
         return item;
     }

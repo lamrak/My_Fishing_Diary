@@ -74,30 +74,49 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddNewFishingFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
-        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{ //, LocationListener
+        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener { //, LocationListener
     public static final String LOG_TAG = AddNewFishingFragment.class.getSimpleName();
-    @Bind(R.id.iv_photo) ImageView ivPhoto;
-    @Bind(R.id.et_place) EditText etPlace;
-    @Bind(R.id.tv_date) TextView tvDate;
-    @Bind(R.id.weather_holder) LinearLayout weatherWrapper;
-    @Bind(R.id.tv_weather) TextView tvWeather;
-    @Bind(R.id.et_price) EditText etPrice;
-    @Bind(R.id.et_details) EditText etDetails;
-    @Bind(R.id.iv_weather) ImageView ivWeather;
-    @Bind(R.id.et_bait) EditText etBait;
-    @Bind(R.id.et_fish_feed) EditText etFishFeed;
-    @Bind(R.id.tv_tackle_value) TextView tvTackleValue;
+    @Bind(R.id.iv_photo)
+    ImageView ivPhoto;
+    @Bind(R.id.et_place)
+    EditText etPlace;
+    @Bind(R.id.tv_date)
+    TextView tvDate;
+    @Bind(R.id.weather_holder)
+    LinearLayout weatherWrapper;
+    @Bind(R.id.tv_weather)
+    TextView tvWeather;
+    @Bind(R.id.et_price)
+    EditText etPrice;
+    @Bind(R.id.et_details)
+    EditText etDetails;
+    @Bind(R.id.iv_weather)
+    ImageView ivWeather;
+    @Bind(R.id.et_bait)
+    EditText etBait;
+    @Bind(R.id.et_fish_feed)
+    EditText etFishFeed;
+    @Bind(R.id.tv_tackle_value)
+    TextView tvTackleValue;
 //    @Bind(R.id.et_catch) EditText etCatch;
 
     //tackle
-    @Bind(R.id.ic_rod) Button rod;
-    @Bind(R.id.ic_spinning) Button spinning;
-    @Bind(R.id.ic_feeder) Button feeder;
-    @Bind(R.id.ic_distance_casting) Button casting;
-    @Bind(R.id.ic_ice_fishing_rod) Button iceRod;
-    @Bind(R.id.ic_tip_up) Button tipUp;
-    @Bind(R.id.ic_hand_line) Button handLine;
-    @Bind(R.id.ic_fly_fishing) Button flyFishing;
+    @Bind(R.id.ic_rod)
+    Button rod;
+    @Bind(R.id.ic_spinning)
+    Button spinning;
+    @Bind(R.id.ic_feeder)
+    Button feeder;
+    @Bind(R.id.ic_distance_casting)
+    Button casting;
+    @Bind(R.id.ic_ice_fishing_rod)
+    Button iceRod;
+    @Bind(R.id.ic_tip_up)
+    Button tipUp;
+    @Bind(R.id.ic_hand_line)
+    Button handLine;
+    @Bind(R.id.ic_fly_fishing)
+    Button flyFishing;
 
     private CameraManager cm;
     private Uri uri;
@@ -176,6 +195,20 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         initTackleUI();
 
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            Log.d(LOG_TAG, "ACCESS_FINE_LOCATION is not granted");
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Log.d(LOG_TAG, "ACCESS_FINE_LOCATION is requested");
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+//            }
+            }
+        }
+
         if (updateData) {
             updateWeatherData(PrefUtils.getFormattedTemp(getActivity(), weatherTemp),
                     PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
@@ -213,16 +246,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        if (getCurrentLocation()) {
-            makeWeatherRequest();
+        if (updateData)
             return;
-        } else {
-//        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-            return;
-        }
+        getCurrentLocation();
+        makeWeatherRequest();
     }
 
     @Override
@@ -287,7 +314,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     @Override
     public void onClick(View v) {
         v.setSelected(!v.isSelected());
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ic_rod:
                 tacklesBag.handle(0);
                 break;
@@ -424,6 +451,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //            cv.put(FishingEntry.COLUMN_TACKLE, tvTackle.getText().toString());
             cv.put(FishingEntry.COLUMN_BAIT, etBait.getText().toString());
             cv.put(FishingEntry.COLUMN_FISH_FEED, etFishFeed.getText().toString());
+            cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation.latitude);
+            cv.put(FishingEntry.COLUMN_LONGITUDE, currentLocation.longitude);
 //            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
 
             if (updateData) {
@@ -507,6 +536,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             date = cursor.getLong(cursor.getColumnIndex(FishingEntry.COLUMN_DATE));
             weatherIconSelection = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER_ICON));
             weatherTemp = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER));
+
+            currentLocation = new LatLng(cursor.getDouble(FishingContract.FishingEntry.INDEX_LATITUDE),
+                    cursor.getDouble(FishingContract.FishingEntry.INDEX_LONGITUDE));
+
             cursor.close();
         }
     }
@@ -551,44 +584,42 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         Picasso.with(getActivity()).load(imageUri).into(ivPhoto);
     }
 
-    public boolean getCurrentLocation() {
+    public void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            Location location = LocationServices.FusedLocationApi.getLastLocation(
-                    mGoogleApiClient);
-            if (location != null) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Location location = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
 
-                currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+            currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
 
-                //Log.d(LOG_TAG, "lat" + latitude + "long" + longitude );
+            //Log.d(LOG_TAG, "lat" + latitude + "long" + longitude );
 
-            // add draggable marker
-                mGoogleMap.addMarker(new MarkerOptions()
-                        .title(getResources().getString(R.string.map_place))
-                        .draggable(true)
-                        .position(currentLocation));
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-                    @Override
-                    public void onMarkerDragStart(Marker marker) {}
+        // add draggable marker
+            mGoogleMap.addMarker(new MarkerOptions()
+                    .title(getResources().getString(R.string.map_place))
+                    .draggable(true)
+                    .position(currentLocation));
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+            mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                @Override
+                public void onMarkerDragStart(Marker marker) {}
 
-                    @Override
-                    public void onMarkerDrag(Marker marker) {}
+                @Override
+                public void onMarkerDrag(Marker marker) {}
 
-                    @Override
-                    public void onMarkerDragEnd(Marker marker) {
-                       currentLocation =  marker.getPosition();
-                       mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-                    }
-                });
-            }
-
-            return true;
+                @Override
+                public void onMarkerDragEnd(Marker marker) {
+                   currentLocation =  marker.getPosition();
+                   mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+                }
+            });
         }
 
-        return false;
     }
 
     private class FetcherTask extends AsyncTask<Void, Void, String> {

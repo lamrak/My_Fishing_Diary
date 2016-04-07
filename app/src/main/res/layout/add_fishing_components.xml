@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/delimetr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/il_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin_top"
+        android:textSize="16sp">
+
+        <EditText
+            android:id="@+id/et_place"
+            style="@style/edit_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_fishing_place"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/row_today_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/il_place"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/default_margin_top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/il_price"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="16sp"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/et_price"
+                style="@style/edit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/title_fishing_price"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/weather_holder"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:paddingLeft="32dp"
+            android:paddingStart="32dp"
+            android:background="@drawable/border_bottom"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/temperature_value"
+                android:textSize="16sp"
+                android:textColor="@color/primary_text"/>
+
+            <ImageView
+                android:id="@+id/iv_weather"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/descr_weather_button"
+                android:src="@drawable/ic_sunny_check"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/border_bottom"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:paddingBottom="3dp"
+            android:gravity="bottom"
+            android:text="@string/title_fishing_date"
+            android:textSize="16sp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/tackle_layout"
+        layout="@layout/dialog_tackle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/row_today_holder"
+        android:layout_marginTop="@dimen/default_margin_top"/>
+
+    <TextView
+        android:layout_below="@+id/tackle_layout"
+        android:id="@+id/tv_tackle_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin_top"
+        android:visibility="gone" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/il_bait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_tackle_value"
+        android:layout_marginTop="@dimen/default_margin_top"
+        android:textSize="16sp">
+
+        <EditText
+            android:id="@+id/et_bait"
+            style="@style/edit_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_fishing_bait"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/il_fish_feed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/il_bait"
+        android:layout_marginTop="@dimen/default_margin_top"
+        android:textSize="16sp">
+
+        <EditText
+            android:id="@+id/et_fish_feed"
+            style="@style/edit_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_fishing_fish_feed"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/il_catch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/il_fish_feed"
+        android:layout_marginTop="@dimen/default_margin_top"
+        android:textSize="16sp"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_catch"
+            style="@style/edit_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_fishing_catch"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/il_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/il_catch"
+        android:layout_marginTop="@dimen/default_margin_top"
+        android:textSize="16sp">
+
+        <EditText
+            android:id="@+id/et_details"
+            style="@style/edit_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fishing_details"
+            android:isScrollContainer="true"
+            android:minHeight="40dp"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/il_details">
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_photoholder"
+            android:contentDescription="@string/image_descr"
+            android:scaleType="centerCrop"
+            android:visibility="gone"/>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

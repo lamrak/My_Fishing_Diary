@@ -10,9 +10,19 @@ android {
         targetSdkVersion 23
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../keys/fishing.jks")
+            storePassword "android"
+            keyAlias "android"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }

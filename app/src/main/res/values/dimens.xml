@@ -27,4 +27,11 @@
     <dimen name="wd_bottom_margin">12dp</dimen>
     <dimen name="height_map">150dp</dimen>
     <dimen name="card_radius">4dp</dimen>
+    <dimen name="scrollview_holder_height">110dp</dimen>
+
+    <!-- devices support -->
+    <dimen name="width_place_land">400dp</dimen>
+    <dimen name="width_land_edit_text">300dp</dimen>
+    <dimen name="width_land_weather">280dp</dimen>
+    <dimen name="width_land_add_fishing">400dp</dimen>
 </resources>

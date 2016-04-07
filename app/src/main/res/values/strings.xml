@@ -146,4 +146,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="map_place">You\'re here</string>
     <string name="storage_permissoin_denied">Storage permissoin denied</string>
+    <string name="fish_place">Fishing place</string>
+    <string name="fishing_counter">Fisgings</string>
 </resources>

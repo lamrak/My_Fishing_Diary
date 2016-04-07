@@ -4,5 +4,4 @@
     android:id="@+id/add_new_fragment"
     android:name="net.validcat.fishing.fragments.AddNewFishingFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout="@layout/add_new_fishing_fragment"/>
+    android:layout_height="match_parent"/>

@@ -1,0 +1,12 @@
+<resources>
+    <dimen name="add_fishing_width_card">780dp</dimen>
+    <dimen name="height_map">360dp</dimen>
+    <dimen name="scrollview_holder_height">290dp</dimen>
+
+    <dimen name="width_place_land">400dp</dimen>
+    <dimen name="width_land_edit_text">560dp</dimen>
+    <dimen name="width_land_weather">420dp</dimen>
+
+
+    <dimen name="width_land_add_fishing">1100dp</dimen>
+</resources>

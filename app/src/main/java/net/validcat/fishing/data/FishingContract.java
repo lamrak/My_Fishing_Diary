@@ -110,7 +110,9 @@ public class FishingContract {
                 FishingEntry.COLUMN_TACKLE_ICON + " INTEGER, " +
                 FishingEntry.COLUMN_BAIT + " TEXT, " +
                 FishingEntry.COLUMN_FISH_FEED + " TEXT, " +
-                FishingEntry.COLUMN_CATCH + " TEXT" +
+                FishingEntry.COLUMN_CATCH + " TEXT, " +
+                FishingEntry.COLUMN_LATITUDE + " REAL, " +
+                FishingEntry.COLUMN_LONGITUDE + " REAL" +
                 ");";
     }
 
@@ -128,6 +130,8 @@ public class FishingContract {
         public static final String COLUMN_BAIT = "bait";
         public static final String COLUMN_FISH_FEED = "fish_feed";
         public static final String COLUMN_CATCH = "catch";
+        public static final String COLUMN_LATITUDE = "lat";
+        public static final String COLUMN_LONGITUDE = "long";
 
         public static String[] COLUMNS = {
                 FishingEntry._ID,
@@ -142,7 +146,9 @@ public class FishingContract {
                 FishingEntry.COLUMN_TACKLE_ICON,
                 FishingEntry.COLUMN_BAIT,
                 FishingEntry.COLUMN_FISH_FEED,
-                FishingEntry.COLUMN_CATCH
+                FishingEntry.COLUMN_CATCH,
+                FishingEntry.COLUMN_LATITUDE,
+                FishingEntry.COLUMN_LONGITUDE
         };
 
         public static final int INDEX_ID = 0;
@@ -158,6 +164,8 @@ public class FishingContract {
         public static final int INDEX_BAIT = 10;
         public static final int INDEX_FISH_FEED = 11;
         public static final int INDEX_CATCH = 12;
+        public static final int INDEX_LATITUDE = 13;
+        public static final int INDEX_LONGITUDE = 14;
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_FISHING).build();

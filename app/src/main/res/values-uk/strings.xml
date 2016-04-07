@@ -85,4 +85,6 @@
     <string name="map_place">Ви тут</string>
     <string name="storage_permissoin_denied">Немае доступа до диска</string>
     <string name="title_activity_maps">Карта</string>
+    <string name="fish_place">Місце риболовлі</string>
+    <string name="fishing_counter">Рибалок</string>
 </resources>

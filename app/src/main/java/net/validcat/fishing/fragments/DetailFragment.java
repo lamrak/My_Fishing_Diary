@@ -64,7 +64,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.toolbar) Toolbar toolbar;
     private Uri uri;
     private FishingItem item;
-    private GoogleMap mMap;
+    private LatLng currentLocation;
+    private GoogleMap googleMap;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -148,7 +149,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            item = FishingItem.createFishingItemFromCursor(getActivity(), data);
+            item = FishingItem.createFishingItemFromCursor(data);
             tvPlace.setText(item.getPlace());
             tvPlace.setContentDescription(item.getPlace());
             tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), item.getDate()));
@@ -181,8 +182,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 ivPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo));
             }
 
-
+            currentLocation = new LatLng(item.getLatitude(), item.getLongitude());
+            if (googleMap != null)
+                setLocationOnMap();
         }
+    }
+
+    private void setLocationOnMap() {
+        googleMap.addMarker(new MarkerOptions()
+                .title(getResources().getString(R.string.fish_place))
+                .draggable(false)
+                .position(currentLocation));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
     }
 
     @Override
@@ -211,10 +222,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        this.googleMap = googleMap;
+        if (currentLocation != null)
+            setLocationOnMap();
     }
 
     public static class DeleteAlertDialog extends DialogFragment {

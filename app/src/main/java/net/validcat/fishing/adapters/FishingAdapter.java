@@ -34,7 +34,7 @@ public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.Vie
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-        FishingItem item = FishingItem.createFishingItemFromCursor(context, cursor);
+        FishingItem item = FishingItem.createFishingItemFromCursor(cursor);
         viewHolder.id = item.getId();
         viewHolder.view.setOnClickListener(viewHolder);
         viewHolder.place.setText(item.getPlace());

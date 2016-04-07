@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.fragments.AddNewFishingFragment;
-import net.validcat.fishing.tools.BitmapUtils;
 
 public class AddNewFishingActivity extends AppCompatActivity {
     public static final String LOG_TAG = AddNewFishingActivity.class.getSimpleName();
@@ -56,9 +56,9 @@ public class AddNewFishingActivity extends AppCompatActivity {
             case Constants.PERMISSIONS_REQUEST_WRITE_STORAGE: {
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    BitmapUtils.startGalleryPhotoWithResult(this);
+
                 } else {
-                    Toast.makeText(this, R.string.camera_permissoin_denied, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.storage_permissoin_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
             }

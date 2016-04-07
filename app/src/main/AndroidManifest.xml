@@ -8,45 +8,44 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- Permissions required by the sync adapter -->
-    <!--uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/-->
-    <!--uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/-->
-    <!--uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/-->
+    <!-- uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/ -->
+    <!-- uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/ -->
+    <!-- uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/ -->
 
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".ListActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AddNewFishingActivity"
             android:label="@string/title_add_new_fishing"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
@@ -54,8 +53,7 @@
         <activity
             android:name=".DetailActivity"
             android:label="@string/app_name"
-            android:theme="@style/DetailAppTheme"
-            android:screenOrientation="portrait">
+            android:theme="@style/DetailAppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
@@ -63,7 +61,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".ListActivity" >
+            android:parentActivityName=".ListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
@@ -73,21 +71,40 @@
             android:name=".data.FishingProvider"
             android:authorities="net.validcat.fishing"
             android:enabled="true"
-            android:exported="false">
-        </provider>
+            android:exported="false"></provider>
+
+        <receiver
+            android:name=".widget.FishingCountWidgetProvider"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <service android:name=".widget.FishingCountWidgetIntentService" />
+
 
         <!-- SyncAdapter's dummy authentication service -->
-        <!--service android:name=".sync.SunshineAuthenticatorService">
+        <!--
+        service android:name=".sync.SunshineAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
-        </service-->
+        </service
+        -->
+
 
         <!-- The SyncAdapter service -->
-        <!--service
+        <!--
+        service
             android:name=".sync.SunshineSyncService"
             android:exported="true"
             >
@@ -97,7 +114,8 @@
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
-        </service-->
+        </service
+        -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

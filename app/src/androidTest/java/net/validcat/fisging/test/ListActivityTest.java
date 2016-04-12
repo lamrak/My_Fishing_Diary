@@ -31,13 +31,13 @@ public class ListActivityTest {
     @Test
     public void checkBasicFunctionality() {
         //for (int i = 0;i<3;i++){
-            onView (withId (R.id.fab_add_fishing)).perform(click());
-            onView(withId(R.id.et_place)).perform(typeText("Dnepr"),closeSoftKeyboard());
-            onView(withId(R.id.et_bait)).perform(typeText("Bloodworm"),closeSoftKeyboard());
-            onView(withId(R.id.action_add_new_fishing)).perform(click());
-            onView(withId(R.id.photo_preview)).check(matches(hasDrawable()));
-            onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-            pressBack();
+        onView(withId(R.id.fab_add_fishing)).perform(click());
+        onView(withId(R.id.et_place)).perform(typeText("Dnepr"), closeSoftKeyboard());
+        onView(withId(R.id.et_bait)).perform(typeText("Bloodworm"), closeSoftKeyboard());
+        onView(withId(R.id.action_add_new_fishing)).perform(click());
+        onView(withId(R.id.photo_preview)).check(matches(hasDrawable()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        pressBack();
      //  }
     }
 }

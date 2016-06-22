@@ -451,8 +451,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //            cv.put(FishingEntry.COLUMN_TACKLE, tvTackle.getText().toString());
             cv.put(FishingEntry.COLUMN_BAIT, etBait.getText().toString());
             cv.put(FishingEntry.COLUMN_FISH_FEED, etFishFeed.getText().toString());
-            cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation.latitude);
-            cv.put(FishingEntry.COLUMN_LONGITUDE, currentLocation.longitude);
+            if (currentLocation == null) {
+                cv.put(FishingEntry.COLUMN_LATITUDE, 0);
+                cv.put(FishingEntry.COLUMN_LONGITUDE, 0);
+            } else {
+                cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation.latitude);
+                cv.put(FishingEntry.COLUMN_LONGITUDE, currentLocation.longitude);
+            }
 //            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
 
             if (updateData) {

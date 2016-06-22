@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.validcat.fishing"
-    android:versionCode="3"
-    android:versionName="1.0">
+    android:versionCode="6"
+    android:versionName="1">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -119,7 +119,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyBTQ3Z1WBPX6DlnVnqUx7Z5DGZlHcoMbzU" />
 
     </application>
 

@@ -43,6 +43,7 @@ public class FishingContract {
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
     public static final String PATH_FISHING = "fishing";
+    public static final String PATH_THINGS = "things";
 
     // To make it easy to query for the exact date, we normalize all dates that go into
     // the database to the start of the the Julian day at UTC.
@@ -112,8 +113,19 @@ public class FishingContract {
                 FishingEntry.COLUMN_FISH_FEED + " TEXT, " +
                 FishingEntry.COLUMN_CATCH + " TEXT, " +
                 FishingEntry.COLUMN_LATITUDE + " REAL, " +
-                FishingEntry.COLUMN_LONGITUDE + " REAL" +
+                FishingEntry.COLUMN_LONGITUDE + " REAL, " +
+                FishingEntry.COLUMN_THINGS_KEY + " TEXT" +
                 ");";
+    }
+
+    public static String createThingsTable() {
+        return "CREATE TABLE " + ThingsEntry.TABLE_NAME + " (" +
+                ThingsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ThingsEntry.COLUMN_DESCRIPTION + " TEXT, " +
+                ThingsEntry.COLUMN_EQUIPPED + " INTEGER NOT NULL, " +
+                ThingsEntry.COLUMN_FISHING_ID + " INTEGER, " +
+                " FOREIGN KEY " + " (" + ThingsEntry.COLUMN_FISHING_ID + ") REFERENCES " +
+                FishingEntry.TABLE_NAME + " (" + FishingEntry.COLUMN_THINGS_KEY  + ")); ";
     }
 
     public static final class FishingEntry implements BaseColumns {
@@ -132,8 +144,9 @@ public class FishingContract {
         public static final String COLUMN_CATCH = "catch";
         public static final String COLUMN_LATITUDE = "lat";
         public static final String COLUMN_LONGITUDE = "long";
+        public static final String COLUMN_THINGS_KEY = "things_key";
 
-        public static String[] COLUMNS = {
+        public static String[] PROJECTION = {
                 FishingEntry._ID,
                 FishingEntry.COLUMN_PLACE,
                 FishingEntry.COLUMN_DATE,
@@ -290,5 +303,32 @@ public class FishingContract {
         }
     }
 
+    public static final class ThingsEntry implements BaseColumns {
+        public static final String TABLE_NAME = "things";
+        public static final String COLUMN_DESCRIPTION = "thing_desc";
+        public static final String COLUMN_EQUIPPED = "if_equipped";
+        public static final String COLUMN_FISHING_ID = "fishing_id";
+
+        public static String[] PROJECTION = {
+                ThingsEntry._ID,
+                ThingsEntry.COLUMN_DESCRIPTION,
+                ThingsEntry.COLUMN_EQUIPPED,
+                ThingsEntry.COLUMN_FISHING_ID
+        };
+
+        public static final int INDEX_ID = 0;
+        public static final int INDEX_COLUMN_DESCRIPTION = 1;
+        public static final int INDEX_COLUMN_EQUIPPED = 2;
+        public static final int INDEX_COLUMN_FISHING_ID = 3;
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_THINGS)
+                        .build();
+
+        public static String getThingsIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
+        }
+
+    }
 
 }

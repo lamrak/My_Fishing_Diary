@@ -67,4 +67,6 @@ public class Constants {
     //Preferences
     public static final String PREFERENCES_LOCATION_LATITUDE = "latitude";
     public static final String PREFERENCES_LOCATION_LONGITUDE = "longitude";
+    public static final int REQUEST_THINGS_LIST = 106;
+    public static final String THINGS_LIST_REFERENCE = "things";
 }

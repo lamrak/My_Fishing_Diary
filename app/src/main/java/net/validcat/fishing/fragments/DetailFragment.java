@@ -111,7 +111,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         if (null == uri)
             return null;
         return new CursorLoader(getActivity(),
-                uri, FishingContract.FishingEntry.COLUMNS, null, null, null);
+                uri, FishingContract.FishingEntry.PROJECTION, null, null, null);
     }
 
 

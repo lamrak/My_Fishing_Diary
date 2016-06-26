@@ -20,6 +20,7 @@ public class FishingProvider extends ContentProvider {
     static final int WEATHER_WITH_LOCATION_AND_DATE = 102;
     static final int FISHING = 200;
     static final int FISHING_BY_ID = 201;
+    static final int THINGS_BY_ID = 202;
     static final int LOCATION = 300;
 
     private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
@@ -107,6 +108,7 @@ public class FishingProvider extends ContentProvider {
         // Fishing
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_FISHING, FISHING);
         sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_FISHING + "/#", FISHING_BY_ID);
+        sUriMatcher.addURI(FishingContract.CONTENT_AUTHORITY, FishingContract.PATH_THINGS + "/*", THINGS_BY_ID);
 
         return sUriMatcher;
     }
@@ -142,6 +144,8 @@ public class FishingProvider extends ContentProvider {
                 return FishingContract.FishingEntry.CONTENT_TYPE;
             case FISHING_BY_ID:
                 return FishingContract.FishingEntry.CONTENT_ITEM_TYPE;
+            case THINGS_BY_ID:
+                return null;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -205,6 +209,19 @@ public class FishingProvider extends ContentProvider {
                         sortOrder);
                 break;
             }
+
+            case THINGS_BY_ID: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        FishingContract.ThingsEntry.TABLE_NAME,
+                        projection,
+                        FishingContract.ThingsEntry.TABLE_NAME +
+                                "." + FishingContract.ThingsEntry.COLUMN_FISHING_ID + " = ? ",
+                        new String[]{FishingContract.ThingsEntry.getThingsIdFromUri(uri)},
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -242,6 +259,14 @@ public class FishingProvider extends ContentProvider {
                 long _id = db.insert(FishingContract.FishingEntry.TABLE_NAME, null, values);
                 if (_id > 0)
                     returnUri = FishingContract.FishingEntry.buildFishingUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+            case THINGS_BY_ID: {
+                long _id = db.insert(FishingContract.ThingsEntry.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = null;
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;

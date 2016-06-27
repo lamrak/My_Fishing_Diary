@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -237,11 +238,18 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
+        showSnackBarInfo(addNewFragmentView);
+
         return addNewFragmentView;
+    }
+
+    private void showSnackBarInfo(View addNewFragmentView) {
+        TSnackbar.make(addNewFragmentView, R.string.map_drag, TSnackbar.LENGTH_LONG).show();
     }
 
     private void loadMap(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     @Override
@@ -603,11 +611,14 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             mGoogleMap.addMarker(new MarkerOptions()
                     .title(getResources().getString(R.string.map_place))
                     .draggable(true)
-                    .position(currentLocation));
+                    .position(currentLocation))
+                    .showInfoWindow();
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
             mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                 @Override
-                public void onMarkerDragStart(Marker marker) {}
+                public void onMarkerDragStart(Marker marker) {
+                    marker.hideInfoWindow();
+                }
 
                 @Override
                 public void onMarkerDrag(Marker marker) {}

@@ -86,5 +86,6 @@
     <string name="title_activity_maps">Карта</string>
     <string name="fish_place">Место рыбалки</string>
     <string name="fishing_counter">Рыбалок</string>
+    <string name="map_drag">Перетащи флажок зажав его.</string>
 
 </resources>

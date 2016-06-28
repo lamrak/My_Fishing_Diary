@@ -143,6 +143,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private boolean isWeatherRequestDone = false;
     private String mThingsListReference;
     private boolean mHasThingsList = false;
+    private String mStrUri;
     MapFragment mMapFragment;
     GoogleMap mGoogleMap;
     LatLng currentLocation;
@@ -156,10 +157,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         ButterKnife.bind(this, addNewFragmentView);
 
         Intent intent = getActivity().getIntent();
-        String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
+        mStrUri = intent.getStringExtra(Constants.DETAIL_KEY);
 
-        if (!TextUtils.isEmpty(strUri)) {
-            uri = Uri.parse(strUri);
+        if (!TextUtils.isEmpty(mStrUri)) {
+            uri = Uri.parse(mStrUri);
             updateUiByItemId();
             updateData = true;
         }
@@ -465,14 +466,21 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation.latitude);
                 cv.put(FishingEntry.COLUMN_LONGITUDE, currentLocation.longitude);
             }
-            cv.put(FishingEntry.COLUMN_THINGS_KEY, mThingsListReference);
-            /*if (mHasThingsList) {
+            //cv.put(FishingEntry.COLUMN_THINGS_KEY, mThingsListReference);
+            if (mHasThingsList) {
                 cv.put(FishingEntry.COLUMN_THINGS_KEY, mThingsListReference);
-            }*/
+            }
 //            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
 
             if (updateData) {
-                getActivity().getContentResolver().update(FishingEntry.CONTENT_URI, cv, null, null);
+                getActivity().getContentResolver()
+                        .update(FishingEntry.CONTENT_URI,
+                                cv,
+                                FishingEntry._ID,
+                                new String[]{
+                                        FishingContract.FishingEntry.getFishingIdFromUri(
+                                                Uri.parse(mStrUri))
+                                });
             } else {
                 getActivity().getContentResolver().insert(FishingEntry.CONTENT_URI, cv);
             }

@@ -338,7 +338,7 @@ public class FishingProvider extends ContentProvider {
             case FISHING_BY_ID:
             case FISHING:
 //                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
-                rowsUpdated = db.update(FishingContract.FishingEntry.TABLE_NAME, values, selection, selectionArgs);
+                rowsUpdated = db.update(FishingContract.FishingEntry.TABLE_NAME, values, selection + "=?", selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

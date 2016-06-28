@@ -161,7 +161,8 @@ public class FishingContract {
                 FishingEntry.COLUMN_FISH_FEED,
                 FishingEntry.COLUMN_CATCH,
                 FishingEntry.COLUMN_LATITUDE,
-                FishingEntry.COLUMN_LONGITUDE
+                FishingEntry.COLUMN_LONGITUDE,
+                FishingEntry.COLUMN_THINGS_KEY
         };
 
         public static final int INDEX_ID = 0;
@@ -179,6 +180,7 @@ public class FishingContract {
         public static final int INDEX_CATCH = 12;
         public static final int INDEX_LATITUDE = 13;
         public static final int INDEX_LONGITUDE = 14;
+        public static final int INDEX_COLUMN_THINGS_KEY = 15;
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_FISHING).build();

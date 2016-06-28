@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,13 +20,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import net.validcat.fishing.R;
+import net.validcat.fishing.adapters.IRecyclerViewClickListener;
 import net.validcat.fishing.adapters.ThingsAdapter;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 
-public class ThingsListFragment extends Fragment {
+public class ThingsListFragment extends Fragment implements IRecyclerViewClickListener {
 
     private String mThingsListReference;
+    private ThingsAdapter adapter;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,9 +47,10 @@ public class ThingsListFragment extends Fragment {
         }
 
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.things_list_recycler_view);
-        final ThingsAdapter adapter = new ThingsAdapter(getActivity(), cursor);
+        adapter = new ThingsAdapter(getActivity(), cursor, this);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(adapter);
+        //initSwipeToDelete(rv);
 
         FloatingActionButton fabAddThing = (FloatingActionButton) view.findViewById(R.id.fab_add_thing);
         fabAddThing.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +120,14 @@ public class ThingsListFragment extends Fragment {
                         .appendPath(mThingsListReference).build(), cv);
     }
 
+    private void deleteThingFromDb(String desc, String fishingId) {
+      getActivity().getContentResolver().delete(
+                FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
+                        .appendPath(mThingsListReference).build(),
+              desc,
+              null);
+    }
+
     private Cursor getThingsListCursor() {
         return getActivity().getContentResolver().query(
                 FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
@@ -126,4 +138,44 @@ public class ThingsListFragment extends Fragment {
                 null
         );
     }
+
+    private void markAsEquipped(String desc, String fishingId) {
+        ContentValues cv = new ContentValues();
+        cv.put(FishingContract.ThingsEntry.COLUMN_DESCRIPTION, desc);
+        cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 1);
+        cv.put(FishingContract.ThingsEntry.COLUMN_FISHING_ID, fishingId);
+        getActivity().getContentResolver().update(
+                FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
+                        .appendPath(mThingsListReference).build(), cv,
+                FishingContract.ThingsEntry.COLUMN_DESCRIPTION, new String[] {desc});
+    }
+
+    private void initSwipeToDelete(RecyclerView rv) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                //deleteThingFromDb();
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rv);
+    }
+
+
+    @Override
+    public void recyclerViewListClicked(View v, int position) {
+       /* ((CheckBox) v.findViewById(R.id.things_list_if_equipped_checkbox)).setChecked(true);
+        String desc = ((TextView) v.findViewById(R.id.things_list_description_text_view))
+                .getText().toString();
+        markAsEquipped(desc, mThingsListReference);*/
+    }
 }
+

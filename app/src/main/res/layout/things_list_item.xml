@@ -18,13 +18,13 @@
             android:id="@+id/things_list_description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="10"/>
+            android:layout_weight="1" />
 
         <CheckBox
             android:id="@+id/things_list_if_equipped_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:checked="true" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -158,6 +158,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         Intent intent = getActivity().getIntent();
         mStrUri = intent.getStringExtra(Constants.DETAIL_KEY);
+        mThingsListReference = intent.getStringExtra(Constants.THINGS_LIST_REFERENCE);
+        if (mThingsListReference == null) {
+            mThingsListReference = RandomStringGenerator.nextString();
+        }
 
         if (!TextUtils.isEmpty(mStrUri)) {
             uri = Uri.parse(mStrUri);
@@ -240,8 +244,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
             }
         });
-
-        mThingsListReference = RandomStringGenerator.nextString();
 
         return addNewFragmentView;
     }
@@ -410,6 +412,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 runPhotoDialog();
                 break;
             case R.id.action_modify_things_list:
+                mHasThingsList = true;
                 Intent intent = new Intent(getActivity(), ThingsActivity.class);
                 intent.putExtra(Constants.THINGS_LIST_REFERENCE, mThingsListReference);
                 startActivity(intent);

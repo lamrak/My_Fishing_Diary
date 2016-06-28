@@ -14,11 +14,17 @@ import net.validcat.fishing.data.FishingContract;
 
 public class ThingsAdapter extends CursorRecyclerViewAdapter<ThingsAdapter.ViewHolder> {
 
-    public ThingsAdapter(Context context, Cursor cursor) {
+    private Context mContext;
+    private static IRecyclerViewClickListener mItemListener;
+
+    public ThingsAdapter(Context context, Cursor cursor
+            , IRecyclerViewClickListener itemListener) {
         super(context, cursor);
+        mContext = context;
+        this.mItemListener = itemListener;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final CheckBox ifEquipped;
         public final TextView thingDescription;
 
@@ -26,23 +32,30 @@ public class ThingsAdapter extends CursorRecyclerViewAdapter<ThingsAdapter.ViewH
             super(view);
             ifEquipped = (CheckBox) view.findViewById(R.id.things_list_if_equipped_checkbox);
             thingDescription = (TextView) view.findViewById(R.id.things_list_description_text_view);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mItemListener.recyclerViewListClicked(v, this.getLayoutPosition());
         }
     }
 
     @Override
-    public void onBindViewHolder(ThingsAdapter.ViewHolder viewHolder, Cursor cursor) {
-        String s = cursor.getString(FishingContract.ThingsEntry.INDEX_COLUMN_DESCRIPTION);
+    public void onBindViewHolder(final ThingsAdapter.ViewHolder viewHolder, final Cursor cursor) {
         viewHolder.thingDescription.setText(cursor.getString(
                 FishingContract.ThingsEntry.INDEX_COLUMN_DESCRIPTION));
-       /* viewHolder.ifEquipped.setChecked(
+        viewHolder.ifEquipped.setChecked(
                 (cursor.getInt(FishingContract
-                        .ThingsEntry.INDEX_COLUMN_EQUIPPED)) == 0 ? true : false);*/
-        viewHolder.ifEquipped.setChecked(false);
+                        .ThingsEntry.INDEX_COLUMN_EQUIPPED)) == 0 ? false : true);
+
     }
 
     @Override
     public ThingsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.things_list_item, parent, false));
+        ViewHolder holder = new ViewHolder(
+                LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.things_list_item, parent, false));
+       return holder;
     }
 }

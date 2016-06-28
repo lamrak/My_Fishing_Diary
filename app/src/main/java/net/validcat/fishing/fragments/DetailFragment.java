@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.DetailActivity;
 import net.validcat.fishing.R;
+import net.validcat.fishing.ThingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
@@ -62,10 +64,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.iv_toolbar_weather_icon) ImageView weatherIcon;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.view_things_list_button) Button seeThings;
     private Uri uri;
     private FishingItem item;
     private LatLng currentLocation;
     private GoogleMap googleMap;
+    private String mFishingId;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -103,6 +107,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        seeThings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ThingsActivity.class);
+                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mFishingId);
+                startActivity(intent);
+            }
+        });
+
         return detailFragmentView;
     }
 
@@ -124,8 +137,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-                startActivity(new Intent(getActivity(),
-                        AddNewFishingActivity.class).putExtra(Constants.DETAIL_KEY, uri.toString()));
+                Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
+                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
+                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mFishingId);
+                startActivity(intent);
                 return true;
             case R.id.delete:
                 showConfirmationDialog();
@@ -149,6 +164,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
+            mFishingId = data.getString(data.getColumnIndex(FishingContract.FishingEntry.COLUMN_THINGS_KEY));
             item = FishingItem.createFishingItemFromCursor(data);
             tvPlace.setText(item.getPlace());
             tvPlace.setContentDescription(item.getPlace());

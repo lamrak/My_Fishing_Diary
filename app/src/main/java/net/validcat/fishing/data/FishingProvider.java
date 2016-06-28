@@ -304,6 +304,16 @@ public class FishingProvider extends ContentProvider {
                 deletedRows = db.delete(FishingContract.FishingEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             }
+            case THINGS_BY_ID: {
+                deletedRows = db.delete(FishingContract.ThingsEntry.TABLE_NAME,
+                        FishingContract.ThingsEntry.TABLE_NAME +
+                                "." + FishingContract.ThingsEntry.COLUMN_FISHING_ID + " = ? AND " +
+                        FishingContract.ThingsEntry.TABLE_NAME +
+                        "." + FishingContract.ThingsEntry.COLUMN_DESCRIPTION + " = ?",
+                        new String[]{FishingContract.ThingsEntry.getThingsIdFromUri(uri), selection}
+                        );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -339,6 +349,10 @@ public class FishingProvider extends ContentProvider {
             case FISHING:
 //                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
                 rowsUpdated = db.update(FishingContract.FishingEntry.TABLE_NAME, values, selection + "=?", selectionArgs);
+                break;
+            case THINGS_BY_ID:
+//                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
+                rowsUpdated = db.update(FishingContract.ThingsEntry.TABLE_NAME, values, selection + "=?", selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

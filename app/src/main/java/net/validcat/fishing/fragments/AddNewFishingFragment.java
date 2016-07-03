@@ -52,6 +52,7 @@ import com.squareup.picasso.Picasso;
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
+import net.validcat.fishing.ThingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
@@ -59,6 +60,7 @@ import net.validcat.fishing.data.FishingContract.FishingEntry;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
+import net.validcat.fishing.tools.RandomStringGenerator;
 import net.validcat.fishing.tools.TackleBag;
 import net.validcat.fishing.tools.ViewAnimatorUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
@@ -143,6 +145,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     MapFragment mMapFragment;
     GoogleMap mGoogleMap;
     LatLng currentLocation;
+    private String mThingsListReference;
+    private boolean mHasThingsList = false;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -154,6 +158,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
         Intent intent = getActivity().getIntent();
         String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
+        mThingsListReference = intent.getStringExtra(Constants.THINGS_LIST_REFERENCE);
+        if (mThingsListReference == null) {
+            mThingsListReference = RandomStringGenerator.nextString();
+        }
 
         if (!TextUtils.isEmpty(strUri)) {
             uri = Uri.parse(strUri);
@@ -406,6 +414,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
+            case R.id.action_modify_things_list:
+                mHasThingsList = true;
+                Intent intent = new Intent(getActivity(), ThingsActivity.class);
+                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mThingsListReference);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(menuItem);
@@ -454,7 +468,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation == null? 0 : currentLocation.latitude);
             cv.put(FishingEntry.COLUMN_LONGITUDE,currentLocation == null? 0 : currentLocation.longitude);
 //            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
-
+            if (mHasThingsList) {
+                cv.put(FishingEntry.COLUMN_THINGS_KEY, mThingsListReference);
+            }
             if (updateData) {
                 getActivity().getContentResolver().update(FishingEntry.CONTENT_URI, cv, null, null);
             } else {
@@ -518,7 +534,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,
-                FishingEntry.COLUMNS, null, null, null);
+                FishingEntry.PROJECTION, null, null, null);
         if (cursor == null)
             return;
 

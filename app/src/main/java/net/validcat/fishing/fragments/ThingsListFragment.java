@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.adapters.IRecyclerViewClickListener;
@@ -25,10 +26,12 @@ import net.validcat.fishing.adapters.ThingsAdapter;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 
-public class ThingsListFragment extends Fragment implements IRecyclerViewClickListener {
+import butterknife.Bind;
 
+public class ThingsListFragment extends Fragment implements IRecyclerViewClickListener {
     private String mThingsListReference;
     private ThingsAdapter adapter;
+    @Bind(R.id.things_list_description_text_view) TextView mItemDescription;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,8 +43,8 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
         //Initialize and write data into db for new things list
         if (!cursor.moveToFirst()) {
             String[] values = getResources().getStringArray(R.array.default_things_list_array);
-            for (int i = 0; i < values.length; i++){
-                writeThingIntoDb(values[i], mThingsListReference);
+            for (String value : values) {
+                writeThingIntoDb(value, mThingsListReference);
             }
             cursor = getThingsListCursor();
         }
@@ -139,10 +142,14 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
         );
     }
 
-    private void markAsEquipped(String desc, String fishingId) {
+    private void markAsEquipped(String desc, String fishingId, boolean equippedState) {
         ContentValues cv = new ContentValues();
         cv.put(FishingContract.ThingsEntry.COLUMN_DESCRIPTION, desc);
-        cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 1);
+        if (equippedState) {
+            cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 1);
+        } else {
+            cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 1);
+        }
         cv.put(FishingContract.ThingsEntry.COLUMN_FISHING_ID, fishingId);
         getActivity().getContentResolver().update(
                 FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
@@ -171,11 +178,11 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
 
 
     @Override
-    public void recyclerViewListClicked(View v, int position) {
-       /* ((CheckBox) v.findViewById(R.id.things_list_if_equipped_checkbox)).setChecked(true);
-        String desc = ((TextView) v.findViewById(R.id.things_list_description_text_view))
-                .getText().toString();
-        markAsEquipped(desc, mThingsListReference);*/
+    public void recyclerViewListClicked(View v, final int position) {
+      /*  String desc = mItemDescription.getText().toString();
+        boolean equippedState =
+                ((CheckBox) v.findViewById(R.id.things_list_if_equipped_checkbox)).isEnabled();
+        markAsEquipped(desc, mThingsListReference, equippedState);*/
     }
 }
 

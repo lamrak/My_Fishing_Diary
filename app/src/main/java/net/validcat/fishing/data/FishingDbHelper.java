@@ -36,6 +36,7 @@ public class FishingDbHelper extends SQLiteOpenHelper {
 //        sqLiteDatabase.execSQL(FishingContract.createWeatherTable());
 //        sqLiteDatabase.execSQL(FishingContract.createLocationTable());
         sqLiteDatabase.execSQL(FishingContract.createFishingTable());
+        sqLiteDatabase.execSQL(FishingContract.createThingsTable());
     }
 
     @Override
@@ -43,6 +44,7 @@ public class FishingDbHelper extends SQLiteOpenHelper {
         //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.LocationEntry.TABLE_NAME);
         //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.WeatherEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.FishingEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FishingContract.ThingsEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

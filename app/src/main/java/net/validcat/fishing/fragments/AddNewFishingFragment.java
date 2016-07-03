@@ -51,7 +51,7 @@ import com.squareup.picasso.Picasso;
 
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
-import net.validcat.fishing.ThingsActivity;
+import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
@@ -59,7 +59,6 @@ import net.validcat.fishing.data.FishingContract.FishingEntry;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
-import net.validcat.fishing.tools.RandomStringGenerator;
 import net.validcat.fishing.tools.TackleBag;
 import net.validcat.fishing.tools.ViewAnimatorUtils;
 import net.validcat.fishing.weather.WeatherSyncFetcher;
@@ -141,9 +140,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     // Bool to track whether the app is already resolving an error
     private boolean mResolvingError = false;
     private boolean isWeatherRequestDone = false;
-    private String mThingsListReference;
-    private boolean mHasThingsList = false;
-    private String mStrUri;
     MapFragment mMapFragment;
     GoogleMap mGoogleMap;
     LatLng currentLocation;
@@ -157,14 +153,10 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         ButterKnife.bind(this, addNewFragmentView);
 
         Intent intent = getActivity().getIntent();
-        mStrUri = intent.getStringExtra(Constants.DETAIL_KEY);
-        mThingsListReference = intent.getStringExtra(Constants.THINGS_LIST_REFERENCE);
-        if (mThingsListReference == null) {
-            mThingsListReference = RandomStringGenerator.nextString();
-        }
+        String strUri = intent.getStringExtra(Constants.DETAIL_KEY);
 
-        if (!TextUtils.isEmpty(mStrUri)) {
-            uri = Uri.parse(mStrUri);
+        if (!TextUtils.isEmpty(strUri)) {
+            uri = Uri.parse(strUri);
             updateUiByItemId();
             updateData = true;
         }
@@ -411,11 +403,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             case R.id.action_camera:
                 runPhotoDialog();
                 break;
-            case R.id.action_modify_things_list:
-                mHasThingsList = true;
-                Intent intent = new Intent(getActivity(), ThingsActivity.class);
-                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mThingsListReference);
-                startActivity(intent);
+            case R.id.action_settings:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
         }
 
@@ -462,28 +451,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //            cv.put(FishingEntry.COLUMN_TACKLE, tvTackle.getText().toString());
             cv.put(FishingEntry.COLUMN_BAIT, etBait.getText().toString());
             cv.put(FishingEntry.COLUMN_FISH_FEED, etFishFeed.getText().toString());
-            if (currentLocation == null) {
-                cv.put(FishingEntry.COLUMN_LATITUDE, 0);
-                cv.put(FishingEntry.COLUMN_LONGITUDE, 0);
-            } else {
-                cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation.latitude);
-                cv.put(FishingEntry.COLUMN_LONGITUDE, currentLocation.longitude);
-            }
-            //cv.put(FishingEntry.COLUMN_THINGS_KEY, mThingsListReference);
-            if (mHasThingsList) {
-                cv.put(FishingEntry.COLUMN_THINGS_KEY, mThingsListReference);
-            }
+            cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation == null? 0 : currentLocation.latitude);
+            cv.put(FishingEntry.COLUMN_LONGITUDE,currentLocation == null? 0 : currentLocation.longitude);
 //            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
 
             if (updateData) {
-                getActivity().getContentResolver()
-                        .update(FishingEntry.CONTENT_URI,
-                                cv,
-                                FishingEntry._ID,
-                                new String[]{
-                                        FishingContract.FishingEntry.getFishingIdFromUri(
-                                                Uri.parse(mStrUri))
-                                });
+                getActivity().getContentResolver().update(FishingEntry.CONTENT_URI, cv, null, null);
             } else {
                 getActivity().getContentResolver().insert(FishingEntry.CONTENT_URI, cv);
             }
@@ -530,9 +503,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 if (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected())
                     mGoogleApiClient.connect();
                 break;
-            case Constants.REQUEST_THINGS_LIST:
-                // TODO: 26.06.2016
-                break;
         }
     }
 
@@ -548,7 +518,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 
     public void updateUiByItemId() {
         Cursor cursor = getActivity().getContentResolver().query(uri,
-                FishingEntry.PROJECTION, null, null, null);
+                FishingEntry.COLUMNS, null, null, null);
         if (cursor == null)
             return;
 

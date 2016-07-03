@@ -289,7 +289,7 @@ public class CameraManager {
 
 		/* Set bitmap options to scale the image decode target */
         bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inSampleSize = 2;
         bmOptions.inPurgeable = true;
 
 		/* Decode the JPEG file into a Bitmap */
@@ -428,7 +428,18 @@ public class CameraManager {
 
     public String createAndSaveThumb(String photoPath, String photoId) {
         try {
-            return saveThumbnail(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(photoPath),
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(photoPath, bmOptions);
+
+		    /* Set bitmap options to scale the image decode target */
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = 8;
+            bmOptions.inPurgeable = true;
+
+            Bitmap b = BitmapFactory.decodeFile(photoPath, bmOptions);
+
+            return saveThumbnail(ThumbnailUtils.extractThumbnail(b,
                       Constants.THUMB_SIZE, Constants.THUMB_SIZE), photoId);
         } catch (IOException e) {
             e.printStackTrace();

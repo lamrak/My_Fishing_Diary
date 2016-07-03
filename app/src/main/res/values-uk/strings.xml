@@ -87,4 +87,5 @@
     <string name="title_activity_maps">Карта</string>
     <string name="fish_place">Місце риболовлі</string>
     <string name="fishing_counter">Рибалок</string>
+    <string name="map_drag">Перетягни прапорець затиснувши його.</string>
 </resources>

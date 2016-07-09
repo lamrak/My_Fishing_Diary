@@ -3,6 +3,7 @@ package net.validcat.fishing.fragments;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.validcat.fishing.R;
@@ -26,12 +29,9 @@ import net.validcat.fishing.adapters.ThingsAdapter;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 
-import butterknife.Bind;
-
 public class ThingsListFragment extends Fragment implements IRecyclerViewClickListener {
     private String mThingsListReference;
     private ThingsAdapter adapter;
-    @Bind(R.id.things_list_description_text_view) TextView mItemDescription;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
         if (!cursor.moveToFirst()) {
             String[] values = getResources().getStringArray(R.array.default_things_list_array);
             for (String value : values) {
-                writeThingIntoDb(value, mThingsListReference);
+                writeThingIntoDb(value, mThingsListReference, false);
             }
             cursor = getThingsListCursor();
         }
@@ -53,7 +53,7 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
         adapter = new ThingsAdapter(getActivity(), cursor, this);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(adapter);
-        //initSwipeToDelete(rv);
+        initSwipeToDelete(rv);
 
         FloatingActionButton fabAddThing = (FloatingActionButton) view.findViewById(R.id.fab_add_thing);
         fabAddThing.setOnClickListener(new View.OnClickListener() {
@@ -70,9 +70,9 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
                         .getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        writeThingIntoDb(input.getText().toString(), mThingsListReference);
-                        adapter.changeCursor(getThingsListCursor());
-                        adapter.notifyDataSetChanged();
+                        writeThingIntoDb(input.getText().toString(), mThingsListReference, false);
+                        adapter.swapCursor(getThingsListCursor());
+                        //adapter.notifyDataSetChanged();
                     }
                 });
                 builder.setNegativeButton(getResources()
@@ -113,22 +113,22 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void writeThingIntoDb(String desc, String fishingId) {
+    private void writeThingIntoDb(String desc, String fishingId, boolean ifEquipped) {
         ContentValues cv = new ContentValues();
         cv.put(FishingContract.ThingsEntry.COLUMN_DESCRIPTION, desc);
-        cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 0);
+        cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, ifEquipped);
         cv.put(FishingContract.ThingsEntry.COLUMN_FISHING_ID, fishingId);
         getActivity().getContentResolver().insert(
                 FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
                         .appendPath(mThingsListReference).build(), cv);
     }
 
-    private void deleteThingFromDb(String desc, String fishingId) {
+    private void deleteThingFromDb(String desc) {
       getActivity().getContentResolver().delete(
                 FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
                         .appendPath(mThingsListReference).build(),
-              desc,
-              null);
+              null,
+              new String[]{desc});
     }
 
     private Cursor getThingsListCursor() {
@@ -148,13 +148,13 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
         if (equippedState) {
             cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 1);
         } else {
-            cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 1);
+            cv.put(FishingContract.ThingsEntry.COLUMN_EQUIPPED, 0);
         }
         cv.put(FishingContract.ThingsEntry.COLUMN_FISHING_ID, fishingId);
         getActivity().getContentResolver().update(
                 FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
                         .appendPath(mThingsListReference).build(), cv,
-                FishingContract.ThingsEntry.COLUMN_DESCRIPTION, new String[] {desc});
+                null, new String[] {desc});
     }
 
     private void initSwipeToDelete(RecyclerView rv) {
@@ -167,8 +167,10 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                //deleteThingFromDb();
-                adapter.notifyDataSetChanged();
+                deleteThingFromDb(
+                        ((ThingsAdapter.ViewHolder) viewHolder).thingDescription.getText().toString()
+                );
+                adapter.swapCursor(getThingsListCursor());
             }
         };
 
@@ -179,10 +181,15 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
 
     @Override
     public void recyclerViewListClicked(View v, final int position) {
-      /*  String desc = mItemDescription.getText().toString();
-        boolean equippedState =
-                ((CheckBox) v.findViewById(R.id.things_list_if_equipped_checkbox)).isEnabled();
-        markAsEquipped(desc, mThingsListReference, equippedState);*/
+        TextView thingDescription = (TextView)
+                ((LinearLayout)(v.getParent())).findViewById(R.id.things_list_description_text_view);
+        boolean equippedState = ((CheckBox) v).isChecked();
+        if (equippedState) {
+            thingDescription.setPaintFlags(thingDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            thingDescription.setPaintFlags(thingDescription.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        }
+        markAsEquipped(thingDescription.getText().toString(), mThingsListReference, equippedState);
     }
 }
 

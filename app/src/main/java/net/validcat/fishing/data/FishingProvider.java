@@ -310,7 +310,7 @@ public class FishingProvider extends ContentProvider {
                                 "." + FishingContract.ThingsEntry.COLUMN_FISHING_ID + " = ? AND " +
                         FishingContract.ThingsEntry.TABLE_NAME +
                         "." + FishingContract.ThingsEntry.COLUMN_DESCRIPTION + " = ?",
-                        new String[]{FishingContract.ThingsEntry.getThingsIdFromUri(uri), selection}
+                        new String[]{FishingContract.ThingsEntry.getThingsIdFromUri(uri), selectionArgs[0]}
                         );
                 break;
             }
@@ -352,7 +352,15 @@ public class FishingProvider extends ContentProvider {
                 break;
             case THINGS_BY_ID:
 //                normalizeDate(FishingContract.FishingEntry.COLUMN_DATE, values);
-                rowsUpdated = db.update(FishingContract.ThingsEntry.TABLE_NAME, values, selection + "=?", selectionArgs);
+                //rowsUpdated = db.update(FishingContract.ThingsEntry.TABLE_NAME, values, selection + "=?", selectionArgs);
+                rowsUpdated = db.update(FishingContract.ThingsEntry.TABLE_NAME,
+                        values,
+                        FishingContract.ThingsEntry.TABLE_NAME +
+                                "." + FishingContract.ThingsEntry.COLUMN_FISHING_ID + " = ? AND " +
+                                FishingContract.ThingsEntry.TABLE_NAME +
+                                "." + FishingContract.ThingsEntry.COLUMN_DESCRIPTION + " = ?",
+                        new String[]{FishingContract.ThingsEntry.getThingsIdFromUri(uri), selectionArgs[0]}
+                );
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

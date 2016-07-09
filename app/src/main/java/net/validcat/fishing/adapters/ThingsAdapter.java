@@ -2,6 +2,7 @@ package net.validcat.fishing.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +16,10 @@ import static net.validcat.fishing.data.FishingContract.ThingsEntry;
 
 public class ThingsAdapter extends CursorRecyclerViewAdapter<ThingsAdapter.ViewHolder> {
 
-    private Context mContext;
     private static IRecyclerViewClickListener listener;
 
     public ThingsAdapter(Context context, Cursor cursor, IRecyclerViewClickListener listener) {
         super(context, cursor);
-        mContext = context;
         this.listener = listener;
     }
 
@@ -33,7 +32,6 @@ public class ThingsAdapter extends CursorRecyclerViewAdapter<ThingsAdapter.ViewH
             ifEquipped = (CheckBox) view.findViewById(R.id.things_list_if_equipped_checkbox);
             thingDescription = (TextView) view.findViewById(R.id.things_list_description_text_view);
             ifEquipped.setOnClickListener(this);
-            //view.setOnClickListener(this);
         }
 
         @Override
@@ -47,6 +45,9 @@ public class ThingsAdapter extends CursorRecyclerViewAdapter<ThingsAdapter.ViewH
         viewHolder.thingDescription.setText(cursor.getString(
                 ThingsEntry.INDEX_COLUMN_DESCRIPTION));
         viewHolder.ifEquipped.setChecked((cursor.getInt(ThingsEntry.INDEX_COLUMN_EQUIPPED)) != 0);
+        if (viewHolder.ifEquipped.isChecked()) {
+            viewHolder.thingDescription.setPaintFlags(viewHolder.thingDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
     }
 

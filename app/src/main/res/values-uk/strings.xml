@@ -88,4 +88,21 @@
     <string name="fish_place">Місце риболовлі</string>
     <string name="fishing_counter">Рибалок</string>
     <string name="map_drag">Перетягни прапорець затиснувши його.</string>
+
+    <!-- Things lists -->
+    <string name="action_things">Список речей</string>
+    <string name="title_activity_things">Список речей</string>
+    <string name="thermal_bag">Сумка-холодильник</string>
+    <string name="lunch">Обiд</string>
+    <string name="water">Питна вода</string>
+    <string name="flashlight">Лiхтарик</string>
+    <string name="folding_chair">Складний стілець</string>
+    <string name="sunglasses">Сонцезахисні окуляри</string>
+    <string name="sun_umbrella">Сонцезахисні парасолька</string>
+    <string name="mosquito_repellent">Засіб від комарів</string>
+    <string name="ok">Зберегти</string>
+    <string name="cancel">Відміна</string>
+    <string name="item_description">Опис</string>
+    <string name="open_things_list">Відкрити список речей</string>
+
 </resources>

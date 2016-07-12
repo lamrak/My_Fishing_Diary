@@ -202,11 +202,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 setLocationOnMap();
         }
 
-        if (mFishingId == null) {
-            seeThings.setVisibility(View.INVISIBLE);
-        } else {
-            seeThings.setVisibility(View.VISIBLE);
-        }
+        seeThings.setVisibility(mFishingId == null ? View.INVISIBLE : View.VISIBLE);
+
     }
 
     private void setLocationOnMap() {

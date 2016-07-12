@@ -24,14 +24,14 @@ public class ThingsAdapter extends CursorRecyclerViewAdapter<ThingsAdapter.ViewH
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final CheckBox ifEquipped;
-        public final TextView thingDescription;
+        public final CheckBox ifEquippedCheckBox;
+        public final TextView thingDesc;
 
         public ViewHolder(View view) {
             super(view);
-            ifEquipped = (CheckBox) view.findViewById(R.id.things_list_if_equipped_checkbox);
-            thingDescription = (TextView) view.findViewById(R.id.things_list_description_text_view);
-            ifEquipped.setOnClickListener(this);
+            ifEquippedCheckBox = (CheckBox) view.findViewById(R.id.things_list_if_equipped_checkbox);
+            thingDesc = (TextView) view.findViewById(R.id.things_list_description_text_view);
+            ifEquippedCheckBox.setOnClickListener(this);
         }
 
         @Override
@@ -41,12 +41,12 @@ public class ThingsAdapter extends CursorRecyclerViewAdapter<ThingsAdapter.ViewH
     }
 
     @Override
-    public void onBindViewHolder(final ThingsAdapter.ViewHolder viewHolder, final Cursor cursor) {
-        viewHolder.thingDescription.setText(cursor.getString(
+    public void onBindViewHolder(final ThingsAdapter.ViewHolder holder, final Cursor cursor) {
+        holder.thingDesc.setText(cursor.getString(
                 ThingsEntry.INDEX_COLUMN_DESCRIPTION));
-        viewHolder.ifEquipped.setChecked((cursor.getInt(ThingsEntry.INDEX_COLUMN_EQUIPPED)) != 0);
-        if (viewHolder.ifEquipped.isChecked()) {
-            viewHolder.thingDescription.setPaintFlags(viewHolder.thingDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.ifEquippedCheckBox.setChecked((cursor.getInt(ThingsEntry.INDEX_COLUMN_EQUIPPED)) != 0);
+        if (holder.ifEquippedCheckBox.isChecked()) {
+            holder.thingDesc.setPaintFlags(holder.thingDesc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
     }

@@ -106,7 +106,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         seeThings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,6 +201,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             if (googleMap != null)
                 setLocationOnMap();
         }
+
+        seeThings.setVisibility(mFishingId == null ? View.INVISIBLE : View.VISIBLE);
+
     }
 
     private void setLocationOnMap() {

@@ -155,6 +155,15 @@
                         android:paddingRight="@dimen/default_gap"
                         android:transitionName="@string/key_description_transition" />
 
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/button_color"
+                        android:textColor="@color/white"
+                        android:layout_below="@+id/detail_card"
+                        android:id="@+id/view_things_list_button"
+                        android:text="@string/open_things_list"/>
+
                 </android.support.v7.widget.CardView>
 
             </RelativeLayout>

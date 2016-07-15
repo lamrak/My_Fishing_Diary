@@ -149,6 +149,8 @@
     <string name="storage_permissoin_denied">Storage permissoin denied</string>
     <string name="fish_place">Fishing place</string>
     <string name="fishing_counter">Fisgings</string>
+
+    <!-- Things lists -->
     <string name="action_things">Things list</string>
     <string name="title_activity_things">Things list</string>
     <string name="thermal_bag">Thermal bag</string>
@@ -159,12 +161,12 @@
     <string name="sunglasses">Sunglasses</string>
     <string name="sun_umbrella">Sun umbrella</string>
     <string name="mosquito_repellent">Mosquito repellent</string>
-    <string name="ok">Ok</string>
+    <string name="ok">Save</string>
     <string name="cancel">Cancel</string>
     <string name="item_description">Item description</string>
     <string name="open_things_list">Open things list</string>
 
-    <string-array name="default_things_list_array">
+    <string-array name="default_things_list_array" translatable="false">
         <item>@string/spinning</item>
         <item>@string/thermal_bag</item>
         <item>@string/lunch</item>

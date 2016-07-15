@@ -165,8 +165,18 @@
     <string name="cancel">Cancel</string>
     <string name="item_description">Item description</string>
     <string name="open_things_list">Open things list</string>
+    <string name="list_is_empty">Things list is empty.</string>
+    <string name="action_remove_all">Remove all things</string>
 
-    <string-array name="default_things_list_array" translatable="false">
+    <string name="bag">Bag for fish</string>
+    <string name="warm_clothes">Warm clothes</string>
+    <string name="gloves">Gloves</string>
+    <string name="axe">Ice axe</string>
+    <string name="depthometer">Depthometer</string>
+    <string name="wind_protection">Wind protection</string>
+
+
+    <string-array name="default_summer_things_list_array" translatable="false">
         <item>@string/spinning</item>
         <item>@string/thermal_bag</item>
         <item>@string/lunch</item>
@@ -176,5 +186,19 @@
         <item>@string/sunglasses</item>
         <item>@string/sun_umbrella</item>
         <item>@string/mosquito_repellent</item>
+    </string-array>
+
+    <string-array name="default_winter_things_list_array" translatable="false">
+        <item>@string/spinning</item>
+        <item>@string/bag</item>
+        <item>@string/gloves</item>
+        <item>@string/warm_clothes</item>
+        <item>@string/axe</item>
+        <item>@string/depthometer</item>
+        <item>@string/wind_protection</item>
+        <item>@string/lunch</item>
+        <item>@string/water</item>
+        <item>@string/flashlight</item>
+        <item>@string/folding_chair</item>
     </string-array>
 </resources>

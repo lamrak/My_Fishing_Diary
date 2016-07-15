@@ -418,6 +418,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 mHasThingsList = true;
                 Intent intent = new Intent(getActivity(), ThingsActivity.class);
                 intent.putExtra(Constants.THINGS_LIST_REFERENCE, mThingsListReference);
+                intent.putExtra(Constants.DATE_KEY, date);
                 startActivity(intent);
                 break;
         }

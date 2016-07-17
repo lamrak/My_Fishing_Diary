@@ -18,6 +18,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -141,8 +142,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private boolean mResolvingError = false;
     private boolean isWeatherRequestDone = false;
     MapFragment mMapFragment;
-    GoogleMap mGoogleMap;
-    LatLng currentLocation;
+    private GoogleMap mGoogleMap;
+    private LatLng currentLocation;
 
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
@@ -263,7 +264,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
         if (mResolvingError) {
             // Already attempting to resolve an error.
             return;

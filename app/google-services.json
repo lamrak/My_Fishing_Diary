@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "289288756506",
+    "firebase_url": "https://fishing-release-1293.firebaseio.com",
+    "project_id": "fishing-release-1293",
+    "storage_bucket": "fishing-release-1293.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289288756506:android:e5ac0c4e5fb149cb",
+        "android_client_info": {
+          "package_name": "net.validcat.fishing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289288756506-o4h6792nqvsd0aiho07n04hoka8keiss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxRlL2Hpw3sn7hjdh3ljE4p3lGPlLWw2g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

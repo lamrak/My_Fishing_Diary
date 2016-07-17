@@ -50,7 +50,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(getActivity(),
                 FishingContract.FishingEntry.CONTENT_URI,
-                FishingContract.FishingEntry.COLUMNS,
+                FishingContract.FishingEntry.PROJECTION,
                 null, null, FishingContract.FishingEntry.COLUMN_DATE + " DESC");
     }
 
@@ -76,7 +76,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private boolean isFishingListEmpty() {
         Cursor cursor = getActivity().getContentResolver().query(FishingContract.FishingEntry.CONTENT_URI,
-                FishingContract.FishingEntry.COLUMNS, null, null, null);
+                FishingContract.FishingEntry.PROJECTION, null, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 int id = cursor.getInt(cursor.getColumnIndex(FishingContract.FishingEntry._ID));

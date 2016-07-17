@@ -31,7 +31,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ListActivity"
             android:label="@string/app_name"
@@ -66,12 +66,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
         </activity>
+        <activity
+            android:name=".ThingsActivity"
+            android:label="@string/title_activity_things"
+            android:parentActivityName=".AddNewFishingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AddNewFishingActivity" />
+        </activity>
+
 
         <provider
             android:name=".data.FishingProvider"
             android:authorities="net.validcat.fishing"
             android:enabled="true"
-            android:exported="false"></provider>
+            android:exported="false" />
 
         <receiver
             android:name=".widget.FishingCountWidgetProvider"
@@ -87,7 +96,6 @@
         </receiver>
 
         <service android:name=".widget.FishingCountWidgetIntentService" />
-
 
         <!-- SyncAdapter's dummy authentication service -->
         <!--
@@ -119,7 +127,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBTQ3Z1WBPX6DlnVnqUx7Z5DGZlHcoMbzU" />
+            android:value="@string/google_maps_key" />
 
     </application>
 

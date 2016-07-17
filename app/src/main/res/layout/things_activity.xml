@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fragment android:id="@+id/things_list_fragment"
+    android:name="net.validcat.fishing.fragments.ThingsListFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout="@layout/list_fragment"/>

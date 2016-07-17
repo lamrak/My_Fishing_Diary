@@ -86,5 +86,22 @@
     <string name="title_activity_maps">Карта</string>
     <string name="fish_place">Место рыбалки</string>
     <string name="fishing_counter">Рыбалок</string>
+    <string name="map_drag">Перетащи флажок зажав его.</string>
+
+    <!-- Things lists -->
+    <string name="action_things">Список вещей</string>
+    <string name="title_activity_things">Список вещей</string>
+    <string name="thermal_bag">Сумка-холодильник</string>
+    <string name="lunch">Обед</string>
+    <string name="water">Питьевая вода</string>
+    <string name="flashlight">Фонарик</string>
+    <string name="folding_chair">Складной стул</string>
+    <string name="sunglasses">Солнцезащитные очки</string>
+    <string name="sun_umbrella">Солнцезащитные зонт</string>
+    <string name="mosquito_repellent">Средство от комаров</string>
+    <string name="ok">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="item_description">Описание</string>
+    <string name="open_things_list">Открыть список вещей</string>
 
 </resources>

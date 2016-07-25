@@ -131,6 +131,9 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
             case R.id.action_remove_all:
                 removeAllThings();
                 break;
+            case android.R.id.home:
+                getActivity().finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(menuItem);

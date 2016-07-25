@@ -104,5 +104,11 @@
     <string name="cancel">Відміна</string>
     <string name="item_description">Опис</string>
     <string name="open_things_list">Відкрити список речей</string>
+    <string name="bag">Сумка для риби</string>
+    <string name="warm_clothes">Теплий одяг</string>
+    <string name="gloves">Рукавички</string>
+    <string name="axe">Льодоруб</string>
+    <string name="depthometer">Глибиномір</string>
+    <string name="wind_protection">Захист вiд вiтру</string>
 
 </resources>

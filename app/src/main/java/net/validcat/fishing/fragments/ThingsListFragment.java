@@ -1,6 +1,7 @@
 package net.validcat.fishing.fragments;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Paint;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,6 +30,9 @@ import net.validcat.fishing.adapters.IRecyclerViewClickListener;
 import net.validcat.fishing.adapters.ThingsAdapter;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
+import net.validcat.fishing.tools.DateUtils;
+
+import java.util.Calendar;
 
 import static net.validcat.fishing.data.Constants.THING_EQUIPPED;
 import static net.validcat.fishing.data.Constants.THING_NOT_EQUIPPED;
@@ -35,17 +40,29 @@ import static net.validcat.fishing.data.Constants.THING_NOT_EQUIPPED;
 public class ThingsListFragment extends Fragment implements IRecyclerViewClickListener {
     private String mThingsListReference;
     private ThingsAdapter adapter;
+    private TextView emptyList;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.things_list_fragment, container, false);
+        emptyList = (TextView) view.findViewById(R.id.empty_list_text_view);
 
         mThingsListReference = getActivity().getIntent().getStringExtra(Constants.THINGS_LIST_REFERENCE);
+        long date = getActivity().getIntent().getLongExtra(Constants.DATE_KEY, Calendar.getInstance().getTimeInMillis());
 
         Cursor cursor = getThingsListCursor();
         //Initialize and write data into db for new things list
         if (!cursor.moveToFirst()) {
-            String[] values = getResources().getStringArray(R.array.default_things_list_array);
+            String[] values = null;
+            switch (DateUtils.getSeason(date)) {
+                case Constants.SUMMER:
+                case Constants.SPRING:
+                    values = getResources().getStringArray(R.array.default_summer_things_list_array);
+                    break;
+                case Constants.AUTUMN:
+                case Constants.WINTER:
+                    values = getResources().getStringArray(R.array.default_winter_things_list_array);
+            }
             for (String value : values) {
                 writeThingIntoDb(value, mThingsListReference, false);
             }
@@ -73,7 +90,7 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
                     public void onClick(DialogInterface dialog, int which) {
                         writeThingIntoDb(input.getText().toString(), mThingsListReference, false);
                         adapter.swapCursor(getThingsListCursor());
-                        //adapter.notifyDataSetChanged();
+                        showKeyboard(false);
                     }
                 });
                 builder.setNegativeButton(getResources()
@@ -81,10 +98,12 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        showKeyboard(false);
                     }
                 });
 
                 builder.show();
+                showKeyboard(true);
             }
         });
 
@@ -109,6 +128,9 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
             case R.id.action_save_list:
                 getActivity().finish();
                 break;
+            case R.id.action_remove_all:
+                removeAllThings();
+                break;
         }
 
         return super.onOptionsItemSelected(menuItem);
@@ -122,6 +144,8 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
         getActivity().getContentResolver().insert(
                 FishingContract.ThingsEntry.CONTENT_URI.buildUpon()
                         .appendPath(mThingsListReference).build(), cv);
+        Cursor cursor = getThingsListCursor();
+        emptyList.setVisibility (cursor.getCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     private void deleteThingFromDb(String desc) {
@@ -158,6 +182,23 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
                 null, new String[] {desc});
     }
 
+    private void removeAllThings() {
+        Cursor cursor = adapter.getCursor();
+        cursor.moveToFirst();
+        do {
+            deleteThingFromDb(cursor.getString(FishingContract.ThingsEntry.INDEX_COLUMN_DESCRIPTION));
+        }
+        while (cursor.moveToNext());
+        cursor = getThingsListCursor();
+        adapter.swapCursor(cursor);
+        emptyList.setVisibility (cursor.getCount() == 0 ? View.VISIBLE : View.GONE);
+    }
+
+    private void showKeyboard(boolean isShown) {
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).
+        toggleSoftInput((isShown ? InputMethodManager.SHOW_FORCED : InputMethodManager.HIDE_IMPLICIT_ONLY), 0);
+    }
+
     private void initSwipeToDelete(RecyclerView rv) {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -172,6 +213,7 @@ public class ThingsListFragment extends Fragment implements IRecyclerViewClickLi
                         ((ThingsAdapter.ViewHolder) holder).thingDesc.getText().toString()
                 );
                 adapter.swapCursor(getThingsListCursor());
+                emptyList.setVisibility (getThingsListCursor().getCount() == 0 ? View.VISIBLE : View.GONE);
             }
         };
 

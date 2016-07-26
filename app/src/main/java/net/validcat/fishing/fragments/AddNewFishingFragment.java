@@ -307,6 +307,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         super.onStop();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("tag","dest called");
+    }
+
     private void initTackleUI() {
         rod.setOnClickListener(this);
         spinning.setOnClickListener(this);
@@ -417,9 +423,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 break;
             case R.id.action_modify_things_list:
                 mHasThingsList = true;
-                Intent intent = new Intent(getActivity(), ThingsActivity.class);
-                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mThingsListReference);
-                startActivity(intent);
+                startActivity(new Intent(getActivity(), ThingsActivity.class)
+                        .putExtra(Constants.THINGS_LIST_REFERENCE, mThingsListReference)
+                        .putExtra(Constants.DATE_KEY, date));
                 break;
         }
 

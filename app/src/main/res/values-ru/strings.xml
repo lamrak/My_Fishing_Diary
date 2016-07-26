@@ -103,5 +103,11 @@
     <string name="cancel">Отмена</string>
     <string name="item_description">Описание</string>
     <string name="open_things_list">Открыть список вещей</string>
+    <string name="bag">Емкость для рыбы</string>
+    <string name="warm_clothes">Теплая одежда</string>
+    <string name="gloves">перчатки</string>
+    <string name="axe">Ледоруб</string>
+    <string name="depthometer">Глубинометр</string>
+    <string name="wind_protection">Защита от ветра</string>
 
 </resources>

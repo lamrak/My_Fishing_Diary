@@ -4,9 +4,11 @@ import android.content.Context;
 import android.text.format.Time;
 
 import net.validcat.fishing.R;
+import net.validcat.fishing.data.Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -71,6 +73,29 @@ public class DateUtils {
         }
     }
 
+    public static String getSeason(long date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(date);
+        switch (cal.get(Calendar.MONTH)) {
+            case 12:
+            case 1:
+            case 2:
+                return Constants.WINTER;
+            case 3:
+            case 4:
+            case 5:
+                return Constants.SPRING;
+            case 6:
+            case 7:
+            case 8:
+                return Constants.SUMMER;
+            case 9:
+            case 10:
+            case 11:
+                return Constants.AUTUMN;
+        }
+        return Constants.SUMMER;
+    }
 }
 
 

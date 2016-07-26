@@ -6,4 +6,8 @@
         android:icon="@drawable/ic_done_24dp"
         android:title="@string/action_save"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_remove_all"
+        android:title="@string/action_remove_all"
+        app:showAsAction="never" />
 </menu>

@@ -73,4 +73,9 @@ public class Constants {
     public static final String THINGS_LIST_REFERENCE = "things";
     public static final int THING_EQUIPPED = 1;
     public static final int THING_NOT_EQUIPPED = 0;
+    public static final String DATE_KEY = "date";
+    public static final String WINTER = "winter";
+    public static final String SPRING = "spring";
+    public static final String SUMMER = "summer";
+    public static final String AUTUMN = "autumn";
 }

@@ -18,6 +18,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -119,6 +120,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     Button handLine;
     @Bind(R.id.ic_fly_fishing)
     Button flyFishing;
+    @Bind(R.id.fab_invite_friends)
+    FloatingActionButton inviteFriends;
 
     private CameraManager cm;
     private Uri uri;
@@ -187,6 +190,13 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //                        return new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
                     }
                 }.show(getFragmentManager(), "datePicker");
+            }
+        });
+
+        inviteFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new InviteFriendsDialogFragment().show(getFragmentManager(), null);
             }
         });
 

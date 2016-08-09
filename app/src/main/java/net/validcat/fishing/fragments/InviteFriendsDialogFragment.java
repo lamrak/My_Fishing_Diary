@@ -15,7 +15,9 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArraySet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +36,12 @@ public class InviteFriendsDialogFragment extends DialogFragment implements IRecy
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private RecyclerView rv;
     private ContactsAdapter adapter;
-    private Set<String> selectedContacts;
+    private List<String> selectedContacts;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        selectedContacts = new HashSet<>();
+        selectedContacts = new ArrayList<>();
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -52,6 +54,14 @@ public class InviteFriendsDialogFragment extends DialogFragment implements IRecy
         } else {
             initAdapter();
         }
+        ((Button) (v.findViewById(R.id.send_mail_button))).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendInvitation(selectedContacts);
+                    }
+                }
+        );
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.title_friends_dialog)
@@ -98,5 +108,23 @@ public class InviteFriendsDialogFragment extends DialogFragment implements IRecy
         selectedContacts.add(((TextView) (v.findViewById(android.R.id.text2))).getText().toString());
         v.setSelected(true);
     }
+
+    private void sendInvitation(List<String> emails) {
+        String[] recipients = new String[emails.size()];
+        for (int i = 0; i < emails.size(); i++) {
+            recipients[i] = emails.get(i);
+        }
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , recipients);
+        i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+        i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 

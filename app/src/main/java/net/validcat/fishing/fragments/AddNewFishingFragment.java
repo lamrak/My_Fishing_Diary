@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -119,8 +118,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     Button handLine;
     @Bind(R.id.ic_fly_fishing)
     Button flyFishing;
-    @Bind(R.id.fab_invite_friends)
-    FloatingActionButton inviteFriends;
+//    @Bind(R.id.fab_invite_friends)
+//    FloatingActionButton inviteFriends;
 
     private CameraManager cm;
     private DataObjectManager dam;
@@ -185,12 +184,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             }
         });
 
-        inviteFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new InviteFriendsDialogFragment().show(getFragmentManager(), null);
-            }
-        });
+//        inviteFriends.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new InviteFriendsDialogFragment().show(getFragmentManager(), null);
+//            }
+//        });
 
         if (date == 0)
             date = Calendar.getInstance().getTimeInMillis();
@@ -307,12 +306,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     public void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("tag","dest called");
     }
 
     private void initTackleUI() {
@@ -672,7 +665,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                     .setPositiveButton(R.string.alert_dialog_do_not_store,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    ((AddNewFishingActivity)getActivity()).doPositiveClick();
+                                    ((AddNewFishingActivity) getActivity()).doPositiveClick();
                                 }
                             }
                     )

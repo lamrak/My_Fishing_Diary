@@ -39,7 +39,7 @@
         </ScrollView>
 
     </RelativeLayout>
-    <android.support.design.widget.FloatingActionButton
+    <!--android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_invite_friends"
         android:scaleType="center"
         android:layout_width="wrap_content"
@@ -55,6 +55,6 @@
         app:layout_anchor="@id/parent"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="net.validcat.fishing.ui.ScrollAwareFABBehavior"
-        app:pressedTranslationZ="12dp" />
+        app:pressedTranslationZ="12dp" /-->
 
 </android.support.design.widget.CoordinatorLayout>

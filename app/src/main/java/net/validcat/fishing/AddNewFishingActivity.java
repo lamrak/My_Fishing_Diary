@@ -54,12 +54,10 @@ public class AddNewFishingActivity extends AppCompatActivity {
                 break;
             }
             case Constants.PERMISSIONS_REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                    Toast.makeText(this, R.string.storage_permissoin_denied, Toast.LENGTH_SHORT).show();
-                }
+                if (grantResults.length <= 0 ||
+                        grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, R.string.storage_permissoin_denied, Toast.LENGTH_SHORT).show();
+                        }
                 break;
             }
         }

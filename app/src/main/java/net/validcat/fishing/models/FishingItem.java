@@ -11,25 +11,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FishingItem {
-    long id = -1;
-    String place;
-    long date;
-    //int weather
-    String weather;
-    String description;
-    String price;
-    String thumb;
+    private long id = -1;
+    private String place;
+    private long date;
+    private String weather;
+    private String description;
+    private String price;
+    private String thumb;
     private List<String> photoList;
-    int weatherIcon;
-    String tackle;
-    int tackleIcon;
-    String bait;
-    String fishFeed;
-    String catches;
-    double latitude;
-    double longitude;
-
-    public FishingItem() {}
+    private int weatherIcon;
+    private String tackle;
+    private int tackleIcon;
+    private String bait;
+    private String fishFeed;
+    private String catches;
+    private double latitude;
+    private double longitude;
 
     // data which are set in the formation of a list item
     public long getId() {
@@ -92,6 +89,66 @@ public class FishingItem {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
+    }
+
+    public void setPhotoList(List<String> photoList) {
+        this.photoList = photoList;
+    }
+
+    public void setWeatherIcon(int weatherIcon) {
+        this.weatherIcon = weatherIcon;
+    }
+
+    public void setTackle(String tackle) {
+        this.tackle = tackle;
+    }
+
+    public void setTackleIcon(int tackleIcon) {
+        this.tackleIcon = tackleIcon;
+    }
+
+    public void setBait(String bait) {
+        this.bait = bait;
+    }
+
+    public void setFishFeed(String fishFeed) {
+        this.fishFeed = fishFeed;
+    }
+
+    public void setCatches(String catches) {
+        this.catches = catches;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @Override

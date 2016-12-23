@@ -8,7 +8,6 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -57,6 +56,7 @@ import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.ThingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
+import net.validcat.fishing.data.DataObjectManager;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.data.FishingContract.FishingEntry;
 import net.validcat.fishing.dialogs.CalendarDataPickerDialog;
@@ -126,6 +126,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     FloatingActionButton inviteFriends;
 
     private CameraManager cm;
+    private DataObjectManager dam;
     private Uri uri;
     private FishingItem item;
     private boolean updateData = false;
@@ -176,7 +177,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             updateData = true;
         }
 
-        listener = (DatePickerDialog.OnDateSetListener) this;
+        listener = this;
 
         // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +228,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         }
 
         cm = new CameraManager();
+        dam = new DataObjectManager();
         //Google API init
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
@@ -456,39 +458,28 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (TextUtils.isEmpty(etPlace.getText().toString())) {
             etPlace.setError(Constants.VALIDATION_ERROR);
         } else {
-            ContentValues cv = new ContentValues();
-            if (this.item != null)
-                cv.put(FishingEntry._ID, item.getId());
-
-            cv.put(FishingEntry.COLUMN_PLACE, etPlace.getText().toString());
-            cv.put(FishingEntry.COLUMN_DATE, date);
-            cv.put(FishingEntry.COLUMN_WEATHER, tvWeather.getText().toString());
-            cv.put(FishingEntry.COLUMN_DESCRIPTION, etDetails.getText().toString());
-            cv.put(FishingEntry.COLUMN_PRICE, etPrice.getText().toString());
-
+            String thumbPath = null;
             if (!TextUtils.isEmpty(photoPath)) {
-                String thumbPath = cm.createAndSaveThumb(photoPath, photoId);
-                cv.put(FishingEntry.COLUMN_IMAGE, photoPath);
-                cv.put(FishingEntry.COLUMN_THUMB, thumbPath);
+                thumbPath = cm.createAndSaveThumb(photoPath, photoId);
             }
-            cv.put(FishingEntry.COLUMN_WEATHER_ICON, weatherIconSelection);
-//            cv.put(FishingEntry.COLUMN_TACKLE, tvTackle.getText().toString());
-            cv.put(FishingEntry.COLUMN_BAIT, etBait.getText().toString());
-            cv.put(FishingEntry.COLUMN_FISH_FEED, etFishFeed.getText().toString());
-            cv.put(FishingEntry.COLUMN_LATITUDE, currentLocation == null? 0 : currentLocation.latitude);
-            cv.put(FishingEntry.COLUMN_LONGITUDE,currentLocation == null? 0 : currentLocation.longitude);
-//            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
-            if (mHasThingsList) {
-                cv.put(FishingEntry.COLUMN_THINGS_KEY, mThingsListReference);
-            }
-            if (updateData) {
-                getActivity().getContentResolver().update(FishingEntry.CONTENT_URI, cv, null, null);
-            } else {
-                getActivity().getContentResolver().insert(FishingEntry.CONTENT_URI, cv);
-            }
-
+            readFishingItemFromUI();
+            dam.storeNewFishing(getActivity(), cm, item, photoPath, thumbPath,
+                    mHasThingsList, mThingsListReference, updateData);
             getActivity().finish();
         }
+    }
+
+    private void readFishingItemFromUI() {
+        item.setPlace(etPlace.getText().toString());
+        item.setDate(date);
+        item.setWeather(tvWeather.getText().toString());
+        item.setDescription(etDetails.getText().toString());
+        item.setPrice(etPrice.getText().toString());
+        item.setWeatherIcon(weatherIconSelection);
+        item.setBait(etBait.getText().toString());
+        item.setFishFeed(etFishFeed.getText().toString());
+        item.setLatitude(currentLocation.latitude);
+        item.setLongitude(currentLocation.longitude);
     }
 
     public void runCamera() {

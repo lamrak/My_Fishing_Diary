@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -58,6 +59,7 @@ import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.data.FishingContract.FishingEntry;
+import net.validcat.fishing.dialogs.CalendarDataPickerDialog;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
@@ -120,6 +122,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     Button handLine;
     @Bind(R.id.ic_fly_fishing)
     Button flyFishing;
+    @Bind(R.id.fab_invite_friends)
+    FloatingActionButton inviteFriends;
 
     private CameraManager cm;
     private Uri uri;
@@ -149,6 +153,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     private String mThingsListReference;
     private boolean mHasThingsList = false;
 
+    DatePickerDialog.OnDateSetListener listener;
+
     public AddNewFishingFragment() {
         setHasOptionsMenu(true);
     }
@@ -170,24 +176,21 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             updateData = true;
         }
 
+        listener = (DatePickerDialog.OnDateSetListener) this;
+
         // fab_add_fishing_list.setOnClickListener(this);
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DialogFragment() {
+                CalendarDataPickerDialog dialog = new CalendarDataPickerDialog();
 
-                    @Override
-                    public Dialog onCreateDialog(Bundle savedInstanceState) {
-                        final Calendar c = Calendar.getInstance();
-                        int year = c.get(Calendar.YEAR);
-                        int month = c.get(Calendar.MONTH);
-                        int day = c.get(Calendar.DAY_OF_MONTH);
-                        DatePickerDialog dialog = new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
-                        dialog.getDatePicker().setMaxDate(new Date().getTime());
-                        return dialog;
-//                        return new DatePickerDialog(getActivity(), AddNewFishingFragment.this, year, month, day);
-                    }
-                }.show(getFragmentManager(), "datePicker");
+            }
+        });
+
+        inviteFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new InviteFriendsDialogFragment().show(getFragmentManager(), null);
             }
         });
 

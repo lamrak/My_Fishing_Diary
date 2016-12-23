@@ -2,13 +2,15 @@ package net.validcat.fishing.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.models.FishingItem;
 
 /**
- * Created by Oleksii on 12/23/16.
+ * Data access manager for storing and retrieving data from storage
  */
 
 public class DataObjectManager {
@@ -46,5 +48,32 @@ public class DataObjectManager {
             context.getContentResolver().insert(FishingContract.FishingEntry.CONTENT_URI, cv);
         }
 
+    }
+
+    public FishingItem retrieveFishinItem(Context context, Uri uri) {
+        Cursor cursor = context.getContentResolver()
+                .query(uri, FishingContract.FishingEntry.PROJECTION, null, null, null);
+        if (cursor == null)
+            return null;
+
+        FishingItem item = new FishingItem();
+
+        if (cursor.moveToFirst()) {
+            item.setPlace(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
+            item.setPrice(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PRICE)));
+            item.setDescription(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DESCRIPTION)));
+            item.setBait(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_BAIT)));
+            item.setFishFeed(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_FISH_FEED)));
+            item.setPhotoPath(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_IMAGE)));
+            item.setDate(cursor.getLong(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DATE)));
+            item.setWeatherIcon(cursor.getInt(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_WEATHER_ICON)));
+            item.setWeatherIcon(cursor.getInt(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_WEATHER)));
+            item.setLatitude(cursor.getDouble(FishingContract.FishingEntry.INDEX_LATITUDE));
+            item.setLongitude(cursor.getDouble(FishingContract.FishingEntry.INDEX_LONGITUDE));
+        }
+
+        cursor.close();
+
+        return item;
     }
 }

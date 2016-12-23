@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -57,8 +56,6 @@ import net.validcat.fishing.ThingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.DataObjectManager;
-import net.validcat.fishing.data.FishingContract;
-import net.validcat.fishing.data.FishingContract.FishingEntry;
 import net.validcat.fishing.dialogs.CalendarDataPickerDialog;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
@@ -534,31 +531,21 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //    }
 
     public void updateUiByItemId() {
-        Cursor cursor = getActivity().getContentResolver().query(uri,
-                FishingEntry.PROJECTION, null, null, null);
-        if (cursor == null)
-            return;
-
-        if (cursor.moveToFirst()) {
-            etPlace.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PLACE)));
-            etPrice.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_PRICE)));
-            etDetails.setText(cursor.getString(cursor.getColumnIndex(FishingContract.FishingEntry.COLUMN_DESCRIPTION)));
-            etBait.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_BAIT)));
-            etFishFeed.setText(cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_FISH_FEED)));
-            photoPath = cursor.getString(cursor.getColumnIndex(FishingEntry.COLUMN_IMAGE));
-            if (!TextUtils.isEmpty(photoPath)) {
-                ivPhoto.setVisibility(View.VISIBLE);
-                CameraManager.setPic(photoPath, ivPhoto);
-            }
-            date = cursor.getLong(cursor.getColumnIndex(FishingEntry.COLUMN_DATE));
-            weatherIconSelection = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER_ICON));
-            weatherTemp = cursor.getInt(cursor.getColumnIndex(FishingEntry.COLUMN_WEATHER));
-
-            currentLocation = new LatLng(cursor.getDouble(FishingContract.FishingEntry.INDEX_LATITUDE),
-                    cursor.getDouble(FishingContract.FishingEntry.INDEX_LONGITUDE));
-
-            cursor.close();
+        this.item = dam.retrieveFishinItem(getActivity(), uri);
+        etPlace.setText(item.getPlace());
+        etPrice.setText(item.getPrice());
+        etDetails.setText(item.getDescription());
+        etBait.setText(item.getBait());
+        etFishFeed.setText(item.getFishFeed());
+        photoPath = item.getPhotoPath();
+        if (!TextUtils.isEmpty(photoPath)) {
+            ivPhoto.setVisibility(View.VISIBLE);
+            CameraManager.setPic(photoPath, ivPhoto);
         }
+        date = item.getDate();
+        weatherIconSelection = item.getWeatherIcon();
+        weatherTemp = item.getWeatherTemp();
+        currentLocation = new LatLng(item.getLatitude(),item.getLongitude());
     }
 
     @Override

@@ -27,6 +27,8 @@ public class FishingItem {
     private String catches;
     private double latitude;
     private double longitude;
+    private String photoPath;
+    private int weaterTemp;
 
     // data which are set in the formation of a list item
     public long getId() {
@@ -193,4 +195,19 @@ public class FishingItem {
         return sb.toString();
     }
 
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
+    public int getWeatherTemp() {
+        return weaterTemp;
+    }
+
+    public void setWeaterTemp(int weaterTemp) {
+        this.weaterTemp = weaterTemp;
+    }
 }

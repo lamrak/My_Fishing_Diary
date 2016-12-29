@@ -15,6 +15,26 @@
       },
       "oauth_client": [
         {
+          "client_id": "289288756506-ocrftkn1lgmiqbpqbi8e9hckiseqs2p2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.validcat.fishing",
+            "certificate_hash": "1D9B9443C9C0564AF0FD4A9F338C776974EA5AF2"
+          }
+        },
+        {
+          "client_id": "289288756506-tphkq9j0g4l2cocsi5ln3jq57idbsmti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.validcat.fishing",
+            "certificate_hash": "4A909AB84BE51EC6FDF6156E80DA44FD2A3FA889"
+          }
+        },
+        {
+          "client_id": "289288756506-3u7fq1lthcicu4nkbgp25g7lq0ql2oos.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "289288756506-o4h6792nqvsd0aiho07n04hoka8keiss.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +49,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289288756506-3u7fq1lthcicu4nkbgp25g7lq0ql2oos.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

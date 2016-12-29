@@ -12,11 +12,11 @@ public class Constants {
     public static final String DELETE = "delete";
     public static final int REQUEST_TEMPERATURE = 101;
     public static final String EXTRA_TEMPERATURE = "temperature";
-    public static final String VALIDATION_ERROR = "Add your fishing place";
+    public static final String VALIDATION_ERROR = "Add your GoogleSignInFragment place";
     public static final String EXTRA_IMAGE_KEY = "imageKey";
 
     public static final String ACTION_DATA_UPDATED =
-            "net.validcat.fishing.ACTION_DATA_UPDATED";
+            "net.validcat.GoogleSignInFragment.ACTION_DATA_UPDATED";
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;

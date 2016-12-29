@@ -7,9 +7,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
@@ -31,8 +35,17 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
     @Bind(R.id.fab_add_fishing)
     FloatingActionButton fabAddFishing;
 
+    @Bind(R.id.toolbar)
+    public Toolbar toolbar;
+
+    @Bind(R.id.drawer_layout)
+    public DrawerLayout drawer;
+    @Bind(R.id.nv_view)
+    public NavigationView navDrawer;
+
+    private ActionBarDrawerToggle toggle;
+
     private boolean isTwoPanel;
-    private  static final String TAG = "detail_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +85,45 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 //                //lf.setUseTabLayout(!twoPane);
 //            }
 //        } else {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.fragment_movies, new ListFragment())
-//                    .commit();
-            isTwoPanel = false;
-            getSupportActionBar().setElevation(0f);
-//        }
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.list_fragment, new ListFragment())
+                .commit();
+        isTwoPanel = false;
+//
 
-//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-//        Transition transition = getWindow().setSharedElementEnterTransition(transition);
-//        getWindow().setSharedElementExitTransition(transition);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setElevation(0f);
 
+        toggle = setupDrawerToggle();
+        drawer.setDrawerListener(toggle);
+        setupDrawerContent(navDrawer);
+
+        setTitle(R.string.app_name);
+    }
+
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.drawer_open,  R.string.drawer_close);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        toggle.syncState();
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        return true;
+                    }
+                });
     }
 
     @Override
@@ -90,12 +131,9 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
                                @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case Constants.PERMISSIONS_REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                    Toast.makeText(this, R.string.storage_permissoin_denied, Toast.LENGTH_SHORT).show();
-                }
+                if (grantResults.length <= 0 ||
+                        grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                            Toast.makeText(this, R.string.storage_permissoin_denied, Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -142,6 +180,11 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
         return super.onOptionsItemSelected(menuItem);
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_drawer).onActivityResult(requestCode, resultCode, data);
+    }
 
 }

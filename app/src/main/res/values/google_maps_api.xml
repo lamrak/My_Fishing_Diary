@@ -7,7 +7,7 @@
     https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=2D:05:87:6B:ED:AE:FC:D7:77:08:93:43:D2:93:77:6F:24:41:43:C1%3Bnet.validcat.fishing
 
     You can also add your credentials to an existing key, using this line:
-    2D:05:87:6B:ED:AE:FC:D7:77:08:93:43:D2:93:77:6F:24:41:43:C1;net.validcat.fishing
+    2D:05:87:6B:ED:AE:FC:D7:77:08:93:43:D2:93:77:6F:24:41:43:C1;net.validcat.GoogleSignInFragment
 
     Alternatively, follow the directions here:
     https://developers.google.com/maps/documentation/android/start#get-key

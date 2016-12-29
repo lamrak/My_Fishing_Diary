@@ -25,7 +25,7 @@ public class AddNewFishingActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        AddNewFishingFragment anff = //TODO check this
+        AddNewFishingFragment anff =
                 (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
         anff.onActivityResult(requestCode, resultCode, data);
     }

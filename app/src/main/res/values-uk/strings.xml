@@ -110,5 +110,6 @@
     <string name="axe">Льодоруб</string>
     <string name="depthometer">Глибиномір</string>
     <string name="wind_protection">Захист вiд вiтру</string>
+    <string name="signed_out">Signed Out</string>
 
 </resources>

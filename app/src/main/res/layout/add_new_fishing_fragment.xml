@@ -54,7 +54,7 @@
         app:fabSize="normal"
         app:layout_anchor="@id/parent"
         app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="net.validcat.fishing.ui.ScrollAwareFABBehavior"
+        app:layout_behavior="net.validcat.GoogleSignInFragment.ui.ScrollAwareFABBehavior"
         app:pressedTranslationZ="12dp" /-->
 
 </android.support.design.widget.CoordinatorLayout>

@@ -8,12 +8,13 @@ android {
         applicationId "net.validcat.fishing"
         minSdkVersion 16
         targetSdkVersion 25
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -48,6 +49,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 android {

@@ -1,15 +1,12 @@
 package net.validcat.fishing.models;
 
 import android.database.Cursor;
-import android.text.TextUtils;
 
-import net.validcat.fishing.data.Constants;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import net.validcat.fishing.data.FishingContract;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+@IgnoreExtraProperties
 public class FishingItem {
     private long id = -1;
     private String place;
@@ -18,7 +15,7 @@ public class FishingItem {
     private String description;
     private String price;
     private String thumb;
-    private List<String> photoList;
+//    private String photoList;
     private int weatherIcon;
     private String tackle;
     private int tackleIcon;
@@ -28,7 +25,18 @@ public class FishingItem {
     private double latitude;
     private double longitude;
     private String photoPath;
-    private int weaterTemp;
+    private int weatherTemp;
+
+    public FishingItem() {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    public FishingItem(String place, long date, String weather, String description) {
+        this.place = place;
+        this.date = date;
+        this.weather = weather;
+        this.description = description;
+    }
 
     // data which are set in the formation of a list item
     public long getId() {
@@ -49,16 +57,14 @@ public class FishingItem {
     public String getPrice() {
         return price;
     }
-    public List<String> getPhotoList(){
-        return photoList;
-    }
+//    public String getPhotoList(){
+//        return photoList;
+//    }
     public int getWeatherIcon(){
         return weatherIcon;
     }
     public void addPhoto(String photoPath) {
-        if (photoList == null)
-            photoList = new ArrayList<>();
-        photoList.add(photoPath);
+        this.photoPath = photoPath;
     }
 
     public String getThumb() {
@@ -117,9 +123,9 @@ public class FishingItem {
         this.thumb = thumb;
     }
 
-    public void setPhotoList(List<String> photoList) {
-        this.photoList = photoList;
-    }
+//    public void setPhotoList(List<String> photoList) {
+//        this.photoList = photoList;
+//    }
 
     public void setWeatherIcon(int weatherIcon) {
         this.weatherIcon = weatherIcon;
@@ -167,8 +173,8 @@ public class FishingItem {
         item.description = data.getString(FishingContract.FishingEntry.INDEX_DESCRIPTION);
         item.price = data.getString(FishingContract.FishingEntry.INDEX_PRICE);
         String photoStr = data.getString(FishingContract.FishingEntry.INDEX_IMAGE);
-        if (!TextUtils.isEmpty(photoStr))
-            item.photoList = Arrays.asList(photoStr.split(Constants.SPLIT_IMAGE_PATH_PATTERN));
+//        if (!TextUtils.isEmpty(photoStr))
+//            item.photoList = Arrays.asList(photoStr.split(Constants.SPLIT_IMAGE_PATH_PATTERN));
         item.weatherIcon = data.getInt(FishingContract.FishingEntry.INDEX_WEATHER_ICON);
         item.thumb  = data.getString(FishingContract.FishingEntry.INDEX_THUMB);
         item.tackle  = data.getString(FishingContract.FishingEntry.INDEX_TACKLE_ICON);
@@ -182,18 +188,18 @@ public class FishingItem {
         return item;
     }
 
-    public String convertPhotoArrToString() {
-        if (photoList == null)
-            return "";
-
-        StringBuilder sb = new StringBuilder();
-        for (String n : photoList) {
-            if (sb.length() > 0) sb.append(',');
-            sb.append("'").append(n).append("'");
-        }
-
-        return sb.toString();
-    }
+//    public String convertPhotoArrToString() {
+////        if (photoList == null)
+////            return "";
+////
+////        StringBuilder sb = new StringBuilder();
+////        for (String n : photoList) {
+////            if (sb.length() > 0) sb.append(',');
+////            sb.append("'").append(n).append("'");
+////        }
+//
+//        return sb.toString();
+//    }
 
     public String getPhotoPath() {
         return photoPath;
@@ -204,10 +210,10 @@ public class FishingItem {
     }
 
     public int getWeatherTemp() {
-        return weaterTemp;
+        return weatherTemp;
     }
 
-    public void setWeaterTemp(int weaterTemp) {
-        this.weaterTemp = weaterTemp;
+    public void setWeatherTemp(int weatherTemp) {
+        this.weatherTemp = weatherTemp;
     }
 }

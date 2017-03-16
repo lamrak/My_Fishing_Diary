@@ -13,7 +13,7 @@ import net.validcat.fishing.models.FishingItem;
  * Data access manager for storing and retrieving data from storage
  */
 
-public class DataObjectManager {
+public class DataObjectManager implements IDataObjectManager {
 
     public void storeNewFishing(Context context, CameraManager cm, FishingItem item,
                                 String thumbPath, String photoPath, boolean isThingsListExists,
@@ -50,7 +50,7 @@ public class DataObjectManager {
 
     }
 
-    public FishingItem retrieveFishinItem(Context context, Uri uri) {
+    public FishingItem retrieveFishingItem(Context context, Uri uri) {
         Cursor cursor = context.getContentResolver()
                 .query(uri, FishingContract.FishingEntry.PROJECTION, null, null, null);
         if (cursor == null)

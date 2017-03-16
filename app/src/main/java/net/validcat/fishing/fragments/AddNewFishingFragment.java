@@ -54,7 +54,8 @@ import net.validcat.fishing.SettingsActivity;
 import net.validcat.fishing.ThingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
-import net.validcat.fishing.data.DataObjectManager;
+import net.validcat.fishing.data.FirebaseObjectManager;
+import net.validcat.fishing.data.IDataObjectManager;
 import net.validcat.fishing.dialogs.CalendarDataPickerDialog;
 import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.tools.DateUtils;
@@ -122,7 +123,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //    FloatingActionButton inviteFriends;
 
     private CameraManager cm;
-    private DataObjectManager dam;
+    private IDataObjectManager dam;
     private Uri uri;
     private FishingItem item;
     private boolean updateData = false;
@@ -144,7 +145,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     // Bool to track whether the app is already resolving an error
     private boolean mResolvingError = false;
     private boolean isWeatherRequestDone = false;
-    MapFragment mMapFragment;
+    MapFragment mapFragment;
     GoogleMap mGoogleMap;
     LatLng currentLocation;
     private String mThingsListReference;
@@ -166,6 +167,9 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         if (mThingsListReference == null) {
             mThingsListReference = RandomStringGenerator.nextString();
         }
+
+        cm = new CameraManager();
+        dam = new FirebaseObjectManager();//new DataObjectManager();
 
         if (!TextUtils.isEmpty(strUri)) {
             uri = Uri.parse(strUri);
@@ -222,9 +226,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
             updateWeatherData(PrefUtils.getFormattedTemp(getActivity(), weatherTemp),
                     PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
         }
-
-        cm = new CameraManager();
-        dam = new DataObjectManager();
         //Google API init
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
@@ -234,12 +235,12 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
         mGoogleApiClient.connect();
 
         // attach map fragment to map_holder, get reference.
-        mMapFragment = MapFragment.newInstance();
+        mapFragment = MapFragment.newInstance();
         FragmentTransaction fragmentTransaction =
                 getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.map_holder, mMapFragment);
+        fragmentTransaction.add(R.id.map_holder, mapFragment);
         fragmentTransaction.commit();
-        mMapFragment.getMapAsync(new OnMapReadyCallback() {
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 loadMap(googleMap);
@@ -460,6 +461,8 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
     }
 
     private void readFishingItemFromUI() {
+        if (item == null)
+            item = new FishingItem();
         item.setPlace(etPlace.getText().toString());
         item.setDate(date);
         item.setWeather(tvWeather.getText().toString());
@@ -524,7 +527,7 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
 //    }
 
     public void updateUiByItemId() {
-        this.item = dam.retrieveFishinItem(getActivity(), uri);
+        this.item = dam.retrieveFishingItem(getActivity(), uri);
         etPlace.setText(item.getPlace());
         etPrice.setText(item.getPrice());
         etDetails.setText(item.getDescription());

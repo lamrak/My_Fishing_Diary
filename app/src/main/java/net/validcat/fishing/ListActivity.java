@@ -34,10 +34,8 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
 
     @Bind(R.id.fab_add_fishing)
     FloatingActionButton fabAddFishing;
-
     @Bind(R.id.toolbar)
     public Toolbar toolbar;
-
     @Bind(R.id.drawer_layout)
     public DrawerLayout drawer;
     @Bind(R.id.nv_view)
@@ -88,8 +86,12 @@ public class ListActivity extends AppCompatActivity implements ListFragment.ICli
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.list_fragment, new ListFragment())
                 .commit();
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_drawer, new GoogleSignInFragment())
+                .commit();
+
         isTwoPanel = false;
-//
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

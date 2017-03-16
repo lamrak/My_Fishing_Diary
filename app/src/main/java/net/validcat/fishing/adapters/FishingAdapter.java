@@ -1,7 +1,6 @@
 package net.validcat.fishing.adapters;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -18,40 +17,48 @@ import net.validcat.fishing.tools.DateUtils;
 import net.validcat.fishing.tools.PrefUtils;
 import net.validcat.fishing.ui.RoundedImageView;
 
-public class FishingAdapter extends CursorRecyclerViewAdapter<FishingAdapter.ViewHolder> {
+import java.util.List;
+
+public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHolder> { //CursorRecyclerViewAdapter
 	private Context context;
 	private ListFragment.IClickListener listener;
+	private List<FishingItem> items;
 
-	public FishingAdapter(Context context, Cursor cursor) {
-        super(context, cursor);
+	public FishingAdapter(Context context, List<FishingItem> items) {
         this.context = context;
+		this.items = items;
 	}
 
 	@Override
 	public FishingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fishing_list_normal, parent, false));
+		return new ViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_fishing_list_normal, parent, false));
 	}
 
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-        FishingItem item = FishingItem.createFishingItemFromCursor(cursor);
-        viewHolder.id = item.getId();
-        viewHolder.view.setOnClickListener(viewHolder);
-        viewHolder.place.setText(item.getPlace());
-        viewHolder.date.setText(DateUtils.getFullFriendlyDayString(context, item.getDate()));
-        viewHolder.description.setText(item.getDescription());
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+        FishingItem item = items.get(position);
+        holder.id = item.getId();
+        holder.view.setOnClickListener(holder);
+        holder.place.setText(item.getPlace());
+        holder.date.setText(DateUtils.getFullFriendlyDayString(context, item.getDate()));
+        holder.description.setText(item.getDescription());
 
         if (!TextUtils.isEmpty(item.getThumb())) {
-            Bitmap photo = BitmapFactory.decodeFile(item.getThumb());
-            if (photo != null) viewHolder.photoPreview.setImageBitmap(photo);
-            else viewHolder.photoPreview.setImageResource(R.drawable.ic_no_photo);
+        Bitmap photo = BitmapFactory.decodeFile(item.getThumb());
+        if (photo != null) holder.photoPreview.setImageBitmap(photo);
+        else holder.photoPreview.setImageResource(R.drawable.ic_no_photo);
         } else {
-            viewHolder.photoPreview.setImageResource(R.drawable.ic_no_photo);
+        holder.photoPreview.setImageResource(R.drawable.ic_no_photo);
         }
 
-		viewHolder.weatherPreview.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(item.getWeatherIcon()));
+        holder.weatherPreview.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(item.getWeatherIcon()));
+	}
 
-    }
+	@Override
+	public int getItemCount() {
+		return items.size();
+	}
 
     public void setIClickListener(ListFragment.IClickListener listener) {
 		this.listener = listener;

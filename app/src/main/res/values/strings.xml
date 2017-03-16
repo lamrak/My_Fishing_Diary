@@ -188,6 +188,8 @@
     <string name="default_web_client_id_fishing">289288756506-o4h6792nqvsd0aiho07n04hoka8keiss.apps.googleusercontent.com</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="keep_sync">Login to synchronize and store them on a server.</string>
+    <string name="items_synced">Recordings are saved on the server and will always be available at registration</string>
 
     <string-array name="default_summer_things_list_array" translatable="false">
         <item>@string/spinning</item>

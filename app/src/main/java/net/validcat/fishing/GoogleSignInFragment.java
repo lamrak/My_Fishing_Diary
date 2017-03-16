@@ -8,9 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -43,52 +41,37 @@ public class GoogleSignInFragment extends Fragment implements
     public static final String LOG_TAG = GoogleSignInFragment.class.getSimpleName();
     private static final int RC_SIGN_IN = 9001;
 
-    @Bind(R.id.google_icon)
-    ImageView google_icon;
     @Bind(R.id.title_text)
     TextView title_text;
     @Bind(R.id.sign_in_button)
-    SignInButton sign_in_button;
-    @Bind(R.id.disconnect_button)
-    Button disconnect_button;
-    @Bind(R.id.sign_out_and_disconnect)
-    LinearLayout sign_out_and_disconnect;
-    @Bind(R.id.main_layout)
-    LinearLayout main_layout;
-    @Bind(R.id.status)
-    TextView status;
-    @Bind(R.id.detail)
-    TextView detail;
+    SignInButton btnSignIn;
+    @Bind(R.id.tv_status)
+    TextView tvStatus;
+    @Bind(R.id.tv_sync_descr)
+    TextView tvSyncDescr;
 
-    // [START declare_auth]
-    private FirebaseAuth mAuth;
-    // [END declare_auth]
-
-    // [START declare_auth_listener]
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    // [END declare_auth_listener]
-
-    private GoogleApiClient mGoogleApiClient;
-
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private GoogleApiClient apiClient;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_google, container, false);
+        View view = inflater.inflate(R.layout.fragment_google_sign, container, false);
+
+        ButterKnife.bind(this, view);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+        apiClient = new GoogleApiClient.Builder(getContext())
                 .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -104,20 +87,17 @@ public class GoogleSignInFragment extends Fragment implements
         return view;
     }
 
-    // [START on_start_add_listener]
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        firebaseAuth.addAuthStateListener(authStateListener);
     }
-    // [END on_start_add_listener]
 
-    // [START on_stop_remove_listener]
     @Override
     public void onStop() {
         super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+        if (authStateListener != null) {
+            firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
 
@@ -137,38 +117,32 @@ public class GoogleSignInFragment extends Fragment implements
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(LOG_TAG, "firebaseAuthWithGoogle:" + acct.getId());
 //        showProgressDialog();
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
+        firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(LOG_TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(LOG_TAG, "signInWithCredential", task.getException());
                             Toast.makeText(getActivity(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        // [START_EXCLUDE]
 //                        hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
     }
 
     @OnClick(R.id.sign_in_button)
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+    public void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(apiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    @OnClick({R.id.sign_out_button, R.id.disconnect_button})
-    private void signOut() {
-        mAuth.signOut();
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+    @OnClick(R.id.sign_out_button)
+    public void signOut() {
+        firebaseAuth.signOut();
+        Auth.GoogleSignInApi.signOut(apiClient).setResultCallback(
                 new ResultCallback<Status>() {
 
                     @Override
@@ -182,17 +156,13 @@ public class GoogleSignInFragment extends Fragment implements
         Log.d(LOG_TAG, "updateUI=" + user);
 //        hideProgressDialog();
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-            sign_in_button.setVisibility(View.GONE);
-            sign_out_and_disconnect.setVisibility(View.VISIBLE);
+            tvStatus.setText(getString(R.string.google_status_fmt, user.getEmail()));
+            tvSyncDescr.setText(R.string.items_synced);
+            btnSignIn.setVisibility(View.GONE);
         } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            sign_in_button.setVisibility(View.VISIBLE);
-            sign_out_and_disconnect.setVisibility(View.GONE);
+            tvSyncDescr.setText(R.string.keep_sync);
+            tvStatus.setText(R.string.signed_out);
+            btnSignIn.setVisibility(View.VISIBLE);
         }
     }
 

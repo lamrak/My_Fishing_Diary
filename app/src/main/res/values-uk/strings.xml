@@ -110,6 +110,8 @@
     <string name="axe">Льодоруб</string>
     <string name="depthometer">Глибиномір</string>
     <string name="wind_protection">Захист вiд вiтру</string>
-    <string name="signed_out">Signed Out</string>
+    <string name="signed_out">Вийти</string>
+    <string name="keep_sync">Потрібно залогинится для збереження записей на сервере</string>
+    <string name="items_synced">Записи збережені на сервері і завжди будуть доступні при реєстрації</string>
 
 </resources>

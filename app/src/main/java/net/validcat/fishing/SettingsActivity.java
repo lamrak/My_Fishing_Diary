@@ -141,7 +141,7 @@ public class SettingsActivity extends PreferenceActivity
             // units have changed. update lists of weather entries accordingly
             getContentResolver().notifyChange(FishingContract.WeatherEntry.CONTENT_URI, null);
         } else if ( key.equals(getString(R.string.pref_location_status_key)) ) {
-            // our location status has changed.  Update the summary accordingly
+            // our location tvStatus has changed.  Update the summary accordingly
             Preference locationPreference = findPreference(getString(R.string.pref_location_key));
             bindPreferenceSummaryToValue(locationPreference);
         }

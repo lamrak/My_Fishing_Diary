@@ -109,6 +109,8 @@
     <string name="axe">Ледоруб</string>
     <string name="depthometer">Глубинометр</string>
     <string name="wind_protection">Защита от ветра</string>
-    <string name="signed_out">Signed Out</string>
+    <string name="signed_out">Выйти</string>
+    <string name="keep_sync">Залогиньтесь с помощью Google аккунта. Ваши записи будут сохранены на сервере и доступны в любое время</string>
+    <string name="items_synced">Записи сохранены на сервере и всегда будут доступны при регистрации</string>
 
 </resources>

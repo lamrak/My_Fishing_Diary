@@ -41,7 +41,6 @@ import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.DetailActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.ThingsActivity;
-import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
@@ -190,12 +189,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 tvDescription.setContentDescription(getString(R.string.fishing_no_description));
             }
 
-            if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
-                CameraManager.setPic(item.getPhotoList().get(0), ivPhoto);
-            } else {
+//            if (item.getPhotoList() != null && item.getPhotoList().size() > 0) {
+//                CameraManager.setPic(item.getPhotoList().get(0), ivPhoto);
+//            } else {
                 Log.d(LOG_TAG, "photo == null");
                 ivPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_photo));
-            }
+//            }
 
             currentLocation = new LatLng(item.getLatitude(), item.getLongitude());
             if (googleMap != null)
@@ -220,7 +219,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @OnClick(R.id.share_fab)
     public void share(View view) {
-        startActivity(item.getPhotoList() == null || item.getPhotoList().size() == 0 ?
+        startActivity(item.getPhotoPath() == null ?
                 ShareCompat.IntentBuilder.from(getActivity())
                         .setText(getString(R.string.fishing_share_message, item.getPlace(),
                                 DateUtils.getFullFriendlyDayString(getActivity(),
@@ -233,7 +232,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         DateUtils.getFullFriendlyDayString(getActivity(),
                                 item.getDate()), item.getDescription()))
                 .setSubject(getString(R.string.app_name))
-                .setStream(Uri.fromFile(new File(item.getPhotoList().get(0))))
+                .setStream(Uri.fromFile(new File(item.getPhotoPath())))
                 .setType("image/jpeg")
                 .getIntent());
     }

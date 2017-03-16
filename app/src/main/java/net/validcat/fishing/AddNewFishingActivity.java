@@ -5,21 +5,29 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.fragments.AddNewFishingFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class AddNewFishingActivity extends AppCompatActivity {
     public static final String LOG_TAG = AddNewFishingActivity.class.getSimpleName();
     private AddNewFishingFragment anff;
+
+    @Bind(R.id.toolbar)
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_fishing_activity);
+        ButterKnife.bind(this);
 
-        assert getSupportActionBar() != null;
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

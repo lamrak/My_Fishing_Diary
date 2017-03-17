@@ -216,4 +216,6 @@
         <item>@string/flashlight</item>
         <item>@string/folding_chair</item>
     </string-array>
+
+    <string name="loading">Loading…</string>
 </resources>

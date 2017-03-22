@@ -82,21 +82,38 @@
         android:layout_alignParentRight="true"
         android:transitionName="@string/key_date_transition"/>
 
-    <!--<RatingBar-->
-    <!--android:id="@+id/ratingBar"-->
-    <!--style="?android:attr/ratingBarStyleSmall"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="right"-->
-    <!--android:layout_marginTop="48dp"-->
-    <!--android:clickable="false"-->
-    <!--android:numStars="1"-->
-    <!--android:layout_alignParentRight="true" />-->
+    <LinearLayout
+        android:id="@+id/star_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_adapter_place"
+        android:layout_alignRight="@+id/tv_adapter_date"
+        android:layout_alignEnd="@+id/tv_adapter_date">
+
+        <TextView
+            android:id="@+id/post_num_stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/date_color"
+            android:gravity="center"
+            tools:text="7" />
+
+        <ImageView
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_toggle_star_outline_24" />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/divider_color"
         android:layout_below="@+id/tv_adapter_description"
         android:layout_alignParentLeft="true"

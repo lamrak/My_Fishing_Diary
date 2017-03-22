@@ -218,4 +218,9 @@
     </string-array>
 
     <string name="loading">Loading…</string>
+    <string name="title_activity_fishing_list">FishingListActivity</string>
+    <string name="recent">Recent</string>
+    <string name="heading_my_fishing">My Fishing</string>
+    <string name="heading_my_top_fishing">My Top Fishing</string>
+    <string name="menu_logout">Log out</string>
 </resources>

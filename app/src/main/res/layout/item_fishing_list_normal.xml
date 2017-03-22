@@ -19,7 +19,7 @@
         android:scaleType="centerCrop" />
 
     <net.validcat.fishing.ui.RoundedImageView
-        android:id="@+id/weather_preview"
+        android:id="@+id/user_avatar"
         android:layout_width="@dimen/weather_icons_list_item_size"
         android:layout_height="@dimen/weather_icons_list_item_size"
         android:layout_marginStart="36dp"

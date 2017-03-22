@@ -9,6 +9,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Fishing {
 
+    public int starCount = 0;
     public String uid;
     public String author;
     public String place;
@@ -16,55 +17,40 @@ public class Fishing {
     public String weather;
     public String details;
     public String price;
+    public String bait;
+    public String fishFeed;
+    public String temperature;
+    public int weatherIcon;
+    private String userAvatarUrl;
+
     public String thumb;
     public String tackle;
     public int tackleIcon;
-    public String bait;
-    public String fishFeed;
     public String catches;
     public double latitude;
     public double longitude;
     public String photoPath;
-    public int weatherIcon;
+
     public int weatherTemp;
-    public int starCount = 0;
+
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Fishing() {}
 
-    public Fishing(String uid, String author, String place, long date, String details) {
+    public Fishing(String uid, String author, String place, long date, String details, String price,
+                   String bait, String fishFeed, String temperature, int weatherIcon, String userAvatarUrl) {
         this.uid = uid;
         this.author = author;
         this.place = place;
         this.date = date;
         this.details = details;
+        this.price = price;
+        this.bait = bait;
+        this.fishFeed = fishFeed;
+        this.temperature = temperature;
+        this.weatherIcon = weatherIcon;
+        this.userAvatarUrl = userAvatarUrl;
     }
-
-//        public Fishing(String uid, String author, String place, long date, String weather,
-//                   String details, String price, String thumb, String tackle,
-//                   int tackleIcon, String bait, String fishFeed, String catches,
-//                   double latitude, double longitude, String photoPath, int weatherIcon,
-//                   int weatherTemp) {
-//        this.uid = uid;
-//        this.author = author;
-//        this.place = place;
-//        this.date = date;
-//        this.weather = weather;
-//        this.details = details;
-//        this.price = price;
-//        this.thumb = thumb;
-//        this.tackle = tackle;
-//        this.tackleIcon = tackleIcon;
-//        this.bait = bait;
-//        this.fishFeed = fishFeed;
-//        this.catches = catches;
-//        this.latitude = latitude;
-//        this.longitude = longitude;
-//        this.photoPath = photoPath;
-//        this.weatherIcon = weatherIcon;
-//        this.weatherTemp = weatherTemp;
-//    }
-
 
     public void setUid(String uid) {
         this.uid = uid;
@@ -82,6 +68,10 @@ public class Fishing {
         return author;
     }
 
+    public String getUserAvatarUrl() {
+        return userAvatarUrl;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     @Exclude
     public Map<String, Object> toMap() {
@@ -93,19 +83,20 @@ public class Fishing {
         result.put("place", place);
         result.put("starCount", starCount);
         result.put("stars", stars);
+        result.put("price", price);
+        result.put("bait", bait);
+        result.put("fishFeed", fishFeed);
+        result.put("temperature", temperature);
+        result.put("weatherIcon", weatherIcon);
+        result.put("userAvatarUrl", userAvatarUrl);
 
-//        result.put("price", price);
 //        result.put("weather", weather);
 //        result.put("weatherIcon", weatherIcon);
 //        result.put("thumb", thumb);
 //        result.put("tackle", tackle);
-//        result.put("bait", bait);
-//        result.put("fishFeed", fishFeed);
 //        result.put("catches", catches);
 //        result.put("latitude", latitude);
 //        result.put("longitude", longitude);
-
-
 
         return result;
     }

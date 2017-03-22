@@ -18,7 +18,7 @@ public class FishingViewHolder extends RecyclerView.ViewHolder {
     public ImageView starView;
     public TextView numStarsView;
     public RoundedImageView photoPreview;
-    public RoundedImageView weatherPreview;
+    public RoundedImageView userAvatar;
 
     public FishingViewHolder(View itemView) {
         super(itemView);
@@ -27,7 +27,7 @@ public class FishingViewHolder extends RecyclerView.ViewHolder {
         date = (TextView) itemView.findViewById(R.id.tv_adapter_date);
         description = (TextView) itemView.findViewById(R.id.tv_adapter_description);
         photoPreview = (RoundedImageView) itemView.findViewById(R.id.photo_preview);
-        weatherPreview = (RoundedImageView) itemView.findViewById(R.id.weather_preview);
+        userAvatar = (RoundedImageView) itemView.findViewById(R.id.user_avatar);
         starView = (ImageView) itemView.findViewById(R.id.star);
         numStarsView = (TextView) itemView.findViewById(R.id.post_num_stars);
 

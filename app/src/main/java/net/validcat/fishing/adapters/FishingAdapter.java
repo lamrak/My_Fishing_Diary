@@ -83,7 +83,7 @@ public class FishingAdapter extends RecyclerView.Adapter<FishingAdapter.ViewHold
 			date = (TextView) view.findViewById(R.id.tv_adapter_date);
 			description = (TextView) view.findViewById(R.id.tv_adapter_description);
 			photoPreview = (RoundedImageView) view.findViewById(R.id.photo_preview);
-			weatherPreview = (RoundedImageView) view.findViewById(R.id.weather_preview);
+			weatherPreview = (RoundedImageView) view.findViewById(R.id.user_avatar);
 		}
 
 		@Override

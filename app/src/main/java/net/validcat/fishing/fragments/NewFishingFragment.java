@@ -38,6 +38,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,6 +70,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     private static final String REQUIRED = "Required";
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private static final String DIALOG_ERROR = "dialog_error";
+    public static final String ANONYMOUS = "anonymous";
 
     @Bind(R.id.weather_holder)
     LinearLayout weatherWrapper;
@@ -115,7 +118,11 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     MapFragment mapFragment;
     GoogleMap mGoogleMap;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
+    private String mUsername;
+    private String mPhotoUrl;
     long date;
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
@@ -134,6 +141,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         ButterKnife.bind(this, view);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
+        initFirebaseAuth();
         initCurrentTime();
         initMapFragment();
         requestPermission();
@@ -141,6 +149,23 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         initTackleUI();
 
         return view;
+    }
+
+    private void initFirebaseAuth() {
+        mUsername = ANONYMOUS;
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            Toast.makeText(getActivity(), "Not signed in.", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
+            if (mFirebaseUser.getPhotoUrl() != null) {
+                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+            }
+        }
     }
 
     private void initMapFragment() {
@@ -270,7 +295,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     ///////////////////////////////////////// End Tackle ///////////////////////////////////////////
 
 
-    ////////////////////////////////////////// Weather View ////////////////////////////////////////
+    ////////////////////////////////////////// Weather Ui ////////////////////////////////////////
     private void initWeatherUi() {
         weatherWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,7 +391,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 User user = dataSnapshot.getValue(User.class);
                 if (user == null) {
                     Toast.makeText(getActivity(), "Error: could not fetch user.", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     writeNewPost(userId, user.username, fishing);
                 }
                 setEditingEnabled(true);
@@ -384,19 +409,14 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     private Fishing retrieveDataFromView() {
         final String place = etPlace.getText().toString();
         final String details = etDetails.getText().toString();
-        // TODO: 21.03.17 add another data/
-        return new Fishing("","", place, date, details);
-    }
+        final String price = etPrice.getText().toString();
+        final String bait = etBait.getText().toString();
+        final String fishFeed = etFishFeed.getText().toString();
+        final String temperature = tvWeather.getText().toString();
+        final Integer weatherIcon = weatherIconSelection;
 
-    private void validateEditedData(String place, String details) {
-        if (TextUtils.isEmpty(place)) {
-            etPlace.setError(REQUIRED);
-            return;
-        }
-        if (TextUtils.isEmpty(details)) {
-            etDetails.setError(REQUIRED);
-            return;
-        }
+        return new Fishing("","", place, date, details, price, bait, fishFeed,
+                temperature, weatherIcon, mPhotoUrl);
     }
 
     private void writeNewPost(String userId, String userName, Fishing fishing) {

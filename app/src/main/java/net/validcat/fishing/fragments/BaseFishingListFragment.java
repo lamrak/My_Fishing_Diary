@@ -4,6 +4,7 @@ package net.validcat.fishing.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.squareup.picasso.Picasso;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.adapters.FishingViewHolder;
@@ -68,12 +70,13 @@ public abstract class BaseFishingListFragment extends Fragment {
     }
 
     private void setUpFirebaseAdapter() {
-        Query postsQuery = getQuery(mDatabase);
+        Query fishingsQuery = getQuery(mDatabase);
 
-        mAdapter = new FirebaseRecyclerAdapter<Fishing, FishingViewHolder>
-                (Fishing.class,
+        mAdapter = new FirebaseRecyclerAdapter<Fishing, FishingViewHolder>(
+                Fishing.class,
                 R.layout.item_fishing_list_normal,
-                FishingViewHolder.class, postsQuery) {
+                FishingViewHolder.class,
+                fishingsQuery) {
             @Override
             protected void populateViewHolder(final FishingViewHolder viewHolder, final Fishing model, final int position) {
                 final DatabaseReference postRef = getRef(position);
@@ -82,12 +85,8 @@ public abstract class BaseFishingListFragment extends Fragment {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Launch FishingDetail activity.
                         Toast.makeText(getActivity(), "postKey - " + postKey, Toast.LENGTH_SHORT).show();
                         // TODO: 19.03.17 change this code snippet from example to necessary logic.
-//                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-//                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-//                        startActivity(intent);
                     }
                 });
 
@@ -96,6 +95,8 @@ public abstract class BaseFishingListFragment extends Fragment {
                 } else {
                     viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
                 }
+
+                retrieveUserAvatar(model, viewHolder);
 
                 viewHolder.bindToPost(getActivity(), model, new View.OnClickListener() {
                     @Override
@@ -116,6 +117,17 @@ public abstract class BaseFishingListFragment extends Fragment {
             }
         };
         recyclerView.setAdapter(mAdapter);
+    }
+
+    private void retrieveUserAvatar(Fishing fishing, FishingViewHolder viewHolder) {
+        if (fishing.getUserAvatarUrl() == null) {
+            viewHolder.userAvatar.setImageDrawable(ContextCompat.getDrawable(getActivity(),
+                    R.drawable.ic_account_circle_black_36dp));
+        } else {
+            Picasso.with(getActivity())
+                    .load(fishing.getUserAvatarUrl())
+                    .into(viewHolder.userAvatar);
+        }
     }
 
     private void onStarClicked(DatabaseReference postRef) {

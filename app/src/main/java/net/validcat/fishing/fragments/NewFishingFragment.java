@@ -1,13 +1,13 @@
 package net.validcat.fishing.fragments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,8 +48,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import net.validcat.fishing.R;
+import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.models.Fishing;
 import net.validcat.fishing.models.User;
@@ -58,12 +65,18 @@ import net.validcat.fishing.weather.WeatherSyncFetcher;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static android.app.Activity.RESULT_OK;
 
 public class NewFishingFragment extends BaseFragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
@@ -115,6 +128,8 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     @Bind(R.id.ic_fly_fishing)
     Button flyFishing;
 
+    private String photoPath;
+    private String photoId;
     private GoogleApiClient mGoogleApiClient;
     MapFragment mapFragment;
     GoogleMap mGoogleMap;
@@ -122,7 +137,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUsername;
-    private String mPhotoUrl;
+    private String userAvatarUrl;
     long date;
     private int weatherIconSelection = 0;
     private int weatherTemp = 0;
@@ -134,12 +149,15 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     private double latitude;
     private double longitude;
     LatLng currentLocation;
+    private CameraManager camManager;
+    Uri selectedImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_new_fishing_fragment, container, false);
         ButterKnife.bind(this, view);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        camManager = new CameraManager();
         setHasOptionsMenu(true);
         initFirebaseAuth();
         initCurrentTime();
@@ -149,6 +167,11 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         initTackleUI();
 
         return view;
+    }
+
+    public void runCamera() {
+        photoId = new SimpleDateFormat(Constants.CAMERA_TIME_PATTERN, Locale.getDefault()).format(new Date());
+        camManager.startCameraForResult(getActivity(), photoId);
     }
 
     private void initFirebaseAuth() {
@@ -163,7 +186,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         } else {
             mUsername = mFirebaseUser.getDisplayName();
             if (mFirebaseUser.getPhotoUrl() != null) {
-                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+                userAvatarUrl = mFirebaseUser.getPhotoUrl().toString();
             }
         }
     }
@@ -209,13 +232,10 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
 
         switch (requestCode) {
-            case Constants.REQUEST_CODE_PHOTO:
-
-                break;
             case Constants.REQUEST_TEMPERATURE:
                 weatherIconSelection = data.getIntExtra(Constants.EXTRA_IMAGE_KEY, -1);
                 weatherTemp = data.getIntExtra(Constants.EXTRA_TEMPERATURE, 0);
@@ -223,10 +243,19 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                         PrefUtils.formatWeatherSeletedToIconsCode(weatherIconSelection));
                 break;
             case Constants.REQUEST_TAKE_PHOTO:
-
+                handleCamera();
                 break;
             case Constants.PICK_PHOTO:
-
+                ivPhoto.setVisibility(View.VISIBLE);
+                selectedImage = Uri.parse(data.getStringExtra(Constants.IMAGE_URI));
+                photoId = CameraManager.getPhotoIdFromUri(getActivity(), selectedImage);
+                photoPath = CameraManager.getPath(getActivity(), selectedImage);
+                CameraManager.setPic(photoPath, ivPhoto);
+                Log.d("photoPath", photoPath);
+                Log.d("photoPath", selectedImage.toString());
+                break;
+            case Constants.REQUEST_CODE_PHOTO:
+                setChosenImageToView(requestCode);
                 break;
             case REQUEST_RESOLVE_ERROR:
                 mResolvingError = false;
@@ -236,6 +265,24 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 break;
         }
     }
+
+    public void handleCamera() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.CAMERA},
+                        Constants.PERMISSIONS_REQUEST_CAMERA);
+                return;
+            }
+        }
+        runCamera();
+    }
+
+    private void setChosenImageToView(int requestCode) {
+        ivPhoto.setVisibility(View.VISIBLE);
+        photoPath = camManager.setPhotoToImageView(getActivity(), requestCode, ivPhoto);
+    }
+
     ///////////////////////////////////////// Tackle ///////////////////////////////////////////////
     private void initTackleUI() {
         rod.setOnClickListener(this);
@@ -294,7 +341,6 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     }
     ///////////////////////////////////////// End Tackle ///////////////////////////////////////////
 
-
     ////////////////////////////////////////// Weather Ui ////////////////////////////////////////
     private void initWeatherUi() {
         weatherWrapper.setOnClickListener(new View.OnClickListener() {
@@ -337,23 +383,25 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-
                 break;
             case R.id.action_add_new_fishing:
                 submitFishing();
                 break;
             case R.id.action_camera:
-
+                runPhotoDialog();
                 break;
             case R.id.action_settings:
-
-                break;
-            case R.id.action_modify_things_list:
-
                 break;
         }
 
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void runPhotoDialog() {
+        FragmentManager fm = getActivity().getFragmentManager();
+        PhotoDialogFragment photoDialog = new PhotoDialogFragment();
+        photoDialog.setTargetFragment(NewFishingFragment.this, Constants.REQUEST_TAKE_PHOTO);
+        photoDialog.show(fm, Constants.PHOTO_DIALOG_KEY);
     }
     ///////////////////////////////////////// End Menu /////////////////////////////////////////////
 
@@ -384,15 +432,18 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         setEditingEnabled(false);
 
         final String userId = getUid();
-        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
+        mDatabase
+                .child("users")
+                .child(userId)
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if (user == null) {
                     Toast.makeText(getActivity(), "Error: could not fetch user.", Toast.LENGTH_SHORT).show();
                 } else {
-                    writeNewPost(userId, user.username, fishing);
+                    writeToRemtoDB(userId, user.username, fishing);
                 }
                 setEditingEnabled(true);
                 getActivity().finish();
@@ -415,23 +466,44 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         final String temperature = tvWeather.getText().toString();
         final Integer weatherIcon = weatherIconSelection;
 
-        return new Fishing("","", place, date, details, price, bait, fishFeed,
-                temperature, weatherIcon, mPhotoUrl);
+        return new Fishing(place, date, details, price, bait, fishFeed,
+                temperature, weatherIcon, userAvatarUrl);
     }
 
-    private void writeNewPost(String userId, String userName, Fishing fishing) {
+    private void writeToRemtoDB(final String userId, String userName, final Fishing fishing) {
         fishing.setAuthor(userName);
         fishing.setUid(userId);
 
-        String key = mDatabase.child("fishings").push().getKey();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
 
-        Map<String, Object> postValues = fishing.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/fishings/" + key, postValues);
-        childUpdates.put("/user-fishings/" + userId + "/" + key, postValues);
 
-        mDatabase.updateChildren(childUpdates);
+        Uri file = Uri.fromFile(new File(photoPath));
+        StorageReference riversRef = storageReference.child("images/" + userId + "/" + file.getLastPathSegment());
 
+        UploadTask uploadTask = riversRef.putFile(file);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                @SuppressWarnings("VisibleForTests")
+                Uri downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
+                fishing.setPhotoUrl(downloadUrl.toString());
+
+                String key = mDatabase.child("fishings").push().getKey();
+
+                Map<String, Object> postValues = fishing.toMap();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/fishings/" + key, postValues);
+                childUpdates.put("/user-fishings/" + userId + "/" + key, postValues);
+
+                mDatabase.updateChildren(childUpdates);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
     }
 
     public void setEditingEnabled(boolean editingEnabled) {

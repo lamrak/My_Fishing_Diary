@@ -21,26 +21,18 @@ public class Fishing {
     public String fishFeed;
     public String temperature;
     public int weatherIcon;
-    private String userAvatarUrl;
-
-    public String thumb;
-    public String tackle;
-    public int tackleIcon;
-    public String catches;
-    public double latitude;
-    public double longitude;
-    public String photoPath;
-
-    public int weatherTemp;
+    public String userAvatarUrl;
+    public String photoUrl;
 
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Fishing() {}
 
-    public Fishing(String uid, String author, String place, long date, String details, String price,
-                   String bait, String fishFeed, String temperature, int weatherIcon, String userAvatarUrl) {
-        this.uid = uid;
-        this.author = author;
+    public Fishing(String place, long date, String details, String price,
+                   String bait, String fishFeed, String temperature, int weatherIcon,
+                   String userAvatarUrl) {
+
+
         this.place = place;
         this.date = date;
         this.details = details;
@@ -72,6 +64,14 @@ public class Fishing {
         return userAvatarUrl;
     }
 
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     @Exclude
     public Map<String, Object> toMap() {
@@ -89,14 +89,7 @@ public class Fishing {
         result.put("temperature", temperature);
         result.put("weatherIcon", weatherIcon);
         result.put("userAvatarUrl", userAvatarUrl);
-
-//        result.put("weather", weather);
-//        result.put("weatherIcon", weatherIcon);
-//        result.put("thumb", thumb);
-//        result.put("tackle", tackle);
-//        result.put("catches", catches);
-//        result.put("latitude", latitude);
-//        result.put("longitude", longitude);
+        result.put("photoUrl", photoUrl);
 
         return result;
     }

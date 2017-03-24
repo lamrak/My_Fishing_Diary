@@ -90,13 +90,13 @@ public abstract class BaseFishingListFragment extends Fragment {
                     }
                 });
 
-                if (model.stars.containsKey(getUid())) {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
-                } else {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
-                }
+                viewHolder.starView.setImageResource(
+                        model.stars.containsKey(getUid()) ?
+                        R.drawable.ic_toggle_star_24 :
+                        R.drawable.ic_toggle_star_outline_24);
 
                 retrieveUserAvatar(model, viewHolder);
+                retrieveUserPhoto(model, viewHolder);
 
                 viewHolder.bindToPost(getActivity(), model, new View.OnClickListener() {
                     @Override
@@ -127,6 +127,19 @@ public abstract class BaseFishingListFragment extends Fragment {
             Picasso.with(getActivity())
                     .load(fishing.getUserAvatarUrl())
                     .into(viewHolder.userAvatar);
+        }
+    }
+
+    private void retrieveUserPhoto(Fishing fishing, final FishingViewHolder viewHolder) {
+        if (fishing.getPhotoUrl() == null || fishing.getPhotoUrl().equals("")) {
+            viewHolder.photoPreview.setImageDrawable(ContextCompat.getDrawable(getActivity(),
+                    R.drawable.ic_no_photo));
+        } else {
+            Picasso.with(getActivity())
+                    .load(fishing.getPhotoUrl())
+                    .resize(600, 200)
+                    .centerInside()
+                    .into(viewHolder.photoPreview);
         }
     }
 

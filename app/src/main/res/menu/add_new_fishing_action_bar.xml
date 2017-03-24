@@ -8,11 +8,11 @@
         android:title="@string/action_camera"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_modify_things_list"
-        android:icon="@drawable/ic_things"
-        android:title="@string/action_things"
-        app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/action_modify_things_list"-->
+        <!--android:icon="@drawable/ic_things"-->
+        <!--android:title="@string/action_things"-->
+        <!--app:showAsAction="always" />-->
 
     <item
         android:id="@+id/action_add_new_fishing"

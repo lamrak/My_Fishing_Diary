@@ -39,7 +39,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -443,7 +442,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 if (user == null) {
                     Toast.makeText(getActivity(), "Error: could not fetch user.", Toast.LENGTH_SHORT).show();
                 } else {
-                    writeToRemtoDB(userId, user.username, fishing);
+                    writeToFirebase(userId, user.username, fishing);
                 }
                 setEditingEnabled(true);
                 getActivity().finish();
@@ -470,40 +469,43 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 temperature, weatherIcon, userAvatarUrl);
     }
 
-    private void writeToRemtoDB(final String userId, String userName, final Fishing fishing) {
+    private void writeToFirebase(final String userId, String userName, final Fishing fishing) {
         fishing.setAuthor(userName);
         fishing.setUid(userId);
+        writeImageToStorage(fishing, userId);
+    }
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference();
+    private void writeImageToStorage(final Fishing fishing, final String userId) {
 
+        if (photoPath == null || photoPath.equals("")) {
+            writeToRemoteDB(fishing, userId);
+        } else {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference();
 
-        Uri file = Uri.fromFile(new File(photoPath));
-        StorageReference riversRef = storageReference.child("images/" + userId + "/" + file.getLastPathSegment());
+            Uri file = Uri.fromFile(new File(photoPath));
 
-        UploadTask uploadTask = riversRef.putFile(file);
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            StorageReference riversRef = storageReference.child("images/" + userId + "/" + file.getLastPathSegment());
+            UploadTask uploadTask = riversRef.putFile(file);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fishing.setPhotoUrl(taskSnapshot.getMetadata().getDownloadUrl().toString());
+                    writeToRemoteDB(fishing, userId);
+                }
+            });
+        }
+    }
 
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests")
-                Uri downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
-                fishing.setPhotoUrl(downloadUrl.toString());
+    private void writeToRemoteDB(Fishing fishing, String userId) {
+        String key = mDatabase.child("fishings").push().getKey();
 
-                String key = mDatabase.child("fishings").push().getKey();
+        Map<String, Object> postValues = fishing.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/fishings/" + key, postValues);
+        childUpdates.put("/user-fishings/" + userId + "/" + key, postValues);
 
-                Map<String, Object> postValues = fishing.toMap();
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/fishings/" + key, postValues);
-                childUpdates.put("/user-fishings/" + userId + "/" + key, postValues);
-
-                mDatabase.updateChildren(childUpdates);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-            }
-        });
+        mDatabase.updateChildren(childUpdates);
     }
 
     public void setEditingEnabled(boolean editingEnabled) {

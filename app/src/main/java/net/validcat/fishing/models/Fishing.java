@@ -31,8 +31,6 @@ public class Fishing {
     public Fishing(String place, long date, String details, String price,
                    String bait, String fishFeed, String temperature, int weatherIcon,
                    String userAvatarUrl) {
-
-
         this.place = place;
         this.date = date;
         this.details = details;

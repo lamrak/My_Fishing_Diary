@@ -38,8 +38,8 @@ public class FishingListActivity extends BaseActivity {
     public Toolbar toolbar;
     @Bind(R.id.drawer_layout)
     public DrawerLayout drawer;
-    @Bind(R.id.nv_view)
-    public NavigationView navDrawer;
+//    @Bind(R.id.nv_view)
+//    public NavigationView navDrawer;
     @Bind(R.id.container)
     public ViewPager mViewPager;
     @Bind(R.id.tabs)
@@ -54,15 +54,17 @@ public class FishingListActivity extends BaseActivity {
         setContentView(R.layout.activity_fishing_list);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setElevation(0f);
         requestPermission();
-        setDrawerFragment();
 
-        toggle = setupDrawerToggle();
-        drawer.addDrawerListener(toggle);
-        setupDrawerContent(navDrawer);
+        // TODO: 25.03.17 uncomment this line for showing drawer.
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setElevation(0f);
+//        setDrawerFragment();
+
+//        toggle = setupDrawerToggle();
+//        drawer.addDrawerListener(toggle);
+//        setupDrawerContent(navDrawer);
 
         initFragmentPagerAdapter();
         mViewPager.setAdapter(mPagerAdapter);
@@ -120,15 +122,15 @@ public class FishingListActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getSupportFragmentManager().findFragmentById(R.id.fragment_drawer)
-                .onActivityResult(requestCode, resultCode, data);
-        // TODO: 20.03.17 not sure is it exactly necessary..?
+//        getSupportFragmentManager().findFragmentById(R.id.fragment_drawer)
+//                .onActivityResult(requestCode, resultCode, data);
+        // TODO: 20.03.17 this lines need for correct showing drawer that stored inside FishingListActivity fragment after onActivityResult().
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        toggle.syncState();
+//        toggle.syncState();
     }
 
     //////////////////////////////////////// Menu  /////////////////////////////////////////////////
@@ -146,7 +148,7 @@ public class FishingListActivity extends BaseActivity {
                 break;
             case R.id.action_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, FishingListActivity.class));
+                startActivity(new Intent(this, LogInActivity.class));
                 finish();
                 return true;
             default:

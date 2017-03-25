@@ -18,8 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -36,8 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GoogleSignInFragment extends Fragment implements
-        GoogleApiClient.OnConnectionFailedListener {
+public class GoogleSignInFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
     public static final String TAG = GoogleSignInFragment.class.getSimpleName();
     private static final int RC_SIGN_IN = 9001;
 
@@ -59,7 +56,7 @@ public class GoogleSignInFragment extends Fragment implements
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_google_sign, container, false);
         ButterKnife.bind(this, view);
-        doSignIn();
+        configureGoogleSignIn();
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -76,8 +73,7 @@ public class GoogleSignInFragment extends Fragment implements
         return view;
     }
 
-    private void doSignIn() {
-        // Configure Google Sign In
+    private void configureGoogleSignIn() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -125,11 +121,9 @@ public class GoogleSignInFragment extends Fragment implements
     }
 
     private void updateUI(FirebaseUser user) {
-        Log.d(TAG, "updateUI=" + user);
         if (user != null) {
-            tvStatus.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            tvSyncDescr.setText(R.string.items_synced);
-            btnSignIn.setVisibility(View.GONE);
+        startActivity(new Intent(getActivity(), FishingListActivity.class));
+        getActivity().finish();
         } else {
             tvSyncDescr.setText(R.string.keep_sync);
             tvStatus.setText(R.string.signed_out);
@@ -141,19 +135,6 @@ public class GoogleSignInFragment extends Fragment implements
     public void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(apiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @OnClick(R.id.sign_out_button)
-    public void signOut() {
-        firebaseAuth.signOut();
-        Auth.GoogleSignInApi.signOut(apiClient).setResultCallback(
-                new ResultCallback<Status>() {
-
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        updateUI(null);
-                    }
-                });
     }
 
     @Override

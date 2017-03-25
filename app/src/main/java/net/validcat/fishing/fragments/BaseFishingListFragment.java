@@ -1,6 +1,7 @@
 package net.validcat.fishing.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.squareup.picasso.Picasso;
 
+import net.validcat.fishing.DetailActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.adapters.FishingViewHolder;
 import net.validcat.fishing.models.Fishing;
@@ -87,6 +89,7 @@ public abstract class BaseFishingListFragment extends Fragment {
                     public void onClick(View view) {
                         Toast.makeText(getActivity(), "postKey - " + postKey, Toast.LENGTH_SHORT).show();
                         // TODO: 19.03.17 change this code snippet from example to necessary logic.
+                        startActivity(new Intent(getActivity(), DetailActivity.class));
                     }
                 });
 

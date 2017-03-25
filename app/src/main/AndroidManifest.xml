@@ -33,41 +33,40 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".GoogleSignInFragment"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".FishingListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".LogInActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".AddNewFishingActivity"
             android:label="@string/title_add_new_fishing"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
+                android:value=".ListActivity"/>
         </activity>
         <activity
             android:name=".DetailActivity"
@@ -75,7 +74,7 @@
             android:theme="@style/DetailAppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
+                android:value=".ListActivity"/>
         </activity>
         <activity
             android:name=".SettingsActivity"
@@ -83,7 +82,7 @@
             android:parentActivityName=".ListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
+                android:value=".ListActivity"/>
         </activity>
         <activity
             android:name=".ThingsActivity"
@@ -91,29 +90,29 @@
             android:parentActivityName=".AddNewFishingActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AddNewFishingActivity" />
+                android:value=".AddNewFishingActivity"/>
         </activity>
 
         <provider
             android:name=".data.FishingProvider"
             android:authorities="net.validcat.fishing"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
         <receiver
             android:name=".widget.FishingCountWidgetProvider"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/widget_info"/>
         </receiver>
 
-        <service android:name=".widget.FishingCountWidgetIntentService" />
+        <service android:name=".widget.FishingCountWidgetIntentService"/>
 
         <!-- SyncAdapter's dummy authentication service -->
         <!--
@@ -145,7 +144,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"/>
 
     </application>
 

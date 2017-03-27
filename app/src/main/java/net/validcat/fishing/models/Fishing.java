@@ -14,7 +14,6 @@ public class Fishing {
     public String author;
     public String place;
     public long date;
-    public String weather;
     public String details;
     public String price;
     public String bait;

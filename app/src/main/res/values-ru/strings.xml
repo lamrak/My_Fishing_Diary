@@ -70,6 +70,7 @@
     <string name="alert_dialog_stay_here">Остаться</string>
     <string name="alert_dialog_do_not_store">Закрыть окно</string>
     <string name="delete_fishing_item">Удалить запись о рыбалке?</string>
+    <string name="only_personal_fishing">Вы можете удалить только свою рыбалку!</string>
     <string name="title_tackle_dialog">Выберите снасти:</string>
     <string name="close_without_save">Закрыть без сохранения?</string>
     <string name="tackle_value">Удочка</string>

@@ -26,7 +26,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,9 +37,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import net.validcat.fishing.AddNewFishingActivity;
-import net.validcat.fishing.DetailActivity;
 import net.validcat.fishing.R;
-import net.validcat.fishing.ThingsActivity;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
 import net.validcat.fishing.models.FishingItem;
@@ -63,7 +60,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.iv_photo) ImageView ivPhoto;
     @Bind(R.id.iv_toolbar_weather_icon) ImageView weatherIcon;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.view_things_list_button) Button seeThings;
+//    @Bind(R.id.view_things_list_button) Button seeThings;
     private Uri uri;
     private FishingItem item;
     private LatLng currentLocation;
@@ -105,14 +102,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        seeThings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ThingsActivity.class);
-                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mFishingId);
-                startActivity(intent);
-            }
-        });
+//        seeThings.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), ThingsActivity.class);
+//                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mFishingId);
+//                startActivity(intent);
+//            }
+//        });
 
         return detailFragmentView;
     }
@@ -182,8 +179,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
             String descr = sb.toString();
             if (!TextUtils.isEmpty(descr)) {
-                tvDescription.setText(getString(R.string.fishing_description, descr));
-                tvDescription.setContentDescription(getString(R.string.fishing_description, descr));
+//                tvDescription.setText(getString(R.string.fishing_description, descr));
+//                tvDescription.setContentDescription(getString(R.string.fishing_description, descr));
             } else {
                 tvDescription.setText(getString(R.string.fishing_no_description));
                 tvDescription.setContentDescription(getString(R.string.fishing_no_description));
@@ -201,7 +198,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 setLocationOnMap();
         }
 
-        seeThings.setVisibility(mFishingId == null ? View.INVISIBLE : View.VISIBLE);
+//        seeThings.setVisibility(mFishingId == null ? View.INVISIBLE : View.VISIBLE);
 
     }
 
@@ -263,7 +260,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     .setPositiveButton(android.R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    ((DetailActivity) getActivity()).doPositiveClick();
+//                                    ((DetailActivity) getActivity()).doPositiveClick();
                                 }
                             }
                     )

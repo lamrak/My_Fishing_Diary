@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,9 +86,9 @@ public abstract class BaseFishingListFragment extends Fragment {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getActivity(), "postKey - " + postKey, Toast.LENGTH_SHORT).show();
-                        // TODO: 19.03.17 change this code snippet from example to necessary logic.
-                        startActivity(new Intent(getActivity(), DetailActivity.class));
+
+                        startActivity(new Intent(getActivity(), DetailActivity.class)
+                                .putExtra(FishingDeatailFragment.EXTRA_POST_KEY,postKey));
                     }
                 });
 

@@ -60,6 +60,7 @@ public class Constants {
     public static final String SPLIT_IMAGE_PATH_PATTERN = "\\s*,\\s*";
     public static final int THUMB_SIZE = 64;
     public static final String KEY_TITLE = "title";
+    public static final String KEY_DELETE_MODE = "delete mode";
     public static final String CAMERA_TIME_PATTERN = "yyyyMMdd_HHmmss";
 
     public static final String TACKLE_DIALOG_KEY = "tackle_dialog";

@@ -122,8 +122,8 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-        startActivity(new Intent(getActivity(), FishingListActivity.class));
-        getActivity().finish();
+            startActivity(new Intent(getActivity(), FishingListActivity.class));
+            getActivity().finish();
         } else {
             tvSyncDescr.setText(R.string.keep_sync);
             tvStatus.setText(R.string.signed_out);

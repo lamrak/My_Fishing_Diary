@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/draw_insets_frame_layout"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -101,6 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textColor="@color/primary_dark"
                         android:textStyle="bold"
                         android:textSize="14sp"/>
 
@@ -151,7 +153,6 @@
                     <TextView
                         android:id="@+id/tv_description"
                         style="@style/detail_text_view_style"
-                        android:layout_below="@+id/map"
                         android:paddingBottom="@dimen/activity_vertical_margin_top"
                         android:paddingLeft="@dimen/default_gap"
                         android:paddingRight="@dimen/default_gap"
@@ -159,31 +160,76 @@
 
                 </android.support.v7.widget.CardView>
 
-                <Button
+                <android.support.v7.widget.CardView
+                    android:id="@+id/comment_form_card"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/button_color"
-                    android:textColor="@color/white"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="@dimen/card_radius"
                     android:layout_below="@+id/detail_card"
-                    android:id="@+id/view_things_list_button"
-                    android:text="@string/open_things_list"/>
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/comment_form"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@color/primary_dark"
+                        android:weightSum="1.0">
+
+                    <EditText
+                        android:id="@+id/field_comment_text"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.8"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:hint="Write a comment..."/>
+
+                    <Button
+                        android:id="@+id/button_post_comment"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.2"
+                        android:layout_height="wrap_content"
+                        android:text="Post"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/comments_card"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="@dimen/card_radius"
+                    android:layout_below="@+id/comment_form_card"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/comment_form"
+                    tools:listitem="@layout/item_comment" />
+
+                </android.support.v7.widget.CardView>
 
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
-        <android.support.design.widget.FloatingActionButton
-            app:fabSize="normal"
-            android:id="@+id/share_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:elevation="8dp"
-            app:pressedTranslationZ="12dp"
-            app:layout_anchor="@+id/scrollview"
-            app:borderWidth="0dp"
-            android:src="@drawable/ic_share_24dp"
-            app:layout_anchorGravity="bottom|right|end"/>
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--app:fabSize="normal"-->
+            <!--android:id="@+id/share_fab"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="16dp"-->
+            <!--app:elevation="8dp"-->
+            <!--app:pressedTranslationZ="12dp"-->
+            <!--app:layout_anchor="@+id/scrollview"-->
+            <!--app:borderWidth="0dp"-->
+            <!--android:src="@drawable/ic_share_24dp"-->
+            <!--app:layout_anchorGravity="bottom|right|end"/>-->
 
     </android.support.design.widget.CoordinatorLayout>
 

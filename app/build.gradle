@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -20,7 +24,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', '$System.env.OPEN_WEATHER_MAP_API_KEY'
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', keystoreProperties['MyOpenWeatherMapApiKey']
     }
 }
 

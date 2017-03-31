@@ -20,7 +20,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', System.getenv("MyOpenWeatherMapApiKey")
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', System.getenv("OPEN_WEATHER_MAP_API_KEY")
     }
 }
 
@@ -33,7 +33,7 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:cardview-v7:25.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.android.gms:play-services:10.0.1'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
 //    compile 'com.androidadvance:topsnackbar:0.0.9'
 
     compile 'com.google.firebase:firebase-core:10.0.1'

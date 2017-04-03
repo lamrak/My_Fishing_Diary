@@ -165,8 +165,8 @@
     <string name="cancel">Cancel</string>
     <string name="item_description">Item description</string>
     <string name="open_things_list">Open things list</string>
-    <string name="list_is_empty">Things list is empty.</string>
-    <string name="action_remove_all">Remove all things</string>
+    <string name="list_is_empty" translatable="false">Things list is empty.</string>
+    <string name="action_remove_all" translatable="false">Remove all things</string>
 
     <string name="bag">Bag for fish</string>
     <string name="warm_clothes">Warm clothes</string>
@@ -174,20 +174,20 @@
     <string name="axe">Ice axe</string>
     <string name="depthometer">Depthometer</string>
     <string name="wind_protection">Wind protection</string>
-    <string name="title_friends_dialog">Contacts</string>
-    <string name="send_email">Send invitations</string>
+    <string name="title_friends_dialog" translatable="false">Contacts</string>
+    <string name="send_email" translatable="false">Send invitations</string>
     <string name="signed_out">Signed Out</string>
 
-    <string name="google_status_fmt">Google User: %s</string>
-    <string name="google_title_text">Google Sign In</string>
-    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="google_status_fmt" translatable="false">Google User: %s</string>
+    <string name="google_title_text" translatable="false">Google Sign In</string>
+    <string name="firebase_status_fmt" translatable="false">Firebase User: %s</string>
 
-    <string name="desc_firebase_lockup">Firebase logo and name</string>
-    <string name="sign_out">Sign out</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="default_web_client_id_fishing">289288756506-o4h6792nqvsd0aiho07n04hoka8keiss.apps.googleusercontent.com</string>
-    <string name="drawer_open">open</string>
-    <string name="drawer_close">close</string>
+    <string name="desc_firebase_lockup" translatable="false">Firebase logo and name</string>
+    <string name="sign_out" translatable="false">Sign out</string>
+    <string name="disconnect" translatable="false">Disconnect</string>
+    <string name="default_web_client_id_fishing" translatable="false">289288756506-o4h6792nqvsd0aiho07n04hoka8keiss.apps.googleusercontent.com</string>
+    <string name="drawer_open" translatable="false">open</string>
+    <string name="drawer_close" translatable="false">close</string>
     <string name="keep_sync">Login to synchronize and store them on a server.</string>
     <string name="items_synced">Recordings are saved on the server and will always be available at registration</string>
 

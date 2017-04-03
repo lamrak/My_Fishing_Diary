@@ -12,6 +12,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.squareup.picasso.Picasso;
 
 import net.validcat.fishing.R;
 import net.validcat.fishing.models.Comment;
@@ -128,6 +129,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder>{
         holder.authorView.setText(comment.author);
         holder.bodyView.setText(comment.text);
 
+        Picasso.with(mContext)
+                .load(comment.userAvatarUrl)
+                .resize(600, 200)
+                .centerInside()
+                .into(holder.ivUserAvatar);
     }
 
     @Override

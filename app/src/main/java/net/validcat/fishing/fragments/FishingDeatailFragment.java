@@ -3,6 +3,7 @@ package net.validcat.fishing.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,14 +33,18 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import net.validcat.fishing.FishingListActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.adapters.CommentAdapter;
 import net.validcat.fishing.data.Constants;
@@ -53,6 +58,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static android.content.ContentValues.TAG;
+import static net.validcat.fishing.R.id.delete;
 
 public class FishingDeatailFragment extends Fragment implements OnMapReadyCallback ,View.OnClickListener{
 
@@ -83,13 +89,14 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    private DatabaseReference mPostReference;
-    private DatabaseReference mCommentsReference;
-    private DatabaseReference userFishingsReference;
+    private static DatabaseReference mPostReference;
+    private static DatabaseReference mCommentsReference;
+    private static DatabaseReference userFishingsReference;
+
     private ValueEventListener mPostListener;
 
     private CommentAdapter mAdapter;
-    private String mPostKey;
+    public static String mPostKey;
     private GoogleMap googleMap;
     private LatLng currentLocation;
     Boolean isPersonalFishing = false;
@@ -138,6 +145,7 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
                 .child("user-fishings")
                 .child(getUid())
                 .child(mPostKey);
+
     }
 
     private void initCommentsView() {
@@ -175,11 +183,6 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 isPersonalFishing = dataSnapshot.getValue() != null;
-                // TODO: 27.03.17 show or hide DELETE item according to is it personal fishing.
-
-
-
-
             }
 
             @Override public void onCancelled(DatabaseError databaseError) {}
@@ -191,8 +194,8 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                updateUiWithData(dataSnapshot.getValue(Fishing.class));
-
+                if (dataSnapshot != null)
+                    updateUiWithData(dataSnapshot.getValue(Fishing.class));
             }
 
             @Override
@@ -223,8 +226,14 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
         super.onStop();
         if (mPostListener != null)
             mPostReference.removeEventListener(mPostListener);
+        mAdapter.cleanupListener();
+    }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mPostListener != null)
+            mPostReference.removeEventListener(mPostListener);
         mAdapter.cleanupListener();
     }
 
@@ -255,10 +264,7 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit:
-
-                return true;
-            case R.id.delete:
+            case delete:
                 showConfirmationDialog();
                 return true;
             default:
@@ -304,10 +310,8 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-                        String authorName = user.username;
-
                         String commentText = mCommentField.getText().toString();
-                        Comment comment = new Comment(uid, authorName, commentText);
+                        Comment comment = new Comment(uid, user.username, commentText, user.userAvatarUrl);
 
                         mCommentsReference.push().setValue(comment);
 
@@ -320,67 +324,85 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
                 });
     }
 
-    public String getUid() {
+    public static String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
+
 ////////////////////////////////////// Dialog //////////////////////////////////////////////////////
     public static class DeleteAlertDialog extends DialogFragment {
 
     public static final int DIALOG_DELETE_FISHING_ITEM = 500;
     public static final int DIALOG_ONLY_PERSONAL_FISHING = 600;
 
-        public static DeleteAlertDialog newInstance(int title, int mode) {
-            DeleteAlertDialog frag = new DeleteAlertDialog();
-            Bundle args = new Bundle();
-            args.putInt(Constants.KEY_TITLE, title);
-            args.putInt(Constants.KEY_DELETE_MODE, mode);
-            frag.setArguments(args);
+    public static DeleteAlertDialog newInstance(int title, int mode) {
+        DeleteAlertDialog frag = new DeleteAlertDialog();
+        Bundle args = new Bundle();
+        args.putInt(Constants.KEY_TITLE, title);
+        args.putInt(Constants.KEY_DELETE_MODE, mode);
+        frag.setArguments(args);
 
-            return frag;
-        }
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            switch (getArguments().getInt(Constants.KEY_DELETE_MODE)) {
-                case DIALOG_DELETE_FISHING_ITEM:
-                    return new AlertDialog.Builder(getActivity())
-                            .setTitle(getArguments().getInt(Constants.KEY_TITLE))
-                            .setPositiveButton(android.R.string.ok,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            removeItemFromRFDB();
-                                        }
-                                    }
-                            )
-                            .setNegativeButton(android.R.string.cancel,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                        }
-                                    }
-                            )
-                            .create();
-
-                case DIALOG_ONLY_PERSONAL_FISHING:
-                    return new AlertDialog.Builder(getActivity())
-                            .setTitle(getArguments().getInt(Constants.KEY_TITLE))
-                            .setPositiveButton(android.R.string.ok,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            return;
-                                        }
-                                    }
-                            ).create();
-            }
-            return null;
-        }
-
-        private void removeItemFromRFDB() {
-            // TODO: 27.03.17 add logic for remoweing item
-
-
-        }
+        return frag;
     }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        switch (getArguments().getInt(Constants.KEY_DELETE_MODE)) {
+            case DIALOG_DELETE_FISHING_ITEM:
+                return new AlertDialog.Builder(getActivity())
+                        .setTitle(getArguments().getInt(Constants.KEY_TITLE))
+                        .setPositiveButton(android.R.string.ok,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        removeItemFromRFDB();
+                                    }
+                                }
+                        )
+                        .setNegativeButton(android.R.string.cancel,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }
+                                }
+                        )
+                        .create();
+
+            case DIALOG_ONLY_PERSONAL_FISHING:
+                return new AlertDialog.Builder(getActivity())
+                        .setTitle(getArguments().getInt(Constants.KEY_TITLE))
+                        .setPositiveButton(android.R.string.ok,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        return;
+                                    }
+                                }
+                        ).create();
+        }
+        return null;
+    }
+
+    private void removeItemFromRFDB() {
+        userFishingsReference.removeValue();
+        mCommentsReference.removeValue();
+        mPostReference.removeValue();
+        deleteIngFromStorage();
+
+        startActivity(new Intent(getActivity(), FishingListActivity.class));
+        getActivity().finish();
+    }
+
+    private void deleteIngFromStorage() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference fishingImageRef = storage.getReference().child("images/" + getUid() );
+
+        fishingImageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getActivity(), "Fishing was deleted!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+}
 ////////////////////////////////////// End Dialog //////////////////////////////////////////////////
 
 }

@@ -442,7 +442,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 if (user == null) {
                     Toast.makeText(getActivity(), "Error: could not fetch user.", Toast.LENGTH_SHORT).show();
                 } else {
-                    writeToFirebase(userId, user.username, fishing);
+                    writeToFirebaseDB(userId, user.username, fishing);
                 }
                 setEditingEnabled(true);
                 getActivity().finish();
@@ -453,7 +453,6 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 setEditingEnabled(true);
             }
         });
-
     }
 
     private Fishing retrieveDataFromView() {
@@ -469,13 +468,14 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 temperature, weatherIcon, userAvatarUrl);
     }
 
-    private void writeToFirebase(final String userId, String userName, final Fishing fishing) {
+    private void writeToFirebaseDB(final String userId, String userName, final Fishing fishing) {
         fishing.setAuthor(userName);
         fishing.setUid(userId);
-        writeImageToStorage(fishing, userId);
+
+        writeImageToFirebaseStorage(fishing, userId);
     }
 
-    private void writeImageToStorage(final Fishing fishing, final String userId) {
+    private void writeImageToFirebaseStorage(final Fishing fishing, final String userId) {
 
         if (photoPath == null || photoPath.equals("")) {
             writeToRemoteDB(fishing, userId);
@@ -485,12 +485,15 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
 
             Uri file = Uri.fromFile(new File(photoPath));
 
-            StorageReference riversRef = storageReference.child("images/" + userId + "/" + file.getLastPathSegment());
+            StorageReference riversRef = storageReference
+                    .child("images/" + userId + "/" + file.getLastPathSegment());
+
             UploadTask uploadTask = riversRef.putFile(file);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     fishing.setPhotoUrl(taskSnapshot.getMetadata().getDownloadUrl().toString());
+
                     writeToRemoteDB(fishing, userId);
                 }
             });

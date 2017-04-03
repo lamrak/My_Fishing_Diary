@@ -2,7 +2,6 @@ package net.validcat.fishing.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -36,7 +35,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FishingContract;
@@ -131,12 +129,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit:
-                Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
-                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
-                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mFishingId);
-                startActivity(intent);
-                return true;
+//            case R.id.edit:
+//                Intent intent = new Intent(getActivity(), AddNewFishingActivity.class);
+//                intent.putExtra(Constants.DETAIL_KEY, uri.toString());
+//                intent.putExtra(Constants.THINGS_LIST_REFERENCE, mFishingId);
+//                startActivity(intent);
+//                return true;
             case R.id.delete:
                 showConfirmationDialog();
                 return true;

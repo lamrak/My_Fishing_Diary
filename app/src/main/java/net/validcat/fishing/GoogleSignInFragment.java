@@ -86,40 +86,6 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                Log.e(TAG, "Google Sign-In was successful, authenticate with Firebase.");
-                GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
-            } else {
-                Log.e(TAG, "Google Sign-In failed.");
-                updateUI(null);
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(getActivity(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             startActivity(new Intent(getActivity(), FishingListActivity.class));
@@ -138,28 +104,61 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                Log.e(TAG, "Google Sign-In was successful, authenticate with Firebase.");
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+            } else {
+                Log.e(TAG, "Google Sign-In failed.");
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        onAuthSuccess(firebaseAuth.getCurrentUser());
+
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithCredential", task.getException());
+                            Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(getActivity(), "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
-        if (firebaseAuth.getCurrentUser() != null) {
-            onAuthSuccess(firebaseAuth.getCurrentUser());
-        }
-    }
-
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
-        writeNewUser(user.getUid(), username, user.getEmail());
+        writeNewUser(user);
     }
 
-    private void writeNewUser(String userId, String name, String email) {
-        User user = new User(name, email);
-        mDatabase.child("users").child(userId).setValue(user);
+    private void writeNewUser(FirebaseUser fireUser) {
+        User user = new User(fireUser.getDisplayName(),
+                fireUser.getEmail(),
+                fireUser.getPhotoUrl().toString());
+
+
+        mDatabase
+                .child("users")
+                .child(fireUser.getUid())
+                .setValue(user);
     }
 
     private String usernameFromEmail(String email) {
@@ -167,6 +166,16 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
             return email.split("@")[0];
         } else {
             return email;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            onAuthSuccess(firebaseAuth.getCurrentUser());
         }
     }
 

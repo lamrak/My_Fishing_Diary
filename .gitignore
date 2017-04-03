@@ -10,3 +10,6 @@ local.properties
 *.apk
 app/app.iml
 my_fishing.iml
+
+.idea/instapk.xml
+instapk.log*

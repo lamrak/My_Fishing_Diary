@@ -430,29 +430,8 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         final Fishing fishing = retrieveDataFromView();
         setEditingEnabled(false);
 
-        final String userId = getUid();
-        mDatabase
-                .child("users")
-                .child(userId)
-                .addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                if (user == null) {
-                    Toast.makeText(getActivity(), "Error: could not fetch user.", Toast.LENGTH_SHORT).show();
-                } else {
-                    writeToFirebaseDB(userId, user.username, fishing);
-                }
-                setEditingEnabled(true);
-                getActivity().finish();
-            }
+        setUserNameFromFRDB(fishing);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                setEditingEnabled(true);
-            }
-        });
     }
 
     private Fishing retrieveDataFromView() {
@@ -464,21 +443,47 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
         final String temperature = tvWeather.getText().toString();
         final Integer weatherIcon = weatherIconSelection;
 
-        return new Fishing(place, date, details, price, bait, fishFeed,
-                temperature, weatherIcon, userAvatarUrl);
+        Fishing fishing = new Fishing(place, date, details, price, bait, fishFeed,
+                temperature, weatherIcon, userAvatarUrl, latitude,
+                longitude, tacklesBag.getSelectedTackles());
+        fishing.setUid(getUid());
+
+        return fishing;
     }
 
-    private void writeToFirebaseDB(final String userId, String userName, final Fishing fishing) {
-        fishing.setAuthor(userName);
-        fishing.setUid(userId);
+    private void setUserNameFromFRDB(final Fishing fishing) {
+        mDatabase
+                .child("users")
+                .child(fishing.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
 
-        writeImageToFirebaseStorage(fishing, userId);
+                        if (user == null) {
+                            Toast.makeText(getActivity(), "Error: could not fetch user.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        fishing.setAuthor(user.username);
+                        writeImageToFirebaseStorage(fishing);
+
+
+                        setEditingEnabled(true);
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        setEditingEnabled(true);
+                    }
+                });
     }
 
-    private void writeImageToFirebaseStorage(final Fishing fishing, final String userId) {
+    private void writeImageToFirebaseStorage(final Fishing fishing) {
 
         if (photoPath == null || photoPath.equals("")) {
-            writeToRemoteDB(fishing, userId);
+            writeFishingWithPhotoToFRDB(fishing);
         } else {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageReference = storage.getReference();
@@ -486,7 +491,7 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
             Uri file = Uri.fromFile(new File(photoPath));
 
             StorageReference riversRef = storageReference
-                    .child("images/" + userId + "/" + file.getLastPathSegment());
+                    .child("images/" + fishing.getUid() + "/" + file.getLastPathSegment());
 
             UploadTask uploadTask = riversRef.putFile(file);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -494,19 +499,19 @@ public class NewFishingFragment extends BaseFragment implements GoogleApiClient.
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     fishing.setPhotoUrl(taskSnapshot.getMetadata().getDownloadUrl().toString());
 
-                    writeToRemoteDB(fishing, userId);
+                    writeFishingWithPhotoToFRDB(fishing);
                 }
             });
         }
     }
 
-    private void writeToRemoteDB(Fishing fishing, String userId) {
+    private void writeFishingWithPhotoToFRDB(Fishing fishing) {
         String key = mDatabase.child("fishings").push().getKey();
 
         Map<String, Object> postValues = fishing.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/fishings/" + key, postValues);
-        childUpdates.put("/user-fishings/" + userId + "/" + key, postValues);
+        childUpdates.put("/user-fishings/" + fishing.getUid() + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
     }

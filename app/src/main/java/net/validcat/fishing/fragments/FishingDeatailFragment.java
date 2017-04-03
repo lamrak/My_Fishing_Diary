@@ -100,6 +100,7 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
     private GoogleMap googleMap;
     private LatLng currentLocation;
     Boolean isPersonalFishing = false;
+    private static Fishing fishing;
 
 
     public FishingDeatailFragment() {
@@ -117,9 +118,6 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        // TODO: 27.03.17 foe test. need to remove
-        currentLocation = new LatLng(49.988313,36.227246);
 
         retrieveFishingKeyFromArgs();
         initMapFragment();
@@ -210,6 +208,7 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
     }
 
     private void updateUiWithData(Fishing fishing) {
+        this.fishing = fishing;
         tvPlace.setText(fishing.place);
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), fishing.date));
         tvWeather.setText(fishing.temperature);
@@ -219,6 +218,12 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
             .with(getActivity())
             .load(fishing.getPhotoUrl())
             .into(ivPhoto);
+
+        if (fishing.latitude == null && fishing.longitude  == null)
+            return;
+
+        currentLocation =  new LatLng(fishing.latitude, fishing.longitude);
+        showMarkerOnMap();
     }
 
     @Override
@@ -240,8 +245,8 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        if (currentLocation != null)
-            showMarkerOnMap();
+//        if (currentLocation != null)
+//            showMarkerOnMap();
     }
 
     private void showMarkerOnMap() {
@@ -324,9 +329,6 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
                 });
     }
 
-    public static String getUid() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
 
 ////////////////////////////////////// Dialog //////////////////////////////////////////////////////
     public static class DeleteAlertDialog extends DialogFragment {
@@ -392,12 +394,12 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
 
     private void deleteIngFromStorage() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference fishingImageRef = storage.getReference().child("images/" + getUid() );
+        StorageReference fishingImageRef = storage.getReferenceFromUrl(fishing.getPhotoUrl());
 
         fishingImageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getActivity(), "Fishing was deleted!", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onSuccess: Deleted image from storage");
             }
         });
     }
@@ -405,4 +407,7 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
 }
 ////////////////////////////////////// End Dialog //////////////////////////////////////////////////
 
+    public static String getUid() {
+    return FirebaseAuth.getInstance().getCurrentUser().getUid();
+}
 }

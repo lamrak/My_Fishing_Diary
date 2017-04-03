@@ -22,6 +22,9 @@ public class Fishing {
     public int weatherIcon;
     public String userAvatarUrl;
     public String photoUrl;
+    public Double latitude;
+    public Double longitude;
+    public String tacklesBag;
 
     public Map<String, Boolean> stars = new HashMap<>();
 
@@ -29,7 +32,7 @@ public class Fishing {
 
     public Fishing(String place, long date, String details, String price,
                    String bait, String fishFeed, String temperature, int weatherIcon,
-                   String userAvatarUrl) {
+                   String userAvatarUrl, Double latitude, Double longitude, String tacklesBag) {
         this.place = place;
         this.date = date;
         this.details = details;
@@ -39,6 +42,9 @@ public class Fishing {
         this.temperature = temperature;
         this.weatherIcon = weatherIcon;
         this.userAvatarUrl = userAvatarUrl;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.tacklesBag = tacklesBag;
     }
 
     public void setUid(String uid) {
@@ -87,6 +93,9 @@ public class Fishing {
         result.put("weatherIcon", weatherIcon);
         result.put("userAvatarUrl", userAvatarUrl);
         result.put("photoUrl", photoUrl);
+        result.put("latitude", latitude);
+        result.put("longitude", longitude);
+        result.put("tacklesBag", tacklesBag);
 
         return result;
     }

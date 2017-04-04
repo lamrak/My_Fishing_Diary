@@ -209,7 +209,7 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
 
     private void updateUiWithData(Fishing fishing) {
         this.fishing = fishing;
-        tvPlace.setText(fishing.place);
+        tvPlace.setText(fishing.place != null ? fishing.place : "");
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), fishing.date));
         tvWeather.setText(fishing.temperature);
         tvDescription.setText(fishing.details);
@@ -245,8 +245,6 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-//        if (currentLocation != null)
-//            showMarkerOnMap();
     }
 
     private void showMarkerOnMap() {
@@ -394,14 +392,17 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
 
     private void deleteIngFromStorage() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference fishingImageRef = storage.getReferenceFromUrl(fishing.getPhotoUrl());
 
-        fishingImageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "onSuccess: Deleted image from storage");
-            }
-        });
+        if (fishing.getPhotoUrl() != null) {
+            StorageReference fishingImageRef = storage.getReferenceFromUrl(fishing.getPhotoUrl());
+            fishingImageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "onSuccess: Deleted image from storage");
+                }
+            });
+        }
+
     }
 
 }

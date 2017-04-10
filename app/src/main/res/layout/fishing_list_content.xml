@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_sprint_leafs"
-        android:layout_marginTop="@dimen/cast_expanded_controller_control_toolbar_min_height" />
+        android:layout_marginTop="?attr/actionBarSize" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

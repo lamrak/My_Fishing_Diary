@@ -114,5 +114,6 @@
     <string name="signed_out">Вийти</string>
     <string name="keep_sync">Потрібно залогинится для збереження записей на сервере</string>
     <string name="items_synced">Записи збережені на сервері і завжди будуть доступні при реєстрації</string>
+    <string name="action_remove_all">Вмдалити увесь стаф</string>
 
 </resources>

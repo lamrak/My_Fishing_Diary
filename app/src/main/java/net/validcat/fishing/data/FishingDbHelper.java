@@ -25,7 +25,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class FishingDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 8;
-    private static final String DATABASE_NAME = "GoogleSignInFragment.db";
+    private static final String DATABASE_NAME = "fishing.db";
 
     public FishingDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

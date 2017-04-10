@@ -29,7 +29,7 @@ public class FishingContract {
     // relationship between a domain name and its website.  A convenient string to use for the
     // content authority is the package name for the app, which is guaranteed to be unique on the
     // device.
-    public static final String CONTENT_AUTHORITY = "net.validcat.GoogleSignInFragment";
+    public static final String CONTENT_AUTHORITY = "net.validcat.fishing";
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
@@ -42,7 +42,7 @@ public class FishingContract {
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
-    public static final String PATH_FISHING = "GoogleSignInFragment";
+    public static final String PATH_FISHING = "fishing";
     public static final String PATH_THINGS = "things";
 
     // To make it easy to query for the exact date, we normalize all dates that go into
@@ -129,7 +129,7 @@ public class FishingContract {
     }
 
     public static final class FishingEntry implements BaseColumns {
-        public static final String TABLE_NAME = "GoogleSignInFragment";
+        public static final String TABLE_NAME = "fishing";
         public static final String COLUMN_PLACE = "place";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_WEATHER = "weather";

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -210,9 +211,30 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
     private void updateUiWithData(Fishing fishing) {
         this.fishing = fishing;
         tvPlace.setText(fishing.place != null ? fishing.place : "");
+        tvPlace.setContentDescription(fishing.place != null ? fishing.place : "");
+
         tvDate.setText(DateUtils.getFullFriendlyDayString(getActivity(), fishing.date));
+        tvDate.setContentDescription(DateUtils.getFullFriendlyDayString(getActivity(), fishing.date));
+
         tvWeather.setText(fishing.temperature);
-        tvDescription.setText(fishing.details);
+        tvWeather.setContentDescription(getString(R.string.fishing_weather, fishing.temperature));
+
+        //content
+        StringBuilder sb = new StringBuilder();
+        if (!TextUtils.isEmpty(fishing.details)) sb.append(fishing.details);
+        if (!TextUtils.isEmpty(fishing.bait)) sb.append(getString(R.string.fishing_bait, fishing.bait));
+        if (!TextUtils.isEmpty(fishing.fishFeed)) sb.append(getString(R.string.fishing_fish_feed, fishing.fishFeed));
+        if (!TextUtils.isEmpty(fishing.price)) sb.append(getString(R.string.fishing_price, fishing.price));
+
+        String descr = sb.toString();
+        if (!TextUtils.isEmpty(descr)) {
+            tvDescription.setText(getString(R.string.fishing_description, descr));
+            tvDescription.setContentDescription(getString(R.string.fishing_description, descr));
+        } else {
+            tvDescription.setText(getString(R.string.fishing_no_description));
+            tvDescription.setContentDescription(getString(R.string.fishing_no_description));
+        }
+
         weatherIcon.setImageResource(PrefUtils.formatWeatherSeletedToIconsCode(fishing.weatherIcon));
         Picasso
             .with(getActivity())

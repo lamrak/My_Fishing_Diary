@@ -4,6 +4,13 @@ apply plugin: 'com.android.application'
 //def keystoreProperties = new Properties()
 //keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+def weatherKey = System.getenv("OPEN_WEATHER_MAP_API_KEY")
+if (weatherKey == null) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    weatherKey = properties.getProperty('MyOpenWeatherMapApiKey')?:"key_not_found"
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -28,7 +35,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', MyOpenWeatherMapApiKey
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', weatherKey
     }
 }
 

@@ -36,7 +36,7 @@ public class FishingDbHelper extends SQLiteOpenHelper {
 //        sqLiteDatabase.execSQL(FishingContract.createWeatherTable());
 //        sqLiteDatabase.execSQL(FishingContract.createLocationTable());
         sqLiteDatabase.execSQL(FishingContract.createFishingTable());
-        sqLiteDatabase.execSQL(FishingContract.createThingsTable());
+//        sqLiteDatabase.execSQL(FishingContract.createThingsTable());
     }
 
     @Override

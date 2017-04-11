@@ -157,7 +157,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            mFishingId = data.getString(data.getColumnIndex(FishingContract.FishingEntry.COLUMN_THINGS_KEY));
+//            mFishingId = data.getString(data.getColumnIndex(FishingContract.FishingEntry.COLUMN_THINGS_KEY));
             item = FishingItem.createFishingItemFromCursor(data);
             tvPlace.setText(item.getPlace());
             tvPlace.setContentDescription(item.getPlace());

@@ -113,20 +113,21 @@ public class FishingContract {
                 FishingEntry.COLUMN_FISH_FEED + " TEXT, " +
                 FishingEntry.COLUMN_CATCH + " TEXT, " +
                 FishingEntry.COLUMN_LATITUDE + " REAL, " +
-                FishingEntry.COLUMN_LONGITUDE + " REAL, " +
-                FishingEntry.COLUMN_THINGS_KEY + " TEXT" +
-                ");";
+                FishingEntry.COLUMN_LONGITUDE + " REAL, " + ");";
+//                +
+//                FishingEntry.COLUMN_THINGS_KEY + " TEXT" +
+//                ");";
     }
 
-    public static String createThingsTable() {
-        return "CREATE TABLE " + ThingsEntry.TABLE_NAME + " (" +
-                ThingsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                ThingsEntry.COLUMN_DESCRIPTION + " TEXT, " +
-                ThingsEntry.COLUMN_EQUIPPED + " INTEGER NOT NULL, " +
-                ThingsEntry.COLUMN_FISHING_ID + " INTEGER, " +
-                " FOREIGN KEY " + " (" + ThingsEntry.COLUMN_FISHING_ID + ") REFERENCES " +
-                FishingEntry.TABLE_NAME + " (" + FishingEntry.COLUMN_THINGS_KEY  + ")); ";
-    }
+//    public static String createThingsTable() {
+//        return "CREATE TABLE " + ThingsEntry.TABLE_NAME + " (" +
+//                ThingsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+//                ThingsEntry.COLUMN_DESCRIPTION + " TEXT, " +
+//                ThingsEntry.COLUMN_EQUIPPED + " INTEGER NOT NULL, " +
+//                ThingsEntry.COLUMN_FISHING_ID + " INTEGER, " +
+//                " FOREIGN KEY " + " (" + ThingsEntry.COLUMN_FISHING_ID + ") REFERENCES " +
+//                FishingEntry.TABLE_NAME + " (" + FishingEntry.COLUMN_THINGS_KEY  + ")); ";
+//    }
 
     public static final class FishingEntry implements BaseColumns {
         public static final String TABLE_NAME = "fishing";
@@ -144,7 +145,7 @@ public class FishingContract {
         public static final String COLUMN_CATCH = "catch";
         public static final String COLUMN_LATITUDE = "lat";
         public static final String COLUMN_LONGITUDE = "long";
-        public static final String COLUMN_THINGS_KEY = "things_key";
+//        public static final String COLUMN_THINGS_KEY = "things_key";
 
         public static String[] PROJECTION = {
                 FishingEntry._ID,
@@ -162,7 +163,7 @@ public class FishingContract {
                 FishingEntry.COLUMN_CATCH,
                 FishingEntry.COLUMN_LATITUDE,
                 FishingEntry.COLUMN_LONGITUDE,
-                FishingEntry.COLUMN_THINGS_KEY
+//                FishingEntry.COLUMN_THINGS_KEY
         };
 
         public static final int INDEX_ID = 0;

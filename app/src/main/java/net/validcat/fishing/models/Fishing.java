@@ -12,6 +12,7 @@ public class Fishing {
     public int starCount = 0;
     public String uid;
     public String author;
+
     public String place;
     public long date;
     public String details;
@@ -65,6 +66,10 @@ public class Fishing {
 
     public String getUserAvatarUrl() {
         return userAvatarUrl;
+    }
+
+    public void setUserAvatarUrl(String url) {
+        this.userAvatarUrl = url;
     }
 
     public void setPhotoUrl(String photoUrl) {

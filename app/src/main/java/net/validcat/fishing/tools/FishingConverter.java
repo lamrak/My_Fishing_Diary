@@ -5,8 +5,7 @@ import net.validcat.fishing.models.FishingItem;
 
 public class FishingConverter {
     // TODO: 10.04.17 remove this class after sink all data from db to firebase.
-
-
+    
     public static Fishing convertFishingItemToFishing(FishingItem item) {
         Fishing result = new Fishing();
         result.place = item.getPlace();
@@ -17,11 +16,10 @@ public class FishingConverter {
         result.fishFeed = item.getFishFeed();
         result.temperature = item.getWeather();
         result.weatherIcon = item.getWeatherIcon();
-//        result.userAvatarUrl  empty
-//        result.photoUrl  empty
         result.latitude = item.getLatitude();
         result.longitude = item.getLongitude();
         result.tacklesBag = item.getTackle();
+        result.photoUrl = item.getThumb();
 
         return result;
     }

@@ -1,14 +1,9 @@
 package net.validcat.fishing;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,19 +28,15 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import net.validcat.fishing.data.FishingContract;
-import net.validcat.fishing.models.FishingItem;
 import net.validcat.fishing.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GoogleSignInFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener,
-        LoaderManager.LoaderCallbacks<Cursor>{
+public class GoogleSignInFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
     public static final String TAG = GoogleSignInFragment.class.getSimpleName();
     private static final int RC_SIGN_IN = 9001;
-    private static final int LOADER_ID = 3; // hz wtf?
 
     @Bind(R.id.title_text)
     TextView title_text;
@@ -62,12 +53,6 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
     private GoogleApiClient apiClient;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(LOADER_ID, null, this);
-    }
-
-    @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_google_sign, container, false);
         ButterKnife.bind(this, view);
@@ -77,9 +62,6 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                else Log.d(TAG, "onAuthStateChanged:signed_out");
 
                 updateUI(user);
             }
@@ -192,8 +174,6 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
         if (firebaseAuth.getCurrentUser() != null) {
             onAuthSuccess(firebaseAuth.getCurrentUser());
         }
-
-        checkIsEmptyInternalStorage();
     }
 
     @Override
@@ -202,57 +182,5 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
         if (authStateListener != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
-    }
-
-    ///////////////////////////////// Loading fishing from DB //////////////////////////////////////
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(),
-                FishingContract.FishingEntry.CONTENT_URI,
-                FishingContract.FishingEntry.PROJECTION,
-                null, null, FishingContract.FishingEntry.COLUMN_DATE + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d(TAG, "onLoadFinished: data is null - " + (data == null) );
-//        data.moveToFirst();
-        while(data.moveToNext()) {
-            getFishingFromCursore(data);
-        }
-    }
-
-    public void getFishingFromCursore(Cursor cursor) {
-        FishingItem item = FishingItem.createFishingItemFromCursor(cursor);
-        Log.d(TAG, "itemId - " + item.getId());
-        Log.d(TAG, "getDescription -  " + item.getDescription() + "\n\n");
-        // TODO: 07.04.17 need to implement logic for sawing data from cursor to firebase.
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    private void checkIsEmptyInternalStorage() {
-        boolean isEmpty = isFishingListEmpty();
-        Toast.makeText(getActivity(), "isEmpty - " + isEmpty, Toast.LENGTH_SHORT).show();
-    }
-
-    private boolean isFishingListEmpty() {
-        Cursor cursor = getActivity().getContentResolver().query(FishingContract.FishingEntry.CONTENT_URI,
-                FishingContract.FishingEntry.PROJECTION, null, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                int id = cursor.getInt(cursor.getColumnIndex(FishingContract.FishingEntry._ID));
-                Log.d(TAG, "Database is not empty = " + id);
-                cursor.close();
-                return false;
-            }
-            cursor.close();
-        }
-
-        return true;
     }
 }

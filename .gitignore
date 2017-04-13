@@ -13,3 +13,8 @@ my_fishing.iml
 
 .idea/instapk.xml
 instapk.log*
+/keystore.properties
+app/proguard-rules.pro
+fishing.jks
+keystore.properties
+/fishing.jks

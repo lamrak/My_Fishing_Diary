@@ -19,7 +19,7 @@ public class FishingConverter {
         result.latitude = item.getLatitude();
         result.longitude = item.getLongitude();
         result.tacklesBag = item.getTackle();
-        result.photoUrl = item.getThumb();
+        result.photoUrl = item.getPhotoPath();
 
         return result;
     }

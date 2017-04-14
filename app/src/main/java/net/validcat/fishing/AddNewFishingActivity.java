@@ -4,19 +4,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import net.validcat.fishing.data.Constants;
-import net.validcat.fishing.fragments.AddNewFishingFragment;
+import net.validcat.fishing.fragments.NewFishingFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddNewFishingActivity extends AppCompatActivity {
+public class AddNewFishingActivity extends BaseActivity {
     public static final String LOG_TAG = AddNewFishingActivity.class.getSimpleName();
-    private AddNewFishingFragment anff;
+    private NewFishingFragment fragment;
 
     @Bind(R.id.toolbar)
     public Toolbar toolbar;
@@ -33,21 +32,21 @@ public class AddNewFishingActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        AddNewFishingFragment anff =
-                (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
-        anff.onActivityResult(requestCode, resultCode, data);
+        NewFishingFragment fragment  =
+                (NewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
-        anff = (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
+        fragment = (NewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
         switch (requestCode) {
             case Constants.PERMISSIONS_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    anff.runCamera();
+//                    fragment.runCamera();
                 } else {
                     Toast.makeText(this, R.string.camera_permissoin_denied, Toast.LENGTH_SHORT).show();
                 }
@@ -56,9 +55,9 @@ public class AddNewFishingActivity extends AppCompatActivity {
             case Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    anff.getCurrentLocation();
+//                    fragment.getCurrentLocation();
                 }
-                anff.makeWeatherRequest();
+                fragment.makeWeatherRequest();
                 break;
             }
             case Constants.PERMISSIONS_REQUEST_WRITE_STORAGE: {
@@ -76,8 +75,8 @@ public class AddNewFishingActivity extends AppCompatActivity {
     }
 
     public void onDialogDismissed() {
-        anff = (AddNewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
-        anff.onDialogDismissed();
+        fragment = (NewFishingFragment) getFragmentManager().findFragmentById(R.id.add_new_fragment);
+//        fragment.onDialogDismissed();
     }
 }
 

@@ -42,12 +42,4 @@
         tools:visibility="gone"
         android:layout_marginTop="@dimen/activity_vertical_margin" />
 
-    <Button
-        android:id="@+id/sign_out_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_out"
-        android:theme="@style/MyDarkButton"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
-
 </LinearLayout>

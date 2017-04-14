@@ -34,4 +34,5 @@
     <dimen name="width_land_edit_text">300dp</dimen>
     <dimen name="width_land_weather">280dp</dimen>
     <dimen name="width_land_add_fishing">400dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

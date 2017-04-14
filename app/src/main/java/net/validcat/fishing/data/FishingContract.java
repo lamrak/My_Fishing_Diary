@@ -29,7 +29,7 @@ public class FishingContract {
     // relationship between a domain name and its website.  A convenient string to use for the
     // content authority is the package name for the app, which is guaranteed to be unique on the
     // device.
-    public static final String CONTENT_AUTHORITY = "net.validcat.GoogleSignInFragment";
+    public static final String CONTENT_AUTHORITY = "net.validcat.fishing";
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
@@ -42,7 +42,7 @@ public class FishingContract {
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
-    public static final String PATH_FISHING = "GoogleSignInFragment";
+    public static final String PATH_FISHING = "fishing";
     public static final String PATH_THINGS = "things";
 
     // To make it easy to query for the exact date, we normalize all dates that go into
@@ -113,23 +113,24 @@ public class FishingContract {
                 FishingEntry.COLUMN_FISH_FEED + " TEXT, " +
                 FishingEntry.COLUMN_CATCH + " TEXT, " +
                 FishingEntry.COLUMN_LATITUDE + " REAL, " +
-                FishingEntry.COLUMN_LONGITUDE + " REAL, " +
-                FishingEntry.COLUMN_THINGS_KEY + " TEXT" +
-                ");";
+                FishingEntry.COLUMN_LONGITUDE + " REAL, " + ");";
+//                +
+//                FishingEntry.COLUMN_THINGS_KEY + " TEXT" +
+//                ");";
     }
 
-    public static String createThingsTable() {
-        return "CREATE TABLE " + ThingsEntry.TABLE_NAME + " (" +
-                ThingsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                ThingsEntry.COLUMN_DESCRIPTION + " TEXT, " +
-                ThingsEntry.COLUMN_EQUIPPED + " INTEGER NOT NULL, " +
-                ThingsEntry.COLUMN_FISHING_ID + " INTEGER, " +
-                " FOREIGN KEY " + " (" + ThingsEntry.COLUMN_FISHING_ID + ") REFERENCES " +
-                FishingEntry.TABLE_NAME + " (" + FishingEntry.COLUMN_THINGS_KEY  + ")); ";
-    }
+//    public static String createThingsTable() {
+//        return "CREATE TABLE " + ThingsEntry.TABLE_NAME + " (" +
+//                ThingsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+//                ThingsEntry.COLUMN_DESCRIPTION + " TEXT, " +
+//                ThingsEntry.COLUMN_EQUIPPED + " INTEGER NOT NULL, " +
+//                ThingsEntry.COLUMN_FISHING_ID + " INTEGER, " +
+//                " FOREIGN KEY " + " (" + ThingsEntry.COLUMN_FISHING_ID + ") REFERENCES " +
+//                FishingEntry.TABLE_NAME + " (" + FishingEntry.COLUMN_THINGS_KEY  + ")); ";
+//    }
 
     public static final class FishingEntry implements BaseColumns {
-        public static final String TABLE_NAME = "GoogleSignInFragment";
+        public static final String TABLE_NAME = "fishing";
         public static final String COLUMN_PLACE = "place";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_WEATHER = "weather";
@@ -144,7 +145,7 @@ public class FishingContract {
         public static final String COLUMN_CATCH = "catch";
         public static final String COLUMN_LATITUDE = "lat";
         public static final String COLUMN_LONGITUDE = "long";
-        public static final String COLUMN_THINGS_KEY = "things_key";
+//        public static final String COLUMN_THINGS_KEY = "things_key";
 
         public static String[] PROJECTION = {
                 FishingEntry._ID,
@@ -162,7 +163,7 @@ public class FishingContract {
                 FishingEntry.COLUMN_CATCH,
                 FishingEntry.COLUMN_LATITUDE,
                 FishingEntry.COLUMN_LONGITUDE,
-                FishingEntry.COLUMN_THINGS_KEY
+//                FishingEntry.COLUMN_THINGS_KEY
         };
 
         public static final int INDEX_ID = 0;

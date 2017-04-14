@@ -25,7 +25,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class FishingDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 8;
-    private static final String DATABASE_NAME = "GoogleSignInFragment.db";
+    private static final String DATABASE_NAME = "fishing.db";
 
     public FishingDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +36,7 @@ public class FishingDbHelper extends SQLiteOpenHelper {
 //        sqLiteDatabase.execSQL(FishingContract.createWeatherTable());
 //        sqLiteDatabase.execSQL(FishingContract.createLocationTable());
         sqLiteDatabase.execSQL(FishingContract.createFishingTable());
-        sqLiteDatabase.execSQL(FishingContract.createThingsTable());
+//        sqLiteDatabase.execSQL(FishingContract.createThingsTable());
     }
 
     @Override

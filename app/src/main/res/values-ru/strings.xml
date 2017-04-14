@@ -70,6 +70,7 @@
     <string name="alert_dialog_stay_here">Остаться</string>
     <string name="alert_dialog_do_not_store">Закрыть окно</string>
     <string name="delete_fishing_item">Удалить запись о рыбалке?</string>
+    <string name="only_personal_fishing">Вы можете удалить только свою рыбалку!</string>
     <string name="title_tackle_dialog">Выберите снасти:</string>
     <string name="close_without_save">Закрыть без сохранения?</string>
     <string name="tackle_value">Удочка</string>
@@ -112,5 +113,7 @@
     <string name="signed_out">Выйти</string>
     <string name="keep_sync">Залогиньтесь с помощью Google аккунта. Ваши записи будут сохранены на сервере и доступны в любое время</string>
     <string name="items_synced">Записи сохранены на сервере и всегда будут доступны при регистрации</string>
+    <string name="action_remove_all">Удалить все вещи</string>
+    <string name="default_web_client_id_fishing"></string>
 
 </resources>

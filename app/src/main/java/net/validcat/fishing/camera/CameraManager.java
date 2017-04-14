@@ -413,7 +413,7 @@ public class CameraManager {
                 Log.e(LOG_TAG, "Thumb write over old");
         try {
             out = new FileOutputStream(file);
-            b.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            b.compress(Bitmap.CompressFormat.JPEG, 60, out);
             out.flush();
 
         } catch (Exception e) {

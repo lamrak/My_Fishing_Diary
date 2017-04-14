@@ -1,32 +1,39 @@
 apply plugin: 'com.android.application'
 
-//def keystorePropertiesFile = rootProject.file("keystore.properties")
-//def keystoreProperties = new Properties()
-//keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
-def weatherKey = System.getenv("OPEN_WEATHER_MAP_API_KEY")
-if (weatherKey == null) {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    weatherKey = properties.getProperty('MyOpenWeatherMapApiKey')?:"key_not_found"
-}
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    signingConfigs {
+        configProd {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
-
     defaultConfig {
         applicationId "net.validcat.fishing"
         minSdkVersion 16
         targetSdkVersion 25
-        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.configProd
     }
 
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [ GOOGLE_MAP_KEY:keystoreProperties['GoogleMapKeyRelease']]
+        }
+        debug {
+            signingConfig signingConfigs.configProd
+            manifestPlaceholders = [ GOOGLE_MAP_KEY:keystoreProperties['GoogleMapKeyDebug']]
         }
     }
 
@@ -35,7 +42,8 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', weatherKey
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY',
+                keystoreProperties['OpenWeatherMapApiKey']
     }
 }
 
@@ -48,19 +56,20 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:cardview-v7:25.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.android.gms:play-services-maps:10.0.1'
-    compile 'com.google.android.gms:play-services-auth:10.0.1'
-    compile 'com.google.android.gms:play-services-location:10.0.1'
-//    compile 'com.androidadvance:topsnackbar:0.0.9'
-
-    compile 'com.google.firebase:firebase-core:10.0.1'
-    compile 'com.google.firebase:firebase-auth:10.0.1'
-    compile 'com.google.firebase:firebase-database:10.0.1'
-
+    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
+    compile 'com.google.android.gms:play-services-location:10.2.0'
+    compile 'com.google.firebase:firebase-core:10.2.0'
+    compile 'com.google.firebase:firebase-auth:10.2.0'
+    compile 'com.google.firebase:firebase-database:10.2.0'
+    compile 'com.google.firebase:firebase-storage:10.2.0'
+    compile 'com.firebaseui:firebase-ui-database:1.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     androidTestCompile 'com.android.support:support-annotations:25.1.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
+
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'

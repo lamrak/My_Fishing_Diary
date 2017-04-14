@@ -70,6 +70,7 @@
     <string name="alert_dialog_do_not_store">Закрити</string>
     <string name="close_without_save">Закрити без збереження?</string>
     <string name="delete_fishing_item">Видалити запис про риболовлю?</string>
+    <string name="only_personal_fishing">Ви можете видалити тільки свою риболовлю!</string>
 
     <string name="feeder">Фiдер</string>
     <string name="distance_casting">Відстань </string>
@@ -113,5 +114,6 @@
     <string name="signed_out">Вийти</string>
     <string name="keep_sync">Потрібно залогинится для збереження записей на сервере</string>
     <string name="items_synced">Записи збережені на сервері і завжди будуть доступні при реєстрації</string>
+    <string name="action_remove_all">Вмдалити увесь стаф</string>
 
 </resources>

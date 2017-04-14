@@ -1,6 +1,7 @@
 package net.validcat.fishing.models;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -173,6 +174,8 @@ public class FishingItem {
         item.description = data.getString(FishingContract.FishingEntry.INDEX_DESCRIPTION);
         item.price = data.getString(FishingContract.FishingEntry.INDEX_PRICE);
         String photoStr = data.getString(FishingContract.FishingEntry.INDEX_IMAGE);
+        if (!TextUtils.isEmpty(photoStr))
+            item.setPhotoPath(photoStr);
 //        if (!TextUtils.isEmpty(photoStr))
 //            item.photoList = Arrays.asList(photoStr.split(Constants.SPLIT_IMAGE_PATH_PATTERN));
         item.weatherIcon = data.getInt(FishingContract.FishingEntry.INDEX_WEATHER_ICON);

@@ -51,7 +51,6 @@ import com.squareup.picasso.Picasso;
 import net.validcat.fishing.AddNewFishingActivity;
 import net.validcat.fishing.R;
 import net.validcat.fishing.SettingsActivity;
-import net.validcat.fishing.ThingsActivity;
 import net.validcat.fishing.camera.CameraManager;
 import net.validcat.fishing.data.Constants;
 import net.validcat.fishing.data.FirebaseObjectManager;
@@ -416,12 +415,6 @@ public class AddNewFishingFragment extends Fragment implements DatePickerDialog.
                 break;
             case R.id.action_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
-                break;
-            case R.id.action_modify_things_list:
-                mHasThingsList = true;
-                startActivity(new Intent(getActivity(), ThingsActivity.class)
-                        .putExtra(Constants.THINGS_LIST_REFERENCE, mThingsListReference)
-                        .putExtra(Constants.DATE_KEY, date));
                 break;
         }
 

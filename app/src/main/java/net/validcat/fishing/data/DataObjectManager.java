@@ -39,9 +39,9 @@ public class DataObjectManager implements IDataObjectManager {
         cv.put(FishingContract.FishingEntry.COLUMN_LATITUDE, item.getLatitude());
         cv.put(FishingContract.FishingEntry.COLUMN_LONGITUDE, item.getLongitude());
 //            cv.put(FishingEntry.COLUMN_CATCH, etCatch.getText().toString());
-        if (isThingsListExists) {
-            cv.put(FishingContract.FishingEntry.COLUMN_THINGS_KEY, thingsListReference);
-        }
+//        if (isThingsListExists) {
+//            cv.put(FishingContract.FishingEntry.COLUMN_THINGS_KEY, thingsListReference);
+//        }
         if (isUpdate) {
             context.getContentResolver().update(FishingContract.FishingEntry.CONTENT_URI, cv, null, null);
         } else {

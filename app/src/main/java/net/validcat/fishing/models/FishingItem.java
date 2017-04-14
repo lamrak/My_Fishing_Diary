@@ -1,6 +1,7 @@
 package net.validcat.fishing.models;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

@@ -82,21 +82,25 @@ public class FirebaseRepository implements Repository {
     }
 
     private void writeImageToStorageAndGetUrl(final Fishing fishing) {
-        StorageReference storageReference = storage.getReference();
+        if (fishing.getPhotoUrl() == null)
+            writeFishingWithPhotoToFRDB(fishing);
+        else {
+            StorageReference storageReference = storage.getReference();
 
-        Uri file = Uri.fromFile(new File(fishing.getPhotoUrl()));
+            Uri file = Uri.fromFile(new File(fishing.getPhotoUrl()));
 
-        StorageReference riversRef = storageReference
-                .child("images/" + fishing.getUid() + "/" + file.getLastPathSegment());
+            StorageReference riversRef = storageReference
+                    .child("images/" + fishing.getUid() + "/" + file.getLastPathSegment());
 
-        UploadTask uploadTask = riversRef.putFile(file);
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fishing.setPhotoUrl(taskSnapshot.getMetadata().getDownloadUrl().toString());
-                writeFishingWithPhotoToFRDB(fishing);
-            }
-        });
+            UploadTask uploadTask = riversRef.putFile(file);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fishing.setPhotoUrl(taskSnapshot.getMetadata().getDownloadUrl().toString());
+                    writeFishingWithPhotoToFRDB(fishing);
+                }
+            });
+        }
     }
 
     private void writeFishingWithPhotoToFRDB(Fishing fishing) {

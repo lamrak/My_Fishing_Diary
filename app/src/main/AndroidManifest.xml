@@ -24,12 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity
             android:name=".GoogleSignInFragment"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
@@ -37,26 +31,23 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".ListActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
             android:name=".FishingListActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".LogInActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AddNewFishingActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_add_new_fishing"
             android:theme="@style/AppTheme">
             <meta-data
@@ -65,6 +56,7 @@
         </activity>
         <activity
             android:name=".DetailActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/DetailAppTheme">
@@ -74,6 +66,7 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ListActivity">
             <meta-data
@@ -82,6 +75,7 @@
         </activity>
         <activity
             android:name=".ThingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_things"
             android:parentActivityName=".AddNewFishingActivity">
             <meta-data
@@ -94,21 +88,6 @@
             android:authorities="net.validcat.fishing"
             android:enabled="true"
             android:exported="false"/>
-
-        <receiver
-            android:name=".widget.FishingCountWidgetProvider"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info"/>
-        </receiver>
-
-        <service android:name=".widget.FishingCountWidgetIntentService"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

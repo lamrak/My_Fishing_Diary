@@ -157,8 +157,6 @@ public class FishingDeatailFragment extends Fragment implements OnMapReadyCallba
         mPostKey = (bundle != null) ?
                 bundle.getString(EXTRA_POST_KEY, "") :
                 getActivity().getIntent().getStringExtra(EXTRA_POST_KEY);
-        if (!mPostKey.equals(""))
-            Toast.makeText(getActivity(), mPostKey, Toast.LENGTH_SHORT).show();
 
     }
 

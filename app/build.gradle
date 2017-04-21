@@ -9,6 +9,13 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 
+def weatherKey = System.getenv("`")
+if (weatherKey == null) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    weatherKey = properties.getProperty('MyOpenWeatherMapApiKey')?:"key_not_found"
+}
+
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -57,8 +64,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY',
-                keystoreProperties['OpenWeatherMapApiKey']
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', weatherKey
     }
 }
 

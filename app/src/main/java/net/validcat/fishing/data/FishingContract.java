@@ -113,7 +113,7 @@ public class FishingContract {
                 FishingEntry.COLUMN_FISH_FEED + " TEXT, " +
                 FishingEntry.COLUMN_CATCH + " TEXT, " +
                 FishingEntry.COLUMN_LATITUDE + " REAL, " +
-                FishingEntry.COLUMN_LONGITUDE + " REAL, " + ");";
+                FishingEntry.COLUMN_LONGITUDE + " REAL " + ");";
 //                +
 //                FishingEntry.COLUMN_THINGS_KEY + " TEXT" +
 //                ");";

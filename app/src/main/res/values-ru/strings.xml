@@ -114,6 +114,8 @@
     <string name="keep_sync">Залогиньтесь с помощью Google аккунта. Ваши записи будут сохранены на сервере и доступны в любое время</string>
     <string name="items_synced">Записи сохранены на сервере и всегда будут доступны при регистрации</string>
     <string name="action_remove_all">Удалить все вещи</string>
-    <string name="default_web_client_id_fishing"></string>
+    <string name="loading">Загрузка...</string>
+    <string name="menu_logout">Выход</string>
+    <string name="recent">Последняя</string>
 
 </resources>

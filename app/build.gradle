@@ -9,11 +9,15 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 
-def weatherKey = System.getenv("`")
+def weatherKey = System.getenv("")
+def mapDKey = System.getenv("")
+def mapRKey = System.getenv("")
 if (weatherKey == null) {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     weatherKey = properties.getProperty('MyOpenWeatherMapApiKey')?:"key_not_found"
+    mapDKey = properties.getProperty('GoogleMapKeyDebug')?:"key_not_found"
+    mapRKey = properties.getProperty('GoogleMapKeyRelease')?:"key_not_found"
 }
 
 repositories {
@@ -48,14 +52,12 @@ android {
 
     buildTypes {
         release {
-            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [ GOOGLE_MAP_KEY:keystoreProperties['GoogleMapKeyRelease']]
+            manifestPlaceholders = [ GOOGLE_MAP_KEY:mapRKey ]
         }
         debug {
-            signingConfig signingConfigs.configProd
-            manifestPlaceholders = [ GOOGLE_MAP_KEY:keystoreProperties['GoogleMapKeyDebug']]
+            manifestPlaceholders = [ GOOGLE_MAP_KEY:mapDKey ]
         }
     }
 

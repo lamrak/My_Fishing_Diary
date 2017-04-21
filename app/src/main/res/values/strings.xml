@@ -168,7 +168,7 @@
     <string name="item_description">Item description</string>
     <string name="open_things_list">Open things list</string>
     <string name="list_is_empty" translatable="false">Things list is empty.</string>
-    <string name="action_remove_all" translatable="false">Remove all things</string>
+    <string name="action_remove_all">Remove all things</string>
 
     <string name="bag">Bag for fish</string>
     <string name="warm_clothes">Warm clothes</string>
@@ -220,9 +220,9 @@
     </string-array>
 
     <string name="loading">Loading…</string>
-    <string name="title_activity_fishing_list">FishingListActivity</string>
+    <string name="title_activity_fishing_list" translatable="false">FishingListActivity</string>
     <string name="recent">Recent</string>
-    <string name="heading_my_fishing">My Fishing</string>
-    <string name="heading_my_top_fishing">My Top Fishing</string>
+    <string name="heading_my_fishing" translatable="false">My Fishing</string>
+    <string name="heading_my_top_fishing" translatable="false">My Top Fishing</string>
     <string name="menu_logout">Log out</string>
 </resources>

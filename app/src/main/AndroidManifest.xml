@@ -52,7 +52,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity"/>
+                android:value=".FishingListActivity"/>
         </activity>
         <activity
             android:name=".DetailActivity"
@@ -62,16 +62,16 @@
             android:theme="@style/DetailAppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity"/>
+                android:value=".FishingListActivity"/>
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".ListActivity">
+            android:parentActivityName=".FishingListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity"/>
+                android:value=".FishingListActivity"/>
         </activity>
         <activity
             android:name=".ThingsActivity"
